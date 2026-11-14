@@ -122,7 +122,7 @@ struct MemorizationScreen: View {
                     else { Text(store.t("review.none")) }
                     Button(store.t("review.record")) { store.change { $0.memorizationReviews.append(.init(itemID: item.id, difficulty: item.difficulty)) } }
                     if let last = store.data.memorizationReviews.filter({ $0.itemID == item.id }).max(by: { $0.date < $1.date }) { Text(last.date, format: .dateTime.day().month().year()).font(.caption) }
-                }.padding(.vertical, 6)
+                }.padding(.vertical, 6).buttonStyle(.borderless)
             }
         }.keyboardDone().navigationTitle(store.t("memorization"))
             .toolbar { Button { add = true } label: { Image(systemName: "plus") }.accessibilityIdentifier("memorization.add") }
@@ -240,9 +240,9 @@ struct SpiritualTemplatesScreen: View {
                 Button(store.t("templates.load")) {
                     let planner = store.engine
                     store.change { data in
-                        for key in selected where !data.tasks.contains(where: { $0.notes == "spiritual:\(key)" }) {
+                        for key in selected where !data.tasks.contains(where: { $0.id == "spiritual:\(key)" || $0.title == "routine.\(key)" }) {
                             let target: Double = key == "allah" ? 1000 : ["tawhid", "istighfar", "ikhlas", "salawat"].contains(key) ? 100 : 1
-                            data.tasks.append(.init(title: "routine.\(key)", domainID: "spiritual", recurrence: key == "tahajjud" ? "weekly" : "daily", target: target, unit: "count", isHabit: true, notes: "spiritual:\(key)"))
+                            data.tasks.append(.init(id: "spiritual:\(key)", title: "routine.\(key)", domainID: "spiritual", recurrence: key == "tahajjud" ? "weekly" : "daily", target: target, unit: "count", isHabit: true))
                         }
                         planner.materialize(&data, from: Date(), through: Date())
                     }

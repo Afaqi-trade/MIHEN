@@ -60,7 +60,7 @@ struct TodayView: View {
             Text("\(summary.completed) / \(summary.planned) " + store.t("tasks.completed"))
             ProgressView(value: summary.ratio ?? 0).tint(.white)
             Text(store.t("top.three")).font(.subheadline.bold())
-            ForEach(Array(store.occurrences(on: today).filter { ["planned", "partial"].contains($0.status) }.prefix(3))) { Text("• " + store.t($0.title)).font(.subheadline) }
+            ForEach(Array(store.occurrences(on: today).filter { ["planned", "partial"].contains($0.status) }.prefix(3))) { Text("• " + store.taskTitle($0.title)).font(.subheadline) }
         }.padding(24).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.white)
             .background(Color.mihenNavy.gradient, in: RoundedRectangle(cornerRadius: 28))
     }
@@ -79,11 +79,11 @@ struct OccurrenceRow: View {
                 Image(systemName: occurrence.status == "completed" ? "checkmark.circle.fill" : occurrence.status == "partial" ? "circle.lefthalf.filled" : "circle")
                     .font(.title2).foregroundStyle(occurrence.status == "completed" ? Color.mihenGreen : .secondary)
             }
-            .disabled(!active).accessibilityLabel(store.t("complete") + " " + store.t(occurrence.title))
+            .disabled(!active).accessibilityLabel(store.t("complete") + " " + store.taskTitle(occurrence.title))
             .accessibilityIdentifier("occurrence.complete.\(occurrence.taskID)")
             Button { details = true } label: {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(store.t(occurrence.title)).font(.headline).foregroundStyle(.primary)
+                    Text(store.taskTitle(occurrence.title)).font(.headline).foregroundStyle(.primary)
                     Text("\(occurrence.value.formatted(.number.locale(store.locale))) / \(occurrence.target.formatted(.number.locale(store.locale))) \(store.t(occurrence.unit))").font(.subheadline).foregroundStyle(.secondary)
                     Text(store.t(occurrence.status)).font(.caption).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, alignment: .leading)
@@ -112,7 +112,7 @@ struct OccurrenceDetail: View {
         NavigationStack {
             Form {
                 if let row = store.data.occurrences.first(where: { $0.id == id }) {
-                    Section(store.t(row.title)) {
+                    Section(store.taskTitle(row.title)) {
                         Text(row.day)
                         Text(store.title(row.domainID))
                         ValueInput(title: "progress.value", value: $value)

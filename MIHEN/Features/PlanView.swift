@@ -158,7 +158,7 @@ struct GoalDetail: View {
                     Button(store.t("add")) { if store.change({ $0.milestones.append(.init(goalID: goalID, title: milestone, due: goal.end)) }) { milestone = "" } }.disabled(milestone.isEmpty)
                 }
                 Section(store.t("linked.tasks")) {
-                    ForEach(store.data.tasks.filter { $0.goalID == goalID }) { Text(store.t($0.title)) }
+                    ForEach(store.data.tasks.filter { $0.goalID == goalID }) { Text(store.taskTitle($0.title)) }
                     Button(store.t("task.new")) { addTask = true }
                 }
                 Section {
@@ -226,7 +226,7 @@ struct TaskListScreen: View {
             ForEach(store.data.tasks.filter { !$0.archived }) { task in
                 Button { editing = task } label: {
                     VStack(alignment: .leading) {
-                        Text(store.t(task.title)).foregroundStyle(.primary)
+                        Text(store.taskTitle(task.title)).foregroundStyle(.primary)
                         Text(store.t(task.recurrence)).font(.caption).foregroundStyle(.secondary)
                         if task.isHabit { Text(store.t("streak") + ": \(store.engine.streak(taskID: task.id, data: store.data, through: Date()))").font(.caption) }
                     }
@@ -250,7 +250,7 @@ struct TaskEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("task.title")
+                TextField(store.t("title"), text: Binding(get: { store.taskTitle(draft.title) }, set: { draft.title = $0 })).autocorrectionDisabled().accessibilityIdentifier("task.title")
                 Picker(store.t("area"), selection: $draft.domainID) { ForEach(store.data.domains) { Text(store.title($0.id)).tag($0.id) } }
                 Picker(store.t("linked.goal"), selection: $draft.goalID) {
                     Text(store.t("none")).tag(String?.none)

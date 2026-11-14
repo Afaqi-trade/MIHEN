@@ -253,8 +253,8 @@ public extension BackupDocument {
             ("template.family", "family", 1, "count"), ("template.evrad", "spiritual", 1, "count"),
             ("template.reflection", "character", 1, "count"), ("template.skill", "career", 20, "minutes"),
             ("template.saving", "finance", 1, "count"), ("template.service", "service", 1, "count")]
-        for (title, area, target, unit) in templates where !tasks.contains(where: { $0.notes == "starter:\(title)" }) {
-            tasks.append(.init(title: title, domainID: area, start: date, recurrence: "daily", target: target, unit: unit, isHabit: true, notes: "starter:\(title)"))
+        for (title, area, target, unit) in templates where !tasks.contains(where: { $0.id == "starter:\(title)" || $0.title == title }) {
+            tasks.append(.init(id: "starter:\(title)", title: title, domainID: area, start: date, recurrence: "daily", target: target, unit: unit, isHabit: true))
         }
         engine.materialize(&self, from: date, through: date)
     }

@@ -128,6 +128,7 @@ final class MIHENUITests: XCTestCase {
         app.buttons["memorization.save"].tap()
         XCTAssertTrue(app.staticTexts["2 / 10 Ayet"].exists)
         app.buttons["Tekrar yaptım"].tap()
+        XCTAssertFalse(app.buttons["memorization.save"].waitForExistence(timeout: 2), "Recording a review must not open the edit sheet")
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Sonraki tekrar:")).firstMatch.exists)
         capture(app, name: "MIHEN-Memorization-TR")
     }

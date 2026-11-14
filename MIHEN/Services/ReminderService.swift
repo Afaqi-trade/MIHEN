@@ -32,7 +32,7 @@ import UserNotifications
             for task in document.tasks where engine.isDue(task, on: day, restWeekdays: p.restWeekdays) {
                 let occurrence = document.occurrences.first { $0.taskID == task.id && $0.day == engine.key(day) }
                 guard occurrence == nil || ["planned", "partial"].contains(occurrence!.status) else { continue }
-                if fire > now { requests.append(("task-\(task.id)-\(engine.key(day))", p.lockEnabled ? title("reminder.task") : title(task.title), fire)) }
+                if fire > now { requests.append(("task-\(task.id)-\(engine.key(day))", p.lockEnabled ? title("reminder.task") : Localization.recordTitle(task.title, language: p.language), fire)) }
             }
             for pref in document.notificationPreferences where pref.enabled && ["evening", "weekly"].contains(pref.kind) {
                 if pref.kind == "weekly" && engine.calendar.component(.weekday, from: day) != 1 { continue }

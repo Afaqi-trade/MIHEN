@@ -55,4 +55,10 @@ import SwiftData
         try repository.save(BackupCodec.decode(bytes))
         XCTAssertEqual(try repository.load().journals.first?.text, "Yedek • Türkçe")
     }
+    func testTemplateLabelsAreTranslatedAndCustomTitlesRemainLiteral() {
+        XCTAssertEqual(Localization.recordTitle("template.quran", language: "tr"), "Kur'an okuma")
+        XCTAssertEqual(Localization.recordTitle("template.quran", language: "en"), "Quran reading")
+        XCTAssertEqual(Localization.recordTitle("today", language: "tr"), "today")
+    }
+
 }

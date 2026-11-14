@@ -186,4 +186,16 @@ final class PlanningTests: XCTestCase {
         XCTAssertNil(engine.summary(data, on: date("2024-01-01")).ratio)
     }
 
+    func testEditingStarterNameAndNotesDoesNotDuplicateOrLeakMetadata() {
+        var data = BackupDocument.fresh()
+        data.addStarterTemplates(on: date("2024-01-01"), engine: engine)
+        XCTAssertTrue(data.tasks.allSatisfy { $0.notes.isEmpty })
+        data.tasks[0].title = "Kendi başlığım"
+        data.tasks[0].notes = "Kişisel notum"
+        data.addStarterTemplates(on: date("2024-01-02"), engine: engine)
+        XCTAssertEqual(data.tasks.count, 8)
+        XCTAssertEqual(data.tasks[0].title, "Kendi başlığım")
+        XCTAssertEqual(data.tasks[0].notes, "Kişisel notum")
+    }
+
 }

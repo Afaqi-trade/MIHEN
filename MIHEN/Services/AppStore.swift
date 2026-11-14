@@ -29,6 +29,7 @@ import WidgetKit
         locked = preferences.lockEnabled
     }
     func t(_ key: String) -> String { Localization.text(key, language: preferences.language) }
+    func taskTitle(_ title: String) -> String { Localization.recordTitle(title, language: preferences.language) }
     func title(_ domainID: String) -> String {
         guard let domain = data.domains.first(where: { $0.id == domainID }), let area = LifeArea(rawValue: domain.key) else { return domainID }
         return preferences.language == "tr" ? area.titleTR : area.titleEN
@@ -92,7 +93,7 @@ import WidgetKit
     func publishWidget() {
         let summary = engine.summary(data, on: Date())
         let next = occurrences(on: Date()).first { $0.status == "planned" || $0.status == "partial" }
-        let snapshot = WidgetSnapshot(day: engine.key(Date()), timeZoneID: preferences.timeZoneID, language: preferences.language, planned: summary.planned, completed: summary.completed, nextTitle: preferences.lockEnabled ? nil : next.map { t($0.title) }, locked: preferences.lockEnabled)
+        let snapshot = WidgetSnapshot(day: engine.key(Date()), timeZoneID: preferences.timeZoneID, language: preferences.language, planned: summary.planned, completed: summary.completed, nextTitle: preferences.lockEnabled ? nil : next.map { taskTitle($0.title) }, locked: preferences.lockEnabled)
         do { try SharedWidgetStore.write(snapshot); WidgetCenter.shared.reloadAllTimelines() }
         catch { /* Widget is optional: an unconfigured App Group never prevents local persistence. */ }
     }
