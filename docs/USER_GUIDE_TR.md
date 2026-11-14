@@ -2,7 +2,7 @@
 
 İlk açılışta adını ve öncelikli alanları seç. Şablon istemiyorsan boş başlayabilir veya onboarding'i atlayabilirsin. Şablonlar gerçek geçmişin olarak eklenmez.
 
-Plan → yaşam alanı → Hedef ekle ile miktar, birim, dönem ve tarihleri belirle. Bir hedefi birden fazla alana veya bir üst hedefe bağlayabilirsin. Görevler ve alışkanlıklar bölümünde hedefe bağlı tekrar eden bir görev oluştur. Mevcut gerçekleşmelerin bilgileri, görev şablonunu düzenlediğinde değişmez.
+Plan → yaşam alanı → Hedef ekle ile miktar, birim, dönem ve tarihleri belirle. Bir hedefi birden fazla alana veya bir üst hedefe bağlayabilirsin. Görevler ve alışkanlıklar bölümünde hedefe bağlı tekrar eden bir görev oluştur. Mevcut gerçekleşmelerin bilgileri, görev şablonunu düzenlediğinde değişmez. Sayısal klavyeyi Bitti düğmesiyle kapatabilirsin.
 
 Bugün ekranında daire tamamlar/geri alır; + ve − birer birim ekler/çıkarır. Görev başlığına dokunarak tam miktar girebilir, başka güne taşıyabilir, yeniden dağıtım önerisi isteyebilir, atlayabilir veya iptal edebilirsin. Taşıma/dağıtım onay ister. Hedef günü zaten doluysa otomatik üzerine yazılmaz. Sayfa, dakika ve kitap gibi farklı birimler birbirine eklenmez.
 

@@ -4,7 +4,7 @@
 
 SwiftUI / SwiftData / Swift Charts; minimum iOS 18, Swift 6. `MIHEN.xcodeproj` uygulama, WidgetKit uzantısı, XCTest ve XCUITest hedeflerini içerir. Harici paket veya sunucu bağımlılığı yoktur.
 
-**Durum:** Geliştirme sürümü. Swift çekirdeği yerelde derlendi ve 33 senaryo / 82 assertion geçti. iOS derleme ve simülatör sonuçları `docs/TEST_REPORT.md` içinde ayrı raporlanır. Tamamlanmış, cihazda doğrulanmış veya App Store'a hazır ürün iddiası yoktur.
+**Durum:** Geliştirme sürümü. Xcode 26.6 / iOS 26.5 SDK ile uzak Mac derlemesi geçti. iOS simülatöründe 46/46 test (40 birim/kalıcılık + 6 arayüz) ve macOS üzerinde 35/35 çekirdek XCTest geçti. Sonuçlar `docs/TEST_REPORT.md` içinde. Tamamlanmış, cihazda doğrulanmış veya App Store'a hazır ürün iddiası yoktur.
 
 ## Çalıştırma
 

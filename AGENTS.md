@@ -1,6 +1,6 @@
 # MİHEN çalışma kuralları
 
-- Ürün kapsamı: docs/MASTER_PROMPT_TR.md ve docs/PRODUCT_REQUIREMENTS.md. Prototip Design/Reference altında görsel referanstır; oradaki eski pusula logosu/slogan yerine master prompttaki dağ-yol-hedef ve Dengeli • Planlı • Anlamlı Yaşam kullanılır.
+- Depoya taşınan ürün kapsamı docs/PRODUCT_REQUIREMENTS.md içindedir. Yerel özgün ek varsa docs/MASTER_PROMPT_TR.md ayrıca okunabilir; özgün ek ve referans ZIP içeriği Git dışında tutulur. Prototip Design/Reference altında görsel referanstır; oradaki eski pusula logosu/slogan yerine master prompttaki dağ-yol-hedef ve Dengeli • Planlı • Anlamlı Yaşam kullanılır.
 - Önce README.md, docs/TEST_REPORT.md, docs/KNOWN_LIMITATIONS.md okuyun. Çalıştırılmayan test veya iOS derlemesini başarılı saymayın.
 - Offline/local-first; iOS 18+, Swift 6, SwiftUI, SwiftData. Harici SDK, ağ servisi, AI API veya CloudKit'i kendiliğinizden eklemeyin.
 - Sekiz ana alanın sayısını ve anlamını değiştirmeyin. Şablonlar yalnızca açık kullanıcı seçimiyle yüklenir; geçmiş veya başarı üretilmez.
@@ -12,3 +12,6 @@
 - Kontroller: swift build; swift test (XCTest varsa); python3 Scripts/test-core.py (CLT fallback); python3 Scripts/verify-project.py; Scripts/validate-ios.sh (tam Xcode ve iPhone runtime gerekir).
 - .build-results çalışma çıktısıdır. Doğrulanmış özetleri docs/TEST_REPORT.md içine yazın. Üretim verisini ekran görüntüsü fixture'ı olarak kullanmayın.
 - Apple hesabı, sözleşme, ödeme, sertifika ve yayın işlemleri ürün sahibinindir. Kaynaklara sır koymayın, App Store'a açık izin olmadan göndermeyin.
+
+- Yerel Xcode kurulumu ana yol değildir: kullanıcı uzaktan test seçti. Özel remote Afaqi-trade/MIHEN; `.github/workflows/ios.yml` manuel dispatch. Yerel CLI `/Users/iz/.local/bin/gh` altında; token keychain'dedir, asla yazdırmayın. Sonraki kod değişikliğinde CI'ı gerçekten çalıştırıp `.xcresult`, JSON test sayısı ve gerçek screenshot'ları inceleyin; yeşil job tek başına yeterli değildir.
+- Sayı girişi UI testinde eski değerin tamamını seçin, yeni değeri tam eşitlikle ve 2/6 gibi ekrandaki oranla doğrulayın. Aynı List satırındaki birden çok düğmede ayrı eylem için borderless stil kullanın. Kullanıcı notlarına teknik şablon işareti yazmayın.

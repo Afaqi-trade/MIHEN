@@ -1,0 +1,146 @@
+[
+  {
+    "file": "MIHEN-Dhikr-TR.png",
+    "test": "MIHENUITests/testDhikrCounterIncreaseDecrease()",
+    "source": "C0D9D165-A67C-43A6-8EED-8285287C9C2B.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "d0e636961c56e3fa8be077a56dd2a7c3451d74a8e800ae672e6c5aed31edf959",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Fasting-TR.png",
+    "test": "MIHENUITests/testFastingPlannedAndCompletedRemainDistinct()",
+    "source": "DFED713E-3774-489F-A58C-9D651AB9F1C2.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "2dc45bce91a4ab993126a24eda6c712fe5da92fed9a63e8e9a30093dc2a98441",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Progress-TR.png",
+    "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+    "source": "A9778520-17F8-4326-833E-EA7680330D93.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "4a92bf7ad9b3c74fb670b76b6e4da281eded34acfa394256535d6f728622da9e",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Calendar-TR.png",
+    "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+    "source": "A8AF3872-0FBD-4FDA-9923-746868D64ADB.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "39e874c3ba0818ad6ff5ab97862362442fe94e6d94ab899b94704e17f21c4289",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Khatm-TR.png",
+    "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+    "source": "0FDB7C17-4DFD-4C40-8A4E-CE7BA0E4117F.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "9f5522d33dd625122f0add3bbc581da97afad76b978ad2b103c7eb1c0a9d221f",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Plan-TR.png",
+    "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+    "source": "EF77907F-393A-4F9E-B015-90414546D61B.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "085bf52452759e6e28e54060136d73bdceb6ef6fc7b954b404d319ce33b10ba7",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Today-Light-EN.png",
+    "test": "MIHENUITests/testLanguageAndLightDarkThemes()",
+    "source": "D9558F4A-22DA-463E-BE18-877804D43F0F.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "284b17410fd4f14c84e636cc7ade1787ef109f01bef15907d6aa3ea7bf91abe5",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Profile-Light-EN.png",
+    "test": "MIHENUITests/testLanguageAndLightDarkThemes()",
+    "source": "A6D025B4-D6CF-4E6E-A59B-775F7734C19B.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "bc268f1da45b249e1cd7b0117cd8113c81fcbd89806e5d29422b8a76eeaf091d",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Profile-Dark-EN.png",
+    "test": "MIHENUITests/testLanguageAndLightDarkThemes()",
+    "source": "012129E1-5534-4DAF-8EF6-F8997C4B950C.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "57ab237f9704f841572517c44938b1d742c157205bf37a521e03ef17dbe39d1e",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Memorization-TR.png",
+    "test": "MIHENUITests/testMemorizationAndNextReview()",
+    "source": "EEE73378-D008-40FC-B28A-4B3085E88E41.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "63a142ab6ebd2727c0c459797464c523fed2df91f9b366985f0282a2ec70b364",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Today-TR.png",
+    "test": "MIHENUITests/testOnboardingLinkedGoalPartialCompletionAndPersistence()",
+    "source": "EE6FD002-FFF4-4CF1-92B0-4DE34655003A.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "dfb67c837f77f4d734a2ed9610362a7f3af7994a67fee07e6bedd8606cfe746e",
+    "size": [
+      1206,
+      2622
+    ]
+  },
+  {
+    "file": "MIHEN-Today-Partial-TR.png",
+    "test": "MIHENUITests/testOnboardingLinkedGoalPartialCompletionAndPersistence()",
+    "source": "B7D25AD1-2592-4069-B874-76CB0E64E04E.png",
+    "run": 43619860236,
+    "sourceCommit": "1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8",
+    "sha256": "441b9fa6c2caa206274e9f1ad019ed6efdd94fde40c253664327a87999fe945e",
+    "size": [
+      1206,
+      2622
+    ]
+  }
+]

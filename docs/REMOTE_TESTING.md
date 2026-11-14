@@ -1,12 +1,12 @@
 # Uzaktan iOS derleme ve test
 
-Yerel Mac: macOS 14.6.1; tam Xcode yok. Uzaktaki GitHub-hosted macOS runner, kendi Xcode SDK ve iPhone simülatörünü kullanır. Yerel Mac'in güncellenmesi veya simülatör testleri için Apple Developer üyeliği gerekmez. İmzalı gerçek cihaz/TestFlight dağıtımı ayrı aşamadır.
+Yerel Mac: macOS 14.6.1; tam Xcode yok. Uzaktaki GitHub-hosted macos-26 runner, kendi Xcode SDK ve iPhone simülatörünü kullanır. Yerel Mac'in güncellenmesi veya simülatör testleri için Apple Developer üyeliği gerekmez. İmzalı gerçek cihaz/TestFlight dağıtımı ayrı aşamadır.
 
 ## Hazır akış
 
 `.github/workflows/ios.yml` yalnızca manuel `workflow_dispatch` ile başlar. Push/PR otomatik koşusu yoktur. Depo içeriğine salt okuma izni kullanır; ödeme, yayın veya signing sırrı içermez. Aynı branch için önceki koşuyu iptal eder; 35 dakikalık zaman sınırı vardır. Test çıktıları 7 gün tutulur.
 
-Sıra: toolchain bilgisini kaydet → `swift test` ile gerçek XCTest → proje yapısını doğrula → uygulama/widget simülatör derlemesi → SwiftData/birim/XCUITest → `.xcresult`, log ve cihaz listesini artifact olarak sakla. CI'nin oluşturulması, çalıştırıldığı anlamına gelmez.
+Sıra: toolchain bilgisini kaydet → `swift test` ile gerçek XCTest → proje yapısını doğrula → uygulama/widget simülatör derlemesi → SwiftData/birim/XCUITest → `.xcresult`, log ve cihaz listesini artifact olarak sakla. Kurulan özel depoda gerçek koşular yapıldı; son doğrulanmış sonuç TEST_REPORT.md içinde. CI dosyasının tek başına var olması başarı kanıtı değildir.
 
 ## Başlatma
 
@@ -25,7 +25,7 @@ gh run watch RUN_ID --repo OWNER/MIHEN --exit-status
 gh run download RUN_ID --repo OWNER/MIHEN --name MIHEN-test-results --dir .build-results/remote-RUN_ID
 ```
 
-`OWNER` ve `RUN_ID` gerçek değerlerle değiştirilir. Token/şifreyi belgeye, chate veya Git'e koymayın. GitHub bağlantısı henüz doğrulanmamışsa uzak koşu başlatılamaz.
+Kurulan özel depo: https://github.com/Afaqi-trade/MIHEN . Son doğrulanmış simülatör başarısı: run 43619860236, Xcode 26.6, 46/46 iOS test. Yerel CLI /Users/iz/.local/bin/gh altında kurulu; terminalde `export PATH="$HOME/.local/bin:$PATH"` ile erişilebilir. `OWNER` ve `RUN_ID` gerçek değerlerle değiştirilir. Token/şifreyi belgeye, chate veya Git'e koymayın. GitHub bağlantısı henüz doğrulanmamışsa uzak koşu başlatılamaz.
 
 ## Sınırlar
 
