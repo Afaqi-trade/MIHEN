@@ -39,6 +39,13 @@ final class MIHENUITests: XCTestCase {
         tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
         tap(app.descendants(matching: .any)["spiritual." + module].firstMatch, in: app)
     }
+    @MainActor func testReportsNavigation() throws {
+        let app = start()
+        app.tabBars.buttons["İlerleme"].tap()
+        tap(app.buttons["Dönem raporları"], in: app)
+        XCTAssertTrue(app.staticTexts["Yalnızca kayıtlı veriler raporlanır. Kayıt olmayan günler başarısızlık sayılmaz."].waitForExistence(timeout: 5))
+        capture(app, name: "MIHEN-Reports-TR")
+    }
     @MainActor func testOnboardingLinkedGoalPartialCompletionAndPersistence() throws {
         let app = start(persistent: true)
         app.tabBars.buttons["Plan"].tap()

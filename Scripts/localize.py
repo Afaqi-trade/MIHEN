@@ -1,6 +1,22 @@
 from pathlib import Path
 import json,re
-rows='''keyboard.done|Bitti|Done
+rows='''goal.split|Hedefi günlere böl|Split goal into days
+goal.split.explanation|Kalan miktar seçilen günlere eşit dağıtılır (en çok 366 gün). Aynı birim korunur. Etkin bağlı görev varsa önce mevcut planı düzenleyin.|The remaining quantity is distributed equally over selected days (up to 366 days). Units are preserved. Edit existing active linked tasks before creating another plan.
+goal.split.apply|Günlük görevleri oluştur|Create daily tasks
+goal.split.confirm|Gösterilen dağılımla yeni görevler oluşturulsun mu?|Create new tasks using this distribution?
+days|gün|days
+routines|Rutinler|Routines
+routine.new|Görevlerden rutin oluştur|Create a routine from tasks
+routine.remove|Grubu kaldır (görevler korunur)|Remove group (keep tasks)
+weekly.plan|Haftalık planlama|Weekly planning
+overdue|Önceki günlerden kalanlar|Unfinished from previous days
+recovery.preview|Aktarma öncesi kurtarma yedeğini incele|Preview pre-import recovery backup
+reports|Dönem raporları|Period reports
+report.coverage|Yalnızca kayıtlı veriler raporlanır. Kayıt olmayan günler başarısızlık sayılmaz.|Reports include recorded data only. Days without records are not failures.
+report.tenYears|10 yıl|10 years
+report.partial|Kısmi kayıtlar|Partial records
+report.first|İlk kayıt|First record
+keyboard.done|Bitti|Done
 redistribute.end|Dağıtım bitiş tarihi|Distribution end date
 redistribute.preview|Yeniden dağıtım önerisini göster|Preview redistribution
 redistribute.confirm|Bu dağıtım uygulansın mı? Geçmiş kayıt korunacak.|Apply this distribution? The original record will be preserved.

@@ -75,6 +75,9 @@ struct SettingsScreen: View {
                 Button(store.t("export.json")) { export(.json) }
                 Button(store.t("export.csv")) { export(.commaSeparatedText) }
                 Button(store.t("export.planCSV")) { export(.commaSeparatedText, editablePlan: true) }
+                Button(store.t("recovery.preview")) {
+                    do { let document = try RecoveryBackup.load(); pendingImport = .init(document: document, replaces: true, errors: [], added: document.tasks.count + document.goals.count + document.occurrences.count) } catch { store.errorMessage = error.localizedDescription }
+                }
                 Button(store.t("import")) { importing = true }.accessibilityIdentifier("settings.import")
                 Text(store.t("backup.explanation")).font(.footnote)
                 Button(store.t("templates.load")) { loadTemplates = true }
@@ -102,6 +105,7 @@ struct SettingsScreen: View {
                         Text(store.t("history") + ": \(preview.document.occurrences.count)")
                         ForEach(preview.errors, id: \.self) { Text($0).foregroundStyle(.red) }
                         Button(store.t("import.confirm"), role: preview.replaces ? .destructive : nil) {
+                            do { try RecoveryBackup.preserve(store.data) } catch { store.errorMessage = error.localizedDescription; return }
                             if store.change({ $0 = preview.document }) {
                                 UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                                 if store.preferences.remindersEnabled { store.refreshNotifications() }
@@ -115,7 +119,10 @@ struct SettingsScreen: View {
             }
             .confirmationDialog(store.t("data.delete.confirm"), isPresented: $reset) {
                 Button(store.t("data.delete"), role: .destructive) {
-                    if store.change({ $0 = .fresh() }) { UNUserNotificationCenter.current().removeAllPendingNotificationRequests() }
+                    if store.change({ $0 = .fresh() }) {
+                        try? FileManager.default.removeItem(at: RecoveryBackup.url)
+                        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                    }
                 }
             }
             .confirmationDialog(store.t("templates.explanation"), isPresented: $loadTemplates) {
