@@ -1,0 +1,58 @@
+import XCTest
+import SwiftData
+@testable import MIHEN
+
+@MainActor final class PersistenceTests: XCTestCase {
+    func testSaveReopenPartialProgressAndTurkishText() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let url = folder.appendingPathComponent("test.store")
+        let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+        let day = engine.date("2026-11-14")!
+        var data = BackupDocument.fresh()
+        data.preferences[0].name = "İsmail"
+        data.tasks.append(.init(id: "read", title: "Kur'an okuma", domainID: "learning", start: day, recurrence: "daily", target: 6))
+        engine.materialize(&data, from: day, through: day)
+        try PlanningEngine.setProgress(2, occurrence: &data.occurrences[0])
+        do {
+            let repository = try Repository(storeURL: url)
+            try repository.save(data)
+        }
+        let reopened = try Repository(storeURL: url)
+        let loaded = try reopened.load()
+        XCTAssertEqual(loaded.preferences.first?.name, "İsmail")
+        XCTAssertEqual(loaded.occurrences.first?.value, 2)
+        XCTAssertEqual(loaded.occurrences.first?.status, "partial")
+    }
+    func testInvalidSaveDoesNotDestroyPersistedData() throws {
+        let repository = try Repository(inMemory: true)
+        let data = BackupDocument.fresh()
+        try repository.save(data)
+        var invalid = data
+        invalid.domains.removeLast()
+        XCTAssertThrowsError(try repository.save(invalid))
+        XCTAssertEqual(try repository.load().domains.count, 8)
+    }
+    func testDeleteAllRemovesEveryEntity() throws {
+        let repository = try Repository(inMemory: true)
+        var data = BackupDocument.fresh()
+        data.journals.append(.init(text: "Private note"))
+        data.khatms.append(.init(title: "Reading plan"))
+        try repository.save(data)
+        try repository.save(.fresh())
+        let result = try repository.load()
+        XCTAssertTrue(result.journals.isEmpty)
+        XCTAssertTrue(result.khatms.isEmpty)
+        XCTAssertEqual(result.domains.count, 8)
+    }
+    func testImportRestoreThroughRepository() throws {
+        let repository = try Repository(inMemory: true)
+        var data = BackupDocument.fresh()
+        data.journals.append(.init(text: "Yedek • Türkçe"))
+        let bytes = try BackupCodec.encode(data)
+        try repository.save(.fresh())
+        try repository.save(BackupCodec.decode(bytes))
+        XCTAssertEqual(try repository.load().journals.first?.text, "Yedek • Türkçe")
+    }
+}

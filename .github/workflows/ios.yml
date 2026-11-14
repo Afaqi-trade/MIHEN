@@ -1,0 +1,37 @@
+name: iOS validation
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mihen-ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record toolchain
+        run: |
+          mkdir -p .build-results
+          xcodebuild -version | tee .build-results/toolchain.txt
+          sw_vers >> .build-results/toolchain.txt
+      - name: Portable XCTest suite
+        run: swift test 2>&1 | tee .build-results/core-xctest.log
+      - name: Verify project
+        run: python3 Scripts/verify-project.py
+      - name: Build app and widget, run unit and UI tests
+        run: Scripts/validate-ios.sh 2>&1 | tee .build-results/ios.log
+      - name: Preserve real simulator results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MIHEN-test-results
+          path: |
+            .build-results/*.xcresult
+            .build-results/*.log
+            .build-results/*.txt
+            .build-results/devices.json
+          retention-days: 7
+          if-no-files-found: ignore

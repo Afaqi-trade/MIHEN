@@ -1,0 +1,22 @@
+{
+  "sourceLanguage": "tr",
+  "strings": {
+    "NSFaceIDUsageDescription": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MİHEN kişisel kayıtlarınıza erişimi kimlik doğrulamasıyla korur."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MİHEN uses authentication to protect access to your personal records."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

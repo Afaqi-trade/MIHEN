@@ -1,0 +1,11 @@
+.DS_Store
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.build-results/
+*.xcresult
+*.log
+Scripts/__pycache__/
+Design/Reference/
+docs/MASTER_PROMPT_TR.md

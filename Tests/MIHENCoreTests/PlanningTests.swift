@@ -1,0 +1,189 @@
+import XCTest
+@testable import MIHENCore
+
+final class PlanningTests: XCTestCase {
+    let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+    func date(_ value: String) -> Date { engine.date(value)! }
+    func task(_ start: String, _ recurrence: String = "daily", target: Double = 6) -> PlannedTaskRecord {
+        .init(id: "task", title: "Kur'an okuma", domainID: "learning", start: date(start), recurrence: recurrence, target: target, unit: "pages")
+    }
+    func fixture() -> BackupDocument {
+        var data = BackupDocument.fresh()
+        data.tasks = [task("2024-01-01")]
+        return data
+    }
+    func testExactlyEightDomains() throws {
+        let data = BackupDocument.fresh()
+        XCTAssertEqual(data.domains.count, 8)
+        try BackupCodec.validate(data)
+    }
+    func testDailyCreationIsIdempotent() throws {
+        var data = fixture()
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-03"))
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-03"))
+        XCTAssertEqual(data.occurrences.count, 3)
+        try BackupCodec.validate(data)
+    }
+    func testPartialAndCompleted() throws {
+        var data = fixture()
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        try PlanningEngine.setProgress(2, occurrence: &data.occurrences[0])
+        XCTAssertEqual(data.occurrences[0].value, 2)
+        XCTAssertEqual(data.occurrences[0].status, "partial")
+        XCTAssertEqual(engine.summary(data, on: date("2024-01-01")).partial, 1)
+        try PlanningEngine.setProgress(100, occurrence: &data.occurrences[0])
+        XCTAssertEqual(data.occurrences[0].value, 6)
+        XCTAssertEqual(engine.summary(data, on: date("2024-01-01")).ratio, 1)
+        XCTAssertThrowsError(try PlanningEngine.setProgress(-1, occurrence: &data.occurrences[0]))
+    }
+    func testMonthlyUsesOriginalAnchorAndLeapYear() {
+        let t = task("2024-01-31", "monthly")
+        XCTAssertTrue(engine.isDue(t, on: date("2024-02-29")))
+        XCTAssertFalse(engine.isDue(t, on: date("2024-02-28")))
+        XCTAssertTrue(engine.isDue(t, on: date("2024-03-31")))
+        XCTAssertTrue(engine.isDue(t, on: date("2025-02-28")))
+    }
+    func testYearlyLeapDay() {
+        let t = task("2024-02-29", "yearly")
+        XCTAssertTrue(engine.isDue(t, on: date("2025-02-28")))
+        XCTAssertFalse(engine.isDue(t, on: date("2025-03-01")))
+    }
+    func testWeeklyScheduleAndEnd() {
+        var t = task("2024-01-01", "weekly")
+        t.end = date("2024-01-15")
+        XCTAssertTrue(engine.isDue(t, on: date("2024-01-08")))
+        XCTAssertFalse(engine.isDue(t, on: date("2024-01-09")))
+        XCTAssertFalse(engine.isDue(t, on: date("2024-01-22")))
+    }
+    func testRestDaysAndStreak() throws {
+        var data = fixture()
+        data.tasks[0].isHabit = true
+        data.preferences[0].restWeekdays = [1, 7]
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-08"))
+        XCTAssertEqual(data.occurrences.count, 6)
+        for i in data.occurrences.indices { try PlanningEngine.setProgress(6, occurrence: &data.occurrences[i]) }
+        XCTAssertEqual(engine.streak(taskID: "task", data: data, through: date("2024-01-08")), 6)
+    }
+    func testEmptySummaryHasNoFabricatedPercentage() {
+        XCTAssertNil(engine.summary(.fresh(), on: date("2024-01-01")).ratio)
+    }
+    func testHistoricalSnapshotDoesNotChangeWithTemplate() {
+        var data = fixture()
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        data.tasks[0].target = 100
+        data.tasks[0].title = "Changed"
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        XCTAssertEqual(data.occurrences[0].target, 6)
+        XCTAssertEqual(data.occurrences[0].title, "Kur'an okuma")
+    }
+    func testMovePreservesHistoryAndAvoidsDuplicates() throws {
+        var data = fixture()
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        try PlanningEngine.setProgress(2, occurrence: &data.occurrences[0])
+        let id = data.occurrences[0].id
+        try engine.move(id, to: date("2024-01-02"), in: &data)
+        XCTAssertEqual(data.occurrences[0].status, "moved")
+        XCTAssertEqual(data.occurrences[0].value, 2)
+        XCTAssertEqual(data.occurrences[1].originalDay, "2024-01-01")
+        XCTAssertThrowsError(try engine.move(data.occurrences[1].id, to: date("2024-01-01"), in: &data))
+        try BackupCodec.validate(data)
+    }
+    func testGoalProgressAndSafeDelete() throws {
+        var data = fixture()
+        data.goals = [.init(id: "goal", title: "Read", domainIDs: ["learning"], start: date("2024-01-01"), end: date("2024-12-31"), target: 100, unit: "pages")]
+        data.tasks[0].goalID = "goal"
+        data.goalProgress = [.init(goalID: "goal", amount: 3)]
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        try PlanningEngine.setProgress(2, occurrence: &data.occurrences[0])
+        XCTAssertEqual(engine.goalValue("goal", in: data), 5)
+        data.deleteGoal("goal")
+        XCTAssertNil(data.tasks[0].goalID)
+        XCTAssertNil(data.occurrences[0].goalID)
+        XCTAssertTrue(data.goalProgress.isEmpty)
+        try BackupCodec.validate(data)
+    }
+    func testHatimPacingUses366DaysAndProgress() {
+        XCTAssertEqual(engine.remainingPerDay(total: 604, completed: 0, start: date("2024-01-01"), end: date("2024-12-31"), now: date("2024-01-01")), 2)
+        XCTAssertEqual(engine.remainingPerDay(total: 604, completed: 600, start: date("2024-01-01"), end: date("2024-12-31"), now: date("2024-12-30")), 2)
+        XCTAssertEqual(engine.remainingPerDay(total: 604, completed: 604, start: date("2024-01-01"), end: date("2024-12-31"), now: date("2025-01-01")), 0)
+    }
+    func testMemorizationSchedule() {
+        let item = MemorizationItemRecord(id: "surah", title: "Mülk", lastVerse: 30)
+        XCTAssertNil(engine.nextReview(item, reviews: []))
+        let first = MemorizationReviewRecord(itemID: "surah", date: date("2024-01-01"))
+        XCTAssertEqual(engine.key(engine.nextReview(item, reviews: [first])!), "2024-01-02")
+        let second = MemorizationReviewRecord(itemID: "surah", date: date("2024-01-02"))
+        XCTAssertEqual(engine.key(engine.nextReview(item, reviews: [first, second])!), "2024-01-05")
+    }
+    func testFastingPlannedIsNotCompleted() throws {
+        var data = fixture()
+        data.fasts = [.init(title: "Kişisel plan"), .init(title: "İkinci gün", status: "completed")]
+        XCTAssertEqual(data.fasts.filter { $0.status == "completed" }.count, 1)
+        try BackupCodec.validate(data)
+    }
+    func testWeeklyMonthlySummaryDenominator() throws {
+        var data = fixture()
+        engine.materialize(&data, from: date("2024-02-01"), through: date("2024-02-29"))
+        for i in 0..<7 { try PlanningEngine.setProgress(6, occurrence: &data.occurrences[i]) }
+        let summaries = engine.days(from: date("2024-02-01"), through: date("2024-02-29")).map { engine.summary(data, on: $0) }
+        XCTAssertEqual(summaries.reduce(0) { $0 + $1.planned }, 29)
+        XCTAssertEqual(summaries.reduce(0) { $0 + $1.completed }, 7)
+    }
+    func testDSTCalendarDaysAndTimeZones() {
+        let ny = PlanningEngine(timeZone: TimeZone(identifier: "America/New_York")!)
+        let days = ny.days(from: ny.date("2024-03-09")!, through: ny.date("2024-03-11")!)
+        XCTAssertEqual(days.count, 3)
+        XCTAssertEqual(days[2].timeIntervalSince(days[1]), 23 * 3600)
+        let instant = ISO8601DateFormatter().date(from: "2024-01-01T22:00:00Z")!
+        XCTAssertEqual(engine.key(instant), "2024-01-02")
+        XCTAssertEqual(ny.key(instant), "2024-01-01")
+        XCTAssertNil(engine.date("2024-02-30"))
+    }
+    func testHijriRecurrenceUsesDocumentedCalendar() {
+        let t = task("2024-01-01", "hijriMonthly")
+        let next = engine.hijriCalendar.date(byAdding: .month, value: 1, to: t.start)!
+        XCTAssertTrue(engine.isDue(t, on: next))
+    }
+    func testTemplatesAreOptInIdempotentAndIncomplete() {
+        var data = BackupDocument.fresh()
+        XCTAssertTrue(data.tasks.isEmpty)
+        data.addStarterTemplates(on: date("2024-01-01"), engine: engine)
+        data.addStarterTemplates(on: date("2024-01-01"), engine: engine)
+        XCTAssertEqual(data.tasks.count, 8)
+        XCTAssertTrue(data.occurrences.allSatisfy { $0.value == 0 })
+    }
+    func testRedistributionPreservesTotalAndPartialHistory() throws {
+        var data = fixture()
+        data.goals = [.init(id: "g", title: "Read", domainIDs: ["learning"], target: 100, unit: "pages")]
+        data.tasks[0].goalID = "g"
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        try PlanningEngine.setProgress(2, occurrence: &data.occurrences[0])
+        let id = data.occurrences[0].id
+        let proposal = try engine.redistributionProposal(data.occurrences[0], from: date("2024-01-02"), through: date("2024-01-03"), in: data)
+        XCTAssertEqual(proposal.map(\.target).reduce(0, +), 6)
+        try engine.redistribute(id, from: date("2024-01-02"), through: date("2024-01-03"), in: &data)
+        XCTAssertEqual(data.occurrences[0].status, "moved")
+        XCTAssertEqual(engine.goalValue("g", in: data), 2)
+        XCTAssertEqual(data.occurrences.filter { $0.status != "moved" }.count, 2)
+        try BackupCodec.validate(data)
+    }
+    func testDifferentUnitsAreNotSummedIntoGoal() throws {
+        var data = fixture()
+        data.goals = [.init(id: "g", title: "Books", domainIDs: ["learning"], target: 24, unit: "books")]
+        data.tasks[0].goalID = "g"
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        try PlanningEngine.setProgress(6, occurrence: &data.occurrences[0])
+        XCTAssertEqual(engine.goalValue("g", in: data), 0)
+    }
+    func testCancelledPartialActivityRemainsInGoalHistory() throws {
+        var data = fixture()
+        data.goals = [.init(id: "g", title: "Pages", domainIDs: ["learning"], target: 100, unit: "pages")]
+        data.tasks[0].goalID = "g"
+        engine.materialize(&data, from: date("2024-01-01"), through: date("2024-01-01"))
+        try PlanningEngine.setProgress(2, occurrence: &data.occurrences[0])
+        data.occurrences[0].status = "cancelled"
+        XCTAssertEqual(engine.goalValue("g", in: data), 2)
+        XCTAssertNil(engine.summary(data, on: date("2024-01-01")).ratio)
+    }
+
+}

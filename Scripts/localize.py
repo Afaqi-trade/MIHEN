@@ -1,0 +1,290 @@
+from pathlib import Path
+import json,re
+rows='''redistribute.end|Dağıtım bitiş tarihi|Distribution end date
+redistribute.preview|Yeniden dağıtım önerisini göster|Preview redistribution
+redistribute.confirm|Bu dağıtım uygulansın mı? Geçmiş kayıt korunacak.|Apply this distribution? The original record will be preserved.
+redistribute|Yeniden dağıt|Redistribute
+today|Bugün|Today
+plan|Plan|Plan
+calendar|Takvim|Calendar
+progress|İlerleme|Progress
+profile|Profil|Profile
+slogan|Dengeli • Planlı • Anlamlı Yaşam|A balanced • Planned • Meaningful life
+onboarding.body|Vizyonunu hedeflere, hedeflerini günlük adımlara dönüştür. Kayıtların cihazında saklanır; hesap gerekmez.|Turn your vision into goals and daily actions. Your records stay on your device; no account required.
+name|Adınız|Your name
+priorities|Öncelikli yaşam alanları|Priority life areas
+templates.load|Seçili şablonları yükle|Load selected templates
+templates.explanation|Şablonlar düzenlenebilir önerilerdir. Tamamlanmış kayıt eklenmez; mevcut şablonlar tekrar eklenmez.|Templates are editable suggestions. No completed history is added; existing templates are not duplicated.
+start|Başla|Get started
+skip|Atla|Skip
+error|İşlem kaydedilemedi|Could not save
+ok|Tamam|OK
+unlock|Kilidi aç|Unlock
+lock.reason|Kişisel MİHEN kayıtlarınıza erişmek için kimliğinizi doğrulayın.|Authenticate to access your personal MİHEN records.
+empty.detail|İlk kaydını ekleyerek başlayabilirsin.|Start by adding your first record.
+empty.tasks|Henüz görev yok|No tasks yet
+empty.khatm|Henüz hatim yok|No reading plans yet
+empty.memorization|Henüz ezber kaydı yok|No memorization records yet
+unit|Birim|Unit
+count|Adet|Count
+pages|Sayfa|Pages
+minutes|Dakika|Minutes
+books|Kitap|Books
+TRY|TL|TRY
+custom|Özel|Custom
+custom.unit|Özel ölçü birimi|Custom unit
+today.plan|Bugünkü plan|Today's plan
+manage|Yönet|Manage
+spiritual|Manevi takip|Spiritual practice
+quick.note|Hızlı not|Quick note
+upcoming|Yaklaşan etkinlikler|Upcoming events
+reviews|Haftalık ve aylık değerlendirme|Weekly and monthly reviews
+task.new|Görev ekle|Add task
+greeting.morning|Günaydın|Good morning
+greeting.day|İyi günler|Good afternoon
+greeting.evening|İyi akşamlar|Good evening
+daily.progress|Günlük ilerleme|Daily progress
+tasks.completed|görev tamamlandı|tasks completed
+top.three|Öncelikli üç eylem|Three priority actions
+complete|Tamamlanma durumunu değiştir|Toggle completion
+decrease|Bir azalt|Decrease by one
+increase|Bir artır|Increase by one
+planned|Planlandı|Planned
+partial|Kısmen tamamlandı|Partially completed
+completed|Tamamlandı|Completed
+skipped|Bu seferlik atla|Skip this time
+cancelled|İptal edildi|Cancelled
+moved|Başka güne taşındı|Moved to another day
+postponed|Ertelendi|Postponed
+save|Kaydet|Save
+progress.value|Gerçekleşen miktar|Recorded amount
+reschedule|Yeniden planla|Reschedule
+date|Tarih|Date
+reschedule.explanation|Taşıma geçmiş kaydı korur ve seçilen güne yeni kayıt oluşturur. O gün zaten bir gerçekleşme varsa çakışma gösterilir.|Moving keeps the historical record and creates a new occurrence. An existing occurrence on the destination day causes a conflict.
+move|Seçilen güne taşı|Move to selected day
+move.confirm|Bu görevi seçilen güne taşımak istiyor musunuz?|Move this task to the selected day?
+task.detail|Görev ayrıntısı|Task details
+close|Kapat|Close
+goals|Hedefler|Goals
+inactive|Etkin değil|Inactive
+eight.areas|Sekiz yaşam alanı|Eight life areas
+tasks.habits|Görevler ve alışkanlıklar|Tasks and habits
+goal.new|Hedef ekle|Add goal
+vision|Uzun vadeli vizyon|Long-term vision
+active|Etkin|Active
+subcategories|Alt kategoriler|Subcategories
+title|Başlık|Title
+delete|Sil|Delete
+add|Ekle|Add
+notes|Notlar|Notes
+notes.reviews|Notlar ve değerlendirmeler|Notes and reviews
+priority|Öncelik|Priority
+priority.0|Düşük|Low
+priority.1|Orta|Medium
+priority.2|Yüksek|High
+all|Tümü|All
+horizon|Planlama dönemi|Planning horizon
+year|Yıllık|Year
+quarter|90 günlük|90 days
+month|Aylık|Month
+week|Haftalık|Week
+day|Günlük|Day
+archived.show|Arşivlenenleri göster|Show archived
+search|Ara|Search
+daily.suggestion|Günlük önerilen miktar|Suggested daily amount
+pacing.explanation|Kalan miktar / bugünden bitişe kadar kalan takvim günü; yukarı yuvarlanır. Görevler kendiliğinden değiştirilmez. Yalnızca aynı ölçü birimine sahip bağlı görevler hedefe eklenir.|Remaining amount / calendar days remaining, rounded up. Tasks are never changed automatically. Linked tasks contribute only when their unit matches the goal.
+progress.add|İlerleme kaydet|Record progress
+amount|Miktar|Amount
+milestones|Aşamalar|Milestones
+linked.tasks|Bağlı görevler|Linked tasks
+edit|Düzenle|Edit
+archive|Arşivle|Archive
+archived|Arşivlendi|Archived
+unarchive|Arşivden çıkar|Unarchive
+delete.confirm|Bu kaydı silmek istiyor musunuz?|Delete this record?
+goal.detail|Hedef ayrıntısı|Goal details
+parent.goal|Üst hedef|Parent goal
+none|Yok / tek seferlik|None / one time
+target|Hedef miktar|Target amount
+start.date|Başlangıç|Start date
+end.date|Bitiş|End date
+goal.edit|Hedef düzenle|Edit goal
+cancel|Vazgeç|Cancel
+streak|Planlanan günlerde istikrar|Consistency on scheduled days
+area|Yaşam alanı|Life area
+linked.goal|Bağlı hedef|Linked goal
+end.enabled|Bitiş tarihi belirle|Set end date
+recurrence|Tekrarlama|Recurrence
+daily|Her gün|Daily
+weekly|Her hafta|Weekly
+monthly|Her ay|Monthly
+yearly|Her yıl|Yearly
+hijriMonthly|Her Hicri ay|Every Hijri month
+hijriYearly|Her Hicri yıl|Every Hijri year
+habit|Alışkanlık olarak takip et|Track as a habit
+task.edit|Görev düzenle|Edit task
+task.edit.explanation|Mevcut gerçekleşmeler kendi başlık ve miktarlarını korur. Değişiklik yeni oluşturulan gerçekleşmelere uygulanır.|Existing occurrences keep their title and target. Changes apply to newly created occurrences.
+calendar.view|Takvim görünümü|Calendar view
+events|Etkinlikler|Events
+event.new|Etkinlik düzenle|Edit event
+period|Dönem|Period
+completion.rate|Tamamlama oranı|Completion rate
+statistics.formula|Tamamlanan gerçekleşme sayısı / planlanan gerçekleşme sayısı. Kısmi kayıtlar tamamlanmış sayılmaz. Atlanan, iptal edilen ve taşınan kayıtlar paydaya girmez. Veri yoksa yüzde gösterilmez.|Completed occurrences / scheduled occurrences. Partial entries are not counted as completed. Skipped, cancelled and moved entries are excluded. No percentage is shown without data.
+chart.progress|Günlük tamamlama grafiği|Daily completion chart
+qualitative.only|Sayısal kayıt yok. Bu alanı not ve değerlendirmelerinle takip edebilirsin.|No numeric records. Use notes and reflections for this area.
+heatmap|Son 28 gün|Last 28 days
+comparison.noData|Önceki eşit uzunluktaki dönemde kayıt yok.|No records in the preceding period of equal length.
+comparison.previous|Önceki eşit uzunluktaki dönem|Previous period of equal length
+type|Tür|Type
+note|Not|Note
+review.summary|Dönem özeti|Period summary
+review.prompts|Neler tamamlandı? Hangi alanlarda ilerledin? Neler zorladı? Önümüzdeki dönemde neyi değiştireceksin? Önceliklerin değişti mi?|What did you finish? Where did you grow? What was difficult? What will you change next period? Have your priorities changed?
+quran.khatm|Kur'an ve hatim takibi|Quran reading plans
+memorization|Ezber ve tekrar|Memorization and review
+dhikr|Zikir sayacı|Dhikr counter
+fasting|Oruç planı|Fasting plan
+routines|Kişisel rutinler|Personal routines
+spiritual.explanation|Bu modül kişisel faaliyet takibidir. Şablonlar zorunluluk veya dini hüküm değildir; düzenleyebilir, arşivleyebilir ya da hiç eklemeyebilirsiniz. Meal, tefsir ve ses içerikleri dağıtılmaz.|This module tracks personal activities. Templates are optional and do not constitute religious rulings. Edit, archive or omit them. No translations, commentary or recordings are distributed.
+templates|Başlangıç şablonları|Starter templates
+templates.choose|Şablonları seç|Choose templates
+reading|Okuma|Reading
+translation|Meal ile okuma|Reading with translation
+tafsir|Tefsir okuma|Commentary reading
+khatm.explanation|Yıllık şablon: üç Kur'an hatmi; bunlardan biri meal ile. Ayrıca bir tefsir okuma planı. Mealli hatim dördüncü Kur'an hatmi olarak sayılmaz. Toplam sayfa sayısını kendi baskınıza göre düzenleyin.|Annual template: three Quran readings, one with translation, plus one commentary plan. The translation reading is included in the three. Set page totals for your own edition.
+pages.total|Toplam sayfa|Total pages
+juz.approximate|Yaklaşık cüz (sayfa oranı)|Approximate juz (page ratio)
+reading.add|Okuma kaydet|Record reading
+history|Geçmiş|History
+verses|Ayet|Verses
+review.next|Sonraki tekrar|Next review
+review.none|İlk tekrarını kaydederek başla.|Start by recording your first review.
+review.record|Tekrar yaptım|Record review
+verse.first|Başlangıç ayeti|First verse
+verse.last|Bitiş ayeti|Last verse
+verses.learned|Ezberlenen ayet sayısı|Verses memorized
+difficulty|Zorluk|Difficulty
+difficulty.0|Kolay|Easy
+difficulty.1|Orta|Moderate
+difficulty.2|Zor|Hard
+review.intervals|Tekrar aralıkları (gün, virgülle)|Review intervals (days, comma-separated)
+counter.new|Yeni sayaç|New counter
+fasting.calendarNote|Hicri ayların 13–15. günleri, Recep ve Şaban için kişisel hedeflerinizi manuel planlayabilirsiniz. Tutulan gün sayısı yalnızca tamamlandı kayıtlarından hesaplanır. Dini tarihler için yerel resmî takvimi doğrulayın.|You can manually plan personal goals for Hijri days 13–15, Rajab and Shaban. Only completed entries count as observed fasts. Verify religious dates against your local official calendar.
+summary|Özet|Summary
+status|Durum|Status
+khatm.annualTemplates|Yıllık 3 hatim + 1 tefsir şablonunu ekle|Add annual 3 readings + 1 commentary template
+memorization.templates|Vâkıa, Mülk, Yâsin ve Duha–Nas şablonlarını ekle|Add Waqia, Mulk, Yasin and Duha–Nas templates
+language|Dil|Language
+theme|Görünüm|Appearance
+system|Sistem|System
+light|Açık|Light
+dark|Koyu|Dark
+timezone|Saat dilimi|Time zone
+calendar.hijri|Hicri takvim|Hijri calendar
+hijri.show|Hicri tarihi göster|Show Hijri date
+hijri.offset|Gün düzeltmesi|Day adjustment
+hijri.explanation|Foundation islamicUmmAlQura algoritması kullanılır; yerel/resmî dini takvimle farklılık olabilir. ±2 gün düzeltme yalnızca Hicri gösterim ve tekrar hesaplarını etkiler; geçmiş kayıtları taşımaz.|Uses Foundation's islamicUmmAlQura calendar. Local or official dates can differ. The ±2 day adjustment affects Hijri display and recurrence only; it never moves historical entries.
+rest.days|Alışkanlıklarda dinlenme günleri|Habit rest days
+notifications|Bildirimler|Notifications
+notifications.enable|Hatırlatmaları etkinleştir|Enable reminders
+notifications.hour|Görev ve sabah özeti saati|Task and morning summary hour
+quiet.start|Sessiz saat başlangıcı|Quiet hours start
+quiet.end|Sessiz saat bitişi|Quiet hours end
+notifications.explanation|En yakın 60 hatırlatma, önümüzdeki 7 günlük görevler arasından planlanır. Akşam ve haftalık değerlendirme saati 20:00'dır. Sessiz saatlerdeki bildirimler atlanır. Yeni günler için uygulamayı düzenli açın; iOS teslimatı etkileyebilir.|Schedules the next 60 reminders, including tasks in the next 7 days. Evening and weekly reviews use 20:00. Reminders in quiet hours are omitted. Open the app regularly to refresh; iOS may affect delivery.
+privacy|Gizlilik|Privacy
+lock|Face ID / cihaz parolası kilidi|Face ID / device passcode lock
+privacy.policy|Gizlilik politikası|Privacy policy
+local.only|Veriler cihazda saklanır. Hesap, reklam, analiz SDK'sı veya zorunlu internet bağlantısı yoktur.|Data stays on your device. No account, advertising, analytics SDK or internet connection is required.
+widget.unavailable|Widget için App Group henüz yapılandırılmamış. Ana uygulama yerel olarak kullanılabilir.|App Group is not configured for the widget. The main app remains available locally.
+widget.available|Widget bugünkü gerçek kayıtlardan üretilir; uygulama kilidi açıkken içerik gizlenir.|The widget uses today's real records; content is hidden when app lock is enabled.
+data|Veriler ve yedekleme|Data and backups
+export.json|JSON yedeğini dışa aktar|Export JSON backup
+export.csv|CSV yedeğini dışa aktar|Export CSV backup
+export.planCSV|Excel için düzenlenebilir plan CSV'si|Editable plan CSV for Excel
+import|İçe aktar / yedekten dön|Import / restore
+backup.explanation|JSON ve yedek CSV tüm kayıtları geri yükler. Plan CSV hedef ve görev ekler. Dosyalar şifrelenmez; güvenli bir konum seçin. İçe aktarmadan önce önizleme ve onay gerekir. XLSX desteklenmez.|JSON and backup CSV restore all records. Plan CSV adds goals and tasks. Exports are not encrypted; choose a safe destination. Imports require preview and confirmation. XLSX is not supported.
+data.delete|Tüm verileri sil|Delete all data
+help|Yardım|Help
+help.body|Plan'dan yaşam alanını seçerek hedef oluşturun. Günlük görevi bir hedefe bağlayın ve Bugün ekranından ilerleme kaydedin. Düzenli yedek alın.|Choose a life area in Plan to create a goal. Link a daily task to a goal, then record progress in Today. Back up regularly.
+cloud.unavailable|iCloud senkronizasyonu bu sürümde etkin değildir.|iCloud sync is not enabled in this version.
+import.replaces|Bu yedek mevcut verilerin tamamını değiştirecek. Önce dışa aktararak yedek almanız önerilir.|This backup replaces all current data. Export a backup first.
+import.adds|Geçerli satırlar mevcut plana eklenecek. Hatalar varsa hiçbir satır alınmaz.|Valid rows will be added to your plan. If any row has errors, nothing is imported.
+records|Kayıtlar|Records
+import.confirm|Önizlemeyi onayla ve içe aktar|Confirm preview and import
+import.preview|İçe aktarma önizlemesi|Import preview
+data.delete.confirm|Tüm hedefler, geçmiş ve tercihler kalıcı olarak silinsin mi? Bu işlem geri alınamaz.|Permanently delete all goals, history and preferences? This cannot be undone.
+notifications.permission|Görev, hedef ve değerlendirmeler için bu cihazda bildirim izni istenecek.|Allow this device to send reminders for tasks, goals and reviews?
+continue|Devam et|Continue
+notifications.denied|Bildirim izni verilmedi. iOS Ayarlar bölümünden etkinleştirebilirsiniz.|Notification permission was not granted. Enable it in iOS Settings.
+privacy.body|MİHEN kişisel hedeflerinizi, görevlerinizi ve isteğe bağlı manevi, sağlık ve mali kayıtlarınızı cihazınızda tutar. Geliştiriciye veri aktarılmaz; hesap, reklam veya analitik kullanılmaz. Bildirimler cihazda planlanır. Face ID biyometrik verisi uygulamaya verilmez; doğrulamayı iOS yapar. Widget, App Group üzerinden günlük özeti okur; kilit etkinse içerik gizlenir. Paylaştığınız yedekler şifrelenmemiş kişisel veriler içerir. Sistem cihaz yedekleri iOS/iCloud ayarlarınıza bağlı olabilir; uygulama iCloud senkronizasyonu sunmaz. Profil'den tüm verileri silebilirsiniz. Yayın sahibinin iletişim bilgisi ve politika URL'si yayın öncesi tamamlanmalıdır. Hukuki uyumluluk değerlendirmesi henüz tamamlanmamıştır.|MİHEN keeps your goals, tasks and optional spiritual, health and financial records on your device. No data is sent to the developer. No account, advertising or analytics is used. Notifications are scheduled locally. Biometric data is handled by iOS and is never provided to the app. The widget reads a daily summary through App Groups; content is hidden when lock is enabled. Exported backups contain unencrypted personal data. Device backups depend on your iOS/iCloud settings; the app does not provide iCloud sync. Delete all records in Profile. Publisher contact information and the policy URL must be completed before release. Legal compliance has not yet been assessed.
+widget.open|Bugünü güncellemek için MİHEN'i açın.|Open MİHEN to refresh today.
+widget.description|Bugünkü planın ve gerçek ilerlemen.|Today's plan and your recorded progress.
+reminder.summary|Günlük planını gözden geçir.|Review your daily plan.
+reminder.task|Planladığın bir eylemi hatırla.|A reminder for a planned action.
+reminder.review|Değerlendirme zamanı.|Time for a reflection.
+reminder.fast|Planladığın orucu gözden geçir.|Review your planned fast.
+reminder.evening|Akşam değerlendirmesi|Evening reflection
+reminder.weekly|Haftalık değerlendirme|Weekly reflection
+activity.log|Faaliyet ve ölçüm kayıtları|Activities and measurements
+activity.new|Kayıt ekle|Add record
+projects|Projeler|Projects
+project.new|Proje ekle|Add project
+activity.exercise|Egzersiz|Exercise
+activity.sleep|Uyku|Sleep
+activity.income|Gelir|Income
+activity.expense|Gider|Expense
+activity.budget|Bütçe|Budget
+activity.obligation|Mali yükümlülük|Financial obligation
+activity.giving|İnfak / bağış|Giving / donation
+activity.volunteering|Gönüllülük|Volunteering
+activity.learning|Öğrenme|Learning
+activity.other|Diğer|Other
+template.quran|Kur'an okuma|Quran reading
+template.movement|Hareket / egzersiz|Movement / exercise
+template.family|Aileyle vakit|Family time
+template.evrad|Günlük evrad|Daily awrad
+template.reflection|Günlük öz değerlendirme|Daily reflection
+template.skill|Mesleki öğrenme|Professional learning
+template.saving|Bütçeyi gözden geçir|Review budget
+template.service|Bir iyilik planla|Plan an act of service
+routine.evrad|Günlük evrad|Daily awrad
+routine.dua|Günlük dua|Daily supplication
+routine.waqia|Akşam sonrası Vâkıa okuma|Waqia reading after evening
+routine.mulk|Yatmadan Mülk okuma|Mulk reading before sleep
+routine.baqarah|Bakara'dan seçilen ayetler|Selected verses from Baqarah
+routine.kahf|Kehf'in son beş ayeti|Last five verses of Kahf
+routine.takathur|Günlük Tekâsür|Daily Takathur
+routine.allah|Allah zikri — 1.000 tekrar|Allah dhikr — 1,000 repetitions
+routine.tawhid|Tevhid — 100 tekrar|Tawhid — 100 repetitions
+routine.istighfar|Estağfirullah — 100 tekrar|Istighfar — 100 repetitions
+routine.ikhlas|İhlâs — 100 tekrar|Ikhlas — 100 repetitions
+routine.salawat|Salavat — 100 tekrar|Salawat — 100 repetitions
+routine.tahajjud|Haftalık teheccüd hedefi|Weekly tahajjud goal
+routine.tunjina|Salâten Tüncinâ okuma|Salaten Tunjina reading
+routine.dalail|Delâilü'l-Hayrât okuma|Dalail al-Khayrat reading
+validation.progress|Geçerli ve sıfırdan küçük olmayan bir miktar girin.|Enter a valid nonnegative amount.
+validation.closed|Bu kayıt kapalı; yeni ilerleme eklenemez.|This occurrence is closed; progress cannot be added.
+validation.missing|İlgili kayıt bulunamadı.|The referenced record was not found.
+validation.duplicateDay|Bu görev için seçilen günde zaten bir kayıt var.|An occurrence already exists for this task on that day.
+validation.fileSize|Dosya 10 MB sınırını aşıyor.|The file exceeds the 10 MB limit.
+validation.data|Kayıt alanları, tarih aralığı veya ilişkileri geçersiz. Lütfen kontrol edin.|Record fields, dates or references are invalid. Please review them.
+validation.duplicates|Mükerrer veya geçersiz kimlik bulundu.|Duplicate or invalid IDs found.
+validation.version|Bu yedek sürümü desteklenmiyor.|This backup version is not supported.
+validation.cycle|Hedef ilişkileri döngü oluşturamaz.|Goal relationships cannot contain cycles.
+validation.csv|CSV biçimi geçersiz.|Invalid CSV format.
+validation.csvHeader|CSV sütun başlıkları beklenen şablonla eşleşmiyor.|CSV headers do not match the expected template.
+validation.csvEntity|CSV kayıt türü tanınmadı.|Unknown CSV record type.
+validation.emptyImport|İçe aktarılabilecek satır yok.|No rows to import.
+'''
+strings={}
+for row in rows.splitlines():
+    if not row:continue
+    key,tr,en=row.split('|',2)
+    strings[key]={'localizations':{lang:{'stringUnit':{'state':'translated','value':value}} for lang,value in [('tr',tr),('en',en)]}}
+Path('MIHEN/Localization/Localizable.xcstrings').write_text(json.dumps({'sourceLanguage':'tr','strings':strings,'version':'1.0'},ensure_ascii=False,indent=2)+'\n')
+# Fail generation if literal UI keys are missing. User-entered record titles are intentionally dynamic.
+missing=set()
+for p in Path('MIHEN').rglob('*.swift'):
+    for key in re.findall(r'\bt\("([^"\\]+)"\)',p.read_text()):
+        if key not in strings:missing.add(key)
+if missing:raise SystemExit('Missing keys: '+str(sorted(missing)))
+print(f'{len(strings)} bilingual keys; all literal UI keys covered')
