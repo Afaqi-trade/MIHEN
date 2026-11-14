@@ -26,7 +26,7 @@ struct DomainActivityScreen: View {
                 ForEach(store.data.activities.filter { $0.domainID == domainID }.sorted { $0.date > $1.date }) { row in
                     VStack(alignment: .leading, spacing: 6) {
                         Text(store.t("activity.\(row.kind)")).font(.headline)
-                        Text("\(row.amount.formatted()) \(store.t(row.unit))")
+                        Text("\(row.amount.formatted(.number.locale(store.locale))) \(store.t(row.unit))")
                         Text(row.date, format: .dateTime.day().month().year()).font(.caption)
                         Text(row.note).foregroundStyle(.secondary)
                     }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.activities.removeAll { $0.id == row.id } } } }

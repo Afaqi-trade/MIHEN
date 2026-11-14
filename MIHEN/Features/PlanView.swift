@@ -116,7 +116,7 @@ struct GoalLink: View {
             let amount = store.engine.goalValue(goal.id, in: store.data)
             VStack(alignment: .leading, spacing: 6) {
                 Text(goal.title).font(.headline)
-                Text("\(amount.formatted()) / \(goal.target.formatted()) \(store.t(goal.unit))").font(.caption).foregroundStyle(.secondary)
+                Text("\(amount.formatted(.number.locale(store.locale))) / \(goal.target.formatted(.number.locale(store.locale))) \(store.t(goal.unit))").font(.caption).foregroundStyle(.secondary)
                 ProgressView(value: min(1, amount / goal.target))
             }.padding(.vertical, 5)
         }
@@ -139,14 +139,14 @@ struct GoalDetail: View {
                     ForEach(goal.domainIDs, id: \.self) { Text(store.title($0)).font(.caption) }
                     Text(goal.notes)
                     Text(goal.end, format: .dateTime.day().month().year())
-                    Text(store.t("daily.suggestion") + ": " + store.engine.remainingPerDay(total: goal.target, completed: store.engine.goalValue(goalID, in: store.data), start: goal.start, end: goal.end, now: Date()).formatted() + " " + store.t(goal.unit))
+                    Text(store.t("daily.suggestion") + ": " + store.engine.remainingPerDay(total: goal.target, completed: store.engine.goalValue(goalID, in: store.data), start: goal.start, end: goal.end, now: Date()).formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
                     Text(store.t("pacing.explanation")).font(.footnote).foregroundStyle(.secondary)
                 }
                 Section(store.t("progress.add")) {
                     ValueInput(title: "amount", value: $amount)
                     Button(store.t("save")) { store.change { $0.goalProgress.append(.init(goalID: goalID, amount: amount)) } }
                     ForEach(store.data.goalProgress.filter { $0.goalID == goalID }.sorted { $0.date > $1.date }) { entry in
-                        HStack { Text(entry.date, format: .dateTime.day().month()); Spacer(); Text(entry.amount.formatted()) }
+                        HStack { Text(entry.date, format: .dateTime.day().month()); Spacer(); Text(entry.amount.formatted(.number.locale(store.locale))) }
                             .swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.goalProgress.removeAll { $0.id == entry.id } } } }
                     }
                 }

@@ -54,7 +54,7 @@ struct KhatmEditor: View {
             Form {
                 TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("khatm.title")
                 Picker(store.t("type"), selection: $draft.kind) { ForEach(["reading", "translation", "tafsir"], id: \.self) { Text(store.t($0)).tag($0) } }
-                TextField(store.t("pages.total"), value: $draft.totalPages, format: .number).keyboardType(.numberPad)
+                TextField(store.t("pages.total"), value: $draft.totalPages, format: .number.locale(store.locale)).keyboardType(.numberPad)
                 DatePicker(store.t("start.date"), selection: $draft.start, displayedComponents: .date)
                 DatePicker(store.t("end.date"), selection: $draft.end, displayedComponents: .date)
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
@@ -84,12 +84,12 @@ struct KhatmDetail: View {
                 Section(khatm.title) {
                     Text("\(total) / \(khatm.totalPages) " + store.t("pages"))
                     ProgressView(value: Double(total) / Double(khatm.totalPages))
-                    Text(store.t("juz.approximate") + ": " + min(30, Double(total) / Double(khatm.totalPages) * 30).formatted(.number.precision(.fractionLength(1))))
-                    Text(store.t("daily.suggestion") + ": " + store.engine.remainingPerDay(total: Double(khatm.totalPages), completed: Double(total), start: khatm.start, end: khatm.end, now: Date()).formatted() + " " + store.t("pages"))
+                    Text(store.t("juz.approximate") + ": " + min(30, Double(total) / Double(khatm.totalPages) * 30).formatted(.number.precision(.fractionLength(1)).locale(store.locale)))
+                    Text(store.t("daily.suggestion") + ": " + store.engine.remainingPerDay(total: Double(khatm.totalPages), completed: Double(total), start: khatm.start, end: khatm.end, now: Date()).formatted(.number.locale(store.locale)) + " " + store.t("pages"))
                     if let completed = khatm.completedAt { Text(completed, format: .dateTime.day().month().year()) }
                 }
                 Section(store.t("reading.add")) {
-                    TextField(store.t("pages"), value: $pages, format: .number).keyboardType(.numberPad).accessibilityIdentifier("khatm.pages").focused($readingFocused)
+                    TextField(store.t("pages"), value: $pages, format: .number.locale(store.locale)).keyboardType(.numberPad).accessibilityIdentifier("khatm.pages").focused($readingFocused)
                     Button(store.t("save")) { store.addReading(khatmID: khatmID, pages: pages); readingFocused = false }.disabled(pages <= 0 || total + pages > khatm.totalPages).accessibilityIdentifier("khatm.reading.save")
                 }
                 Section(store.t("history")) {
@@ -144,9 +144,9 @@ struct MemorizationEditor: View {
         NavigationStack {
             Form {
                 TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("memorization.title")
-                TextField(store.t("verse.first"), value: $draft.firstVerse, format: .number).keyboardType(.numberPad)
-                TextField(store.t("verse.last"), value: $draft.lastVerse, format: .number).keyboardType(.numberPad).accessibilityIdentifier("memorization.last")
-                TextField(store.t("verses.learned"), value: $draft.learnedVerses, format: .number).keyboardType(.numberPad).accessibilityIdentifier("memorization.learned")
+                TextField(store.t("verse.first"), value: $draft.firstVerse, format: .number.locale(store.locale)).keyboardType(.numberPad)
+                TextField(store.t("verse.last"), value: $draft.lastVerse, format: .number.locale(store.locale)).keyboardType(.numberPad).accessibilityIdentifier("memorization.last")
+                TextField(store.t("verses.learned"), value: $draft.learnedVerses, format: .number.locale(store.locale)).keyboardType(.numberPad).accessibilityIdentifier("memorization.learned")
                 Picker(store.t("difficulty"), selection: $draft.difficulty) { ForEach(0..<3) { Text(store.t("difficulty.\($0)")).tag($0) } }
                 TextField(store.t("review.intervals"), text: $intervals)
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
@@ -174,7 +174,7 @@ struct DhikrScreen: View {
         List {
             Section(store.t("counter.new")) {
                 TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
-                TextField(store.t("target"), value: $target, format: .number).keyboardType(.numberPad).accessibilityIdentifier("counter.target")
+                TextField(store.t("target"), value: $target, format: .number.locale(store.locale)).keyboardType(.numberPad).accessibilityIdentifier("counter.target")
                 Button(store.t("add")) { if store.change({ $0.dhikr.append(.init(title: title, day: store.engine.key(Date()), target: target)) }) { title = "" } }.disabled(title.isEmpty || target <= 0)
             }
             Section(store.t("today")) {

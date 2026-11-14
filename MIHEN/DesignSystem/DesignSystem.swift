@@ -35,7 +35,7 @@ struct ValueInput: View {
         HStack {
             Text(store.t(title))
             Spacer()
-            TextField(store.t(title), value: $value, format: .number)
+            TextField(store.t(title), value: $value, format: .number.locale(store.locale))
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing)
                 .accessibilityIdentifier(title)
         }

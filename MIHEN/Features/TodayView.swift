@@ -56,7 +56,7 @@ struct TodayView: View {
         let summary = store.engine.summary(store.data, on: today)
         return VStack(alignment: .leading, spacing: 16) {
             Text(store.t("daily.progress")).font(.headline)
-            Text(summary.ratio.map { $0.formatted(.percent.precision(.fractionLength(0))) } ?? "—").font(.system(.largeTitle, design: .rounded, weight: .bold)).accessibilityIdentifier("today.progress")
+            Text(summary.ratio.map { $0.formatted(.percent.precision(.fractionLength(0)).locale(store.locale)) } ?? "—").font(.system(.largeTitle, design: .rounded, weight: .bold)).accessibilityIdentifier("today.progress")
             Text("\(summary.completed) / \(summary.planned) " + store.t("tasks.completed"))
             ProgressView(value: summary.ratio ?? 0).tint(.white)
             Text(store.t("top.three")).font(.subheadline.bold())
@@ -84,7 +84,7 @@ struct OccurrenceRow: View {
             Button { details = true } label: {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(store.t(occurrence.title)).font(.headline).foregroundStyle(.primary)
-                    Text("\(occurrence.value.formatted()) / \(occurrence.target.formatted()) \(store.t(occurrence.unit))").font(.subheadline).foregroundStyle(.secondary)
+                    Text("\(occurrence.value.formatted(.number.locale(store.locale))) / \(occurrence.target.formatted(.number.locale(store.locale))) \(store.t(occurrence.unit))").font(.subheadline).foregroundStyle(.secondary)
                     Text(store.t(occurrence.status)).font(.caption).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.buttonStyle(.plain)
@@ -129,7 +129,7 @@ struct OccurrenceDetail: View {
                                 confirmDistribution = true
                             } catch { store.errorMessage = store.t((error as? PlanError)?.errorDescription ?? "validation.data") }
                         }
-                        ForEach(proposal, id: \.day) { item in Text(item.day + ": " + item.target.formatted() + " " + store.t(row.unit)) }
+                        ForEach(proposal, id: \.day) { item in Text(item.day + ": " + item.target.formatted(.number.locale(store.locale)) + " " + store.t(row.unit)) }
                         ForEach(["skipped", "cancelled"], id: \.self) { status in
                             Button(store.t(status)) {
                                 if store.change({ data in if let i = data.occurrences.firstIndex(where: { $0.id == id }) { data.occurrences[i].status = status } }) { dismiss() }

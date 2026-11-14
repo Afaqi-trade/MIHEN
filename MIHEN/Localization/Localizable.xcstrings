@@ -2934,13 +2934,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Foundation islamicUmmAlQura algoritması kullanılır; yerel/resmî dini takvimle farklılık olabilir. ±2 gün düzeltme yalnızca Hicri gösterim ve tekrar hesaplarını etkiler; geçmiş kayıtları taşımaz."
+            "value": "Ümmü'l-Kurâ takvim hesabı kullanılır; yerel/resmî dini takvimle farklılık olabilir. ±2 gün düzeltme yalnızca Hicri gösterim ve tekrar hesaplarını etkiler; geçmiş kayıtları taşımaz."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uses Foundation's islamicUmmAlQura calendar. Local or official dates can differ. The ±2 day adjustment affects Hijri display and recurrence only; it never moves historical entries."
+            "value": "Uses the Umm al-Qura calendar calculation. Local or official dates can differ. The ±2 day adjustment affects Hijri display and recurrence only; it never moves historical entries."
           }
         }
       }

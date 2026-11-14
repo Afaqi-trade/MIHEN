@@ -14,9 +14,11 @@ final class MIHENUITests: XCTestCase {
         let app = XCUIApplication()
         tap(field, in: app)
         let value = field.value as? String ?? ""
+        if !value.isEmpty { field.doubleTap() }
         field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count) + text)
         let done = app.buttons["keyboard.done"].firstMatch
         if done.waitForExistence(timeout: 2) && done.isHittable { done.tap() }
+        XCTAssertEqual(field.value as? String, text, "Text entry must replace the existing value exactly")
     }
     @MainActor private func capture(_ app: XCUIApplication, name: String) {
         let attachment = XCTAttachment(screenshot: app.screenshot())
@@ -55,6 +57,7 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(increase.waitForExistence(timeout: 5))
         increase.tap(); increase.tap()
         XCTAssertTrue(app.staticTexts["Kısmen tamamlandı"].exists)
+        XCTAssertTrue(app.staticTexts["2 / 6 Adet"].exists)
         capture(app, name: "MIHEN-Today-Partial-TR")
         app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "occurrence.complete.")).firstMatch.tap()
         XCTAssertTrue(app.staticTexts["Tamamlandı"].exists)

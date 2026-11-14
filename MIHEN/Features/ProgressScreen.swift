@@ -18,7 +18,7 @@ struct ProgressScreen: View {
                 Picker(store.t("period"), selection: $period) { ForEach(["day", "week", "month", "year"], id: \.self) { Text(store.t($0)).tag($0) } }.pickerStyle(.segmented)
                 VStack(alignment: .leading, spacing: 12) {
                     Text(store.t("completion.rate")).font(.headline)
-                    Text(totals.1 > 0 ? (Double(totals.0) / Double(totals.1)).formatted(.percent.precision(.fractionLength(0))) : "—").font(.largeTitle.bold())
+                    Text(totals.1 > 0 ? (Double(totals.0) / Double(totals.1)).formatted(.percent.precision(.fractionLength(0)).locale(store.locale)) : "—").font(.largeTitle.bold())
                     Text("\(totals.0) / \(totals.1) " + store.t("tasks.completed"))
                     Text(store.t("statistics.formula")).font(.caption).foregroundStyle(.secondary)
                     Text(comparison).font(.subheadline)
@@ -27,7 +27,16 @@ struct ProgressScreen: View {
                     if let date = store.engine.date(day.day), let ratio = day.ratio {
                         BarMark(x: .value(store.t("date"), date, unit: .day), y: .value(store.t("progress"), ratio * 100)).foregroundStyle(Color.mihenGreen)
                     }
-                }.chartYScale(domain: 0...100).frame(height: 200).accessibilityLabel(store.t("chart.progress"))
+                }
+                .chartXScale(domain: interval.start...interval.end)
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: period == "year" ? .month : .day)) { _ in
+                        AxisGridLine()
+                        if period == "year" { AxisValueLabel(format: .dateTime.month(.abbreviated)) }
+                        else { AxisValueLabel(format: .dateTime.day()) }
+                    }
+                }
+                .chartYScale(domain: 0...100).frame(height: 200).accessibilityLabel(store.t("chart.progress"))
                 Text(store.t("eight.areas")).font(.title2.bold())
                 ForEach(store.data.domains) { area in
                     let days = store.engine.days(from: interval.start, through: Date()).map { store.engine.summary(store.data, on: $0, domainID: area.id) }
@@ -58,7 +67,7 @@ struct ProgressScreen: View {
         let previous = store.engine.days(from: previousStart, through: previousEnd).map { store.engine.summary(store.data, on: $0) }
         let denominator = previous.reduce(0) { $0 + $1.planned }, numerator = previous.reduce(0) { $0 + $1.completed }
         guard denominator > 0 else { return store.t("comparison.noData") }
-        return store.t("comparison.previous") + ": " + (Double(numerator) / Double(denominator)).formatted(.percent.precision(.fractionLength(0)))
+        return store.t("comparison.previous") + ": " + (Double(numerator) / Double(denominator)).formatted(.percent.precision(.fractionLength(0)).locale(store.locale))
     }
 }
 struct JournalScreen: View {
