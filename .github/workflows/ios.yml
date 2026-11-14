@@ -1,6 +1,9 @@
 name: iOS validation
 on:
   workflow_dispatch:
+defaults:
+  run:
+    shell: bash
 permissions:
   contents: read
 concurrency:
@@ -27,6 +30,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
+          include-hidden-files: true
           name: MIHEN-test-results
           path: |
             .build-results/*.xcresult

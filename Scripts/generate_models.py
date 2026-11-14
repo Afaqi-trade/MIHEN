@@ -42,7 +42,7 @@ core+='public struct BackupDocument: Codable, Equatable, Sendable {\n    public 
 core+=''.join(f'    public var {arrays[n]}: [{n}Record] = []\n' for n in S)
 core+='    public init() {}\n}\n'
 Path('Core/Records.swift').write_text(core)
-models+='enum MihenSchema: VersionedSchema {\n    static var versionIdentifier: Schema.Version { .init(1, 0, 0) }\n    static var models: [any PersistentModel.Type] { ['+', '.join(S)+'] }\n}\nenum MihenMigrationPlan: SchemaMigrationPlan {\n    static var schemas: [any VersionedSchema.Type] { [MihenSchema.self] }\n    static var stages: [MigrationStage] { [] }\n}\n'
+models+='enum MihenSchema: VersionedSchema {\n    static var versionIdentifier: Schema.Version { .init(1, 0, 0) }\n    static var models: [any PersistentModel.Type] { ['+', '.join(n+'.self' for n in S)+'] }\n}\nenum MihenMigrationPlan: SchemaMigrationPlan {\n    static var schemas: [any VersionedSchema.Type] { [MihenSchema.self] }\n    static var stages: [MigrationStage] { [] }\n}\n'
 Path('MIHEN/Models/PersistenceModels.swift').write_text(models)
 repo='''import Foundation
 import SwiftData
@@ -54,7 +54,7 @@ import SwiftData
         let schema = Schema(versionedSchema: MihenSchema.self)
         let config: ModelConfiguration
         if let storeURL { config = ModelConfiguration(schema: schema, url: storeURL, cloudKitDatabase: .none) }
-        else { config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory, cloudKitDatabase: .none) }
+        else { config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory, groupContainer: .none, cloudKitDatabase: .none) }
         container = try ModelContainer(for: schema, migrationPlan: MihenMigrationPlan.self, configurations: [config])
         context = ModelContext(container)
         context.autosaveEnabled = false

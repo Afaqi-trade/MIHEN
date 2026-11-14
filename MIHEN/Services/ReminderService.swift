@@ -14,9 +14,14 @@ import UserNotifications
         try Task.checkCancellation()
         center.removeAllPendingNotificationRequests()
         guard let p = document.preferences.first, p.remindersEnabled else { return }
-        let settings = await center.notificationSettings()
+        // Only a Sendable Bool crosses the callback boundary; UNNotificationSettings stays inside it.
+        let authorized: Bool = await withCheckedContinuation { continuation in
+            center.getNotificationSettings { settings in
+                continuation.resume(returning: settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional)
+            }
+        }
         try Task.checkCancellation()
-        guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else { return }
+        guard authorized else { return }
         let engine = PlanningEngine(timeZone: TimeZone(identifier: p.timeZoneID) ?? .current, hijriOffset: p.hijriOffset)
         let now = Date()
         var requests: [(String, String, Date)] = []

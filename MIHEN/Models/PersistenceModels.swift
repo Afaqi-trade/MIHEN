@@ -574,7 +574,7 @@ import SwiftData
 
 enum MihenSchema: VersionedSchema {
     static var versionIdentifier: Schema.Version { .init(1, 0, 0) }
-    static var models: [any PersistentModel.Type] { [UserPreferences, LifeDomain, Subcategory, Goal, GoalMilestone, GoalProgressEntry, PlannedTask, TaskOccurrence, Routine, RoutineItem, Project, QuranKhatm, QuranReadingLog, MemorizationItem, MemorizationReview, DhikrCounter, FastingPlan, CalendarEvent, JournalEntry, DomainActivity, NotificationPreference] }
+    static var models: [any PersistentModel.Type] { [UserPreferences.self, LifeDomain.self, Subcategory.self, Goal.self, GoalMilestone.self, GoalProgressEntry.self, PlannedTask.self, TaskOccurrence.self, Routine.self, RoutineItem.self, Project.self, QuranKhatm.self, QuranReadingLog.self, MemorizationItem.self, MemorizationReview.self, DhikrCounter.self, FastingPlan.self, CalendarEvent.self, JournalEntry.self, DomainActivity.self, NotificationPreference.self] }
 }
 enum MihenMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] { [MihenSchema.self] }
