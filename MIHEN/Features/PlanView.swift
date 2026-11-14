@@ -5,30 +5,42 @@ struct PlanView: View {
     @State private var addGoal = false
     var body: some View {
         List {
-            Section {
-                ForEach(store.data.domains.sorted { $0.rank < $1.rank }) { domain in
-                    NavigationLink(destination: DomainScreen(domainID: domain.id)) {
-                        HStack(spacing: 14) {
-                            Image(systemName: LifeArea(rawValue: domain.key)?.symbol ?? "leaf").font(.title3).foregroundStyle(.mihenGreen).frame(width: 30)
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(store.title(domain.id)).font(.headline)
-                                Text("\(store.data.goals.filter { $0.domainIDs.contains(domain.id) && !$0.archived }.count) " + store.t("goals"))
-                                    .font(.caption).foregroundStyle(.secondary)
-                            }
-                            if !domain.enabled { Image(systemName: "pause.circle").accessibilityLabel(store.t("inactive")) }
-                        }.padding(.vertical, 5)
-                    }
-                }
-            } header: { Text(store.t("eight.areas")) }
-            Section {
-                NavigationLink(destination: GoalListScreen()) { Label(store.t("goals"), systemImage: "target") }
-                NavigationLink(destination: TaskListScreen()) { Label(store.t("tasks.habits"), systemImage: "repeat") }
-                NavigationLink(destination: SpiritualScreen()) { Label(store.t("spiritual"), systemImage: "sparkles") }
-                NavigationLink(destination: JournalScreen()) { Label(store.t("reviews"), systemImage: "text.book.closed") }
+            Section(store.t("eight.areas")) {
+                ForEach(orderedDomains) { domain in DomainNavigationRow(domain: domain) }
             }
-        }.navigationTitle(store.t("plan"))
-            .toolbar { Button { addGoal = true } label: { Image(systemName: "plus") }.accessibilityLabel(store.t("goal.new")).accessibilityIdentifier("plan.add") }
-            .sheet(isPresented: $addGoal) { GoalEditor() }
+            Section { shortcuts }
+        }
+        .navigationTitle(store.t("plan"))
+        .toolbar {
+            Button { addGoal = true } label: { Image(systemName: "plus") }
+                .accessibilityLabel(store.t("goal.new")).accessibilityIdentifier("plan.add")
+        }
+        .sheet(isPresented: $addGoal) { GoalEditor() }
+    }
+    private var orderedDomains: [LifeDomainRecord] { store.data.domains.sorted { $0.rank < $1.rank } }
+    @ViewBuilder private var shortcuts: some View {
+        NavigationLink(destination: GoalListScreen()) { Label(store.t("goals"), systemImage: "target") }
+        NavigationLink(destination: TaskListScreen()) { Label(store.t("tasks.habits"), systemImage: "repeat") }
+        NavigationLink(destination: SpiritualScreen()) { Label(store.t("spiritual"), systemImage: "sparkles") }.accessibilityIdentifier("plan.spiritual")
+        NavigationLink(destination: JournalScreen()) { Label(store.t("reviews"), systemImage: "text.book.closed") }
+    }
+}
+private struct DomainNavigationRow: View {
+    @Environment(AppStore.self) private var store
+    let domain: LifeDomainRecord
+    private var count: Int { store.data.goals.filter { $0.domainIDs.contains(domain.id) && !$0.archived }.count }
+    var body: some View {
+        NavigationLink(destination: DomainScreen(domainID: domain.id)) {
+            HStack(spacing: 14) {
+                Image(systemName: LifeArea(rawValue: domain.key)?.symbol ?? "leaf")
+                    .font(.title3).foregroundStyle(Color.mihenGreen).frame(width: 30)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(store.title(domain.id)).font(.headline)
+                    Text("\(count) " + store.t("goals")).font(.caption).foregroundStyle(.secondary)
+                }
+                if !domain.enabled { Image(systemName: "pause.circle").accessibilityLabel(store.t("inactive")) }
+            }.padding(.vertical, 5)
+        }
     }
 }
 struct DomainScreen: View {
