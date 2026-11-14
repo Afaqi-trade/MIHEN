@@ -15,3 +15,21 @@ Takvim'de gün, hafta veya ay seç; etkinlik ekle ve ilgili günün görevlerini
 Profil → JSON yedeğini dışa aktar ile düzenli yedek al. Geri yükleme mevcut verinin tamamını değiştirir; önizlemeyi okuyup onayla. Plan CSV ise hedef ve görev ekler; bir satır bile hatalıysa hiçbir satır alınmaz. Excel'den UTF-8 CSV kaydet; XLSX dosyası desteklenmez. Dışa aktarılan dosyalar şifrelenmez.
 
 Bildirim izni yalnızca etkinleştirdiğinde istenir. Face ID/cihaz parolası kilidi isteğe bağlıdır. iCloud senkronizasyonu yoktur. Widget için yayın sahibinin App Group yapılandırmasını tamamlaması gerekir.
+
+## Yeni planlama ve kayıt ekranları
+
+Plan ekranının altındaki kısayollardan Haftalık planlama, Rutinler, Beslenme ve hareket ve Kaza namazı takibine ulaşılır.
+
+Hedef detayında “Hedefi günlere böl”: başlangıç/bitiş ve haftanın günlerini seçin, günlük öneriyi inceleyin, onaylayın. Mevcut aktif bağlı görev varsa ikinci plan açılmaz. Aynı ölçü birimi korunur.
+
+Rutinler: var olan görevleri seçip bir grup oluşturun. Günün gerçekleşmesi varsa aynı gerçek kaydı tamamlayabilirsiniz; grubun silinmesi görevleri silmez.
+
+İlerleme → Dönem raporları: seçilen tarihin hafta, ay veya yılı; 10 yıl seçeneğinde seçilen yılın sonuna kadar son 10 takvim yılı raporlanır. Boş geçmiş üretilmez. Hedef satırları güncel durumu gösterir.
+
+Beslenme ve hareket: tarihi, alınan/egzersizde harcanan enerjiyi veya suyu seçin. Enerji kcal, su ml birimiyle kaydedilir. Apple Sağlık ekranı izin verildiğinde seçilen günün adım ve aktif enerjisini ayrı gösterir; elle girilen kaloriye eklemez. Veri gelmemesi izin reddi ile veri yokluğunu ayırt etmeyebilir.
+
+Kaza namazı: önce ilgili vakit için takip edilecek miktarı ekleyin, ardından kılınan miktarı kaydedin. Uygulama size kendiliğinden borç hesaplamaz. Vitir ayrı ve isteğe bağlıdır.
+
+Profil → Kişisel hatırlatmalar: su, hareket ve değerlendirme için saat ekleyin; genel bildirim iznini Profil'den etkinleştirin. Sessiz saatler geçerlidir. İşletim sisteminin bildirim sunum tercihleri uygulamanın üstündedir.
+
+İçe aktarmadan önce son mevcut belge cihazda bir kurtarma dosyasına alınır. Profil'deki kurtarma önizlemesiyle inceleyip geri yükleyebilirsiniz. Bu, dışa aktarılan kişisel yedeğinizin yerine geçmez. Tüm verileri silme işlemi kurtarma dosyasını da kaldırır.

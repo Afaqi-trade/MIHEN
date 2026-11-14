@@ -65,3 +65,9 @@ Ezber review düğmesinin aynı List satırındaki edit düğmesini de tetikleme
 12 özgün native PNG, `docs/screenshots/` altında; kaynak run/commit ve byte SHA256 bilgileri `provenance.json` içinde. Test özeti ve toolchain bilgisi `docs/evidence/43619860236/` altında ayrıca korunur. Sonraki yalnızca belge/görsel commit'i test edilen uygulama kaynağını değiştirmez.
 
 Son görsel incelemede 2/6 kaydı, gün ekseni, TR sayı/tarih biçimi, İngilizce açık/koyu tema, sayaç etiketi ve review sonrası edit sheet açılmayan ezber listesi kontrol edildi. Son pakette 46/46 test geçti, 0 skip var; 12 native PNG hash'leri kaynak artifact ile byte düzeyinde aynı.
+
+## Devam eden genişletme doğrulaması
+
+`3675a26` için başlatılan `43639196427` ve `87a21c6` için `43639560615` daha yeni koşularla değiştirildi; iptal edildiler ve başarı sayılmazlar. `56f9671` kaynak koşusu `43639647216` takip ediliyor. Bundan sonraki `b80d645` ayrıca test edilmelidir.
+
+Yerel çekirdek: yeni tekrar eden etkinlik ve beslenme/kaza yedek testleri dahil 37 senaryo, 100 assertion, 0 hata. JSON saniye hassasiyetine uygun sabit test tarihi kullanıldı. Yeni recovery testi iOS XCTest içinde; yerel CLT koşusu bunu kapsamaz. Yeni rapor UI testi de yalnızca uzak simülatörde doğrulanabilir.
