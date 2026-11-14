@@ -39,6 +39,19 @@ final class MIHENUITests: XCTestCase {
         tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
         tap(app.descendants(matching: .any)["spiritual." + module].firstMatch, in: app)
     }
+    @MainActor func testNutritionPersistsManualCalories() throws {
+        let app = start(persistent: true)
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.buttons["Beslenme ve hareket"], in: app)
+        replace(app.textFields["amount"], with: "450")
+        tap(app.buttons["Kaydet"], in: app)
+        XCTAssertTrue(app.staticTexts["Alınan enerji: 450 kcal"].exists)
+        capture(app, name: "MIHEN-Nutrition-TR")
+        app.terminate(); app.launch()
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.buttons["Beslenme ve hareket"], in: app)
+        XCTAssertTrue(app.staticTexts["Alınan enerji: 450 kcal"].exists)
+    }
     @MainActor func testReportsNavigation() throws {
         let app = start()
         app.tabBars.buttons["İlerleme"].tap()
