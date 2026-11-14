@@ -19,6 +19,8 @@ struct PlanView: View {
     }
     private var orderedDomains: [LifeDomainRecord] { store.data.domains.sorted { $0.rank < $1.rank } }
     @ViewBuilder private var shortcuts: some View {
+        NavigationLink(destination: QadaScreen()) { Label(store.t("qada"), systemImage: "moon.stars") }
+        NavigationLink(destination: NutritionScreen()) { Label(store.t("nutrition"), systemImage: "fork.knife") }
         NavigationLink(destination: WeeklyPlanScreen()) { Label(store.t("weekly.plan"), systemImage: "calendar") }
         NavigationLink(destination: RoutinesScreen()) { Label(store.t("routines"), systemImage: "list.bullet") }
         NavigationLink(destination: GoalListScreen()) { Label(store.t("goals"), systemImage: "target") }

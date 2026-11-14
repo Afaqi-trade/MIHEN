@@ -1,6 +1,22 @@
 from pathlib import Path
 import json,re
-rows='''goal.split|Hedefi günlere böl|Split goal into days
+rows='''qada|Kaza namazı takibi|Missed prayer tracking
+qada.explanation|Kalan sayılar kendi eklediğiniz kayıtlardan hesaplanır. Vakit başına başlangıç miktarını kendiniz belirleyin. Vitir isteğe bağlı ayrı takip edilir.|Remaining counts are based on your entries. Enter your own initial amount per prayer. Witr is tracked separately if desired.
+activity.qadaDebt|Takip edilecek miktar ekle|Add amount to track
+activity.qadaDone|Kılınan miktar kaydet|Record completed amount
+prayer.fajr|Sabah|Fajr
+prayer.dhuhr|Öğle|Dhuhr
+prayer.asr|İkindi|Asr
+prayer.maghrib|Akşam|Maghrib
+prayer.isha|Yatsı|Isha
+prayer.witr|Vitir|Witr
+nutrition|Beslenme ve hareket|Nutrition and activity
+nutrition.summary|Günlük kayıt özeti|Daily recorded summary
+nutrition.explanation|Değerler elle kaydedilir. Egzersiz kalorisi toplam günlük enerji harcaması değildir; bu kayıtlar kalori açığı veya tıbbi öneri hesaplamaz.|Values are entered manually. Exercise calories are not total daily energy expenditure; these records do not calculate a calorie deficit or medical advice.
+activity.food|Alınan enerji|Energy intake
+activity.energyBurned|Egzersizde harcanan enerji|Exercise energy expenditure
+activity.water|Su tüketimi|Water intake
+goal.split|Hedefi günlere böl|Split goal into days
 goal.split.explanation|Kalan miktar seçilen günlere eşit dağıtılır (en çok 366 gün). Aynı birim korunur. Etkin bağlı görev varsa önce mevcut planı düzenleyin.|The remaining quantity is distributed equally over selected days (up to 366 days). Units are preserved. Edit existing active linked tasks before creating another plan.
 goal.split.apply|Günlük görevleri oluştur|Create daily tasks
 goal.split.confirm|Gösterilen dağılımla yeni görevler oluşturulsun mu?|Create new tasks using this distribution?

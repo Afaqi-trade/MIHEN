@@ -116,7 +116,7 @@ public enum BackupCodec {
         for row in data.notificationPreferences { try check((0...23).contains(row.hour) && (0...59).contains(row.minute)) }
         for row in data.activities {
             try check(domainIDs.contains(row.domainID) && row.amount.isFinite && row.amount >= 0 && row.amount <= 1e12)
-            try check(["exercise", "sleep", "income", "expense", "budget", "obligation", "giving", "volunteering", "learning", "other"].contains(row.kind))
+            try check(["qadaDebt", "qadaDone", "food", "energyBurned", "water", "exercise", "sleep", "income", "expense", "budget", "obligation", "giving", "volunteering", "learning", "other"].contains(row.kind))
         }
         try validateUnique(data)
     }
