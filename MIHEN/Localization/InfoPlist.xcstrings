@@ -16,6 +16,22 @@
           }
         }
       }
+    },
+    "NSHealthShareUsageDescription": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçtiğiniz günün adım ve aktif enerji toplamlarını MİHEN içinde göstermek için izin istenir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow MIHEN to display steps and active energy totals for your selected day."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

@@ -12,6 +12,7 @@ struct NutritionScreen: View {
     private func total(_ kind: String) -> Double { rows.filter { $0.kind == kind }.reduce(0) { $0 + $1.amount } }
     var body: some View {
         Form {
+            NavigationLink(destination: HealthSummaryScreen()) { Text(store.t("health.connection")) }
             DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
             Section(store.t("nutrition.summary")) {
                 Text(store.t("activity.food") + ": " + total("food").formatted(.number.locale(store.locale)) + " kcal")

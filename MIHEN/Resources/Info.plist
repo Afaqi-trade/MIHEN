@@ -42,6 +42,8 @@
 	<string>$(MIHEN_APP_GROUP)</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>MİHEN kişisel kayıtlarınıza erişimi kimlik doğrulamasıyla korur.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Seçtiğiniz günün adım ve aktif enerji toplamlarını MİHEN içinde göstermek için izin istenir.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

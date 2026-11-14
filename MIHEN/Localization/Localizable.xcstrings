@@ -1,6 +1,86 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "health.connection": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Sağlık"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Health"
+          }
+        }
+      }
+    },
+    "health.read": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin ver ve seçili günü oku"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authorize and read selected day"
+          }
+        }
+      }
+    },
+    "health.steps": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steps"
+          }
+        }
+      }
+    },
+    "health.energy": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktif enerji"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active energy"
+          }
+        }
+      }
+    },
+    "health.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca seçili günün adım ve aktif enerji toplamları okunur. Sağlık'a veri yazılmaz. Boş sonuç veri yok veya okuma izni yok anlamına gelebilir. Elle girilen egzersiz kayıtlarına eklenmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only steps and active energy totals for the selected day are read. No data is written to Health. An empty result may mean no data or no read permission. Totals are not added to manual exercise entries."
+          }
+        }
+      }
+    },
     "report.goals.current": {
       "localizations": {
         "tr": {

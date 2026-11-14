@@ -1,6 +1,11 @@
 from pathlib import Path
 import json,re
-rows='''report.goals.current|Dönemle ilişkili hedefler (güncel durum)|Goals associated with this period (current status)
+rows='''health.connection|Apple Sağlık|Apple Health
+health.read|İzin ver ve seçili günü oku|Authorize and read selected day
+health.steps|Adım|Steps
+health.energy|Aktif enerji|Active energy
+health.explanation|Yalnızca seçili günün adım ve aktif enerji toplamları okunur. Sağlık'a veri yazılmaz. Boş sonuç veri yok veya okuma izni yok anlamına gelebilir. Elle girilen egzersiz kayıtlarına eklenmez.|Only steps and active energy totals for the selected day are read. No data is written to Health. An empty result may mean no data or no read permission. Totals are not added to manual exercise entries.
+report.goals.current|Dönemle ilişkili hedefler (güncel durum)|Goals associated with this period (current status)
 calendar.apple.export|Apple Takvim'de kopyasını oluştur|Create a copy in Apple Calendar
 calendar.apple.explanation|Bu etkinliğin tek bir kopyası Apple düzenleyicisinde açılır. Kaydetme kararını orada verirsiniz. Tekrar kuralları aktarılmaz; iki kopya otomatik eşitlenmez.|A single copy opens in Apple's editor for you to save. Recurrence rules are not transferred; the copies do not synchronize automatically.
 custom.reminders|Kişisel hatırlatmalar|Personal reminders
@@ -328,3 +333,7 @@ for p in Path('MIHEN').rglob('*.swift'):
         if key not in strings:missing.add(key)
 if missing:raise SystemExit('Missing keys: '+str(sorted(missing)))
 print(f'{len(strings)} bilingual keys; all literal UI keys covered')
+info_path = Path('MIHEN/Localization/InfoPlist.xcstrings')
+info = json.loads(info_path.read_text())
+info['strings']['NSHealthShareUsageDescription'] = {'localizations': {lang: {'stringUnit': {'state': 'translated', 'value': value}} for lang, value in [('tr', 'Seçtiğiniz günün adım ve aktif enerji toplamlarını MİHEN içinde göstermek için izin istenir.'), ('en', 'Allow MIHEN to display steps and active energy totals for your selected day.')]}}
+info_path.write_text(json.dumps(info, ensure_ascii=False, indent=2) + '\n')
