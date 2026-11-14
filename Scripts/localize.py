@@ -1,6 +1,9 @@
 from pathlib import Path
 import json,re
-rows='''custom.reminders|Kişisel hatırlatmalar|Personal reminders
+rows='''report.goals.current|Dönemle ilişkili hedefler (güncel durum)|Goals associated with this period (current status)
+calendar.apple.export|Apple Takvim'de kopyasını oluştur|Create a copy in Apple Calendar
+calendar.apple.explanation|Bu etkinliğin tek bir kopyası Apple düzenleyicisinde açılır. Kaydetme kararını orada verirsiniz. Tekrar kuralları aktarılmaz; iki kopya otomatik eşitlenmez.|A single copy opens in Apple's editor for you to save. Recurrence rules are not transferred; the copies do not synchronize automatically.
+custom.reminders|Kişisel hatırlatmalar|Personal reminders
 custom.reminders.explanation|İstediğiniz saatlere hatırlatma ekleyin. Profilde bildirimleri etkinleştirin. Sessiz saatler ve sistem izinleri geçerlidir; yakın 7 gün için en fazla 60 bildirim planlanır.|Add reminders at your preferred times. Enable notifications in Profile. Quiet hours and system permissions apply; up to 60 notifications are scheduled for the next 7 days.
 reminder.water|Su içmeyi hatırla|Remember to drink water
 reminder.movement|Hareket molası|Movement break

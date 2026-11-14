@@ -34,6 +34,19 @@ public enum BackupCodec {
             try check(Set(items.map(\.id)).count == items.count, "validation.duplicates")
             try check(items.allSatisfy { !$0.id.isEmpty && $0.id.count <= 150 })
         }
+        for row in data.activities {
+            if ["qadaDebt", "qadaDone"].contains(row.kind) {
+                try check(row.domainID == "spiritual" && ["fajr", "dhuhr", "asr", "maghrib", "isha", "witr"].contains(row.unit) && row.amount.rounded() == row.amount)
+            }
+            if ["food", "energyBurned", "water"].contains(row.kind) {
+                try check(row.domainID == "health" && row.unit == (row.kind == "water" ? "ml" : "kcal"))
+            }
+        }
+        for prayer in ["fajr", "dhuhr", "asr", "maghrib", "isha", "witr"] {
+            let debt = data.activities.filter { $0.kind == "qadaDebt" && $0.unit == prayer }.reduce(0) { $0 + $1.amount }
+            let done = data.activities.filter { $0.kind == "qadaDone" && $0.unit == prayer }.reduce(0) { $0 + $1.amount }
+            try check(done <= debt)
+        }
         try validateUnique(data)
         try check(data.version == 1, "validation.version")
         try check(data.preferences.count == 1)
@@ -117,6 +130,19 @@ public enum BackupCodec {
         for row in data.activities {
             try check(domainIDs.contains(row.domainID) && row.amount.isFinite && row.amount >= 0 && row.amount <= 1e12)
             try check(["qadaDebt", "qadaDone", "food", "energyBurned", "water", "exercise", "sleep", "income", "expense", "budget", "obligation", "giving", "volunteering", "learning", "other"].contains(row.kind))
+        }
+        for row in data.activities {
+            if ["qadaDebt", "qadaDone"].contains(row.kind) {
+                try check(row.domainID == "spiritual" && ["fajr", "dhuhr", "asr", "maghrib", "isha", "witr"].contains(row.unit) && row.amount.rounded() == row.amount)
+            }
+            if ["food", "energyBurned", "water"].contains(row.kind) {
+                try check(row.domainID == "health" && row.unit == (row.kind == "water" ? "ml" : "kcal"))
+            }
+        }
+        for prayer in ["fajr", "dhuhr", "asr", "maghrib", "isha", "witr"] {
+            let debt = data.activities.filter { $0.kind == "qadaDebt" && $0.unit == prayer }.reduce(0) { $0 + $1.amount }
+            let done = data.activities.filter { $0.kind == "qadaDone" && $0.unit == prayer }.reduce(0) { $0 + $1.amount }
+            try check(done <= debt)
         }
         try validateUnique(data)
     }

@@ -63,6 +63,7 @@ struct EventEditor: View {
     @Environment(\.dismiss) private var dismiss
     @State private var draft: CalendarEventRecord
     @State private var deleting = false
+    @State private var appleCalendar = false
     init(event: CalendarEventRecord? = nil, date: Date = Date()) {
         _draft = State(initialValue: event ?? .init(date: date, end: date))
     }
@@ -73,6 +74,8 @@ struct EventEditor: View {
                 DatePicker(store.t("start.date"), selection: $draft.date)
                 DatePicker(store.t("end.date"), selection: $draft.end)
                 Picker(store.t("recurrence"), selection: $draft.recurrence) { ForEach(Recurrence.allCases, id: \.rawValue) { Text(store.t($0.rawValue)).tag($0.rawValue) } }
+                Button(store.t("calendar.apple.export")) { appleCalendar = true }.disabled(draft.title.isEmpty || draft.end < draft.date)
+                Text(store.t("calendar.apple.explanation")).font(.footnote)
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
                 if store.data.events.contains(where: { $0.id == draft.id }) { Button(store.t("delete"), role: .destructive) { deleting = true } }
             }.keyboardDone().navigationTitle(store.t("event.new"))
@@ -82,6 +85,7 @@ struct EventEditor: View {
                         if store.change({ data in if let i = data.events.firstIndex(where: { $0.id == draft.id }) { data.events[i] = draft } else { data.events.append(draft) } }) { dismiss() }
                     }.disabled(draft.title.isEmpty || draft.end < draft.date) }
                 }
+                .sheet(isPresented: $appleCalendar) { AppleCalendarEditor(record: draft) }
                 .confirmationDialog(store.t("delete.confirm"), isPresented: $deleting) { Button(store.t("delete"), role: .destructive) { if store.change({ $0.events.removeAll { $0.id == draft.id } }) { dismiss() } } }
         }
     }

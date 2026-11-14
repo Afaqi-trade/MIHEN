@@ -32,6 +32,7 @@ struct ReportsScreen: View {
                     Text("\(completed) / \(planned.count) " + store.t("tasks.completed"))
                     Text(store.t("report.partial") + ": \(planned.filter { $0.status == "partial" }.count)")
                     if let first = records.map(\.day).min() { Text(store.t("report.first") + ": " + first) }
+                    Text(store.t("report.goals.current")).font(.caption)
                     ForEach(store.data.goals.filter { $0.domainIDs.contains(domain.id) && $0.start < interval.end && $0.end >= interval.start }) { goal in
                         GoalLink(goal: goal)
                     }

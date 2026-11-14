@@ -2,6 +2,21 @@ import XCTest
 @testable import MIHENCore
 
 final class BackupTests: XCTestCase {
+    func testNutritionAndQadaRoundTripAndInvalidUnits() throws {
+        var data = BackupDocument.fresh()
+        data.activities.append(.init(domainID: "health", kind: "food", amount: 450, unit: "kcal"))
+        data.activities.append(.init(domainID: "spiritual", kind: "qadaDebt", amount: 10, unit: "fajr"))
+        data.activities.append(.init(domainID: "spiritual", kind: "qadaDone", amount: 2, unit: "fajr"))
+        for index in data.activities.indices { data.activities[index].date = Date(timeIntervalSince1970: 1_700_000_000) }
+        let restored = try BackupCodec.decode(BackupCodec.encode(data))
+        XCTAssertEqual(restored.activities, data.activities)
+        data.activities[0].unit = "ml"
+        XCTAssertThrowsError(try BackupCodec.validate(data))
+        data.activities[0].unit = "kcal"
+        data.activities[2].amount = 11
+        XCTAssertThrowsError(try BackupCodec.validate(data))
+    }
+
     func testJSONRoundTripAndDiskPersistence() throws {
         var document = BackupDocument.fresh()
         document.exportedAt = Date(timeIntervalSince1970: 1000)

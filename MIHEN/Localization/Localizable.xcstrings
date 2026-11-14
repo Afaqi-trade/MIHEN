@@ -1,6 +1,54 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "report.goals.current": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönemle ilişkili hedefler (güncel durum)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goals associated with this period (current status)"
+          }
+        }
+      }
+    },
+    "calendar.apple.export": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Takvim'de kopyasını oluştur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a copy in Apple Calendar"
+          }
+        }
+      }
+    },
+    "calendar.apple.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu etkinliğin tek bir kopyası Apple düzenleyicisinde açılır. Kaydetme kararını orada verirsiniz. Tekrar kuralları aktarılmaz; iki kopya otomatik eşitlenmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A single copy opens in Apple's editor for you to save. Recurrence rules are not transferred; the copies do not synchronize automatically."
+          }
+        }
+      }
+    },
     "custom.reminders": {
       "localizations": {
         "tr": {

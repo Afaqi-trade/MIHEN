@@ -3,6 +3,18 @@ import SwiftData
 @testable import MIHEN
 
 @MainActor final class PersistenceTests: XCTestCase {
+    func testRecoveryBackupPreservesValidSnapshotOnInvalidReplacement() throws {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathComponent("recovery.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        var document = BackupDocument.fresh()
+        document.journals.append(.init(text: "Aktarma öncesi"))
+        try RecoveryBackup.preserve(document, at: url)
+        var invalid = document
+        invalid.domains.removeAll()
+        XCTAssertThrowsError(try RecoveryBackup.preserve(invalid, at: url))
+        XCTAssertEqual(try RecoveryBackup.load(from: url).journals.first?.text, "Aktarma öncesi")
+    }
+
     func testSaveReopenPartialProgressAndTurkishText() throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
