@@ -118,7 +118,7 @@ struct MemorizationScreen: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Button { editing = item } label: { Text(item.title).font(.headline) }
                     Text("\(item.learnedVerses) / \(item.lastVerse - item.firstVerse + 1) " + store.t("verses"))
-                    if let next = store.engine.nextReview(item, reviews: store.data.memorizationReviews) { Text(store.t("review.next") + ": " + next.formatted(date: .abbreviated, time: .omitted)) }
+                    if let next = store.engine.nextReview(item, reviews: store.data.memorizationReviews) { Text(store.t("review.next") + ": " + next.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted, locale: store.locale, calendar: store.engine.calendar, timeZone: store.engine.timeZone))) }
                     else { Text(store.t("review.none")) }
                     Button(store.t("review.record")) { store.change { $0.memorizationReviews.append(.init(itemID: item.id, difficulty: item.difficulty)) } }
                     if let last = store.data.memorizationReviews.filter({ $0.itemID == item.id }).max(by: { $0.date < $1.date }) { Text(last.date, format: .dateTime.day().month().year()).font(.caption) }
