@@ -55,7 +55,7 @@ struct TodayView: View {
     private var summaryCard: some View {
         let summary = store.engine.summary(store.data, on: today)
         return VStack(alignment: .leading, spacing: 16) {
-            Text(store.t("daily.progress")).font(.headline)
+            Text(store.t("completion.rate")).font(.headline)
             Text(summary.ratio.map { $0.formatted(.percent.precision(.fractionLength(0)).locale(store.locale)) } ?? "—").font(.system(.largeTitle, design: .rounded, weight: .bold)).accessibilityIdentifier("today.progress")
             Text("\(summary.completed) / \(summary.planned) " + store.t("tasks.completed"))
             ProgressView(value: summary.ratio ?? 0).tint(.white)

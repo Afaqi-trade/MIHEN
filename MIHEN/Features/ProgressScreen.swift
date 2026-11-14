@@ -105,7 +105,7 @@ struct JournalEditor: View {
                     Section(store.t("review.summary")) {
                         let component: Calendar.Component = draft.kind == "weekly" ? .weekOfYear : .month
                         let interval = store.engine.calendar.dateInterval(of: component, for: draft.date)!
-                        let rows = store.data.occurrences.filter { $0.day >= store.engine.key(interval.start) && $0.day < store.engine.key(interval.end) && !["skipped", "cancelled", "moved"].contains($0.status) }
+                        let rows = store.data.occurrences.filter { (draft.domainID == nil || $0.domainID == draft.domainID) && $0.day >= store.engine.key(interval.start) && $0.day < store.engine.key(interval.end) && !["skipped", "cancelled", "moved"].contains($0.status) }
                         Text("\(rows.filter { $0.status == "completed" }.count) / \(rows.count) " + store.t("tasks.completed"))
                         Text(store.t("review.prompts")).font(.subheadline)
                     }
