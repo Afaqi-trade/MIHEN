@@ -137,7 +137,7 @@ struct OccurrenceDetail: View {
                         }
                     }.disabled(!["planned", "partial"].contains(row.status))
                 }
-            }.navigationTitle(store.t("task.detail"))
+            }.keyboardDone().navigationTitle(store.t("task.detail"))
                 .toolbar { Button(store.t("close")) { dismiss() } }
                 .onAppear { value = store.data.occurrences.first { $0.id == id }?.value ?? 0 }
                 .confirmationDialog(store.t("redistribute.confirm"), isPresented: $confirmDistribution) {

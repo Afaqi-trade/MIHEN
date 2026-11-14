@@ -26,6 +26,9 @@ jobs:
         run: python3 Scripts/verify-project.py
       - name: Build app and widget, run unit and UI tests
         run: Scripts/validate-ios.sh 2>&1 | tee .build-results/ios.log
+      - name: Export actual results and screenshots
+        if: always()
+        run: python3 Scripts/export-test-results.py
       - name: Preserve real simulator results
         if: always()
         uses: actions/upload-artifact@v4

@@ -80,7 +80,7 @@ struct DomainScreen: View {
                 ForEach(store.data.journals.filter { $0.domainID == domainID }) { row in Text(row.text) }
                 NavigationLink(destination: JournalScreen(domainID: domainID)) { Text(store.t("notes.reviews")) }
             }
-        }.navigationTitle(store.title(domainID)).navigationBarTitleDisplayMode(.inline)
+        }.keyboardDone().navigationTitle(store.title(domainID)).navigationBarTitleDisplayMode(.inline)
             .onAppear { vision = store.data.domains.first { $0.id == domainID }?.vision ?? "" }
             .sheet(isPresented: $goalEditor) { GoalEditor(domainID: domainID) }
     }
@@ -103,7 +103,7 @@ struct GoalListScreen: View {
             }
             Toggle(store.t("archived.show"), isOn: $showArchived)
             ForEach(store.data.goals.filter { (showArchived || !$0.archived) && (priority == -1 || $0.priority == priority) && (horizon == "all" || $0.horizon == horizon) && (search.isEmpty || $0.title.localizedCaseInsensitiveContains(search)) }.sorted { $0.priority == $1.priority ? $0.end < $1.end : $0.priority > $1.priority }) { GoalLink(goal: $0) }
-        }.navigationTitle(store.t("goals")).searchable(text: $search, prompt: Text(store.t("search")))
+        }.keyboardDone().navigationTitle(store.t("goals")).searchable(text: $search, prompt: Text(store.t("search")))
             .toolbar { Button { editor = true } label: { Image(systemName: "plus") } }
             .sheet(isPresented: $editor) { GoalEditor() }
     }
@@ -169,7 +169,7 @@ struct GoalDetail: View {
                 .sheet(isPresented: $edit) { GoalEditor(goal: goal) }
                 .sheet(isPresented: $addTask) { TaskEditor(goalID: goalID, domainID: goal.domainIDs.first) }
             }
-        }.navigationTitle(store.t("goal.detail"))
+        }.keyboardDone().navigationTitle(store.t("goal.detail"))
             .confirmationDialog(store.t("delete.confirm"), isPresented: $delete) {
                 Button(store.t("delete"), role: .destructive) { if store.change({ $0.deleteGoal(goalID) }) { dismiss() } }
             }
@@ -185,7 +185,7 @@ struct GoalEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title).accessibilityIdentifier("goal.title")
+                TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("goal.title")
                 Section(store.t("eight.areas")) {
                     ForEach(store.data.domains) { area in
                         Toggle(store.title(area.id), isOn: Binding(get: { draft.domainIDs.contains(area.id) }, set: { if $0 { if !draft.domainIDs.contains(area.id) { draft.domainIDs.append(area.id) } } else { draft.domainIDs.removeAll { $0 == area.id } } }))
@@ -204,7 +204,7 @@ struct GoalEditor: View {
                 DatePicker(store.t("end.date"), selection: $draft.end, displayedComponents: .date)
                 Picker(store.t("priority"), selection: $draft.priority) { ForEach(0..<3) { Text(store.t("priority.\($0)")).tag($0) } }
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
-            }.navigationTitle(store.t("goal.edit"))
+            }.keyboardDone().navigationTitle(store.t("goal.edit"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) {
@@ -232,7 +232,7 @@ struct TaskListScreen: View {
                     }
                 }.swipeActions { Button(store.t("archive")) { store.change { $0.archiveTask(task.id) } } }
             }
-        }.navigationTitle(store.t("tasks.habits"))
+        }.keyboardDone().navigationTitle(store.t("tasks.habits"))
             .toolbar { Button { editor = true } label: { Image(systemName: "plus") } }
             .sheet(isPresented: $editor) { TaskEditor() }
             .sheet(item: $editing) { TaskEditor(task: $0) }
@@ -250,7 +250,7 @@ struct TaskEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title).accessibilityIdentifier("task.title")
+                TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("task.title")
                 Picker(store.t("area"), selection: $draft.domainID) { ForEach(store.data.domains) { Text(store.title($0.id)).tag($0.id) } }
                 Picker(store.t("linked.goal"), selection: $draft.goalID) {
                     Text(store.t("none")).tag(String?.none)
@@ -271,7 +271,7 @@ struct TaskEditor: View {
                 Picker(store.t("priority"), selection: $draft.priority) { ForEach(0..<3) { Text(store.t("priority.\($0)")).tag($0) } }
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
                 Text(store.t("task.edit.explanation")).font(.footnote)
-            }.navigationTitle(store.t("task.edit"))
+            }.keyboardDone().navigationTitle(store.t("task.edit"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {

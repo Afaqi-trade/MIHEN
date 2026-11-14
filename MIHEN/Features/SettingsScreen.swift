@@ -85,7 +85,7 @@ struct SettingsScreen: View {
                 Text("MİHEN 1.0.0 (1)").font(.caption)
                 Text(store.t("cloud.unavailable")).font(.caption)
             }
-        }.navigationTitle(store.t("profile"))
+        }.keyboardDone().navigationTitle(store.t("profile"))
             .fileExporter(isPresented: $exporting, document: exportDocument, contentType: exportType, defaultFilename: "MIHEN-\(store.engine.key(Date()))") { result in
                 if case .failure(let error) = result { store.errorMessage = error.localizedDescription }
             }
@@ -109,7 +109,7 @@ struct SettingsScreen: View {
                                 store.locked = store.preferences.lockEnabled
                             }
                         }.disabled(!preview.errors.isEmpty)
-                    }.navigationTitle(store.t("import.preview"))
+                    }.keyboardDone().navigationTitle(store.t("import.preview"))
                         .toolbar { Button(store.t("cancel")) { pendingImport = nil } }
                 }
             }
@@ -181,6 +181,6 @@ struct SettingsScreen: View {
 struct PolicyScreen: View {
     @Environment(AppStore.self) private var store
     var body: some View {
-        ScrollView { Text(store.t("privacy.body")).padding().frame(maxWidth: .infinity, alignment: .leading) }.navigationTitle(store.t("privacy.policy"))
+        ScrollView { Text(store.t("privacy.body")).padding().frame(maxWidth: .infinity, alignment: .leading) }.keyboardDone().navigationTitle(store.t("privacy.policy"))
     }
 }

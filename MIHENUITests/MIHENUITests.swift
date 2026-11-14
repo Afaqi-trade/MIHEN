@@ -11,10 +11,12 @@ final class MIHENUITests: XCTestCase {
         return app
     }
     @MainActor private func replace(_ field: XCUIElement, with text: String) {
-        XCTAssertTrue(field.waitForExistence(timeout: 5))
-        field.tap()
+        let app = XCUIApplication()
+        tap(field, in: app)
         let value = field.value as? String ?? ""
         field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count) + text)
+        let done = app.buttons["keyboard.done"].firstMatch
+        if done.waitForExistence(timeout: 2) && done.isHittable { done.tap() }
     }
     @MainActor private func capture(_ app: XCUIApplication, name: String) {
         let attachment = XCTAttachment(screenshot: app.screenshot())

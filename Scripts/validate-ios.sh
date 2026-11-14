@@ -16,5 +16,3 @@ PY
 xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .build-results/DerivedData CODE_SIGNING_ALLOWED=NO build
 MIHEN_RESULT_PATH=".build-results/MIHEN-$(date +%Y%m%d-%H%M%S).xcresult"
 xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Debug -destination "platform=iOS Simulator,id=${MIHEN_SIMULATOR_ID}" -derivedDataPath .build-results/DerivedData -resultBundlePath "$MIHEN_RESULT_PATH" CODE_SIGNING_ALLOWED=NO test
-xcrun xcresulttool get test-results summary --path "$MIHEN_RESULT_PATH" > .build-results/test-summary.json
-xcrun xcresulttool export attachments --path "$MIHEN_RESULT_PATH" --output-path .build-results/attachments

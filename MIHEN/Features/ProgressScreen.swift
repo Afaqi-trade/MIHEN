@@ -78,7 +78,7 @@ struct JournalScreen: View {
                     }
                 }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.journals.removeAll { $0.id == row.id } } } }
             }
-        }.navigationTitle(store.t("notes.reviews"))
+        }.keyboardDone().navigationTitle(store.t("notes.reviews"))
             .toolbar { Button { add = true } label: { Image(systemName: "plus") } }
             .sheet(isPresented: $add) { JournalEditor(kind: kind, domainID: domainID) }
             .sheet(item: $edit) { JournalEditor(entry: $0) }
@@ -107,7 +107,7 @@ struct JournalEditor: View {
                     ForEach(store.data.domains) { Text(store.title($0.id)).tag(Optional($0.id)) }
                 }
                 TextEditor(text: $draft.text).frame(minHeight: 250).accessibilityLabel(store.t("notes"))
-            }.navigationTitle(store.t(draft.kind))
+            }.keyboardDone().navigationTitle(store.t(draft.kind))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {

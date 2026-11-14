@@ -53,3 +53,20 @@ struct UnitPicker: View {
         }
     }
 }
+
+private struct KeyboardAccessory: ViewModifier {
+    @Environment(AppStore.self) private var store
+    func body(content: Content) -> some View {
+        content.toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button(store.t("keyboard.done")) {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }.accessibilityIdentifier("keyboard.done")
+            }
+        }.scrollDismissesKeyboard(.interactively)
+    }
+}
+extension View {
+    func keyboardDone() -> some View { modifier(KeyboardAccessory()) }
+}

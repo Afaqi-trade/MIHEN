@@ -69,13 +69,13 @@ struct EventEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title)
+                TextField(store.t("title"), text: $draft.title).autocorrectionDisabled()
                 DatePicker(store.t("start.date"), selection: $draft.date)
                 DatePicker(store.t("end.date"), selection: $draft.end)
                 Picker(store.t("recurrence"), selection: $draft.recurrence) { ForEach(Recurrence.allCases, id: \.rawValue) { Text(store.t($0.rawValue)).tag($0.rawValue) } }
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
                 if store.data.events.contains(where: { $0.id == draft.id }) { Button(store.t("delete"), role: .destructive) { deleting = true } }
-            }.navigationTitle(store.t("event.new"))
+            }.keyboardDone().navigationTitle(store.t("event.new"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {

@@ -15,7 +15,7 @@ struct SpiritualScreen: View {
             Section(store.t("templates")) {
                 NavigationLink(destination: SpiritualTemplatesScreen()) { Text(store.t("templates.choose")) }
             }
-        }.navigationTitle(store.t("spiritual"))
+        }.keyboardDone().navigationTitle(store.t("spiritual"))
     }
 }
 struct KhatmScreen: View {
@@ -37,7 +37,7 @@ struct KhatmScreen: View {
                 }.swipeActions { Button(store.t("edit")) { edit = khatm } }
             }
             Section { Text(store.t("khatm.explanation")).font(.footnote) }
-        }.navigationTitle(store.t("quran.khatm"))
+        }.keyboardDone().navigationTitle(store.t("quran.khatm"))
             .toolbar { Button { add = true } label: { Image(systemName: "plus") }.accessibilityIdentifier("khatm.add") }
             .sheet(isPresented: $add) { KhatmEditor() }
             .sheet(item: $edit) { KhatmEditor(khatm: $0) }
@@ -52,14 +52,14 @@ struct KhatmEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title).accessibilityIdentifier("khatm.title")
+                TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("khatm.title")
                 Picker(store.t("type"), selection: $draft.kind) { ForEach(["reading", "translation", "tafsir"], id: \.self) { Text(store.t($0)).tag($0) } }
                 TextField(store.t("pages.total"), value: $draft.totalPages, format: .number).keyboardType(.numberPad)
                 DatePicker(store.t("start.date"), selection: $draft.start, displayedComponents: .date)
                 DatePicker(store.t("end.date"), selection: $draft.end, displayedComponents: .date)
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
                 if store.data.khatms.contains(where: { $0.id == draft.id }) { Button(store.t("delete"), role: .destructive) { deleting = true } }
-            }.navigationTitle(store.t("quran.khatm"))
+            }.keyboardDone().navigationTitle(store.t("quran.khatm"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {
@@ -76,6 +76,7 @@ struct KhatmDetail: View {
     @Environment(AppStore.self) private var store
     let khatmID: String
     @State private var pages = 1
+    @FocusState private var readingFocused: Bool
     var body: some View {
         Form {
             if let khatm = store.data.khatms.first(where: { $0.id == khatmID }) {
@@ -88,8 +89,8 @@ struct KhatmDetail: View {
                     if let completed = khatm.completedAt { Text(completed, format: .dateTime.day().month().year()) }
                 }
                 Section(store.t("reading.add")) {
-                    TextField(store.t("pages"), value: $pages, format: .number).keyboardType(.numberPad).accessibilityIdentifier("khatm.pages")
-                    Button(store.t("save")) { store.addReading(khatmID: khatmID, pages: pages) }.disabled(pages <= 0 || total + pages > khatm.totalPages).accessibilityIdentifier("khatm.reading.save")
+                    TextField(store.t("pages"), value: $pages, format: .number).keyboardType(.numberPad).accessibilityIdentifier("khatm.pages").focused($readingFocused)
+                    Button(store.t("save")) { store.addReading(khatmID: khatmID, pages: pages); readingFocused = false }.disabled(pages <= 0 || total + pages > khatm.totalPages).accessibilityIdentifier("khatm.reading.save")
                 }
                 Section(store.t("history")) {
                     ForEach(store.data.readings.filter { $0.khatmID == khatmID }.sorted { $0.date > $1.date }) { row in
@@ -103,7 +104,7 @@ struct KhatmDetail: View {
                     }
                 }
             }
-        }.navigationTitle(store.t("quran.khatm"))
+        }.keyboardDone().navigationTitle(store.t("quran.khatm"))
     }
 }
 struct MemorizationScreen: View {
@@ -123,7 +124,7 @@ struct MemorizationScreen: View {
                     if let last = store.data.memorizationReviews.filter({ $0.itemID == item.id }).max(by: { $0.date < $1.date }) { Text(last.date, format: .dateTime.day().month().year()).font(.caption) }
                 }.padding(.vertical, 6)
             }
-        }.navigationTitle(store.t("memorization"))
+        }.keyboardDone().navigationTitle(store.t("memorization"))
             .toolbar { Button { add = true } label: { Image(systemName: "plus") }.accessibilityIdentifier("memorization.add") }
             .sheet(isPresented: $add) { MemorizationEditor() }
             .sheet(item: $editing) { MemorizationEditor(item: $0) }
@@ -142,7 +143,7 @@ struct MemorizationEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title).accessibilityIdentifier("memorization.title")
+                TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("memorization.title")
                 TextField(store.t("verse.first"), value: $draft.firstVerse, format: .number).keyboardType(.numberPad)
                 TextField(store.t("verse.last"), value: $draft.lastVerse, format: .number).keyboardType(.numberPad).accessibilityIdentifier("memorization.last")
                 TextField(store.t("verses.learned"), value: $draft.learnedVerses, format: .number).keyboardType(.numberPad).accessibilityIdentifier("memorization.learned")
@@ -150,7 +151,7 @@ struct MemorizationEditor: View {
                 TextField(store.t("review.intervals"), text: $intervals)
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
                 if store.data.memorization.contains(where: { $0.id == draft.id }) { Button(store.t("delete"), role: .destructive) { deleting = true } }
-            }.navigationTitle(store.t("memorization"))
+            }.keyboardDone().navigationTitle(store.t("memorization"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {
@@ -172,7 +173,7 @@ struct DhikrScreen: View {
     var body: some View {
         List {
             Section(store.t("counter.new")) {
-                TextField(store.t("title"), text: $title).accessibilityIdentifier("tracker.title")
+                TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
                 TextField(store.t("target"), value: $target, format: .number).keyboardType(.numberPad).accessibilityIdentifier("counter.target")
                 Button(store.t("add")) { if store.change({ $0.dhikr.append(.init(title: title, day: store.engine.key(Date()), target: target)) }) { title = "" } }.disabled(title.isEmpty || target <= 0)
             }
@@ -191,7 +192,7 @@ struct DhikrScreen: View {
             Section(store.t("history")) {
                 ForEach(store.data.dhikr.filter { $0.day != store.engine.key(Date()) }.sorted { $0.day > $1.day }) { row in Text("\(row.day) · \(row.title) · \(row.value)/\(row.target)") }
             }
-        }.navigationTitle(store.t("dhikr"))
+        }.keyboardDone().navigationTitle(store.t("dhikr"))
     }
     private func change(_ id: String, delta: Int) {
         store.change { data in if let i = data.dhikr.firstIndex(where: { $0.id == id }) { data.dhikr[i].value = max(0, min(1_000_000, data.dhikr[i].value + delta)) } }
@@ -205,7 +206,7 @@ struct FastingScreen: View {
         List {
             Section {
                 Text(store.t("fasting.calendarNote")).font(.footnote)
-                TextField(store.t("title"), text: $title).accessibilityIdentifier("tracker.title")
+                TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
                 Button(store.t("add")) { if store.change({ $0.fasts.append(.init(date: date, title: title)) }) { title = "" } }.disabled(title.isEmpty)
             }
@@ -222,7 +223,7 @@ struct FastingScreen: View {
                     }.accessibilityIdentifier("fast.status.\(fast.id)")
                 }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.fasts.removeAll { $0.id == fast.id } } } }
             }
-        }.navigationTitle(store.t("fasting"))
+        }.keyboardDone().navigationTitle(store.t("fasting"))
     }
 }
 struct SpiritualTemplatesScreen: View {
@@ -270,6 +271,6 @@ struct SpiritualTemplatesScreen: View {
                     }
                 }
             }
-        }.navigationTitle(store.t("templates"))
+        }.keyboardDone().navigationTitle(store.t("templates"))
     }
 }

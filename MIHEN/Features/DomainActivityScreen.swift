@@ -32,7 +32,7 @@ struct DomainActivityScreen: View {
                     }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.activities.removeAll { $0.id == row.id } } } }
                 }
             }
-        }.navigationTitle(store.t("activity.log"))
+        }.keyboardDone().navigationTitle(store.t("activity.log"))
     }
 }
 struct ProjectsScreen: View {
@@ -44,7 +44,7 @@ struct ProjectsScreen: View {
     var body: some View {
         List {
             Section(store.t("project.new")) {
-                TextField(store.t("title"), text: $title)
+                TextField(store.t("title"), text: $title).autocorrectionDisabled()
                 TextField(store.t("notes"), text: $notes, axis: .vertical)
                 Picker(store.t("linked.goal"), selection: $goalID) {
                     Text(store.t("none")).tag(String?.none)
@@ -59,6 +59,6 @@ struct ProjectsScreen: View {
                     Toggle(store.t("archived"), isOn: Binding(get: { project.archived }, set: { value in store.change { data in if let i = data.projects.firstIndex(where: { $0.id == project.id }) { data.projects[i].archived = value } } }))
                 }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.projects.removeAll { $0.id == project.id } } } }
             }
-        }.navigationTitle(store.t("projects"))
+        }.keyboardDone().navigationTitle(store.t("projects"))
     }
 }

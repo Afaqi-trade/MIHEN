@@ -51,6 +51,10 @@ import SwiftData
     let container: ModelContainer
     let context: ModelContext
     init(inMemory: Bool = false, storeURL: URL? = nil) throws {
+        if !inMemory {
+            let directory = storeURL?.deletingLastPathComponent() ?? URL.applicationSupportDirectory
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        }
         let schema = Schema(versionedSchema: MihenSchema.self)
         let config: ModelConfiguration
         if let storeURL { config = ModelConfiguration(schema: schema, url: storeURL, cloudKitDatabase: .none) }

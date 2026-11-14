@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "keyboard.done": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitti"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
     "redistribute.end": {
       "localizations": {
         "tr": {

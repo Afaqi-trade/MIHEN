@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
-rows='''redistribute.end|Dağıtım bitiş tarihi|Distribution end date
+rows='''keyboard.done|Bitti|Done
+redistribute.end|Dağıtım bitiş tarihi|Distribution end date
 redistribute.preview|Yeniden dağıtım önerisini göster|Preview redistribution
 redistribute.confirm|Bu dağıtım uygulansın mı? Geçmiş kayıt korunacak.|Apply this distribution? The original record will be preserved.
 redistribute|Yeniden dağıt|Redistribute
