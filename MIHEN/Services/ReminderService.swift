@@ -34,10 +34,10 @@ import UserNotifications
                 guard occurrence == nil || ["planned", "partial"].contains(occurrence!.status) else { continue }
                 if fire > now { requests.append(("task-\(task.id)-\(engine.key(day))", p.lockEnabled ? title("reminder.task") : Localization.recordTitle(task.title, language: p.language), fire)) }
             }
-            for pref in document.notificationPreferences where pref.enabled && ["evening", "weekly"].contains(pref.kind) {
+            for pref in document.notificationPreferences where pref.enabled && ["evening", "weekly", "water", "movement", "review"].contains(pref.kind) {
                 if pref.kind == "weekly" && engine.calendar.component(.weekday, from: day) != 1 { continue }
                 let date = engine.calendar.date(bySettingHour: pref.hour, minute: pref.minute, second: 0, of: day)!
-                if date > now { requests.append(("\(pref.id)-\(engine.key(day))", title("reminder.review"), date)) }
+                if date > now { requests.append(("\(pref.id)-\(engine.key(day))", title(["water", "movement"].contains(pref.kind) ? "reminder." + pref.kind : "reminder.review"), date)) }
             }
         }
         for goal in document.goals where !goal.archived && goal.end > now {

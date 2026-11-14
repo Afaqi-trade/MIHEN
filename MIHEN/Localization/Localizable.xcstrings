@@ -1,6 +1,70 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "custom.reminders": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişisel hatırlatmalar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal reminders"
+          }
+        }
+      }
+    },
+    "custom.reminders.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstediğiniz saatlere hatırlatma ekleyin. Profilde bildirimleri etkinleştirin. Sessiz saatler ve sistem izinleri geçerlidir; yakın 7 gün için en fazla 60 bildirim planlanır."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add reminders at your preferred times. Enable notifications in Profile. Quiet hours and system permissions apply; up to 60 notifications are scheduled for the next 7 days."
+          }
+        }
+      }
+    },
+    "reminder.water": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Su içmeyi hatırla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remember to drink water"
+          }
+        }
+      }
+    },
+    "reminder.movement": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket molası"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Movement break"
+          }
+        }
+      }
+    },
     "qada": {
       "localizations": {
         "tr": {

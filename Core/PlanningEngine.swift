@@ -259,3 +259,16 @@ public extension BackupDocument {
         engine.materialize(&self, from: date, through: date)
     }
 }
+
+extension PlanningEngine {
+    public func upcomingEvents(_ events: [CalendarEventRecord], after now: Date, horizonDays: Int = 366) -> [(event: CalendarEventRecord, next: Date)] {
+        events.compactMap { event in
+            let task = PlannedTaskRecord(title: event.title, start: event.date, recurrence: event.recurrence)
+            let time = calendar.dateComponents([.hour, .minute], from: event.date)
+            for day in days(from: now, through: addingDays(min(366, max(0, horizonDays)), to: now)) where isDue(task, on: day) {
+                if let next = calendar.date(bySettingHour: time.hour ?? 0, minute: time.minute ?? 0, second: 0, of: day), next >= now { return (event, next) }
+            }
+            return nil
+        }.sorted { $0.next < $1.next }
+    }
+}

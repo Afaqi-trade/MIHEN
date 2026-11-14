@@ -22,11 +22,11 @@ struct TodayView: View {
                 ForEach(store.occurrences(on: today)) { OccurrenceRow(occurrence: $0) }
                 NavigationLink(destination: SpiritualScreen()) { Label(store.t("spiritual"), systemImage: "sparkles").mihenCard() }
                 Button { noteEditor = true } label: { Label(store.t("quick.note"), systemImage: "square.and.pencil").mihenCard() }
-                let events = store.data.events.filter { $0.date >= today }.sorted { $0.date < $1.date }
+                let events = store.engine.upcomingEvents(store.data.events, after: today)
                 if !events.isEmpty {
                     Text(store.t("upcoming")).font(.title2.bold())
-                    ForEach(Array(events.prefix(3))) { event in
-                        VStack(alignment: .leading) { Text(event.title); Text(event.date, format: .dateTime.day().month().hour().minute()).font(.caption).foregroundStyle(.secondary) }.mihenCard()
+                    ForEach(Array(events.prefix(3)), id: \.event.id) { item in
+                        VStack(alignment: .leading) { Text(item.event.title); Text(item.next, format: .dateTime.day().month().hour().minute()).font(.caption).foregroundStyle(.secondary) }.mihenCard()
                     }
                 }
                 NavigationLink(destination: JournalScreen()) { Text(store.t("reviews")) }

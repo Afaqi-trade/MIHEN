@@ -126,6 +126,17 @@ import XCTest
 @testable import MIHEN
 
 final class PlanningTests: XCTestCase {
+    func testUpcomingRecurringEventUsesNextOccurrence() throws {
+        let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+        let start = engine.date("2026-11-01")!
+        let today = engine.date("2026-11-14")!
+        let event = CalendarEventRecord(title: "Weekly", date: start, end: start, recurrence: "weekly")
+        let result = engine.upcomingEvents([event], after: today)
+        XCTAssertEqual(result.count, 1)
+        XCTAssertEqual(engine.key(result[0].next), "2026-11-15")
+        XCTAssertTrue(engine.upcomingEvents([CalendarEventRecord(title: "Past", date: start, end: start)], after: today).isEmpty)
+    }
+
     let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
     func date(_ value: String) -> Date { engine.date(value)! }
     func task(_ start: String, _ recurrence: String = "daily", target: Double = 6) -> PlannedTaskRecord {

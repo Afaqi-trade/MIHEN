@@ -30,6 +30,7 @@ struct SettingsScreen: View {
     var body: some View {
         Form {
             Section(store.t("profile")) {
+                NavigationLink(destination: CustomRemindersScreen()) { Text(store.t("custom.reminders")) }
                 TextField(store.t("name"), text: preference(\.name))
                 Picker(store.t("language"), selection: preference(\.language)) { Text("Türkçe").tag("tr"); Text("English").tag("en") }.accessibilityIdentifier("settings.language")
                 Picker(store.t("theme"), selection: preference(\.theme)) { ForEach(["system", "light", "dark"], id: \.self) { Text(store.t($0)).tag($0) } }.accessibilityIdentifier("settings.theme")

@@ -1,6 +1,10 @@
 from pathlib import Path
 import json,re
-rows='''qada|Kaza namazı takibi|Missed prayer tracking
+rows='''custom.reminders|Kişisel hatırlatmalar|Personal reminders
+custom.reminders.explanation|İstediğiniz saatlere hatırlatma ekleyin. Profilde bildirimleri etkinleştirin. Sessiz saatler ve sistem izinleri geçerlidir; yakın 7 gün için en fazla 60 bildirim planlanır.|Add reminders at your preferred times. Enable notifications in Profile. Quiet hours and system permissions apply; up to 60 notifications are scheduled for the next 7 days.
+reminder.water|Su içmeyi hatırla|Remember to drink water
+reminder.movement|Hareket molası|Movement break
+qada|Kaza namazı takibi|Missed prayer tracking
 qada.explanation|Kalan sayılar kendi eklediğiniz kayıtlardan hesaplanır. Vakit başına başlangıç miktarını kendiniz belirleyin. Vitir isteğe bağlı ayrı takip edilir.|Remaining counts are based on your entries. Enter your own initial amount per prayer. Witr is tracked separately if desired.
 activity.qadaDebt|Takip edilecek miktar ekle|Add amount to track
 activity.qadaDone|Kılınan miktar kaydet|Record completed amount
