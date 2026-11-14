@@ -70,3 +70,19 @@ private struct KeyboardAccessory: ViewModifier {
 extension View {
     func keyboardDone() -> some View { modifier(KeyboardAccessory()) }
 }
+
+struct IntegerInput: View {
+    @Environment(AppStore.self) private var store
+    let title: String
+    @Binding var value: Int
+    var fieldID: String? = nil
+    var body: some View {
+        HStack {
+            Text(store.t(title))
+            Spacer()
+            TextField(store.t(title), value: $value, format: .number.locale(store.locale))
+                .keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                .accessibilityIdentifier(fieldID ?? title)
+        }
+    }
+}
