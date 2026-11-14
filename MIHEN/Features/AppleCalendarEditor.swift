@@ -23,6 +23,6 @@ struct AppleCalendarEditor: UIViewControllerRepresentable {
     @MainActor final class Coordinator: NSObject, EKEventEditViewDelegate {
         let finish: () -> Void
         init(finish: @escaping () -> Void) { self.finish = finish }
-        func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) { finish() }
+        nonisolated func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) { Task { @MainActor in self.finish() } }
     }
 }
