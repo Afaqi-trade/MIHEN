@@ -48,7 +48,7 @@ extension BackupCodec {
         for record in data.journals { rows.append(["JournalEntry", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.activities { rows.append(["DomainActivity", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.notificationPreferences { rows.append(["NotificationPreference", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
-        return CSV.encode(rows)
+        return CSV.encode(rows.map { [$0[0], CSV.safeCell($0[1]), $0[2]] })
     }
     public static func importCSV(_ text: String) throws -> BackupDocument {
         let rows = try CSV.parse(text)
@@ -60,87 +60,87 @@ extension BackupCodec {
             switch row[0] {
             case "UserPreferences":
                 let value = try decoder().decode(UserPreferencesRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.preferences.append(value)
             case "LifeDomain":
                 let value = try decoder().decode(LifeDomainRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.domains.append(value)
             case "Subcategory":
                 let value = try decoder().decode(SubcategoryRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.subcategories.append(value)
             case "Goal":
                 let value = try decoder().decode(GoalRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.goals.append(value)
             case "GoalMilestone":
                 let value = try decoder().decode(GoalMilestoneRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.milestones.append(value)
             case "GoalProgressEntry":
                 let value = try decoder().decode(GoalProgressEntryRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.goalProgress.append(value)
             case "PlannedTask":
                 let value = try decoder().decode(PlannedTaskRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.tasks.append(value)
             case "TaskOccurrence":
                 let value = try decoder().decode(TaskOccurrenceRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.occurrences.append(value)
             case "Routine":
                 let value = try decoder().decode(RoutineRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.routines.append(value)
             case "RoutineItem":
                 let value = try decoder().decode(RoutineItemRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.routineItems.append(value)
             case "Project":
                 let value = try decoder().decode(ProjectRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.projects.append(value)
             case "QuranKhatm":
                 let value = try decoder().decode(QuranKhatmRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.khatms.append(value)
             case "QuranReadingLog":
                 let value = try decoder().decode(QuranReadingLogRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.readings.append(value)
             case "MemorizationItem":
                 let value = try decoder().decode(MemorizationItemRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.memorization.append(value)
             case "MemorizationReview":
                 let value = try decoder().decode(MemorizationReviewRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.memorizationReviews.append(value)
             case "DhikrCounter":
                 let value = try decoder().decode(DhikrCounterRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.dhikr.append(value)
             case "FastingPlan":
                 let value = try decoder().decode(FastingPlanRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.fasts.append(value)
             case "CalendarEvent":
                 let value = try decoder().decode(CalendarEventRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.events.append(value)
             case "JournalEntry":
                 let value = try decoder().decode(JournalEntryRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.journals.append(value)
             case "DomainActivity":
                 let value = try decoder().decode(DomainActivityRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.activities.append(value)
             case "NotificationPreference":
                 let value = try decoder().decode(NotificationPreferenceRecord.self, from: bytes)
-                guard value.id == row[1] else { throw PlanError.invalid("validation.data") }
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.notificationPreferences.append(value)
             default: throw PlanError.invalid("validation.csvEntity")
             }

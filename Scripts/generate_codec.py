@@ -6,7 +6,7 @@ for n in S:
 s+='    }\n    public static func exportCSV(_ data: BackupDocument) throws -> String {\n        try validate(data)\n        var rows = [["entity", "id", "payload"]]\n'
 for n in S:
     s+=f'        for record in data.{arrays[n]} {{ rows.append(["{n}", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }}\n'
-s+='''        return CSV.encode(rows)
+s+='''        return CSV.encode(rows.map { [$0[0], CSV.safeCell($0[1]), $0[2]] })
     }
     public static func importCSV(_ text: String) throws -> BackupDocument {
         let rows = try CSV.parse(text)
@@ -18,7 +18,7 @@ s+='''        return CSV.encode(rows)
             switch row[0] {
 '''
 for n in S:
-    s+=f'            case "{n}":\n                let value = try decoder().decode({n}Record.self, from: bytes)\n                guard value.id == row[1] else {{ throw PlanError.invalid("validation.data") }}\n                document.{arrays[n]}.append(value)\n'
+    s+=f'            case "{n}":\n                let value = try decoder().decode({n}Record.self, from: bytes)\n                guard value.id == CSV.restoredCell(row[1]) else {{ throw PlanError.invalid("validation.data") }}\n                document.{arrays[n]}.append(value)\n'
 s+='''            default: throw PlanError.invalid("validation.csvEntity")
             }
         }

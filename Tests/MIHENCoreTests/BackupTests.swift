@@ -101,4 +101,22 @@ final class BackupTests: XCTestCase {
         XCTAssertThrowsError(try BackupCodec.validate(data))
     }
 
+    func testSpreadsheetCellsDoNotExecuteUserTextAndRemainReversible() throws {
+        let engine = PlanningEngine(timeZone: TimeZone(secondsFromGMT: 0)!)
+        var data = BackupDocument.fresh()
+        data.tasks = [.init(id: "=id", title: "'=original", domainID: "learning", start: engine.date("2024-01-01")!, end: engine.date("2024-12-31")!, unit: "=unit")]
+        let csv = PlanCSV.export(data, engine: engine)
+        let rows = try CSV.parse(csv)
+        XCTAssertEqual(rows[1][1], "'=id")
+        XCTAssertEqual(rows[1][2], "''=original")
+        XCTAssertEqual(rows[1][5], "'=unit")
+        let preview = try PlanCSV.preview(csv, into: .fresh(), engine: engine)
+        XCTAssertTrue(preview.canImport)
+        XCTAssertEqual(preview.tasks.first?.id, "=id")
+        XCTAssertEqual(preview.tasks.first?.title, "'=original")
+        XCTAssertEqual(preview.tasks.first?.unit, "=unit")
+        let backup = try BackupCodec.importCSV(BackupCodec.exportCSV(data))
+        XCTAssertEqual(backup.tasks.first?.id, "=id")
+    }
+
 }

@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   test:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
@@ -36,6 +36,7 @@ jobs:
             .build-results/*.xcresult
             .build-results/*.log
             .build-results/*.txt
-            .build-results/devices.json
+            .build-results/*.json
+            .build-results/attachments/
           retention-days: 7
           if-no-files-found: ignore

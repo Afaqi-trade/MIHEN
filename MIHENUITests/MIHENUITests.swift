@@ -1,45 +1,141 @@
 import XCTest
 
 final class MIHENUITests: XCTestCase {
-    @MainActor func testOnboardingGoalTaskCompletionAndScreenshot() throws {
+    @MainActor private func start(persistent: Bool = false) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--ui-test-store", UUID().uuidString]
+        app.launchArguments = persistent ? ["--ui-testing", "--ui-test-store", UUID().uuidString] : ["--ui-testing"]
         app.launch()
         let skip = app.buttons["onboarding.skip"]
         XCTAssertTrue(skip.waitForExistence(timeout: 10))
         skip.tap()
-        app.tabBars.buttons["Plan"].tap()
-        app.buttons["plan.add"].tap()
-        let goalTitle = app.textFields["goal.title"]
-        XCTAssertTrue(goalTitle.waitForExistence(timeout: 5))
-        goalTitle.tap(); goalTitle.typeText("Kitap hedefi")
-        app.buttons["goal.save"].tap()
-        app.tabBars.buttons["Bugün"].tap()
-        app.buttons["today.add"].tap()
-        let taskTitle = app.textFields["task.title"]
-        XCTAssertTrue(taskTitle.waitForExistence(timeout: 5))
-        taskTitle.tap(); taskTitle.typeText("Gunluk okuma")
-        app.buttons["task.save"].tap()
-        let complete = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "occurrence.complete.")).firstMatch
-        XCTAssertTrue(complete.waitForExistence(timeout: 5))
-        complete.tap()
-        XCTAssertTrue(app.staticTexts["Tamamlandı"].exists)
-        app.terminate()
-        app.launch()
-        XCTAssertTrue(app.staticTexts["Gunluk okuma"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.staticTexts["Tamamlandı"].exists)
+        return app
+    }
+    @MainActor private func replace(_ field: XCUIElement, with text: String) {
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        field.tap()
+        let value = field.value as? String ?? ""
+        field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count) + text)
+    }
+    @MainActor private func capture(_ app: XCUIApplication, name: String) {
         let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = "MIHEN-Today-TR"
+        attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
     }
-    @MainActor func testLanguageAndThemeControlsExist() throws {
-        let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing"]
-        app.launch()
-        app.buttons["onboarding.skip"].tap()
+    @MainActor private func tap(_ element: XCUIElement, in app: XCUIApplication) {
+        for _ in 0..<6 {
+            if element.exists && element.isHittable { break }
+            app.swipeUp()
+        }
+        XCTAssertTrue(element.waitForExistence(timeout: 5))
+        element.tap()
+    }
+    @MainActor private func spiritual(_ module: String, in app: XCUIApplication) {
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
+        tap(app.descendants(matching: .any)["spiritual." + module].firstMatch, in: app)
+    }
+    @MainActor func testOnboardingLinkedGoalPartialCompletionAndPersistence() throws {
+        let app = start(persistent: true)
+        app.tabBars.buttons["Plan"].tap()
+        app.buttons["plan.add"].tap()
+        replace(app.textFields["goal.title"], with: "Kitap hedefi")
+        replace(app.textFields["target"], with: "6")
+        app.buttons["goal.save"].tap()
+        app.tabBars.buttons["Bugün"].tap()
+        app.buttons["today.add"].tap()
+        replace(app.textFields["task.title"], with: "Gunluk okuma")
+        replace(app.textFields["target"], with: "6")
+        app.descendants(matching: .any)["task.goal"].firstMatch.tap()
+        app.buttons["Kitap hedefi"].tap()
+        app.buttons["task.save"].tap()
+        let increase = app.buttons["Bir artır"]
+        XCTAssertTrue(increase.waitForExistence(timeout: 5))
+        increase.tap(); increase.tap()
+        XCTAssertTrue(app.staticTexts["Kısmen tamamlandı"].exists)
+        capture(app, name: "MIHEN-Today-Partial-TR")
+        app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "occurrence.complete.")).firstMatch.tap()
+        XCTAssertTrue(app.staticTexts["Tamamlandı"].exists)
+        app.terminate(); app.launch()
+        XCTAssertTrue(app.staticTexts["Gunluk okuma"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Tamamlandı"].exists)
+        capture(app, name: "MIHEN-Today-TR")
+    }
+    @MainActor func testLanguageAndLightDarkThemes() throws {
+        let app = start()
         app.tabBars.buttons["Profil"].tap()
-        XCTAssertTrue(app.buttons["settings.language"].exists || app.otherElements["settings.language"].exists)
-        XCTAssertTrue(app.buttons["settings.theme"].exists || app.otherElements["settings.theme"].exists)
+        app.descendants(matching: .any)["settings.language"].firstMatch.tap()
+        app.buttons["English"].tap()
+        XCTAssertTrue(app.tabBars.buttons["Profile"].waitForExistence(timeout: 5))
+        app.descendants(matching: .any)["settings.theme"].firstMatch.tap()
+        app.buttons["Dark"].tap()
+        capture(app, name: "MIHEN-Profile-Dark-EN")
+        app.descendants(matching: .any)["settings.theme"].firstMatch.tap()
+        app.buttons["Light"].tap()
+        capture(app, name: "MIHEN-Profile-Light-EN")
+        app.tabBars.buttons["Today"].tap()
+        XCTAssertTrue(app.buttons["today.add"].exists)
+        capture(app, name: "MIHEN-Today-Light-EN")
+    }
+    @MainActor func testKhatmCalendarProgressAndMainTabs() throws {
+        let app = start()
+        app.buttons["today.add"].tap()
+        replace(app.textFields["task.title"], with: "Takvim gorevi")
+        app.buttons["task.save"].tap()
+        app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "occurrence.complete.")).firstMatch.tap()
+        app.tabBars.buttons["Plan"].tap()
+        capture(app, name: "MIHEN-Plan-TR")
+        spiritual("khatm", in: app)
+        app.buttons["khatm.add"].tap()
+        replace(app.textFields["khatm.title"], with: "Test hatim")
+        app.buttons["khatm.save"].tap()
+        app.staticTexts["Test hatim"].tap()
+        replace(app.textFields["khatm.pages"], with: "6")
+        app.buttons["khatm.reading.save"].tap()
+        XCTAssertTrue(app.staticTexts["6 / 604 Sayfa"].exists)
+        capture(app, name: "MIHEN-Khatm-TR")
+        app.tabBars.buttons["Takvim"].tap()
+        XCTAssertTrue(app.staticTexts["Takvim gorevi"].waitForExistence(timeout: 5))
+        capture(app, name: "MIHEN-Calendar-TR")
+        app.tabBars.buttons["İlerleme"].tap()
+        XCTAssertTrue(app.staticTexts["1 / 1 görev tamamlandı"].exists)
+        capture(app, name: "MIHEN-Progress-TR")
+    }
+    @MainActor func testFastingPlannedAndCompletedRemainDistinct() throws {
+        let app = start()
+        spiritual("fasting", in: app)
+        replace(app.textFields["tracker.title"], with: "Kisisel oruc")
+        app.buttons["Ekle"].tap()
+        XCTAssertTrue(app.staticTexts["Planlandı: 1"].exists)
+        XCTAssertTrue(app.staticTexts["Tamamlandı: 0"].exists)
+        app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "fast.status.")).firstMatch.tap()
+        app.buttons["Tamamlandı"].tap()
+        XCTAssertTrue(app.staticTexts["Tamamlandı: 1"].exists)
+        capture(app, name: "MIHEN-Fasting-TR")
+    }
+    @MainActor func testMemorizationAndNextReview() throws {
+        let app = start()
+        spiritual("memorization", in: app)
+        app.buttons["memorization.add"].tap()
+        replace(app.textFields["memorization.title"], with: "Ezber denemesi")
+        replace(app.textFields["memorization.last"], with: "10")
+        replace(app.textFields["memorization.learned"], with: "2")
+        app.buttons["memorization.save"].tap()
+        XCTAssertTrue(app.staticTexts["2 / 10 Ayet"].exists)
+        app.buttons["Tekrar yaptım"].tap()
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Sonraki tekrar:")).firstMatch.exists)
+        capture(app, name: "MIHEN-Memorization-TR")
+    }
+    @MainActor func testDhikrCounterIncreaseDecrease() throws {
+        let app = start()
+        spiritual("dhikr", in: app)
+        replace(app.textFields["tracker.title"], with: "Zikir denemesi")
+        replace(app.textFields["counter.target"], with: "3")
+        app.buttons["Ekle"].tap()
+        app.buttons["Bir artır"].tap(); app.buttons["Bir artır"].tap(); app.buttons["Bir artır"].tap()
+        XCTAssertTrue(app.staticTexts["3 / 3"].exists)
+        app.buttons["Bir azalt"].tap()
+        XCTAssertTrue(app.staticTexts["2 / 3"].exists)
+        capture(app, name: "MIHEN-Dhikr-TR")
     }
 }

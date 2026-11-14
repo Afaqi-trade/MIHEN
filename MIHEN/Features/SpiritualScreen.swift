@@ -5,10 +5,10 @@ struct SpiritualScreen: View {
     var body: some View {
         List {
             Section {
-                NavigationLink(destination: KhatmScreen()) { Label(store.t("quran.khatm"), systemImage: "book") }
-                NavigationLink(destination: MemorizationScreen()) { Label(store.t("memorization"), systemImage: "brain.head.profile") }
-                NavigationLink(destination: DhikrScreen()) { Label(store.t("dhikr"), systemImage: "circle.grid.3x3") }
-                NavigationLink(destination: FastingScreen()) { Label(store.t("fasting"), systemImage: "moon") }
+                NavigationLink(destination: KhatmScreen()) { Label(store.t("quran.khatm"), systemImage: "book") }.accessibilityIdentifier("spiritual.khatm")
+                NavigationLink(destination: MemorizationScreen()) { Label(store.t("memorization"), systemImage: "brain.head.profile") }.accessibilityIdentifier("spiritual.memorization")
+                NavigationLink(destination: DhikrScreen()) { Label(store.t("dhikr"), systemImage: "circle.grid.3x3") }.accessibilityIdentifier("spiritual.dhikr")
+                NavigationLink(destination: FastingScreen()) { Label(store.t("fasting"), systemImage: "moon") }.accessibilityIdentifier("spiritual.fasting")
                 NavigationLink(destination: TaskListScreen()) { Label(store.t("routines"), systemImage: "repeat") }
             }
             Section { Text(store.t("spiritual.explanation")).font(.footnote) }
@@ -124,7 +124,7 @@ struct MemorizationScreen: View {
                 }.padding(.vertical, 6)
             }
         }.navigationTitle(store.t("memorization"))
-            .toolbar { Button { add = true } label: { Image(systemName: "plus") } }
+            .toolbar { Button { add = true } label: { Image(systemName: "plus") }.accessibilityIdentifier("memorization.add") }
             .sheet(isPresented: $add) { MemorizationEditor() }
             .sheet(item: $editing) { MemorizationEditor(item: $0) }
     }
@@ -142,10 +142,10 @@ struct MemorizationEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField(store.t("title"), text: $draft.title)
+                TextField(store.t("title"), text: $draft.title).accessibilityIdentifier("memorization.title")
                 TextField(store.t("verse.first"), value: $draft.firstVerse, format: .number).keyboardType(.numberPad)
-                TextField(store.t("verse.last"), value: $draft.lastVerse, format: .number).keyboardType(.numberPad)
-                TextField(store.t("verses.learned"), value: $draft.learnedVerses, format: .number).keyboardType(.numberPad)
+                TextField(store.t("verse.last"), value: $draft.lastVerse, format: .number).keyboardType(.numberPad).accessibilityIdentifier("memorization.last")
+                TextField(store.t("verses.learned"), value: $draft.learnedVerses, format: .number).keyboardType(.numberPad).accessibilityIdentifier("memorization.learned")
                 Picker(store.t("difficulty"), selection: $draft.difficulty) { ForEach(0..<3) { Text(store.t("difficulty.\($0)")).tag($0) } }
                 TextField(store.t("review.intervals"), text: $intervals)
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
@@ -159,7 +159,7 @@ struct MemorizationEditor: View {
                         guard parsed.count == parts.count else { store.errorMessage = store.t("validation.data"); return }
                         draft.intervals = parsed
                         if store.change({ data in if let i = data.memorization.firstIndex(where: { $0.id == draft.id }) { data.memorization[i] = draft } else { data.memorization.append(draft) } }) { dismiss() }
-                    }.disabled(draft.title.isEmpty) }
+                    }.disabled(draft.title.isEmpty).accessibilityIdentifier("memorization.save") }
                 }
                 .confirmationDialog(store.t("delete.confirm"), isPresented: $deleting) { Button(store.t("delete"), role: .destructive) { if store.change({ data in data.memorization.removeAll { $0.id == draft.id }; data.memorizationReviews.removeAll { $0.itemID == draft.id } }) { dismiss() } } }
         }
@@ -172,8 +172,8 @@ struct DhikrScreen: View {
     var body: some View {
         List {
             Section(store.t("counter.new")) {
-                TextField(store.t("title"), text: $title)
-                TextField(store.t("target"), value: $target, format: .number).keyboardType(.numberPad)
+                TextField(store.t("title"), text: $title).accessibilityIdentifier("tracker.title")
+                TextField(store.t("target"), value: $target, format: .number).keyboardType(.numberPad).accessibilityIdentifier("counter.target")
                 Button(store.t("add")) { if store.change({ $0.dhikr.append(.init(title: title, day: store.engine.key(Date()), target: target)) }) { title = "" } }.disabled(title.isEmpty || target <= 0)
             }
             Section(store.t("today")) {
@@ -205,7 +205,7 @@ struct FastingScreen: View {
         List {
             Section {
                 Text(store.t("fasting.calendarNote")).font(.footnote)
-                TextField(store.t("title"), text: $title)
+                TextField(store.t("title"), text: $title).accessibilityIdentifier("tracker.title")
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
                 Button(store.t("add")) { if store.change({ $0.fasts.append(.init(date: date, title: title)) }) { title = "" } }.disabled(title.isEmpty)
             }
@@ -219,7 +219,7 @@ struct FastingScreen: View {
                     Text(fast.date, format: .dateTime.day().month().year())
                     Picker(store.t("status"), selection: Binding(get: { fast.status }, set: { status in store.change { data in if let i = data.fasts.firstIndex(where: { $0.id == fast.id }) { data.fasts[i].status = status } } })) {
                         ForEach(["planned", "completed", "cancelled", "postponed"], id: \.self) { Text(store.t($0)).tag($0) }
-                    }
+                    }.accessibilityIdentifier("fast.status.\(fast.id)")
                 }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.fasts.removeAll { $0.id == fast.id } } } }
             }
         }.navigationTitle(store.t("fasting"))

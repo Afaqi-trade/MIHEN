@@ -156,8 +156,13 @@ public enum CSV {
         return rows
     }
     /// Prevent spreadsheets from executing formula-like user text in human-readable exports.
+    public static func restoredCell(_ text: String) -> String {
+        guard text.hasPrefix("'") else { return text }
+        let candidate = String(text.dropFirst())
+        return safeCell(candidate) == text ? candidate : text
+    }
     public static func safeCell(_ text: String) -> String {
         guard let first = text.trimmingCharacters(in: .whitespacesAndNewlines).first else { return text }
-        return "=+-@".contains(first) ? "'" + text : text
+        return "=+-@'".contains(first) ? "'" + text : text
     }
 }

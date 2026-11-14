@@ -16,15 +16,15 @@ public enum PlanCSV {
         for (index, row) in rows.dropFirst().enumerated() {
             do {
                 guard row.count == header.count else { throw PlanError.invalid("validation.csv") }
-                let id = row[1].isEmpty ? UUID().uuidString : row[1]
+                let id = row[1].isEmpty ? UUID().uuidString : CSV.restoredCell(row[1])
                 guard ids.insert(id).inserted else { throw PlanError.invalid("validation.duplicates") }
                 let area = LifeArea.allCases.first { $0.rawValue == row[3] || $0.titleTR == row[3] || $0.titleEN == row[3] }
                 guard let area, let domain = current.domains.first(where: { $0.key == area.rawValue }), let target = Double(row[4]), target.isFinite, target > 0, let start = engine.date(row[6]), let end = engine.date(row[7]), end >= start, !row[2].isEmpty else { throw PlanError.invalid("validation.data") }
-                let title = row[2].hasPrefix("'") ? String(row[2].dropFirst()) : row[2]
+                let title = CSV.restoredCell(row[2])
                 if row[0] == "goal" {
-                    result.goals.append(.init(id: id, title: title, domainIDs: [domain.id], start: start, end: end, target: target, unit: row[5]))
+                    result.goals.append(.init(id: id, title: title, domainIDs: [domain.id], start: start, end: end, target: target, unit: CSV.restoredCell(row[5])))
                 } else if row[0] == "task", Recurrence(rawValue: row[8]) != nil {
-                    result.tasks.append(.init(id: id, title: title, domainID: domain.id, start: start, end: end, recurrence: row[8], target: target, unit: row[5]))
+                    result.tasks.append(.init(id: id, title: title, domainID: domain.id, start: start, end: end, recurrence: row[8], target: target, unit: CSV.restoredCell(row[5])))
                 } else { throw PlanError.invalid("validation.csvEntity") }
             } catch { result.errors.append("\(index + 2): \(error.localizedDescription)") }
         }
@@ -33,8 +33,8 @@ public enum PlanCSV {
     public static func export(_ data: BackupDocument, engine: PlanningEngine) -> String {
         func domain(_ id: String) -> String { data.domains.first { $0.id == id }?.key ?? id }
         var rows = [header]
-        rows += data.goals.map { ["goal", $0.id, CSV.safeCell($0.title), domain($0.domainIDs.first ?? ""), String($0.target), $0.unit, engine.key($0.start), engine.key($0.end), "none"] }
-        rows += data.tasks.map { ["task", $0.id, CSV.safeCell($0.title), domain($0.domainID), String($0.target), $0.unit, engine.key($0.start), engine.key($0.end ?? engine.addingDays(365, to: $0.start)), $0.recurrence] }
-        return CSV.encode(rows)
+        rows += data.goals.map { ["goal", $0.id, $0.title, domain($0.domainIDs.first ?? ""), String($0.target), $0.unit, engine.key($0.start), engine.key($0.end), "none"] }
+        rows += data.tasks.map { ["task", $0.id, $0.title, domain($0.domainID), String($0.target), $0.unit, engine.key($0.start), engine.key($0.end ?? engine.addingDays(365, to: $0.start)), $0.recurrence] }
+        return CSV.encode(rows.map { $0.map(CSV.safeCell) })
     }
 }
