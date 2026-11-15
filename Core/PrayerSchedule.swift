@@ -11,6 +11,14 @@ public struct PrayerSettings: Codable, Equatable {
         self.latitude = latitude; self.longitude = longitude; self.timeZoneID = timeZoneID
         self.method = method; self.hanafi = hanafi; self.highLatitude = highLatitude
     }
+    public func displayTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = TimeZone(identifier: timeZoneID)
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
     public func schedule(on date: Date) -> [(key: String, date: Date)] {
         guard latitude.isFinite, longitude.isFinite, abs(latitude) <= 90, abs(longitude) <= 180,
               let zone = TimeZone(identifier: timeZoneID), let method = CalculationMethod(rawValue: method), method != .other,

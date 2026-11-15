@@ -63,6 +63,7 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Widget için kaydedildi"].exists)
         app.swipeUp()
         XCTAssertTrue(app.staticTexts["Güneş"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["06:00"].exists, "Ankara 15 Nov 2026 fajr must display Istanbul time, not UTC")
         capture(app, name: "MIHEN-Prayer-TR")
     }
     @MainActor func testReportsNavigation() throws {

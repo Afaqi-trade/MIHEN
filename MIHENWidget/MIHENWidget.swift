@@ -65,7 +65,7 @@ struct PrayerWidget: Widget {
                     let schedule = settings.schedule(on: entry.date) + settings.schedule(on: tomorrow)
                     if let next = schedule.first(where: { $0.key != "sunrise" && $0.date > entry.date }) {
                         Text(LocalizedStringKey("prayer." + next.key))
-                        Text(next.date, format: Date.FormatStyle(date: .omitted, time: .shortened, timeZone: TimeZone(identifier: settings.timeZoneID) ?? .current)).font(.title.bold())
+                        Text(settings.displayTime(next.date)).font(.title.bold())
                     } else { Text(LocalizedStringKey("prayer.unavailable")) }
                     Text(LocalizedStringKey("method." + settings.method)).font(.caption)
                 } else { Text(LocalizedStringKey("widget.open")) }

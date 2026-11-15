@@ -43,7 +43,7 @@ struct PrayerTimesScreen: View {
                 ForEach(schedule, id: \.key) { item in
                     HStack {
                         Text(store.t("prayer." + item.key)); Spacer()
-                        Text(item.date, format: Date.FormatStyle(date: .omitted, time: .shortened, locale: store.locale, timeZone: TimeZone(identifier: zone) ?? .current))
+                        Text(settings.displayTime(item.date))
                     }
                 }
             }
