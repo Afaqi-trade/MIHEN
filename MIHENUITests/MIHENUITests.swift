@@ -52,6 +52,19 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Beslenme ve hareket"], in: app)
         XCTAssertTrue(app.staticTexts["Alınan enerji: 450 kcal"].exists)
     }
+    @MainActor func testOfflinePrayerTimes() throws {
+        let app = start()
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
+        tap(app.buttons["Namaz vakitleri"], in: app)
+        replace(app.textFields["latitude"], with: "39,939382")
+        replace(app.textFields["longitude"], with: "32,819713")
+        tap(app.buttons["Kaydet"], in: app)
+        XCTAssertTrue(app.staticTexts["Widget için kaydedildi"].exists)
+        app.swipeUp()
+        XCTAssertTrue(app.staticTexts["Güneş"].waitForExistence(timeout: 5))
+        capture(app, name: "MIHEN-Prayer-TR")
+    }
     @MainActor func testReportsNavigation() throws {
         let app = start()
         app.tabBars.buttons["İlerleme"].tap()
