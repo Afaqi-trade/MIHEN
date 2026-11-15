@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "prayer.istanbul": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstanbul konumunu kullan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Istanbul location"
+          }
+        }
+      }
+    },
     "prayer.times": {
       "localizations": {
         "tr": {
@@ -54,13 +70,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Koordinatları ve saat dilimini kendiniz seçin. İlk değerler konumunuz değildir. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir."
+            "value": "Koordinatları ve saat dilimini kendiniz seçin. Başlangıç konumu İstanbul merkezidir; kesin konumunuza göre değiştirebilirsiniz. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose coordinates and timezone. Initial values are not your location. Settings stay on device and in the widget App Group; they are not included in JSON backup."
+            "value": "Choose coordinates and timezone. The initial location is central Istanbul; adjust it for your exact location. Settings stay on device and in the widget App Group; they are not included in JSON backup."
           }
         }
       }

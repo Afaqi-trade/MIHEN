@@ -1,9 +1,10 @@
 from pathlib import Path
 import json,re
-rows='''prayer.times|Namaz vakitleri|Prayer times
+rows='''prayer.istanbul|İstanbul konumunu kullan|Use Istanbul location
+prayer.times|Namaz vakitleri|Prayer times
 prayer.source|Vakitler Adhan açık kaynak astronomik hesaplarıdır. Türkiye seçeneği yaklaşık hesaptır; resmî Diyanet verisi değildir. Yerel takvimle kontrol edin.|Times use Adhan open source astronomical calculations. Turkey is an approximation, not official Diyanet data. Check your local timetable.
 prayer.diyanet|Resmî Diyanet takvimini aç|Open official Diyanet timetable
-prayer.manual.location|Koordinatları ve saat dilimini kendiniz seçin. İlk değerler konumunuz değildir. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir.|Choose coordinates and timezone. Initial values are not your location. Settings stay on device and in the widget App Group; they are not included in JSON backup.
+prayer.manual.location|Koordinatları ve saat dilimini kendiniz seçin. Başlangıç konumu İstanbul merkezidir; kesin konumunuza göre değiştirebilirsiniz. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir.|Choose coordinates and timezone. The initial location is central Istanbul; adjust it for your exact location. Settings stay on device and in the widget App Group; they are not included in JSON backup.
 latitude|Enlem|Latitude
 longitude|Boylam|Longitude
 prayer.method|Hesaplama yöntemi|Calculation method

@@ -3,8 +3,8 @@ import WidgetKit
 
 struct PrayerTimesScreen: View {
     @Environment(AppStore.self) private var store
-    @State private var latitude = 0.0
-    @State private var longitude = 0.0
+    @State private var latitude = 41.0082
+    @State private var longitude = 28.9784
     @State private var zone = "Europe/Istanbul"
     @State private var method = "turkey"
     @State private var hanafi = false
@@ -20,6 +20,7 @@ struct PrayerTimesScreen: View {
                 Text(store.t("prayer.manual.location")).font(.footnote)
             }
             Section(store.t("profile")) {
+                Button(store.t("prayer.istanbul")) { latitude = 41.0082; longitude = 28.9784; zone = "Europe/Istanbul"; method = "turkey"; saved = false }
                 ValueInput(title: "latitude", value: $latitude)
                 ValueInput(title: "longitude", value: $longitude)
                 Picker(store.t("timezone"), selection: $zone) { ForEach(TimeZone.knownTimeZoneIdentifiers, id: \.self) { Text($0).tag($0) } }
