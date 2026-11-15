@@ -2,9 +2,9 @@
 
 **Dengeli • Planlı • Anlamlı Yaşam** — iPhone için yerel yaşam planlama uygulaması.
 
-SwiftUI / SwiftData / Swift Charts; minimum iOS 18, Swift 6. `MIHEN.xcodeproj` uygulama, WidgetKit uzantısı, XCTest ve XCUITest hedeflerini içerir. Harici paket veya sunucu bağımlılığı yoktur.
+SwiftUI / SwiftData / Swift Charts; minimum iOS 18, Swift 6. `MIHEN.xcodeproj` uygulama, WidgetKit ve DeviceActivity monitor uzantıları, XCTest ve XCUITest hedeflerini içerir. Harici paket veya sunucu bağımlılığı yoktur.
 
-**Durum:** Geliştirme sürümü. Xcode 26.6 / iOS 26.5 SDK ile uzak Mac derlemesi geçti. iOS simülatöründe 53/53 test (44 birim/kalıcılık + 9 arayüz) ve macOS üzerinde 38/38 çekirdek XCTest geçti. Sonuçlar `docs/TEST_REPORT.md` içinde. Tamamlanmış, cihazda doğrulanmış veya App Store'a hazır ürün iddiası yoktur.
+**Durum:** Geliştirme sürümü. Xcode 26.6 / iOS 26.5 SDK ile uzak Mac derlemesi geçti. iOS simülatöründe son tam koşuda 64/64 test (54 birim/kalıcılık + 10 arayüz) geçti. Son UTC süre sonu düzeltmesi ayrıca 55 birim/kalıcılık + 1 Ekran Süresi UI testiyle (56/56), çekirdek de 45/45 XCTest ile doğrulandı. Sonuçlar `docs/TEST_REPORT.md` içinde. Tamamlanmış, cihazda doğrulanmış veya App Store'a hazır ürün iddiası yoktur.
 
 ## Çalıştırma
 
@@ -40,3 +40,5 @@ Model üretimi: `python3 Scripts/generate_codec.py`; çeviri: `python3 Scripts/l
 [Ürün kapsamı](docs/PRODUCT_REQUIREMENTS.md), [mimari](docs/ARCHITECTURE.md), [veri şeması](docs/DATA_SCHEMA.md), [kullanım](docs/USER_GUIDE_TR.md), [test raporu](docs/TEST_REPORT.md), [sınırlar](docs/KNOWN_LIMITATIONS.md), [yayın kontrolü](docs/RELEASE_CHECKLIST.md).
 
 15 Kasım genişletmeleri: İstanbul varsayılanlı çevrimdışı namaz hesabı ve ayrı namaz widget, kaza kayıtları, manuel kalori/su/egzersiz, isteğe bağlı Apple Sağlık okuma, Apple Takvim tek kopya aktarımı, dönem raporları, hedef dağılımı, haftalık gündem, rutin grupları ve aktarma öncesi kurtarma yedeği. Ayrıntılı kabul sınırları KNOWN_LIMITATIONS ve INTEGRATION_PLAN_TR içinde. Adhan Swift MIT kaynakları Core/Adhan_* altında sabit sürümle bulunur; lisans/provenance Design/Licenses içinde.
+
+Ekran Süresi: Profil → Uygulama süre sınırı. Seçili uygulama/kategori/web sitelerine ortak günlük bütçe; eşikte sistem kısıtı; Face ID/cihaz parolasıyla 15/30/60 dakika geçici erişim ve bitişte yeniden kısıtlama. Uygulama ve monitor için Family Controls + ortak App Group provisioning gerekir. Gerçek iPhone kabulü ve yayıncı yetkileri henüz tamamlanmadı. [Kullanım ve cihaz kabul adımları](docs/SCREEN_TIME_TR.md).

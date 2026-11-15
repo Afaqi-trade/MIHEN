@@ -29,3 +29,7 @@ Widget üzerinden App Intents ile tamamlama yok. iCloud ve XLSX desteği yok. Di
 - Başarı, görev gerçekleşmesini ölçer; kişinin yaşam kalitesi/manevi değeri için sayısal sonuç üretilmez.
 - Sayısal hedefe otomatik katkı yalnızca aynı birimli bağlı görevlerden gelir. Sayfa ve dakika kitap adedine çevrilmez.
 - Kişisel cihaz sürümü local-first'tür. Hesap, abonelik, reklam, üçüncü taraf analitik ve ağ erişimi eklenmez.
+
+## Ekran Süresi kapsamı — ürün sahibinin 15 Kasım isteği
+
+Profil altında Apple sistem seçicisiyle seçilen uygulama/kategori/web siteleri için tek ortak günlük dakika bütçesi uygulanır. Eşik DeviceActivity uzantısında ManagedSettings shield üretir. Kullanıcı MİHEN'e dönüp cihaz doğrulamasıyla 15/30/60 dakika geçici erişim verebilir; süre sonunda kısıtlama geri gelir. Günlük bütçe bu işlemle sıfırlanmaz. Kısıt veya uygulama kullanımı yaşam alanlarına sahte tamamlanma kaydı eklemez. Bireysel izin kullanıcı tarafından sistemden kaldırılabilir. Ana uygulama/uzantı Family Controls ve App Group yetkileri ile fiziksel cihaz testi ayrı kabul koşuludur. Detay SCREEN_TIME_TR.md içinde.

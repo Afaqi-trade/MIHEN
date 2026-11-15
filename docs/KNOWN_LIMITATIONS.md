@@ -1,9 +1,9 @@
 # Bilinen sınırlar
 
-Tarih: 2026-11-14. Durum: Uzak Xcode 26.6 derlemesi ve 46 iOS testi geçmiş geliştirme sürümü; yayın hazır değildir.
+Tarih: 2026-11-15. Durum: Xcode 26.6 uzak derlemesi; son tam koşu 64/64, son UTC değişikliği için odaklı koşu 56/56. Geliştirme sürümüdür; fiziksel cihaz ve yayın kabul kapıları açıktır.
 
 - Yerel ortam yalnızca Swift 5.10 CLT içeriyor. XCTest ve iOS SDK/simülatör yok. Swift 6 hedef ayarları, SwiftData makroları ve SwiftUI API tip uyumluluğu uzak Xcode 26.6 derlemesinde doğrulandı.
-- Simülatörde 40 birim/kalıcılık ve 6 UI testi geçti. Dil/tema, hatim, ezber, zikir, oruç, hedef bağlantısı/kısmi tamamlama ve yeniden açılınca kalıcılık UI akışlarında doğrulandı. Ekran görüntüleri gerçek test uygulamasından alındı. Fiziksel cihaz/TestFlight ve App Store görsel seti onayı tamamlanmadı.
+- Son tam koşuda 54 birim/kalıcılık ve 10 UI testi; son UTC değişikliği için ayrıca 55 birim/kalıcılık ve 1 odaklı UI testi geçti. Dil/tema, hatim, ezber, zikir, oruç, hedef bağlantısı/kısmi tamamlama ve yeniden açılınca kalıcılık UI akışlarında doğrulandı. Ekran görüntüleri gerçek test uygulamasından alındı. Fiziksel cihaz/TestFlight ve App Store görsel seti onayı tamamlanmadı.
 - Widget salt okunur günlük snapshot kullanır; App Intents ile görev tamamlama henüz uygulanmadı. Gece yarısından sonra ana uygulama açılana kadar eski veriyi güncel başarı gibi göstermez. App Group kimlikleri örnektir; provisioning doğrulaması gerekir.
 - CloudKit/iCloud senkronizasyonu ve XLSX yok. JSON/tam yedek CSV ile geri yükleme ve düzenlenebilir hedef/görev CSV'si kodlandı; cihaz dosya sağlayıcılarıyla test edilmedi. Plan CSV çok alan/üst hedef/proje bağlarını tam taşımaz; JSON kayıpsız ana yedek biçimidir.
 - Orucun ertelendi durumu saklanır; yeni tarih manuel planlanır. Recep/Şaban 15 gün ve Hicri 13–15 hedefleri manuel oluşturulur. Resmî dini gün veri kaynağı bağlanmadı. Hicri takvim Foundation Umm al-Qura algoritmasıdır; yerel takvimden farklı olabilir.

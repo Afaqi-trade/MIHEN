@@ -97,3 +97,19 @@ Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43695353187 . Bu sonuç
 Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43698033651 . Namaz hesaplama, yöntem/ikindi seçimi ve ayrı namaz widget'ı kaynakta ve gerçek iOS derlemesinde mevcut. Widget'ın fiziksel iPhone'da App Group verisini alması, HealthKit gerçek veri/izin ve bildirim teslimatı hâlâ cihaz kabul kapılarıdır. Ekran Süresi kısıtlaması tasarım aşamasındadır.
 
 Sonuç paketi indirildi: `.build-results/remote-43698033651/` altında gerçek xcresult, loglar ve PNG attachment'ları var. JSON: **53 passed, 0 failed, 0 skipped**. Kanıt özeti ve özgün namaz/beslenme PNG'leri `docs/evidence/43698033651/` içinde; kaynak SHA256 ve test kimlikleri provenance.json ile saklanır. Son görsel kontrol İstanbul sabah 06:16, Türkiye saat dilimi ve 450 kcal kaydını doğruladı.
+
+## Ekran Süresi geliştirmesi — 15 Kasım
+
+`43700231433` / `7f785cd`: uygulama, widget ve yeni DeviceActivity monitor uzantısı gerçek Xcode derlemesinden geçti. 60 test geçti, 1 UI testi başarısız: kurulum ekranında ekran dışındaki etkinleştirme düğmesine kaydırmadan erişim. Policy ve gerçek dosya repository testleri geçti. Bu koşu tam başarı sayılmaz.
+
+`b275e67`: gecikmiş geçici erişim callback'i, eşzamanlı uygulama/uzantı yazımları, bozuk dosyayı doğrulamalı sıfırlama ve kaybolmuş sistem monitorü için ek kontroller. `155d461`: kurulum UI testinde etkinleştirme düğmesine kaydırma. Son uzak koşu `43701076134` sürüyor. Yerel strict concurrency Core derlemesi ve 44 senaryo / 132 assertion geçti; platform entegrasyonunun derleme/test sonucu ayrıca doğrulanır.
+
+Test sınırı: politika ve monitor callback adaptörü testleri gerçek OS ekranına shield uygulandığını kanıtlamaz. Uygulamalar arası gerçek kullanım süresi, shield ekranı, bireysel izin ve biyometri, süre sonu callback teslimatı gerçek iPhone'da; Family Controls dağıtım yetkileri de yayıncı hesabında doğrulanmalıdır. SCREEN_TIME_TR.md cihaz kabul listesini içerir. UI testinde yetki/başarılı kısıtlama taklit edilmez.
+
+`43701076134` / `155d461` tam koşusu doğrulandı: gerçek BUILD SUCCEEDED, TEST SUCCEEDED, **64 passed, 0 failed, 0 skipped** (54 birim/kalıcılık + 10 UI). Gerçek xcresult ve attachment'lar indirildi; izin/ortak depolama yokken devre dışı kalan kurulum ekranı görsel olarak incelendi. Kanıtlar `docs/evidence/43701076134/` içinde.
+
+Son `075c2d1` değişikliği geçici aralığın bitişini UTC DateComponents ile kurar; tekrarlanan yerel saat sırasında süre uzayıp/kısalmaz. Yerel sonuç 45 senaryo / 137 assertion / 0 hata. Bu son değişiklik `43702054711` / `0ad6148` odaklı koşusunda tüm uygulama birim/kalıcılık testleri ve Ekran Süresi kurulum UI testiyle doğrulanıyor. `43701994378` daha yeni ve tam UI test kimliği düzeltilmiş koşuyla değiştirildi; başarı kanıtı olarak kullanılmaz. Dar koşu tam UI koşusu olarak sayılmaz.
+
+**Son odaklı doğrulama: 43702054711 / 0ad6148157085a58afd6e65c172a7c9eb3e9b94f.** Xcode 26.6 / build 17F113; uygulama, widget ve monitor uzantısı gerçek derlemeden geçti. `Test scope: screen-time`. **56 passed, 0 failed, 0 skipped:** tüm 55 uygulama birim/kalıcılık testi + 1 gerçek Ekran Süresi UI testi. Tam UI koşusu değildir. SwiftPM çekirdek 45/45; yerel fallback 45 senaryo / 137 assertion geçti. Runtime callback adaptörü, kilitli eşzamanlı disk güncellemeleri, bozuk dosya reseti, reddedilen işlemin commit/etki üretmemesi ve UTC/DST süre sonu testleri geçti. Sonuç JSON, toolchain, native kurulum ekranı ve SHA256/test kaynağı `docs/evidence/43702054711/` içinde. Gerçek xcresult `.build-results/remote-43702054711/` altında. İlk başarısız kurulum testinin kaydırma hatası kapandı.
+
+Koşular: https://github.com/Afaqi-trade/MIHEN/actions/runs/43701076134 (tam), https://github.com/Afaqi-trade/MIHEN/actions/runs/43702054711 (son kaynak, odaklı). Family Controls dağıtım izni, fiziksel uygulama kullanımı/shield, biyometrik onay ve gerçek süre sonu callback kabulü tamamlanmış iddiası yoktur.

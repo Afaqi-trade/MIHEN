@@ -14,3 +14,9 @@ Bu proje henüz App Store'a hazır olarak doğrulanmadı. Apple hesap/sözleşme
 10. Stability/minimum functionality, misleading metadata, privacy ve intellectual property maddelerini son sürüm üzerinde kontrol edin. Telifli meal/tefsir/ses dağıtılmaz. App Review notunu son kapsamla güncelleyin. Ürün sahibinin açık yayın izni olmadan Submit/Release işlemi yapmayın.
 
 Resmî kaynaklar (2026-11-14 kontrolü): [SDK şartı](https://developer.apple.com/news/upcoming-requirements/?id=04282026a), [Xcode uyumluluk](https://developer.apple.com/support/xcode/), [Review Guidelines](https://developer.apple.com/app-store/review/guidelines/), [Privacy manifest](https://developer.apple.com/documentation/bundleresources/adding-a-privacy-manifest-to-your-app-or-third-party-sdk), [Ekran görüntüsü ölçüleri](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/).
+
+## Ekran Süresi capability ve uzantısı
+
+Ana `MIHEN` hedefi ve `MIHENActivityMonitor` hedefi için Family Controls dağıtım yetkisini Apple Developer hesabından talep edin. İki hedefin provisioning profilleri aynı App Group'u ve `com.apple.developer.family-controls` yetkisini içermelidir. Uygulama bundle'ında `MIHENActivityMonitor.appex` gömülü olmalıdır; extension point `com.apple.deviceactivity.monitor-extension`, principal class `$(PRODUCT_MODULE_NAME).UsageMonitor` kullanılır. Kaynakta örnek bundle ve App Group kimlikleri vardır; gerçek yayın kimlikleriyle değiştirin.
+
+Simülatör derlemesi dağıtım yetkisi onayı yerine geçmez. Onaylı fiziksel cihazda günlük eşik, MİHEN kapalıyken kısıtlama, Face ID/parola iptali, 15 dakika geçici açma ve yeniden kısıtlama, yeni gün, saat dilimi, izin iptali ve veri silme senaryolarını SCREEN_TIME_TR.md üzerinden uygulayın. Kısıtlama özelliği isteğe bağlıdır; sosyal medya içeriği veya mesaj okumaz. Bu bireysel izin kullanıcı tarafından Ayarlar'dan kaldırılabilir.

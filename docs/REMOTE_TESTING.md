@@ -32,3 +32,13 @@ Kurulan özel depo: https://github.com/Afaqi-trade/MIHEN . Son doğrulanmış si
 Simülatör: Face ID'nin donanım davranışı, kilit ekranında dosya koruması, bildirim teslimatı, gerçek App Group entitlement ve cihaz dosya sağlayıcısından geri yükleme için cihaz testlerinin yerine geçmez. Bu workflow App Store'a yükleme veya TestFlight dağıtımı yapmaz. Güncel SDK ile archive/signing ve Apple hesabı sonraki yayın kapısıdır.
 
 Kaynaklar: [GitHub hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners), [Manuel workflow çalıştırma](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow), [Apple SDK yükleme şartı](https://developer.apple.com/news/upcoming-requirements/?id=04282026a).
+
+## Ekran Süresi odaklı koşu
+
+Manuel workflow'un `suite` seçeneği varsayılan olarak `full` değerindedir. `screen-time` seçeneği tüm uygulama/uzantıları derler, tüm uygulama birim/kalıcılık testlerini ve `testScreenTimeSetupDoesNotRequestPermissionOnEntry` UI testini çalıştırır. SwiftPM çekirdek testleri her iki seçenekte de çalışır. Dar koşunun sonucu tam UI matrisi olarak sunulmaz.
+
+```sh
+/Users/iz/.local/bin/gh workflow run ios.yml --ref main -f suite=screen-time
+```
+
+Ekran Süresi gerçek uygulama kullanımı/shield ve biyometri doğrulaması için SCREEN_TIME_TR.md fiziksel cihaz kabul listesini kullanın. CI yetki verilmiş veya gerçek başka uygulamalar kısıtlanmış gibi davranan bir sahte başarı ekranı kullanmaz.

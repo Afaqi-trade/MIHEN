@@ -1,0 +1,10 @@
+[
+  {
+    "file": "ScreenTime-Setup-TR.png",
+    "run": "43702054711",
+    "source": "0ad6148157085a58afd6e65c172a7c9eb3e9b94f",
+    "scope": "screen-time",
+    "test": "MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry()",
+    "sha256": "ebe9775c892121e92456836cf03a0f8065be7147ec161164e6f483b57196bb42"
+  }
+]

@@ -13,3 +13,7 @@ Bildirimler her başarılı değişiklikte sıraya alınmış, önceki işlemi i
 Widget App Group içindeki dosyayı yalnızca okur. Ana uygulama SwiftData kaydı sonrası gerçek veriden güncel özet yazar. App Group erişilemiyorsa yerel ana uygulama kullanılmaya devam eder; ayarda durum açıklanır. Kilit aktifse görev adı aktarılmaz, widget sayıları da göstermez. Özet dosyası NSFileProtectionComplete ile yazılır.
 
 Şema `MihenSchema` 1.0.0, migration plan başlangıç sürümüdür. Sonraki sürüm önce mevcut şemayı dondurmalı, yeni VersionedSchema ve migration testlerini eklemelidir; başlangıç planı gelecekteki her göçü otomatik çözmez.
+
+## Ekran Süresi
+
+`Core/UsageLimitPolicy` eşik, gün ve geçici erişim durum makinesidir; Apple UI/API bağımlılığı yoktur. `ScreenTimeController` bireysel sistem iznini, DeviceActivity günlük/geçici aralıklarını ve LocalAuthentication onayını yönetir. `MIHENActivityMonitor` sistem callback'lerini `UsageLimitRuntime` üzerinden işler. Hem ana uygulama hem uzantı aynı App Group repository'sini kullanır; JSON atomik yazılır, flock ile prosesler arası mutasyon ve ManagedSettings etkisi sıraya konur. Kısıt yalnızca MİHEN'e ait isimli ManagedSettings mağazasına uygulanır. Geçici süre sonu izleme başarıyla kurulmadan shield kaldırılmaz. Opaque uygulama tokenları SwiftData/taşınabilir yedekten ayrıdır; tüm veri silme kendi izleme/kısıtlarını da temizler. Beşinci Xcode hedefi uzantı olarak ana uygulamaya gömülür ve yapısal kontrolde doğrulanır. Ayrıntı SCREEN_TIME_TR.md içinde.
