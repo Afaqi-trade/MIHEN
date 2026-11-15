@@ -38,7 +38,7 @@ struct ScreenTimeScreen: View {
                 Button(store.t("screen.enable")) { controller.enable(selection: selection, minutes: minutes) }
                     .disabled(!controller.authorized || !controller.loaded || controller.busy || (selection.applicationTokens.isEmpty && selection.categoryTokens.isEmpty && selection.webDomainTokens.isEmpty))
             }.disabled(controller.document.policy.enabled)
-            if controller.document.policy.enabled {
+            if controller.document.policy.enabled || (!controller.loaded && controller.authorized) {
                 Section(store.t("screen.temporary")) {
                     Picker(store.t("minutes"), selection: $temporaryMinutes) { ForEach([15, 30, 60], id: \.self) { Text("\($0)").tag($0) } }
                     Button(store.t("screen.open")) { approveTemporary = true }.disabled(!controller.blocked || controller.busy)
@@ -49,7 +49,13 @@ struct ScreenTimeScreen: View {
             Button(store.t("screen.refresh")) { reload() }.disabled(controller.busy)
         }.navigationTitle(store.t("screen.title"))
             .familyActivityPicker(isPresented: $picker, selection: $selection)
-            .task { reload() }
+             .task {
+                reload()
+                while !Task.isCancelled {
+                    do { try await Task.sleep(for: .seconds(15)) } catch { break }
+                    if scenePhase == .active && !controller.busy { controller.refresh() }
+                }
+            }
             .onChange(of: scenePhase) { _, phase in if phase == .active && !controller.busy { reload() } }
             .confirmationDialog(store.t("screen.approve.temporary"), isPresented: $approveTemporary) {
                 Button(store.t("continue")) { Task { await controller.temporarilyOpen(minutes: temporaryMinutes, reason: store.t("screen.auth.reason")) } }

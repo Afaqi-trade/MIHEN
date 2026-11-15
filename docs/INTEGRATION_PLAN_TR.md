@@ -7,7 +7,7 @@
 | Apple Takvim | Sistem editöründe tek etkinlik kopyası | Gerçek cihazda kaydet/iptal; tekrar ve çift yönlü senkronizasyon ayrı kapsam |
 | Apple Sağlık | İsteğe bağlı adım/aktif enerji toplamı okuma | HealthKit capability provisioning, izin reddi/veri yokluğu, gün/saat dilimi ve gerçek kayıt testi |
 | Namaz vakitleri | Çevrimdışı Adhan/Türkiye yaklaşık hesabı + ayrı namaz widget | Gerçek App Group, şehir referansları ve widget yenileme |
-| Ekran Süresi | Tasarım; henüz kullanıcıya çalışan düğme sunulmuyor | Family Controls, DeviceActivity ve ManagedSettings uzantıları, cihaz yetkisi, dağıtım entitlement onayı |
+| Ekran Süresi | Kodlanan günlük sınır ve doğrulamalı geçici erişim | Family Controls, DeviceActivity ve ManagedSettings uzantıları, cihaz yetkisi, dağıtım entitlement onayı |
 
 Ekran Süresi uygulama tasarımı:
 
@@ -25,3 +25,5 @@ Kaynaklar:
 - https://developer.apple.com/documentation/familycontrols/requesting-the-family-controls-entitlement
 - https://developer.apple.com/documentation/healthkit/authorizing-access-to-health-data
 - https://developer.apple.com/documentation/eventkit/accessing-calendar-using-eventkit-and-eventkitui
+
+15 Kasım Ekran Süresi geliştirmesi: `MIHENActivityMonitor` hedefi, FamilyActivityPicker, ortak günlük bütçe, ManagedSettings kısıtı ve cihaz doğrulamalı 15/30/60 dakika geçici erişim kodlandı. Güncel davranış, test kapsamı ve cihaz kabul listesi SCREEN_TIME_TR.md içindedir. Bu liste fiziksel cihaz başarısı veya dağıtım entitlement onayı anlamına gelmez.

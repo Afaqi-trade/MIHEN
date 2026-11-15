@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "screen.monitor.lost": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem günlük izlemeyi durdurmuş. Sınır kapatıldı; seçimi ve izni kontrol edip yeniden etkinleştirin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The system stopped daily monitoring. The limit was disabled; check authorization and selection, then enable it again."
+          }
+        }
+      }
+    },
     "screen.title": {
       "localizations": {
         "tr": {

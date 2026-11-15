@@ -41,3 +41,7 @@ Plan → Manevi takip → Namaz vakitleri ekranında enlem, boylam ve saat dilim
 Kaydet ile tercihler cihazda ve kullanılabiliyorsa App Group içinde tutulur. iPhone ana ekranında widget eklerken MİHEN Namaz / Prayer seçilir. Sonraki vakit gösterilir. App Group yapılandırması eksikse widget ayarı alamaz; bu durum cihaz kurulumu sırasında doğrulanmalıdır. Namaz hesabı internet kullanmaz; konum izni istemez. Koordinat değiştiğinde yeniden kaydedin. Bu ayarlar JSON yedeğinde yer almaz; başka cihaza geçerken tekrar girin.
 
 Türkiye hesabı resmî canlı takvim değildir; yerel takvimle küçük farklar olabilir. Resmî takvimi ekran içindeki bağlantıyla karşılaştırabilirsiniz. Hesaplanamayan kutup koşullarında uygulama ikame bir vakit üretmez.
+
+## Sosyal medya ve uygulama süre sınırı
+
+Profil → Uygulama süre sınırı ekranından Ekran Süresi iznini açın. Sistem seçicisinde uygulama/kategori/web sitesi seçin ve ortak günlük dakika bütçesini etkinleştirin. Toplam kullanım sınırı dolunca iOS seçimi kısıtlar. MİHEN'e dönerek 15/30/60 dakika seçin; onay ve Face ID/cihaz parolasıyla geçici açın. Bu işlem günlük bütçeyi sıfırlamaz. Süre bitince izleme uzantısı yeniden kısıtlar; uygulama tekrar açıldığında da bitiş denetlenir. Sınırı veya seçimi değiştirmek için önce doğrulamayla kapatın. Tam cihaz kurulum ve test adımları SCREEN_TIME_TR.md içinde.

@@ -7,7 +7,7 @@ struct UsageLimitDocument: Codable {
     var policy = UsageLimitPolicy()
     var selection = FamilyActivitySelection()
 }
-struct UsageLimitRepository {
+struct UsageLimitRepository: Sendable {
     let folder: URL
     init(folder: URL) { self.folder = folder }
     static func shared() throws -> Self {
@@ -32,13 +32,17 @@ struct UsageLimitRepository {
         let url = folder.appendingPathComponent("state.json")
         var document = UsageLimitDocument()
         if !replace && FileManager.default.fileExists(atPath: url.path) {
+            let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+            guard size <= 2 * 1024 * 1024 else { throw PlanError.invalid("screen.storage.error") }
             document = try JSONDecoder().decode(UsageLimitDocument.self, from: Data(contentsOf: url))
             guard document.version == 1, (1...720).contains(document.policy.minutes) else { throw PlanError.invalid("screen.storage.error") }
         }
         try body(&document)
         guard (1...720).contains(document.policy.minutes) else { throw PlanError.invalid("screen.invalid") }
         if write {
-            try JSONEncoder().encode(document).write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+            let bytes = try JSONEncoder().encode(document)
+            guard bytes.count <= 2 * 1024 * 1024 else { throw PlanError.invalid("screen.storage.error") }
+            try bytes.write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
             // Serialize the shield effect with the state commit across the app and extension.
             afterCommit(document)
         }

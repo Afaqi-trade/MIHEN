@@ -18,6 +18,12 @@ import DeviceActivity
                 try Self.reset()
                 document = try repository.read()
             } else if authorized {
+                if document.policy.enabled && !DeviceActivityCenter().activities.contains(UsageLimitRuntime.dailyName(document.policy.revision)) {
+                    try Self.reset()
+                    document = try repository.read()
+                    loaded = true; errorKey = "screen.monitor.lost"
+                    return
+                }
                 try UsageLimitRuntime.reconcile()
                 document = try repository.read()
             }
@@ -66,6 +72,7 @@ import DeviceActivity
             let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
             var startParts = calendar.dateComponents(components, from: now)
             var endParts = calendar.dateComponents(components, from: end)
+            startParts.calendar = calendar; endParts.calendar = calendar
             startParts.timeZone = calendar.timeZone; endParts.timeZone = calendar.timeZone
             // Arm the expiry monitor BEFORE removing shields. Never promise a timer without it.
             let center = DeviceActivityCenter()

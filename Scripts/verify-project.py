@@ -20,3 +20,14 @@ assert all(set(v['localizations'])=={'tr','en'} for v in catalog['strings'].valu
 subprocess.run(['swiftc','-frontend','-parse']+[str(p) for p in root.glob('MIHEN/**/*.swift')]+[str(p) for p in root.glob('Core/*.swift')]+[str(p) for p in root.glob('ScreenTimeShared/*.swift')]+[str(p) for p in root.glob('MIHENActivityMonitor/*.swift')],check=True)
 subprocess.run(['swiftc','-frontend','-parse',str(root/'MIHENWidget/MIHENWidget.swift')],check=True)
 print(f'Structure verified: {len(catalog["strings"])} bilingual keys, all target references, plist/XML/assets, Swift syntax. iOS typechecking NOT performed.')
+
+# A monitor that is not embedded cannot enforce limits when the app is closed.
+monitor_info=plistlib.loads((root/'MIHENActivityMonitor/Info.plist').read_bytes())
+assert monitor_info['NSExtension']['NSExtensionPointIdentifier']=='com.apple.deviceactivity.monitor-extension'
+for name in ['MIHEN/Resources/MIHEN.entitlements','MIHENActivityMonitor/MIHENActivityMonitor.entitlements']:
+    entitlement=plistlib.loads((root/name).read_bytes())
+    assert entitlement['com.apple.developer.family-controls'] is True
+    assert entitlement['com.apple.security.application-groups']==['$(MIHEN_APP_GROUP)']
+monitor_products={key for key,value in objects.items() if value['isa']=='PBXFileReference' and value.get('path')=='MIHENActivityMonitor.appex'}
+monitor_builds={key for key,value in objects.items() if value['isa']=='PBXBuildFile' and value.get('fileRef') in monitor_products}
+assert any(value['isa']=='PBXCopyFilesBuildPhase' and monitor_builds.intersection(value.get('files',[])) for value in objects.values()),'Monitor extension must be embedded'

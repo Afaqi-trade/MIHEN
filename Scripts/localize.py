@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
-rows='''screen.title|Uygulama süre sınırı|App time limit
+rows='''screen.monitor.lost|Sistem günlük izlemeyi durdurmuş. Sınır kapatıldı; seçimi ve izni kontrol edip yeniden etkinleştirin.|The system stopped daily monitoring. The limit was disabled; check authorization and selection, then enable it again.
+screen.title|Uygulama süre sınırı|App time limit
 screen.explanation|Seçtiğiniz uygulama, kategori ve web sitelerine ortak günlük dakika sınırı koyun. Toplam süre dolduğunda iOS seçimi kısıtlar. Günlük bütçe cihazın yerel takvim gününe göre yenilenir.|Set one shared daily minute budget for selected apps, categories and websites. iOS restricts the selection when combined usage reaches the limit. The budget resets with the device's local calendar day.
 screen.device.requirement|Bu özellik Ekran Süresi izni ve uygun iPhone yapılandırması gerektirir. Bireysel izin sistem ayarlarından kaldırılabilir. Sosyal medya içerikleri veya mesajları okunmaz.|This feature needs Screen Time permission and a configured iPhone. Individual authorization can be revoked in system settings. Social media content and messages are not read.
 screen.status|Durum|Status

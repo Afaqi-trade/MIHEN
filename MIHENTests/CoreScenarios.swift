@@ -408,6 +408,17 @@ final class UsageLimitTests: XCTestCase {
         XCTAssertNil(policy.temporaryUntil)
         XCTAssertTrue(policy.shouldShield(at: now.addingTimeInterval(900), calendar: calendar))
     }
+    func testOldExpiryCannotCancelASecondApprovedGrant() throws {
+        var policy = UsageLimitPolicy(enabled: true)
+        policy.reachedThreshold(revision: policy.revision, at: now, calendar: calendar)
+        try policy.grantTemporary(minutes: 15, id: "old", at: now, calendar: calendar)
+        let later = now.addingTimeInterval(901)
+        try policy.grantTemporary(minutes: 30, id: "new", at: later, calendar: calendar)
+        policy.endTemporary(id: "old", at: later)
+        XCTAssertEqual(policy.temporaryID, "new")
+        XCTAssertFalse(policy.shouldShield(at: later, calendar: calendar))
+        XCTAssertTrue(policy.shouldShield(at: later.addingTimeInterval(1800), calendar: calendar))
+    }
     func testMidnightResetsBudgetWithoutLosingActiveGrant() throws {
         let late = ISO8601DateFormatter().date(from: "2026-11-15T20:55:00Z")!
         var policy = UsageLimitPolicy(revision: "current", enabled: true)
