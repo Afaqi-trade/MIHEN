@@ -79,3 +79,21 @@ Yerel çekirdek: yeni tekrar eden etkinlik ve beslenme/kaza yedek testleri dahil
 15 Kasım: `43640550462` gerçek derlemeyi geçti, ancak beslenme kalıcılığı UI testi 450 yerine 4.500 girildiğini yakaladı. Başarılı kabul edilmedi. `42da9f5` sayısal alanı yazarken metni sabit tutar, odak bitince biçimlendirir. Sonraki kaynak namaz hesabı/widget ve düzeltmeler içerir; yeni uzak doğrulama gerekir.
 
 Yerel strict concurrency Core derlemesi geçti. Ankara referans saatleri (Adhan upstream 2019 fixture, 2 dakika tolerans), Hanefî ikindi farkı ve geçersiz enlem testi eklendi: 38 senaryo, 109 assertion, 0 hata. Bu referans testi güncel resmî Diyanet verisiyle doğrulama değildir.
+
+## 15 Kasım son doğrulanmış uzak koşu
+
+`43695353187` / `e7c654c`: gerçek logda BUILD SUCCEEDED ve TEST SUCCEEDED. Xcode macOS runner uygulama ve iki widget'ı derledi. Sonuç: **53 passed, 0 failed** (44 birim/kalıcılık, 9 UI). Son kaynak beslenme sayı girişini, yeniden açılınca kalıcılığı ve namaz koordinat ayarı/kaydetme/ekran görüntüsünü de içerir. Yerel Core: 38 senaryo, 109 assertion, 0 hata. Önceki `43640550462` sayı girişi hatası son koşuda kapandı.
+
+Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43695353187 . Bu sonuç fiziksel cihazda HealthKit, bildirim teslimatı veya App Group provisioning kanıtı değildir. Otomatik sosyal medya süre kısıtlaması henüz uygulanmadı; docs/INTEGRATION_PLAN_TR.md açık akışı ve dış yetki adımlarını içerir.
+
+53/53 geçen `43695353187` görsel QA sırasında namaz saatlerinin SwiftUI ortamından UTC görüntülendiği saptandı. Bu koşu namaz saat dilimi kabul kanıtı sayılmaz. `b7e3649` uygulama/widget saat metnini seçilen bölgeyle DateFormatter üzerinden oluşturur; `3661ce3` UI testini 15 Kasım 2026 tarihine sabitler ve Ankara sabah `06:00` kontrolünü ekler. Test fixture yalnızca DEBUG --ui-testing bayraklarıyla çalışır. Modern İstanbul +03 kontrolü eklendi; 1970 tarihinin +02 olması doğru tarihsel davranıştır. Son yerel sonuç: 38 senaryo / 110 assertion / 0 hata.
+
+`43696376397`: namaz saat dilimi ve İstanbul 06:16 kontrolü geçti; koordinatları yeniden yazma testinde kısmi metin seçimi nedeniyle UI test hatası oluştu. `43697198163`: İstanbul hazır konum ve saat testi geçti; beslenmede sayı temizleme testi 4500 girildiğini yakaladı. `556ebd2`: sıfır değer odak alınca boş açılır; UI helper sistemin Tümünü Seç menüsünü kullanır ve tam değer eşitliğini korur. Yeni uzak koşu sonucu ayrıca doğrulanmalıdır.
+
+## Son doğrulanmış sürüm — 15 Kasım 2026
+
+**43698033651 / 556ebd2**: gerçek BUILD SUCCEEDED, TEST SUCCEEDED; **53 passed / 0 failed**, 44 birim-kalıcılık + 9 UI. İstanbul hazır konum düğmesi, tam koordinat eşitliği ve 15 Kasım 2026 sabah **06:16** görünümü geçti. Beslenmede **450 kcal** tam değer ve uygulamayı kapatıp açınca kalıcılık geçti. Sayı alanı yazım sırasında yeniden biçimlenmez; sıfır değer düzenlemeye boş başlar. UI testleri metni sistemin Tümünü Seç işlemiyle değiştirir. Önceki başarısız koşular son başarı olarak sunulmaz.
+
+Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43698033651 . Namaz hesaplama, yöntem/ikindi seçimi ve ayrı namaz widget'ı kaynakta ve gerçek iOS derlemesinde mevcut. Widget'ın fiziksel iPhone'da App Group verisini alması, HealthKit gerçek veri/izin ve bildirim teslimatı hâlâ cihaz kabul kapılarıdır. Ekran Süresi kısıtlaması tasarım aşamasındadır.
+
+Sonuç paketi indirildi: `.build-results/remote-43698033651/` altında gerçek xcresult, loglar ve PNG attachment'ları var. JSON: **53 passed, 0 failed, 0 skipped**. Kanıt özeti ve özgün namaz/beslenme PNG'leri `docs/evidence/43698033651/` içinde; kaynak SHA256 ve test kimlikleri provenance.json ile saklanır. Son görsel kontrol İstanbul sabah 06:16, Türkiye saat dilimi ve 450 kcal kaydını doğruladı.

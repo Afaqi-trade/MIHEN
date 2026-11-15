@@ -1,0 +1,16 @@
+[
+  {
+    "file": "Nutrition-TR.png",
+    "sha256": "4ef1dd13e3ac8f8e8336eaa1f7e3553852a526b44c75a5040d38bed9e74806ed",
+    "run": "43698033651",
+    "source": "556ebd2",
+    "test": "MIHENUITests/testNutritionPersistsManualCalories()"
+  },
+  {
+    "file": "Prayer-TR.png",
+    "sha256": "be2b8e493edbda54f36e8d4ca8e5f09266e3f58230ca31d4a5ef7c86f94d1915",
+    "run": "43698033651",
+    "source": "556ebd2",
+    "test": "MIHENUITests/testOfflinePrayerTimes()"
+  }
+]

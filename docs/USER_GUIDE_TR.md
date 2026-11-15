@@ -33,3 +33,11 @@ Kaza namazı: önce ilgili vakit için takip edilecek miktarı ekleyin, ardında
 Profil → Kişisel hatırlatmalar: su, hareket ve değerlendirme için saat ekleyin; genel bildirim iznini Profil'den etkinleştirin. Sessiz saatler geçerlidir. İşletim sisteminin bildirim sunum tercihleri uygulamanın üstündedir.
 
 İçe aktarmadan önce son mevcut belge cihazda bir kurtarma dosyasına alınır. Profil'deki kurtarma önizlemesiyle inceleyip geri yükleyebilirsiniz. Bu, dışa aktarılan kişisel yedeğinizin yerine geçmez. Tüm verileri silme işlemi kurtarma dosyasını da kaldırır.
+
+## Namaz vakitleri ve widget
+
+Plan → Manevi takip → Namaz vakitleri ekranında enlem, boylam ve saat dilimini seçin. Türkiye yaklaşık yöntemi başlangıç seçeneğidir. İkindi hesabı için Hanefî seçimi ayrıca yapılır; uluslararası hesaplama yöntemleri ayrı listelenir. Yüksek enlem kuralı ayrıca ayarlanır. İlk konum İstanbul merkezidir (41.0082, 28.9784), saat dilimi Europe/Istanbul ve yöntem Türkiye yaklaşık hesabıdır. Kendi konumunuza göre değiştirebilir veya İstanbul düğmesiyle başlangıca dönebilirsiniz.
+
+Kaydet ile tercihler cihazda ve kullanılabiliyorsa App Group içinde tutulur. iPhone ana ekranında widget eklerken MİHEN Namaz / Prayer seçilir. Sonraki vakit gösterilir. App Group yapılandırması eksikse widget ayarı alamaz; bu durum cihaz kurulumu sırasında doğrulanmalıdır. Namaz hesabı internet kullanmaz; konum izni istemez. Koordinat değiştiğinde yeniden kaydedin. Bu ayarlar JSON yedeğinde yer almaz; başka cihaza geçerken tekrar girin.
+
+Türkiye hesabı resmî canlı takvim değildir; yerel takvimle küçük farklar olabilir. Resmî takvimi ekran içindeki bağlantıyla karşılaştırabilirsiniz. Hesaplanamayan kutup koşullarında uygulama ikame bir vakit üretmez.

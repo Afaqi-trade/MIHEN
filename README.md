@@ -4,7 +4,7 @@
 
 SwiftUI / SwiftData / Swift Charts; minimum iOS 18, Swift 6. `MIHEN.xcodeproj` uygulama, WidgetKit uzantısı, XCTest ve XCUITest hedeflerini içerir. Harici paket veya sunucu bağımlılığı yoktur.
 
-**Durum:** Geliştirme sürümü. Xcode 26.6 / iOS 26.5 SDK ile uzak Mac derlemesi geçti. iOS simülatöründe 46/46 test (40 birim/kalıcılık + 6 arayüz) ve macOS üzerinde 35/35 çekirdek XCTest geçti. Sonuçlar `docs/TEST_REPORT.md` içinde. Tamamlanmış, cihazda doğrulanmış veya App Store'a hazır ürün iddiası yoktur.
+**Durum:** Geliştirme sürümü. Xcode 26.6 / iOS 26.5 SDK ile uzak Mac derlemesi geçti. iOS simülatöründe 53/53 test (44 birim/kalıcılık + 9 arayüz) ve macOS üzerinde 38/38 çekirdek XCTest geçti. Sonuçlar `docs/TEST_REPORT.md` içinde. Tamamlanmış, cihazda doğrulanmış veya App Store'a hazır ürün iddiası yoktur.
 
 ## Çalıştırma
 
@@ -38,3 +38,5 @@ Model üretimi: `python3 Scripts/generate_codec.py`; çeviri: `python3 Scripts/l
 ## Belge sırası
 
 [Ürün kapsamı](docs/PRODUCT_REQUIREMENTS.md), [mimari](docs/ARCHITECTURE.md), [veri şeması](docs/DATA_SCHEMA.md), [kullanım](docs/USER_GUIDE_TR.md), [test raporu](docs/TEST_REPORT.md), [sınırlar](docs/KNOWN_LIMITATIONS.md), [yayın kontrolü](docs/RELEASE_CHECKLIST.md).
+
+15 Kasım genişletmeleri: İstanbul varsayılanlı çevrimdışı namaz hesabı ve ayrı namaz widget, kaza kayıtları, manuel kalori/su/egzersiz, isteğe bağlı Apple Sağlık okuma, Apple Takvim tek kopya aktarımı, dönem raporları, hedef dağılımı, haftalık gündem, rutin grupları ve aktarma öncesi kurtarma yedeği. Ayrıntılı kabul sınırları KNOWN_LIMITATIONS ve INTEGRATION_PLAN_TR içinde. Adhan Swift MIT kaynakları Core/Adhan_* altında sabit sürümle bulunur; lisans/provenance Design/Licenses içinde.

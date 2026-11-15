@@ -9,3 +9,5 @@ Kullanıcının dışa aktardığı JSON/CSV dosyası kişisel kayıtları açı
 İçe aktarma öncesinde mevcut kaydın tek yerel kurtarma dosyası oluşturulur. Profil'deki tüm verileri sil işlemi uygulama içindeki kayıtları ve bu kurtarma dosyasını kaldırır. Daha önce dışa aktarılmış dosyalar veya sistem yedekleri kullanıcının ilgili konumda ayrıca yönetmesini gerektirir.
 
 Yayın sahibinin tamamlayacağı bilgiler: tüzel/gerçek kişi adı, destek e-postası, politika URL'si, geçerli tarih, sunulan bölgeler ve talep yönetim yöntemi. Bunlar tamamlanmadan yayımlanmaz. KVKK ve sunulan diğer bölgeler için veri akışı, amaç, saklama, kullanıcı hakları ve geliştiricinin herhangi bir veriye erişip erişmediği hukuk uzmanıyla değerlendirilmelidir. Bu taslak hukuki uyumluluk veya App Store kabul garantisi değildir.
+
+Namaz vakitleri elle seçilen koordinat, saat dilimi ve hesaplama yöntemiyle cihazda hesaplanır. Konum izni istenmez ve koordinatlar bir ağ servisine gönderilmez. Namaz tercihleri widget paylaşımı için cihaz/App Group tercihlerinde tutulur; tüm verileri sil işleminde kaldırılır.
