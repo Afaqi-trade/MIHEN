@@ -71,3 +71,11 @@ Son görsel incelemede 2/6 kaydı, gün ekseni, TR sayı/tarih biçimi, İngiliz
 `3675a26` için başlatılan `43639196427` ve `87a21c6` için `43639560615` daha yeni koşularla değiştirildi; iptal edildiler ve başarı sayılmazlar. `56f9671` kaynak koşusu `43639647216` takip ediliyor. Bundan sonraki `b80d645` ayrıca test edilmelidir.
 
 Yerel çekirdek: yeni tekrar eden etkinlik ve beslenme/kaza yedek testleri dahil 37 senaryo, 100 assertion, 0 hata. JSON saniye hassasiyetine uygun sabit test tarihi kullanıldı. Yeni recovery testi iOS XCTest içinde; yerel CLT koşusu bunu kapsamaz. Yeni rapor UI testi de yalnızca uzak simülatörde doğrulanabilir.
+
+`43639647216` / `56f9671`: gerçek sonuç JSON'u 48 passed, 0 failed, 0 skipped; rapor ekranının native screenshot'u incelendi. Kanıtlar docs/evidence/43639647216 içinde. Sonraki kaynak için bu sonuç genellenmez.
+
+`43640375765`: AppleCalendarEditor delegate protokolünün Swift 6 actor izolasyonu nedeniyle derleme başarısız. `0bce546` callback'i nonisolated girişten MainActor'a taşıdı. `43640550462` bu düzeltme ve son Apple Sağlık/kalıcılık testlerini doğrulamak üzere çalışıyor.
+
+15 Kasım: `43640550462` gerçek derlemeyi geçti, ancak beslenme kalıcılığı UI testi 450 yerine 4.500 girildiğini yakaladı. Başarılı kabul edilmedi. `42da9f5` sayısal alanı yazarken metni sabit tutar, odak bitince biçimlendirir. Sonraki kaynak namaz hesabı/widget ve düzeltmeler içerir; yeni uzak doğrulama gerekir.
+
+Yerel strict concurrency Core derlemesi geçti. Ankara referans saatleri (Adhan upstream 2019 fixture, 2 dakika tolerans), Hanefî ikindi farkı ve geçersiz enlem testi eklendi: 38 senaryo, 109 assertion, 0 hata. Bu referans testi güncel resmî Diyanet verisiyle doğrulama değildir.
