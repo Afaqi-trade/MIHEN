@@ -58,13 +58,13 @@ final class MIHENUITests: XCTestCase {
         app.tabBars.buttons["Plan"].tap()
         tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
         tap(app.buttons["Namaz vakitleri"], in: app)
-        replace(app.textFields["latitude"], with: "39,939382")
-        replace(app.textFields["longitude"], with: "32,819713")
+        replace(app.textFields["latitude"], with: "41,0082")
+        replace(app.textFields["longitude"], with: "28,9784")
         tap(app.buttons["Kaydet"], in: app)
         XCTAssertTrue(app.staticTexts["Widget için kaydedildi"].exists)
         app.swipeUp()
         XCTAssertTrue(app.staticTexts["Güneş"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["06:00"].exists, "Ankara 15 Nov 2026 fajr must display Istanbul time, not UTC")
+        XCTAssertTrue(app.staticTexts["06:16"].exists, "Istanbul 15 Nov 2026 fajr must display Istanbul time, not UTC")
         capture(app, name: "MIHEN-Prayer-TR")
     }
     @MainActor func testReportsNavigation() throws {
