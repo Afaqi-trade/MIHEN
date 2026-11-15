@@ -31,13 +31,26 @@ struct ValueInput: View {
     @Environment(AppStore.self) private var store
     let title: String
     @Binding var value: Double
+    @State private var text = ""
+    @FocusState private var focused: Bool
+    private func display(_ number: Double) -> String {
+        number.formatted(.number.grouping(.never).precision(.fractionLength(0...8)).locale(store.locale))
+    }
     var body: some View {
         HStack {
             Text(store.t(title))
             Spacer()
-            TextField(store.t(title), value: $value, format: .number.locale(store.locale))
+            TextField(store.t(title), text: $text)
+                .focused($focused)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing)
                 .accessibilityIdentifier(title)
+                .onAppear { text = display(value) }
+                .onChange(of: text) { _, input in
+                    if input.isEmpty { value = 0; return }
+                    if let parsed = try? Double(input, format: .number.locale(store.locale)), parsed.isFinite { value = parsed }
+                }
+                .onChange(of: value) { _, newValue in if !focused { text = display(newValue) } }
+                .onChange(of: focused) { _, active in if !active { text = display(value) } }
         }
     }
 }
