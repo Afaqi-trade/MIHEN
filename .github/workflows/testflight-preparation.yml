@@ -1,0 +1,32 @@
+name: TestFlight preparation (unsigned Release)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mihen-testflight-preparation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  unsigned-device-archive:
+    name: Verify unsigned iPhone Release archive
+    runs-on: macos-26
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare technical archive without signing or upload
+        run: Scripts/prepare-testflight.sh 2>&1 | tee .build-results-testflight.log
+      - name: Preserve preparation evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MIHEN-TestFlight-Preparation
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            .build-results/testflight-readiness.json
+            .build-results/testflight-toolchain.txt
+            .build-results-testflight.log
