@@ -11,6 +11,16 @@ public struct UsageLimitPolicy: Codable, Equatable, Sendable {
     public init(revision: String = UUID().uuidString, enabled: Bool = false, minutes: Int = 60) {
         self.revision = revision; self.enabled = enabled; self.minutes = minutes
     }
+    public static func absoluteSchedule(start: Date, end: Date) -> (start: DateComponents, end: DateComponents) {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        let fields: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
+        var first = calendar.dateComponents(fields, from: start)
+        var last = calendar.dateComponents(fields, from: end)
+        first.calendar = calendar; last.calendar = calendar
+        first.timeZone = calendar.timeZone; last.timeZone = calendar.timeZone
+        return (first, last)
+    }
     public static func day(_ date: Date, calendar: Calendar) -> String {
         let parts = calendar.dateComponents([.year, .month, .day], from: date)
         return String(format: "%04d-%02d-%02d", parts.year!, parts.month!, parts.day!)

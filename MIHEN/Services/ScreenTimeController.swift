@@ -68,16 +68,11 @@ import DeviceActivity
             try policy.grantTemporary(minutes: minutes, id: id, at: now, calendar: .current)
             let end = Date(timeIntervalSince1970: ceil(policy.temporaryUntil!.timeIntervalSince1970))
             policy.temporaryUntil = end
-            let calendar = Calendar.current
-            let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
-            var startParts = calendar.dateComponents(components, from: now)
-            var endParts = calendar.dateComponents(components, from: end)
-            startParts.calendar = calendar; endParts.calendar = calendar
-            startParts.timeZone = calendar.timeZone; endParts.timeZone = calendar.timeZone
+            let interval = UsageLimitPolicy.absoluteSchedule(start: now, end: end)
             // Arm the expiry monitor BEFORE removing shields. Never promise a timer without it.
             let center = DeviceActivityCenter()
             center.stopMonitoring(center.activities.filter { $0.rawValue.hasPrefix(UsageLimitRuntime.prefix + "temporary.") })
-            try center.startMonitoring(UsageLimitRuntime.temporaryName(id), during: DeviceActivitySchedule(intervalStart: startParts, intervalEnd: endParts, repeats: false))
+            try center.startMonitoring(UsageLimitRuntime.temporaryName(id), during: DeviceActivitySchedule(intervalStart: interval.start, intervalEnd: interval.end, repeats: false))
             do {
                 try repository.update({ state in
                     guard state.policy.enabled, state.policy.revision == before.policy.revision else { throw PlanError.invalid("screen.changed") }

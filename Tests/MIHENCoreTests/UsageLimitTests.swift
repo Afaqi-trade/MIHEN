@@ -8,6 +8,16 @@ final class UsageLimitTests: XCTestCase {
         return calendar
     }
     private var now: Date { ISO8601DateFormatter().date(from: "2026-11-15T10:00:00Z")! }
+    func testTemporaryScheduleUsesAbsoluteTimeAcrossRepeatedLocalHour() throws {
+        let start = ISO8601DateFormatter().date(from: "2026-11-01T05:50:00Z")!
+        let end = start.addingTimeInterval(1800)
+        let interval = UsageLimitPolicy.absoluteSchedule(start: start, end: end)
+        XCTAssertEqual(interval.start.date, start)
+        XCTAssertEqual(interval.end.date, end)
+        XCTAssertEqual(interval.start.timeZone?.secondsFromGMT(), 0)
+        XCTAssertEqual(interval.end.timeZone?.secondsFromGMT(), 0)
+        XCTAssertEqual(interval.end.date!.timeIntervalSince(interval.start.date!), 1800)
+    }
     func testThresholdOnlyAffectsCurrentEnabledRevision() {
         var policy = UsageLimitPolicy(revision: "current", enabled: true)
         policy.reachedThreshold(revision: "old", at: now, calendar: calendar)
