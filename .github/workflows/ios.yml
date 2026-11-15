@@ -1,6 +1,14 @@
 name: iOS validation
 on:
   workflow_dispatch:
+    inputs:
+      suite:
+        description: Test suite
+        type: choice
+        default: full
+        options:
+          - full
+          - screen-time
 defaults:
   run:
     shell: bash
@@ -24,7 +32,9 @@ jobs:
         run: swift test 2>&1 | tee .build-results/core-xctest.log
       - name: Verify project
         run: python3 Scripts/verify-project.py
-      - name: Build app and widget, run unit and UI tests
+      - name: Build app and extensions, run selected tests
+        env:
+          MIHEN_TEST_SCOPE: ${{ inputs.suite || 'full' }}
         run: Scripts/validate-ios.sh 2>&1 | tee .build-results/ios.log
       - name: Export actual results and screenshots
         if: always()

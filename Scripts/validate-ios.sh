@@ -14,5 +14,12 @@ print(phones[0]['udid'])
 PY
 )}"
 xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .build-results/DerivedData CODE_SIGNING_ALLOWED=NO build
+typeset -a MIHEN_TEST_ARGUMENTS=()
+case "${MIHEN_TEST_SCOPE:-full}" in
+  full) ;;
+  screen-time) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry) ;;
+  *) print -u2 'Unknown MIHEN_TEST_SCOPE'; exit 2 ;;
+esac
+print "Test scope: ${MIHEN_TEST_SCOPE:-full}"
 MIHEN_RESULT_PATH=".build-results/MIHEN-$(date +%Y%m%d-%H%M%S).xcresult"
-xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Debug -destination "platform=iOS Simulator,id=${MIHEN_SIMULATOR_ID}" -derivedDataPath .build-results/DerivedData -resultBundlePath "$MIHEN_RESULT_PATH" CODE_SIGNING_ALLOWED=NO test
+xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Debug -destination "platform=iOS Simulator,id=${MIHEN_SIMULATOR_ID}" -derivedDataPath .build-results/DerivedData -resultBundlePath "$MIHEN_RESULT_PATH" CODE_SIGNING_ALLOWED=NO "${MIHEN_TEST_ARGUMENTS[@]}" test
