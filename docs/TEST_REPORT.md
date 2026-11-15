@@ -113,3 +113,12 @@ Son `075c2d1` değişikliği geçici aralığın bitişini UTC DateComponents il
 **Son odaklı doğrulama: 43702054711 / 0ad6148157085a58afd6e65c172a7c9eb3e9b94f.** Xcode 26.6 / build 17F113; uygulama, widget ve monitor uzantısı gerçek derlemeden geçti. `Test scope: screen-time`. **56 passed, 0 failed, 0 skipped:** tüm 55 uygulama birim/kalıcılık testi + 1 gerçek Ekran Süresi UI testi. Tam UI koşusu değildir. SwiftPM çekirdek 45/45; yerel fallback 45 senaryo / 137 assertion geçti. Runtime callback adaptörü, kilitli eşzamanlı disk güncellemeleri, bozuk dosya reseti, reddedilen işlemin commit/etki üretmemesi ve UTC/DST süre sonu testleri geçti. Sonuç JSON, toolchain, native kurulum ekranı ve SHA256/test kaynağı `docs/evidence/43702054711/` içinde. Gerçek xcresult `.build-results/remote-43702054711/` altında. İlk başarısız kurulum testinin kaydırma hatası kapandı.
 
 Koşular: https://github.com/Afaqi-trade/MIHEN/actions/runs/43701076134 (tam), https://github.com/Afaqi-trade/MIHEN/actions/runs/43702054711 (son kaynak, odaklı). Family Controls dağıtım izni, fiziksel uygulama kullanımı/shield, biyometrik onay ve gerçek süre sonu callback kabulü tamamlanmış iddiası yoktur.
+
+
+## TestFlight teknik hazırlığı — 15 Kasım
+
+`43704463900` / `5af9ce3`: uzak Xcode ile gerçek `generic/platform=iOS`, **Release archive** adımı başarıyla çalıştı. Uygulama + widget + DeviceActivity monitor arm64 binary'leri, gömülü uzantılar, sürüm/build uyumu ve privacy manifestleri arşiv içinden kontrol edildi. Rapor `docs/evidence/43704463900/testflight-readiness.json` içinde. Bu adım yeni bir simülatör test koşusu veya imzalı dağıtım değildir.
+
+Hesap sahibi aktif Apple Developer Program üyeliği olmadığını bildirdi. Apple hesabında giriş/yetki, gerçek bundle/App Group kayıtları, Family Controls dağıtım onayı, imzalama sertifikası/profilleri ve App Store Connect uygulama kaydı henüz tamamlanmadı. **İmzalı arşiv doğrulanmadı, App Store Connect'e yükleme yapılmadı, TestFlight daveti oluşturulmadı.** İmzasız teknik arşiv iPhone'a kurulabilir paket olarak sunulmaz. Kullanıcının adımları TESTFLIGHT_OWNER_STEPS_TR.md; Family Controls taslağı APPLE_FAMILY_CONTROLS_REQUEST.md içindedir.
+
+Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43704463900 . Workflow varsayılan otomatik yayına bağlı değildir; yalnızca manuel teknik hazırlık yapar.

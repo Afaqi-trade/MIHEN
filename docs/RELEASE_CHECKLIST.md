@@ -18,3 +18,8 @@
 - [ ] Gerçek mağaza ekran görüntüleri üretildi ve ölçüleri kontrol edildi.
 - [ ] Destek/gizlilik URL'leri, yayın sahibi iletişimi ve hukuki değerlendirme tamamlandı.
 - [ ] Ürün sahibi yayın izni verdi.
+
+- [x] TestFlight ön hazırlığında üç hedef için gerçek arm64 imzasız iPhone Release archive kontrolü geçti (`43704463900`).
+- [ ] Apple Developer Program üyeliği etkinleşti (ürün sahibi adımı).
+- [ ] Family Controls dağıtım yetkisi hem ana uygulama hem monitor için onaylandı.
+- [ ] İmzalı TestFlight build yüklendi, Apple işlemesi tamamlandı ve hesap sahibi iç test kullanıcısı olarak kurdu.

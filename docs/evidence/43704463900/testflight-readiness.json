@@ -1,0 +1,42 @@
+{
+  "phase": "unsigned-device-release-archive",
+  "archiveVerified": true,
+  "signedArchiveVerified": false,
+  "uploadedToAppStoreConnect": false,
+  "installableOnIPhone": false,
+  "testFlightReady": false,
+  "version": "1.0.0",
+  "build": "1",
+  "targets": [
+    {
+      "target": "app",
+      "bundleID": "com.example.mihen",
+      "architectures": [
+        "arm64"
+      ]
+    },
+    {
+      "target": "widget",
+      "bundleID": "com.example.mihen.widget",
+      "architectures": [
+        "arm64"
+      ]
+    },
+    {
+      "target": "monitor",
+      "bundleID": "com.example.mihen.monitor",
+      "architectures": [
+        "arm64"
+      ]
+    }
+  ],
+  "remainingOwnerSteps": [
+    "Activate Apple Developer Program membership and accept agreements personally",
+    "Register unique app, widget, monitor and App Group identifiers",
+    "Obtain Family Controls distribution permission for app and monitor",
+    "Configure distribution signing and provisioning for all three targets",
+    "Create App Store Connect app record and authorize the upload method",
+    "Produce and validate a signed archive, upload, wait for Apple processing",
+    "Create an internal TestFlight group and add the account owner as tester"
+  ]
+}
