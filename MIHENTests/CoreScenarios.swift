@@ -360,7 +360,7 @@ final class PrayerTests: XCTestCase {
         var settings = PrayerSettings(latitude: 39.939382, longitude: 32.819713, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false)
         let standard = settings.schedule(on: day)
         XCTAssertEqual(standard.count, 6)
-        XCTAssertEqual(settings.displayTime(Date(timeIntervalSince1970: 0)), "03:00")
+        XCTAssertEqual(settings.displayTime(ISO8601DateFormatter().date(from: "2026-11-15T00:00:00Z")!), "03:00")
         // Adhan upstream Ankara fixture: Jan 1 2019, 06:33 / 08:03 / 12:57 / 15:20 / 17:40 / 19:05, tolerance 2 minutes.
         let expected = [(6,33),(8,3),(12,57),(15,20),(17,40),(19,5)]
         for (index, item) in standard.enumerated() {

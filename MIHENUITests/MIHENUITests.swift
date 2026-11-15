@@ -4,6 +4,7 @@ final class MIHENUITests: XCTestCase {
     @MainActor private func start(persistent: Bool = false) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = persistent ? ["--ui-testing", "--ui-test-store", UUID().uuidString] : ["--ui-testing"]
+        app.launchArguments += ["--prayer-test-date", "2026-11-15T12:00:00Z"]
         app.launch()
         let skip = app.buttons["onboarding.skip"]
         XCTAssertTrue(skip.waitForExistence(timeout: 10))

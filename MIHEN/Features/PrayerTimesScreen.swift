@@ -49,6 +49,10 @@ struct PrayerTimesScreen: View {
             }
         }.keyboardDone().navigationTitle(store.t("prayer.times"))
             .onAppear {
+                #if DEBUG
+                let arguments = ProcessInfo.processInfo.arguments
+                if arguments.contains("--ui-testing"), let index = arguments.firstIndex(of: "--prayer-test-date"), arguments.indices.contains(index + 1), let fixed = ISO8601DateFormatter().date(from: arguments[index + 1]) { date = fixed }
+                #endif
                 if let settings = PrayerSettingsStore.read() {
                     latitude = settings.latitude; longitude = settings.longitude; zone = settings.timeZoneID
                     method = settings.method; hanafi = settings.hanafi; rule = settings.highLatitude
