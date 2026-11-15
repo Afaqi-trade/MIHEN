@@ -76,6 +76,15 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["06:16"].exists, "Istanbul 15 Nov 2026 fajr must display Istanbul time, not UTC")
         capture(app, name: "MIHEN-Prayer-TR")
     }
+    @MainActor func testScreenTimeSetupDoesNotRequestPermissionOnEntry() throws {
+        let app = start()
+        app.tabBars.buttons["Profil"].tap()
+        tap(app.descendants(matching: .any)["settings.screentime"].firstMatch, in: app)
+        XCTAssertTrue(app.buttons["Ekran Süresi izni ver"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["Günlük sınırı etkinleştir"].isEnabled)
+        XCTAssertFalse(app.buttons["Uygulama ve kategorileri seç"].isEnabled)
+        capture(app, name: "MIHEN-ScreenTime-TR")
+    }
     @MainActor func testReportsNavigation() throws {
         let app = start()
         app.tabBars.buttons["İlerleme"].tap()

@@ -38,10 +38,10 @@ struct RootView: View {
         } message: { Text(store.errorMessage ?? "") }
         .sheet(isPresented: $prayers) { NavigationStack { PrayerTimesScreen().toolbar { Button(store.t("close")) { prayers = false } } } }
         .onOpenURL { url in if url.scheme == "mihen" { tab = 0; if url.host == "prayers" && !store.locked { prayers = true } } }
-        .task { if !store.locked { store.refresh() } }
+        .task { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background && store.preferences.lockEnabled { store.locked = true }
-            if phase == .active && !store.locked { store.refresh() }
+            if phase == .active { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         }
     }
     private var lockView: some View {

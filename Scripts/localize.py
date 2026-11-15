@@ -1,6 +1,36 @@
 from pathlib import Path
 import json,re
-rows='''prayer.istanbul|İstanbul konumunu kullan|Use Istanbul location
+rows='''screen.title|Uygulama süre sınırı|App time limit
+screen.explanation|Seçtiğiniz uygulama, kategori ve web sitelerine ortak günlük dakika sınırı koyun. Toplam süre dolduğunda iOS seçimi kısıtlar. Günlük bütçe cihazın yerel takvim gününe göre yenilenir.|Set one shared daily minute budget for selected apps, categories and websites. iOS restricts the selection when combined usage reaches the limit. The budget resets with the device's local calendar day.
+screen.device.requirement|Bu özellik Ekran Süresi izni ve uygun iPhone yapılandırması gerektirir. Bireysel izin sistem ayarlarından kaldırılabilir. Sosyal medya içerikleri veya mesajları okunmaz.|This feature needs Screen Time permission and a configured iPhone. Individual authorization can be revoked in system settings. Social media content and messages are not read.
+screen.status|Durum|Status
+screen.authorized|Ekran Süresi izni verildi|Screen Time authorized
+screen.unauthorized|Ekran Süresi izni gerekli|Screen Time permission required
+screen.blocked|Günlük sınır doldu; seçim kısıtlı|Daily limit reached; selection restricted
+screen.enabled|Günlük izleme etkin|Daily monitoring enabled
+screen.disabled|Sınır kapalı|Limit disabled
+screen.open.until|Geçici erişim bitişi|Temporary access ends
+screen.authorize|Ekran Süresi izni ver|Authorize Screen Time
+screen.daily|Ortak günlük sınır|Shared daily limit
+screen.select|Uygulama ve kategorileri seç|Select apps and categories
+screen.selection.count|Uygulama / kategori / web sitesi|Apps / categories / websites
+screen.enable|Günlük sınırı etkinleştir|Enable daily limit
+screen.temporary|Onaylı geçici erişim|Approved temporary access
+screen.open|Doğrula ve geçici aç|Verify and temporarily open
+screen.temporary.explanation|Geçici erişim günlük bütçeyi sıfırlamaz. Face ID veya cihaz parolası gerekir. Süre bitince iOS izleme uzantısı kısıtı geri uygular; sistem callback zamanlaması cihazda doğrulanmalıdır. Ayarı değiştirmek için önce sınırı kapatın.|Temporary access does not reset the daily budget. Face ID or device passcode is required. The iOS monitor restores restrictions after expiry; system callback timing must be verified on device. Disable the limit before changing the configuration.
+screen.disable|Doğrula ve sınırı kapat|Verify and disable limit
+screen.refresh|Durumu yenile|Refresh status
+screen.approve.temporary|Seçili uygulamalar geçici açılsın mı?|Temporarily open the selected apps?
+screen.approve.disable|Günlük sınır ve kısıtlamalar kapatılsın mı?|Disable the daily limit and restrictions?
+screen.auth.reason|Uygulama süre sınırını değiştirmek için kimliğinizi doğrulayın.|Verify your identity to change the app time limit.
+screen.group.required|Ortak uygulama alanı kullanılamıyor. iPhone kurulumu için App Group yetkilerini yapılandırın.|Shared app storage is unavailable. Configure App Group entitlements for iPhone installation.
+screen.storage.error|Süre sınırı verisi okunamadı. Kısıtlama kendiliğinden kaldırılmadı; ayarı kapatıp yeniden kurun.|Time limit data could not be read. Restrictions were retained; disable and reconfigure the limit.
+screen.invalid|Seçimi, dakika sınırını veya geçici erişim durumunu kontrol edin.|Check the selection, minute limit or temporary access state.
+screen.disable.first|Ayarı değiştirmeden önce mevcut sınırı kapatın.|Disable the existing limit before changing its configuration.
+screen.approval.required|Bu işlem için cihaz doğrulaması gerekli.|Device verification is required for this action.
+screen.changed|Süre sınırı değişti. Durumu yenileyip tekrar deneyin.|The limit changed. Refresh and try again.
+screen.system.error|Ekran Süresi işlemi tamamlanamadı. Sistem izni ve Family Controls yetkilerini kontrol edin.|Screen Time could not complete the operation. Check system authorization and Family Controls entitlements.
+prayer.istanbul|İstanbul konumunu kullan|Use Istanbul location
 prayer.times|Namaz vakitleri|Prayer times
 prayer.source|Vakitler Adhan açık kaynak astronomik hesaplarıdır. Türkiye seçeneği yaklaşık hesaptır; resmî Diyanet verisi değildir. Yerel takvimle kontrol edin.|Times use Adhan open source astronomical calculations. Turkey is an approximation, not official Diyanet data. Check your local timetable.
 prayer.diyanet|Resmî Diyanet takvimini aç|Open official Diyanet timetable

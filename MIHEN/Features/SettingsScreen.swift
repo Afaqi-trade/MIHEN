@@ -30,6 +30,7 @@ struct SettingsScreen: View {
     var body: some View {
         Form {
             Section(store.t("profile")) {
+                NavigationLink(destination: ScreenTimeScreen()) { Text(store.t("screen.title")) }.accessibilityIdentifier("settings.screentime")
                 NavigationLink(destination: CustomRemindersScreen()) { Text(store.t("custom.reminders")) }
                 TextField(store.t("name"), text: preference(\.name))
                 Picker(store.t("language"), selection: preference(\.language)) { Text("Türkçe").tag("tr"); Text("English").tag("en") }.accessibilityIdentifier("settings.language")
@@ -120,6 +121,7 @@ struct SettingsScreen: View {
             }
             .confirmationDialog(store.t("data.delete.confirm"), isPresented: $reset) {
                 Button(store.t("data.delete"), role: .destructive) {
+                    do { try ScreenTimeController.reset() } catch { store.errorMessage = error.localizedDescription; return }
                     if store.change({ $0 = .fresh() }) {
                         try? FileManager.default.removeItem(at: RecoveryBackup.url)
                         PrayerSettingsStore.clear()

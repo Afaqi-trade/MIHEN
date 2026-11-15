@@ -45,10 +45,7 @@ public enum Recurrence: String, CaseIterable, Codable, Sendable {
 public enum OccurrenceStatus: String, CaseIterable, Sendable {
     case planned, partial, completed, skipped, cancelled, moved
 }
-public enum PlanError: Error, LocalizedError, Equatable {
-    case invalid(String)
-    public var errorDescription: String? { switch self { case .invalid(let text): return text } }
-}
+
 public struct DaySummary: Equatable, Sendable {
     public let day: String
     public let planned: Int

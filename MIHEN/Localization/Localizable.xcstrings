@@ -1,6 +1,486 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "screen.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama süre sınırı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App time limit"
+          }
+        }
+      }
+    },
+    "screen.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçtiğiniz uygulama, kategori ve web sitelerine ortak günlük dakika sınırı koyun. Toplam süre dolduğunda iOS seçimi kısıtlar. Günlük bütçe cihazın yerel takvim gününe göre yenilenir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set one shared daily minute budget for selected apps, categories and websites. iOS restricts the selection when combined usage reaches the limit. The budget resets with the device's local calendar day."
+          }
+        }
+      }
+    },
+    "screen.device.requirement": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu özellik Ekran Süresi izni ve uygun iPhone yapılandırması gerektirir. Bireysel izin sistem ayarlarından kaldırılabilir. Sosyal medya içerikleri veya mesajları okunmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This feature needs Screen Time permission and a configured iPhone. Individual authorization can be revoked in system settings. Social media content and messages are not read."
+          }
+        }
+      }
+    },
+    "screen.status": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durum"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        }
+      }
+    },
+    "screen.authorized": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresi izni verildi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Time authorized"
+          }
+        }
+      }
+    },
+    "screen.unauthorized": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresi izni gerekli"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Time permission required"
+          }
+        }
+      }
+    },
+    "screen.blocked": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük sınır doldu; seçim kısıtlı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily limit reached; selection restricted"
+          }
+        }
+      }
+    },
+    "screen.enabled": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük izleme etkin"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily monitoring enabled"
+          }
+        }
+      }
+    },
+    "screen.disabled": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sınır kapalı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit disabled"
+          }
+        }
+      }
+    },
+    "screen.open.until": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçici erişim bitişi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temporary access ends"
+          }
+        }
+      }
+    },
+    "screen.authorize": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresi izni ver"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authorize Screen Time"
+          }
+        }
+      }
+    },
+    "screen.daily": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortak günlük sınır"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shared daily limit"
+          }
+        }
+      }
+    },
+    "screen.select": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama ve kategorileri seç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select apps and categories"
+          }
+        }
+      }
+    },
+    "screen.selection.count": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama / kategori / web sitesi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps / categories / websites"
+          }
+        }
+      }
+    },
+    "screen.enable": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük sınırı etkinleştir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable daily limit"
+          }
+        }
+      }
+    },
+    "screen.temporary": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onaylı geçici erişim"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approved temporary access"
+          }
+        }
+      }
+    },
+    "screen.open": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrula ve geçici aç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify and temporarily open"
+          }
+        }
+      }
+    },
+    "screen.temporary.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçici erişim günlük bütçeyi sıfırlamaz. Face ID veya cihaz parolası gerekir. Süre bitince iOS izleme uzantısı kısıtı geri uygular; sistem callback zamanlaması cihazda doğrulanmalıdır. Ayarı değiştirmek için önce sınırı kapatın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temporary access does not reset the daily budget. Face ID or device passcode is required. The iOS monitor restores restrictions after expiry; system callback timing must be verified on device. Disable the limit before changing the configuration."
+          }
+        }
+      }
+    },
+    "screen.disable": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğrula ve sınırı kapat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify and disable limit"
+          }
+        }
+      }
+    },
+    "screen.refresh": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durumu yenile"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh status"
+          }
+        }
+      }
+    },
+    "screen.approve.temporary": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili uygulamalar geçici açılsın mı?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temporarily open the selected apps?"
+          }
+        }
+      }
+    },
+    "screen.approve.disable": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günlük sınır ve kısıtlamalar kapatılsın mı?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disable the daily limit and restrictions?"
+          }
+        }
+      }
+    },
+    "screen.auth.reason": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama süre sınırını değiştirmek için kimliğinizi doğrulayın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify your identity to change the app time limit."
+          }
+        }
+      }
+    },
+    "screen.group.required": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortak uygulama alanı kullanılamıyor. iPhone kurulumu için App Group yetkilerini yapılandırın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shared app storage is unavailable. Configure App Group entitlements for iPhone installation."
+          }
+        }
+      }
+    },
+    "screen.storage.error": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre sınırı verisi okunamadı. Kısıtlama kendiliğinden kaldırılmadı; ayarı kapatıp yeniden kurun."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time limit data could not be read. Restrictions were retained; disable and reconfigure the limit."
+          }
+        }
+      }
+    },
+    "screen.invalid": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçimi, dakika sınırını veya geçici erişim durumunu kontrol edin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the selection, minute limit or temporary access state."
+          }
+        }
+      }
+    },
+    "screen.disable.first": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarı değiştirmeden önce mevcut sınırı kapatın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disable the existing limit before changing its configuration."
+          }
+        }
+      }
+    },
+    "screen.approval.required": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem için cihaz doğrulaması gerekli."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Device verification is required for this action."
+          }
+        }
+      }
+    },
+    "screen.changed": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre sınırı değişti. Durumu yenileyip tekrar deneyin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The limit changed. Refresh and try again."
+          }
+        }
+      }
+    },
+    "screen.system.error": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Süresi işlemi tamamlanamadı. Sistem izni ve Family Controls yetkilerini kontrol edin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Time could not complete the operation. Check system authorization and Family Controls entitlements."
+          }
+        }
+      }
+    },
     "prayer.istanbul": {
       "localizations": {
         "tr": {
