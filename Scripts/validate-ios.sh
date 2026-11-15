@@ -17,7 +17,7 @@ xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Debug -destinat
 typeset -a MIHEN_TEST_ARGUMENTS=()
 case "${MIHEN_TEST_SCOPE:-full}" in
   full) ;;
-  screen-time) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry) ;;
+  screen-time) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry) ;;
   *) print -u2 'Unknown MIHEN_TEST_SCOPE'; exit 2 ;;
 esac
 print "Test scope: ${MIHEN_TEST_SCOPE:-full}"
