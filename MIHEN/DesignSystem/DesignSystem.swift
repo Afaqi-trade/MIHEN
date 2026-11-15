@@ -50,7 +50,10 @@ struct ValueInput: View {
                     if let parsed = try? Double(input, format: .number.locale(store.locale)), parsed.isFinite { value = parsed }
                 }
                 .onChange(of: value) { _, newValue in if !focused { text = display(newValue) } }
-                .onChange(of: focused) { _, active in if !active { text = display(value) } }
+                .onChange(of: focused) { _, active in
+                    if active && value == 0 { text = "" }
+                    if !active { text = display(value) }
+                }
         }
     }
 }
