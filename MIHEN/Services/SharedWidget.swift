@@ -24,3 +24,20 @@ enum SharedWidgetStore {
         return try? JSONDecoder().decode(WidgetSnapshot.self, from: bytes)
     }
 }
+
+enum PrayerSettingsStore {
+    static var defaults: UserDefaults {
+        if let group = Bundle.main.object(forInfoDictionaryKey: "MihenAppGroup") as? String,
+           FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: group) != nil,
+           let shared = UserDefaults(suiteName: group) { return shared }
+        return .standard
+    }
+    static func read() -> PrayerSettings? {
+        guard let data = defaults.data(forKey: "prayer.settings.v1") else { return nil }
+        return try? JSONDecoder().decode(PrayerSettings.self, from: data)
+    }
+    static func save(_ settings: PrayerSettings) throws {
+        defaults.set(try JSONEncoder().encode(settings), forKey: "prayer.settings.v1")
+    }
+    static func clear() { defaults.removeObject(forKey: "prayer.settings.v1") }
+}

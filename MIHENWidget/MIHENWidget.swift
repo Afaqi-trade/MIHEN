@@ -33,7 +33,7 @@ struct TodayWidgetView: View {
     }
     private func text(_ key: String, _ snapshot: WidgetSnapshot) -> String { Localization.text(key, language: snapshot.language) }
 }
-@main struct MIHENWidget: Widget {
+struct MIHENWidget: Widget {
     let kind = "MIHENToday"
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TodayProvider()) { TodayWidgetView(entry: $0) }
@@ -41,4 +41,41 @@ struct TodayWidgetView: View {
             .description(LocalizedStringKey("widget.description"))
             .supportedFamilies([.systemSmall, .systemMedium])
     }
+}
+
+struct PrayerEntry: TimelineEntry {
+    let date: Date
+}
+struct PrayerProvider: TimelineProvider {
+    func placeholder(in context: Context) -> PrayerEntry { .init(date: Date()) }
+    func getSnapshot(in context: Context, completion: @escaping (PrayerEntry) -> Void) { completion(.init(date: Date())) }
+    func getTimeline(in context: Context, completion: @escaping (Timeline<PrayerEntry>) -> Void) {
+        let now = Date()
+        completion(.init(entries: [.init(date: now)], policy: .after(now.addingTimeInterval(900))))
+    }
+}
+struct PrayerWidget: Widget {
+    let kind = "MIHENPrayer"
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: PrayerProvider()) { entry in
+            VStack(alignment: .leading, spacing: 6) {
+                Text("MİHEN · Namaz / Prayer").font(.headline)
+                if let settings = PrayerSettingsStore.read() {
+                    let tomorrow = PlanningEngine(timeZone: TimeZone(identifier: settings.timeZoneID) ?? .current).addingDays(1, to: entry.date)
+                    let schedule = settings.schedule(on: entry.date) + settings.schedule(on: tomorrow)
+                    if let next = schedule.first(where: { $0.key != "sunrise" && $0.date > entry.date }) {
+                        Text(LocalizedStringKey("prayer." + next.key))
+                        Text(next.date, format: Date.FormatStyle(date: .omitted, time: .shortened, timeZone: TimeZone(identifier: settings.timeZoneID) ?? .current)).font(.title.bold())
+                    } else { Text(LocalizedStringKey("prayer.unavailable")) }
+                    Text(LocalizedStringKey("method." + settings.method)).font(.caption)
+                } else { Text(LocalizedStringKey("widget.open")) }
+            }.containerBackground(for: .widget) { Color(red: 11/255, green: 34/255, blue: 68/255) }
+                .foregroundStyle(.white).widgetURL(URL(string: "mihen://prayers"))
+        }.configurationDisplayName("MİHEN Namaz / Prayer")
+            .description(LocalizedStringKey("prayer.source"))
+            .supportedFamilies([.systemSmall, .systemMedium])
+    }
+}
+@main struct MIHENWidgets: WidgetBundle {
+    var body: some Widget { MIHENWidget(); PrayerWidget() }
 }

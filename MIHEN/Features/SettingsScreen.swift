@@ -122,6 +122,7 @@ struct SettingsScreen: View {
                 Button(store.t("data.delete"), role: .destructive) {
                     if store.change({ $0 = .fresh() }) {
                         try? FileManager.default.removeItem(at: RecoveryBackup.url)
+                        PrayerSettingsStore.clear()
                         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                     }
                 }

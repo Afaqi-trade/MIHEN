@@ -1,6 +1,33 @@
 from pathlib import Path
 import json,re
-rows='''health.connection|Apple Sağlık|Apple Health
+rows='''prayer.times|Namaz vakitleri|Prayer times
+prayer.source|Vakitler Adhan açık kaynak astronomik hesaplarıdır. Türkiye seçeneği yaklaşık hesaptır; resmî Diyanet verisi değildir. Yerel takvimle kontrol edin.|Times use Adhan open source astronomical calculations. Turkey is an approximation, not official Diyanet data. Check your local timetable.
+prayer.diyanet|Resmî Diyanet takvimini aç|Open official Diyanet timetable
+prayer.manual.location|Koordinatları ve saat dilimini kendiniz seçin. İlk değerler konumunuz değildir. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir.|Choose coordinates and timezone. Initial values are not your location. Settings stay on device and in the widget App Group; they are not included in JSON backup.
+latitude|Enlem|Latitude
+longitude|Boylam|Longitude
+prayer.method|Hesaplama yöntemi|Calculation method
+prayer.hanafi|İkindi: Hanefî (kapalı: standart/Şafiî)|Asr: Hanafi (off: standard/Shafi)
+prayer.highLatitude|Yüksek enlem kuralı|High latitude rule
+prayer.saved|Widget için kaydedildi|Saved for widget
+prayer.unavailable|Bu ayar ve tarih için vakit hesaplanamadı.|Times unavailable for these settings and date.
+prayer.sunrise|Güneş|Sunrise
+rule.middleOfTheNight|Gecenin yarısı|Middle of the night
+rule.seventhOfTheNight|Gecenin yedide biri|Seventh of the night
+rule.twilightAngle|Şafak açısı|Twilight angle
+method.muslimWorldLeague|muslimWorldLeague|muslimWorldLeague
+method.egyptian|egyptian|egyptian
+method.karachi|karachi|karachi
+method.ummAlQura|ummAlQura|ummAlQura
+method.dubai|dubai|dubai
+method.moonsightingCommittee|moonsightingCommittee|moonsightingCommittee
+method.northAmerica|northAmerica|northAmerica
+method.kuwait|kuwait|kuwait
+method.qatar|qatar|qatar
+method.singapore|singapore|singapore
+method.tehran|tehran|tehran
+method.turkey|Türkiye (yaklaşık)|Turkey (approximation)
+health.connection|Apple Sağlık|Apple Health
 health.read|İzin ver ve seçili günü oku|Authorize and read selected day
 health.steps|Adım|Steps
 health.energy|Aktif enerji|Active energy

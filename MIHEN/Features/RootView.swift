@@ -3,6 +3,7 @@ import SwiftUI
 struct RootView: View {
     @Bindable var store: AppStore
     @State private var tab = 0
+    @State private var prayers = false
     @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         ZStack {
@@ -35,7 +36,8 @@ struct RootView: View {
         .alert(store.t("error"), isPresented: Binding(get: { store.errorMessage != nil }, set: { if !$0 { store.errorMessage = nil } })) {
             Button(store.t("ok")) { store.errorMessage = nil }
         } message: { Text(store.errorMessage ?? "") }
-        .onOpenURL { url in if url.scheme == "mihen" { tab = 0 } }
+        .sheet(isPresented: $prayers) { NavigationStack { PrayerTimesScreen().toolbar { Button(store.t("close")) { prayers = false } } } }
+        .onOpenURL { url in if url.scheme == "mihen" { tab = 0; if url.host == "prayers" && !store.locked { prayers = true } } }
         .task { if !store.locked { store.refresh() } }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background && store.preferences.lockEnabled { store.locked = true }

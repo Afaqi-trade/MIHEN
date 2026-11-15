@@ -1,6 +1,438 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "prayer.times": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Namaz vakitleri"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prayer times"
+          }
+        }
+      }
+    },
+    "prayer.source": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vakitler Adhan açık kaynak astronomik hesaplarıdır. Türkiye seçeneği yaklaşık hesaptır; resmî Diyanet verisi değildir. Yerel takvimle kontrol edin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Times use Adhan open source astronomical calculations. Turkey is an approximation, not official Diyanet data. Check your local timetable."
+          }
+        }
+      }
+    },
+    "prayer.diyanet": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resmî Diyanet takvimini aç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open official Diyanet timetable"
+          }
+        }
+      }
+    },
+    "prayer.manual.location": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koordinatları ve saat dilimini kendiniz seçin. İlk değerler konumunuz değildir. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose coordinates and timezone. Initial values are not your location. Settings stay on device and in the widget App Group; they are not included in JSON backup."
+          }
+        }
+      }
+    },
+    "latitude": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enlem"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latitude"
+          }
+        }
+      }
+    },
+    "longitude": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boylam"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longitude"
+          }
+        }
+      }
+    },
+    "prayer.method": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hesaplama yöntemi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calculation method"
+          }
+        }
+      }
+    },
+    "prayer.hanafi": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İkindi: Hanefî (kapalı: standart/Şafiî)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asr: Hanafi (off: standard/Shafi)"
+          }
+        }
+      }
+    },
+    "prayer.highLatitude": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüksek enlem kuralı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High latitude rule"
+          }
+        }
+      }
+    },
+    "prayer.saved": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget için kaydedildi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved for widget"
+          }
+        }
+      }
+    },
+    "prayer.unavailable": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu ayar ve tarih için vakit hesaplanamadı."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Times unavailable for these settings and date."
+          }
+        }
+      }
+    },
+    "prayer.sunrise": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güneş"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunrise"
+          }
+        }
+      }
+    },
+    "rule.middleOfTheNight": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gecenin yarısı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middle of the night"
+          }
+        }
+      }
+    },
+    "rule.seventhOfTheNight": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gecenin yedide biri"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seventh of the night"
+          }
+        }
+      }
+    },
+    "rule.twilightAngle": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şafak açısı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twilight angle"
+          }
+        }
+      }
+    },
+    "method.muslimWorldLeague": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "muslimWorldLeague"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "muslimWorldLeague"
+          }
+        }
+      }
+    },
+    "method.egyptian": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "egyptian"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "egyptian"
+          }
+        }
+      }
+    },
+    "method.karachi": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "karachi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "karachi"
+          }
+        }
+      }
+    },
+    "method.ummAlQura": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ummAlQura"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ummAlQura"
+          }
+        }
+      }
+    },
+    "method.dubai": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dubai"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dubai"
+          }
+        }
+      }
+    },
+    "method.moonsightingCommittee": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "moonsightingCommittee"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "moonsightingCommittee"
+          }
+        }
+      }
+    },
+    "method.northAmerica": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "northAmerica"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "northAmerica"
+          }
+        }
+      }
+    },
+    "method.kuwait": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kuwait"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kuwait"
+          }
+        }
+      }
+    },
+    "method.qatar": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "qatar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "qatar"
+          }
+        }
+      }
+    },
+    "method.singapore": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "singapore"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "singapore"
+          }
+        }
+      }
+    },
+    "method.tehran": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tehran"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tehran"
+          }
+        }
+      }
+    },
+    "method.turkey": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Türkiye (yaklaşık)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turkey (approximation)"
+          }
+        }
+      }
+    },
     "health.connection": {
       "localizations": {
         "tr": {

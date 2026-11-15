@@ -1,0 +1,1 @@
+Adhan Swift, Batoul Apps, MIT. Vendored source from https://github.com/batoulapps/adhan-swift commit 55a135070a9f04b47ec4bfb76838232562c69b6e. Source comments retained. No network runtime or package resolver. Turkey method is an approximation, not official Diyanet service.
