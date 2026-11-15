@@ -81,7 +81,10 @@ final class MIHENUITests: XCTestCase {
         app.tabBars.buttons["Profil"].tap()
         tap(app.descendants(matching: .any)["settings.screentime"].firstMatch, in: app)
         XCTAssertTrue(app.buttons["Ekran Süresi izni ver"].waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons["Günlük sınırı etkinleştir"].isEnabled)
+        let enable = app.buttons["Günlük sınırı etkinleştir"]
+        for _ in 0..<6 { if enable.exists { break }; app.swipeUp() }
+        XCTAssertTrue(enable.waitForExistence(timeout: 5))
+        XCTAssertFalse(enable.isEnabled)
         XCTAssertFalse(app.buttons["Uygulama ve kategorileri seç"].isEnabled)
         capture(app, name: "MIHEN-ScreenTime-TR")
     }
