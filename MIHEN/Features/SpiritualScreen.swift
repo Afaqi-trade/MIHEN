@@ -9,7 +9,8 @@ struct SpiritualScreen: View {
                 NavigationLink(destination: MemorizationScreen()) { Label(store.t("memorization"), systemImage: "brain.head.profile") }.accessibilityIdentifier("spiritual.memorization")
                 NavigationLink(destination: DhikrScreen()) { Label(store.t("dhikr"), systemImage: "circle.grid.3x3") }.accessibilityIdentifier("spiritual.dhikr")
                 NavigationLink(destination: FastingScreen()) { Label(store.t("fasting"), systemImage: "moon") }.accessibilityIdentifier("spiritual.fasting")
-                NavigationLink(destination: TaskListScreen()) { Label(store.t("routines"), systemImage: "repeat") }
+                NavigationLink(destination: RoutinesScreen()) { Label(store.t("routines"), systemImage: "repeat") }
+                NavigationLink(destination: QadaScreen()) { Label(store.t("qada"), systemImage: "moon.stars") }
             }
             Section { Text(store.t("spiritual.explanation")).font(.footnote) }
             Section(store.t("templates")) {

@@ -6,6 +6,7 @@ struct QadaScreen: View {
     @State private var kind = "qadaDone"
     @State private var amount = 1
     @State private var date = Date()
+    @State private var deleting: DomainActivityRecord?
     private let prayers = ["fajr", "dhuhr", "asr", "maghrib", "isha", "witr"]
     private func total(_ kind: String, _ prayer: String) -> Double {
         store.data.activities.filter { $0.kind == kind && $0.unit == prayer }.reduce(0) { $0 + $1.amount }
@@ -35,9 +36,17 @@ struct QadaScreen: View {
                         Text(store.t("prayer." + row.unit) + " · " + store.t("activity." + row.kind))
                         Text(row.amount.formatted(.number.locale(store.locale)))
                         Text(row.date, format: .dateTime.day().month().year())
+                        Button(store.t("delete"), role: .destructive) { deleting = row }
                     }
                 }
             }
         }.keyboardDone().navigationTitle(store.t("qada"))
+            .confirmationDialog(store.t("delete.confirm"), isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } })) {
+                Button(store.t("delete"), role: .destructive) {
+                    guard let row = deleting else { return }
+                    store.change { $0.activities.removeAll { $0.id == row.id } }
+                    deleting = nil
+                }
+            }
     }
 }
