@@ -34,7 +34,7 @@ final class MIHENUITests: XCTestCase {
         attachment.lifetime = .keepAlways
         add(attachment)
     }
-    @MainActor private func tap(_ element: XCUIElement, in app: XCUIApplication) {
+    @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<6 {
             if element.exists && element.isHittable { break }
             app.swipeUp()
@@ -47,6 +47,9 @@ final class MIHENUITests: XCTestCase {
         }
         XCTAssertTrue(element.waitForExistence(timeout: 5))
         XCTAssertTrue(element.isHittable, "The intended control must be visible before tapping")
+    }
+    @MainActor private func tap(_ element: XCUIElement, in app: XCUIApplication) {
+        reveal(element, in: app)
         element.tap()
     }
     @MainActor private func spiritual(_ module: String, in app: XCUIApplication) {
@@ -365,9 +368,11 @@ final class MIHENUITests: XCTestCase {
             app.buttons["task.save"].tap()
             let title = app.staticTexts["Kısa yürüyüş"].firstMatch
             XCTAssertTrue(title.waitForExistence(timeout:5))
-            for _ in 0..<4 { if title.isHittable { break }; app.swipeUp() }
-            XCTAssertTrue(title.isHittable)
+            let detail = app.buttons.matching(NSPredicate(format:"label CONTAINS %@", "Kısa yürüyüş")).firstMatch
+            reveal(detail, in:app)
             capture(app,name:"MIHEN-Today-LargeText-Task-TR")
+            detail.tap()
+            XCTAssertTrue(app.navigationBars["Görev ayrıntısı"].waitForExistence(timeout:5))
         }
     }
 
