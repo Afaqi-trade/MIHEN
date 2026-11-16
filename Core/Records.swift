@@ -394,12 +394,16 @@ public struct SourceLinkRecord: Codable, Identifiable, Equatable, Sendable {
     public var sourceID: String
     public var occurrenceID: String
     public var previousValue: Double
-    public init(id: String = UUID().uuidString, sourceKind: String = "", sourceID: String = "", occurrenceID: String = "", previousValue: Double = 0) {
+    public var sourceDate: Date
+    public var day: String
+    public init(id: String = UUID().uuidString, sourceKind: String = "", sourceID: String = "", occurrenceID: String = "", previousValue: Double = 0, sourceDate: Date = Date(), day: String = "") {
         self.id = id
         self.sourceKind = sourceKind
         self.sourceID = sourceID
         self.occurrenceID = occurrenceID
         self.previousValue = previousValue
+        self.sourceDate = sourceDate
+        self.day = day
     }
 }
 
@@ -497,11 +501,13 @@ public struct ActivityAnnotationRecord: Codable, Identifiable, Equatable, Sendab
     public var activityID: String
     public var meal: String
     public var title: String
-    public init(id: String = UUID().uuidString, activityID: String = "", meal: String = "other", title: String = "") {
+    public var lastUsed: Date
+    public init(id: String = UUID().uuidString, activityID: String = "", meal: String = "other", title: String = "", lastUsed: Date = Date()) {
         self.id = id
         self.activityID = activityID
         self.meal = meal
         self.title = title
+        self.lastUsed = lastUsed
     }
 }
 

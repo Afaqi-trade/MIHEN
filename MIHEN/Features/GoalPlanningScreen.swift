@@ -9,12 +9,24 @@ struct GoalPlanningScreen: View {
     @State private var confirmation = false
     @State private var milestone = ""
     @State private var createMilestones = false
+    @State private var byCapacity = false
+    @State private var minutesPerUnit = 1.0
+    @State private var supporting = false
+    @State private var oldTasks=Set<String>()
+    private func calculate() throws -> [PlannedAllocation] {
+        guard let goal else { return [] }
+        if byCapacity {
+            guard !store.data.tasks.contains(where: { $0.goalID == goalID && !$0.archived }) else { throw PlanError.invalid("planning.linked") }
+            return try store.engine.capacityAllocations(total:max(0,goal.target-store.engine.goalValue(goalID,in:store.data)),unit:goal.unit,minutesPerUnit:goal.unit == "minutes" ? 1 : minutesPerUnit,from:start,through:end,weekdays:weekdays,in:store.data)
+        }
+        return try store.engine.goalAllocations(goalID,in:store.data,from:start,through:end,weekdays:weekdays)
+    }
     private var goal: GoalRecord? { store.data.goals.first { $0.id == goalID } }
     private var proposal: [PlannedAllocation] {
-        (try? store.engine.goalAllocations(goalID, in: store.data, from: start, through: end, weekdays: weekdays)) ?? []
+        (try? calculate()) ?? []
     }
     private var problem: String? {
-        do { _ = try store.engine.goalAllocations(goalID, in: store.data, from: start, through: end, weekdays: weekdays); return nil }
+        do { _ = try calculate(); return nil }
         catch { return (error as? PlanError)?.errorDescription ?? "planning.invalid" }
     }
     var body: some View {
@@ -34,6 +46,18 @@ struct GoalPlanningScreen: View {
                             Toggle(store.engine.calendar.weekdaySymbols[day - 1], isOn: Binding(get: { weekdays.contains(day) }, set: { if $0 { weekdays.insert(day) } else { weekdays.remove(day) } }))
                         }
                     }
+                }
+                Section(store.t("capacity.title")) {
+                    Toggle(store.t("capacity.use"),isOn:$byCapacity)
+                    NavigationLink(destination:CapacityScreen()) { Text(store.t("capacity.title")) }
+                    if byCapacity && goal.unit != "minutes" { ValueInput(title:"capacity.perUnit",value:$minutesPerUnit) }
+                    if byCapacity { Text(store.t("capacity.future.confirm")).font(.footnote) }
+                    Button(store.t("capacity.extend")) { end=store.engine.addingDays(30,to:end) }
+                    NavigationLink(destination:GoalEditor(goal:goal)) { Text(store.t("capacity.editGoal")) }
+                }
+                Section(store.t("planning.support")) {
+                    Text(store.t("planning.support.help")).font(.footnote)
+                    Button(store.t("planning.support")) { oldTasks=Set(store.data.tasks.map(\.id));supporting=true }
                 }
                 Section(store.t("planning.roadmap")) {
                     let first90 = proposal.filter { item in
@@ -76,11 +100,17 @@ struct GoalPlanningScreen: View {
                     end = min(goal.end, store.engine.addingDays(365, to: start))
                 }
             }
+            .sheet(isPresented:$supporting,onDismiss:{
+                let new=store.data.tasks.filter { !oldTasks.contains($0.id) }
+                store.change { data in for task in new { data.goalSupports.append(.init(goalID:goalID,taskID:task.id)) } }
+            }) { TaskEditor(task:.init(title:goal?.title ?? "",domainID:goal?.domainIDs.first ?? "learning",recurrence:"daily",target:20,unit:"minutes",isHabit:true)) }
             .confirmationDialog(store.t("goal.split.confirm"), isPresented: $confirmation) {
                 Button(store.t("goal.split.apply")) {
                     let engine = store.engine
                     store.change { document in
-                        try engine.applyGoalPlan(goalID, from: start, through: end, weekdays: weekdays, in: &document)
+                        if byCapacity {
+                            try engine.applyCapacityGoalPlan(goalID,from:start,through:end,weekdays:weekdays,minutesPerUnit:goal?.unit == "minutes" ? 1 : minutesPerUnit,in:&document)
+                        } else { try engine.applyGoalPlan(goalID, from: start, through: end, weekdays: weekdays, in: &document) }
                         if createMilestones, let goal {
                             for stage in engine.planningStages(proposal, component: .month) {
                                 let formatter = DateFormatter(); formatter.locale = store.locale; formatter.timeZone = engine.timeZone; formatter.dateFormat = "LLLL yyyy"

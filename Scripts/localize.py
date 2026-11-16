@@ -1,6 +1,51 @@
 from pathlib import Path
 import json,re
-rows='''source.kind.activity|Faaliyet kaydı|Activity record
+rows='''nutrition.actual|Gerçekleşen|Actual
+nutrition.planned|Planlanan|Planned
+nutrition.plan.help|Plan bir niyettir; gerçekleşme üretmez. kcal ve ml ayrı karşılaştırılır. Egzersizde yakılan enerji toplam günlük harcama değildir; fark kalori açığı olarak yorumlanmaz.|A plan is an intention and creates no actual entry. kcal and ml are compared separately. Exercise energy is not total daily expenditure; the difference is not a calorie deficit.
+nutrition.plan.add|Bu güne plan ekle|Add a plan for this day
+nutrition.plan|Beslenme ve hareket planı|Nutrition and activity plan
+nutrition.recent.help|Bir girişe dokunmak formu doldurur; Kaydet'e basmadan yeni kayıt oluşmaz.|Tapping an entry fills the form; no new record is created until you save.
+nutrition.recent|Son kullandığım girişler|Recent entries
+meal.other|Diğer|Other
+meal.snack|Ara öğün|Snack
+meal.dinner|Akşam|Dinner
+meal.lunch|Öğle|Lunch
+meal.breakfast|Kahvaltı|Breakfast
+nutrition.name|Yiyecek veya plan adı (isteğe bağlı)|Food or plan name (optional)
+nutrition.meal|Öğün|Meal
+nutrition.shortcuts.help|10–2000 ml arasında en çok dört farklı miktarı virgülle ayırarak yaz. Örnek: 200,350,500. Bunlar yalnızca senin hızlı kayıt düğmelerindir.|Enter up to four different amounts from 10 to 2000 ml, separated by commas. Example: 200,350,500. These are only your quick-entry buttons.
+nutrition.shortcuts|Hızlı su miktarlarını ayarla|Configure quick water amounts
+nutrition.health.readOnly|Sağlık kaydı bu ekrandan değiştirilemez; Sağlık bağlantısından yeniden alabilirsin.|A Health record cannot be edited here; import it again through the Health connection.
+routine.step.missing|Bu adım artık bulunamıyor. Eski oturum sırası değiştirilmedi; sonraki adıma geçebilirsin.|This step is no longer available. The saved session order is unchanged; you can move to the next step.
+routine.unavailable|Bu rutin bugün için uygun adım içermiyor veya duraklatılmış. Arşivli adımların tekrarını görev düzenleyicisinden ayrıca değiştirebilirsin.|This routine has no eligible steps today or is paused. Archived task repeats can be changed separately in the task editor.
+routine.end|Sıranın sonuna geldin. Gerçekleşmeler görev kartlarındaki kayıtlarına göre korunur.|You reached the end. Progress remains as recorded on the task cards.
+routine.next|Sonraki adıma geç|Go to next step
+routine.run.help|Bugünkü adımları sırayla gözden geçir. İlerleme aynı görev kaydına yazılır; bu sıra ikinci bir başarı üretmez. Sonrakine geçmek görevi tamamlamaz.|Review today's steps in order. Progress uses the same task record; the session adds no second achievement. Moving to the next step does not complete a task.
+routine.group.help|Rutin takvimi grup görünümünü ve hatırlatmasını yönetir. Mevcut görevlerin tekrarları korunur; ortak bir görevi duraklatmaz. Yeni adımlar seçili günlerle başlar. Adımı kaydetmek görev listesine de ekler; gruptan çıkmak görevi silmez.|The routine schedule controls the group and its reminder. Existing tasks keep their repeats; shared tasks are not paused. New steps start on selected days. Saving a step also adds it to the task list; leaving the group does not delete it.
+routine.days|Rutinin günleri|Routine days
+routine.start|Rutini başlat / sürdür|Start / resume routine
+planning.support.help|Dakika veya sayfa alışkanlığı kitap hedefini otomatik tamamlamaz. Bağlantı, destek ilişkisini gösterir; farklı birimler toplanmaz.|A minute or page habit does not automatically complete a book goal. The connection shows support; different units are not summed.
+planning.support|Bağımsız destek alışkanlığı oluştur|Create a separate supporting habit
+week.focus.empty|Bu hafta için henüz odak seçmedin.|No priorities selected for this week.
+week.focus.select|Haftanın üç odağını seç|Choose this week's three priorities
+capacity.future.confirm|Onay, yeni günlük görevleri ve seçili bitiş tarihini kaydeder. Geçmiş kayıtlar değişmez.|Confirmation saves new daily tasks and the selected end date. Historical records stay unchanged.
+capacity.editGoal|Hedef miktarını düzenle|Edit goal amount
+capacity.extend|Bitişi 30 gün uzat|Extend end by 30 days
+capacity.excess|Kapasiteyi aşan süre|Time above capacity
+capacity.free|Kapasite|Capacity
+capacity.perUnit|Bir birim için dakika|Minutes per unit
+capacity.use|Zaman kapasiteme göre dağıt|Distribute by my time capacity
+capacity.insufficient|Bu miktar seçili günlerdeki boş zamanına sığmıyor. Tarihi uzatabilir, uygun günleri artırabilir veya hedef miktarını düzenleyebilirsin.|This amount does not fit the free time on selected days. Extend the dates, add available days or edit the goal amount.
+capacity.unknown|Seçili günlerde süresi belirsiz işler var. Önce haftalık planda bu işlerin tahmini süresini belirle veya farklı günler seç.|Some selected days contain tasks without estimated duration. Set their estimates in the weekly plan or choose different days.
+capacity.invalid|Tahmini süre 0'dan büyük ve en çok 1440 dakika olmalı.|Estimated duration must be greater than zero and at most 1440 minutes.
+capacity.required|Önce haftalık zaman kapasiteni ve birim başına süreyi belirle.|Set weekly time capacity and time per unit first.
+capacity.estimate.help|Süre, miktardan ayrıdır. Tahmini dakika bugünün açık planı ve sonraki tekrarlar içindir; geçmişe çalışma süresi eklemez.|Time is separate from quantity. Estimated minutes apply to today's open plan and future repeats; they do not add working time to history.
+capacity.estimate|Bu adımın tahmini süresi|Estimated time for this task
+capacity.minutes|Süre (dakika)|Duration (minutes)
+capacity.help|Her gün planlı işlerin için ayırabileceğin dakikayı gir. 0, o gün yeni iş için zaman ayırmadığın anlamına gelir. Bu bir plan kapasitesidir; gerçekleşen çalışma süresi değildir.|Enter minutes available for planned tasks each day. Zero means no time for new tasks that day. This is planning capacity, not actual working time.
+capacity.title|Ayırabileceğim süre|My available time
+source.kind.activity|Faaliyet kaydı|Activity record
 source.kind.fast|Oruç|Fasting
 source.kind.dhikr|Zikir sayacı|Dhikr counter
 source.kind.review|Ezber tekrarı|Memorization review
@@ -105,7 +150,7 @@ routine.reminder|Rutine özel saatli hatırlatma|Reminder at a chosen time
 routine.pause|Gelecek tekrarları duraklat|Pause future repetitions
 routine.resume|Gelecek tekrarları sürdür|Resume future repetitions
 routine.paused|Rutindeki görev şablonları duraklatıldı.|Task templates in this routine are paused.
-routine.pause.confirm|Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Bitiş tarihi geçmiş adımı sürdürmeden önce düzenleyin. Sürdürme yeni bir plan dönemi başlatır; ara verilen günlere görev eklenmez.|Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit expired steps before resuming. Resuming starts a new planning cycle without filling paused days.
+routine.pause.confirm|Yalnızca bu rutinin takvimi ve grup hatırlatması değişir. Görevlerin diğer kullanımları ve geçmişi korunur.|Only this routine's schedule and group reminder change. Other task uses and history are preserved.
 reminder.time|Hatırlatma saati|Reminder time
 reminder.global.off|Bildirimler kapalı. Hatırlatmaların ulaşması için Profil'den bildirimleri etkinleştir.|Notifications are off. Enable them in Profile to receive reminders.
 week.previous|Önceki hafta|Previous week

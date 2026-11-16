@@ -12,6 +12,10 @@ import zipfile
 
 REQUIRED_MODULE_CAPTURES = {'MIHEN-Qada-TR', 'MIHEN-WeeklyPlan-TR', 'MIHEN-Routines-TR', 'MIHEN-GoalSplit-TR', 'MIHEN-GoalSplit-Preview-TR'}
 LABELS = {
+    'MIHEN-Capacity-TR': 'Haftalık zaman kapasitesi',
+    'MIHEN-Weekly-Focus-TR': 'Hedefe bağlı haftalık odaklar',
+    'MIHEN-Routine-Run-TR': 'Rutini adım adım çalıştırma',
+    'MIHEN-Nutrition-Planning-TR': 'Beslenme · plan ve gerçekleşme',
     'MIHEN-Source-Link-TR': 'Tek olay · modül ve görev bağlantısı',
     'MIHEN-Onboarding-TR': 'İlk kullanım · kısa başlangıç',
     'MIHEN-Onboarding-SmallText-TR': 'İlk kullanım · küçük yazı ölçümü',

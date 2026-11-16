@@ -44,6 +44,17 @@ final class SourceLinkTests: XCTestCase {
         try data.connectSource("reading:r",to:first,engine:engine)
         XCTAssertThrowsError(try data.connectSource("reading:r",to:second,engine:engine))
     }
+    func testConnectionKeepsItsHistoricalDayWhenDisplayTimeZoneChanges() throws {
+        var data=fixture()
+        data.readings[0].date=engine.date("2026-11-16")!.addingTimeInterval(900)
+        try data.connectSource("reading:r",to:data.occurrences[0].id,engine:engine)
+        data.preferences[0].timeZoneID="America/New_York"
+        let other=PlanningEngine(timeZone:TimeZone(identifier:"America/New_York")!)
+        try data.reconcileSources(engine:other)
+        XCTAssertEqual(data.occurrences[0].day,"2026-11-16")
+        XCTAssertEqual(data.occurrences[0].value,6)
+        try BackupCodec.validate(data)
+    }
     func testV1BackupMigratesToV2AndCurrentBackupCannotSilentlyLoseNewTables() throws {
         let data=fixture();let bytes=try BackupCodec.encode(data)
         var old=try JSONSerialization.jsonObject(with:bytes) as! [String:Any]
@@ -51,6 +62,8 @@ final class SourceLinkTests: XCTestCase {
         for key in keys { old.removeValue(forKey:key) };old["version"]=1
         let restored=try BackupCodec.decode(JSONSerialization.data(withJSONObject:old))
         XCTAssertEqual(restored.version,2);XCTAssertEqual(restored.readings,data.readings);XCTAssertTrue(restored.sourceLinks.isEmpty)
+        let envelope:[String:Any] = ["format":"mihen.archive","archiveVersion":1,"document":old]
+        XCTAssertEqual(try BackupArchive.decode(JSONSerialization.data(withJSONObject:envelope)).archiveVersion,2)
         old["version"]=2;XCTAssertThrowsError(try BackupCodec.decode(JSONSerialization.data(withJSONObject:old)))
         var linked=data;try linked.connectSource("reading:r",to:linked.occurrences[0].id,engine:engine)
         XCTAssertEqual(try BackupCodec.decode(BackupCodec.encode(linked)).sourceLinks,linked.sourceLinks)

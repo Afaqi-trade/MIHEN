@@ -578,19 +578,25 @@ import SwiftData
     var sourceID: String
     var occurrenceID: String
     var previousValue: Double
+    var sourceDate: Date
+    var day: String
     init(_ record: SourceLinkRecord) {
         self.id = record.id
         self.sourceKind = record.sourceKind
         self.sourceID = record.sourceID
         self.occurrenceID = record.occurrenceID
         self.previousValue = record.previousValue
+        self.sourceDate = record.sourceDate
+        self.day = record.day
     }
-    var record: SourceLinkRecord { .init(id: id, sourceKind: sourceKind, sourceID: sourceID, occurrenceID: occurrenceID, previousValue: previousValue) }
+    var record: SourceLinkRecord { .init(id: id, sourceKind: sourceKind, sourceID: sourceID, occurrenceID: occurrenceID, previousValue: previousValue, sourceDate: sourceDate, day: day) }
     func update(_ record: SourceLinkRecord) {
         self.sourceKind = record.sourceKind
         self.sourceID = record.sourceID
         self.occurrenceID = record.occurrenceID
         self.previousValue = record.previousValue
+        self.sourceDate = record.sourceDate
+        self.day = record.day
     }
 }
 
@@ -729,17 +735,20 @@ import SwiftData
     var activityID: String
     var meal: String
     var title: String
+    var lastUsed: Date
     init(_ record: ActivityAnnotationRecord) {
         self.id = record.id
         self.activityID = record.activityID
         self.meal = record.meal
         self.title = record.title
+        self.lastUsed = record.lastUsed
     }
-    var record: ActivityAnnotationRecord { .init(id: id, activityID: activityID, meal: meal, title: title) }
+    var record: ActivityAnnotationRecord { .init(id: id, activityID: activityID, meal: meal, title: title, lastUsed: lastUsed) }
     func update(_ record: ActivityAnnotationRecord) {
         self.activityID = record.activityID
         self.meal = record.meal
         self.title = record.title
+        self.lastUsed = record.lastUsed
     }
 }
 

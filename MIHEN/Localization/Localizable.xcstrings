@@ -1,6 +1,726 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "nutrition.actual": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerçekleşen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actual"
+          }
+        }
+      }
+    },
+    "nutrition.planned": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planlanan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned"
+          }
+        }
+      }
+    },
+    "nutrition.plan.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan bir niyettir; gerçekleşme üretmez. kcal ve ml ayrı karşılaştırılır. Egzersizde yakılan enerji toplam günlük harcama değildir; fark kalori açığı olarak yorumlanmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A plan is an intention and creates no actual entry. kcal and ml are compared separately. Exercise energy is not total daily expenditure; the difference is not a calorie deficit."
+          }
+        }
+      }
+    },
+    "nutrition.plan.add": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu güne plan ekle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a plan for this day"
+          }
+        }
+      }
+    },
+    "nutrition.plan": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beslenme ve hareket planı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nutrition and activity plan"
+          }
+        }
+      }
+    },
+    "nutrition.recent.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir girişe dokunmak formu doldurur; Kaydet'e basmadan yeni kayıt oluşmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tapping an entry fills the form; no new record is created until you save."
+          }
+        }
+      }
+    },
+    "nutrition.recent": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son kullandığım girişler"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent entries"
+          }
+        }
+      }
+    },
+    "meal.other": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        }
+      }
+    },
+    "meal.snack": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ara öğün"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snack"
+          }
+        }
+      }
+    },
+    "meal.dinner": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akşam"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinner"
+          }
+        }
+      }
+    },
+    "meal.lunch": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lunch"
+          }
+        }
+      }
+    },
+    "meal.breakfast": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kahvaltı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Breakfast"
+          }
+        }
+      }
+    },
+    "nutrition.name": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yiyecek veya plan adı (isteğe bağlı)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Food or plan name (optional)"
+          }
+        }
+      }
+    },
+    "nutrition.meal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öğün"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meal"
+          }
+        }
+      }
+    },
+    "nutrition.shortcuts.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10–2000 ml arasında en çok dört farklı miktarı virgülle ayırarak yaz. Örnek: 200,350,500. Bunlar yalnızca senin hızlı kayıt düğmelerindir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter up to four different amounts from 10 to 2000 ml, separated by commas. Example: 200,350,500. These are only your quick-entry buttons."
+          }
+        }
+      }
+    },
+    "nutrition.shortcuts": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı su miktarlarını ayarla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure quick water amounts"
+          }
+        }
+      }
+    },
+    "nutrition.health.readOnly": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağlık kaydı bu ekrandan değiştirilemez; Sağlık bağlantısından yeniden alabilirsin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A Health record cannot be edited here; import it again through the Health connection."
+          }
+        }
+      }
+    },
+    "routine.step.missing": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu adım artık bulunamıyor. Eski oturum sırası değiştirilmedi; sonraki adıma geçebilirsin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This step is no longer available. The saved session order is unchanged; you can move to the next step."
+          }
+        }
+      }
+    },
+    "routine.unavailable": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu rutin bugün için uygun adım içermiyor veya duraklatılmış. Arşivli adımların tekrarını görev düzenleyicisinden ayrıca değiştirebilirsin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This routine has no eligible steps today or is paused. Archived task repeats can be changed separately in the task editor."
+          }
+        }
+      }
+    },
+    "routine.end": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıranın sonuna geldin. Gerçekleşmeler görev kartlarındaki kayıtlarına göre korunur."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You reached the end. Progress remains as recorded on the task cards."
+          }
+        }
+      }
+    },
+    "routine.next": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonraki adıma geç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to next step"
+          }
+        }
+      }
+    },
+    "routine.run.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugünkü adımları sırayla gözden geçir. İlerleme aynı görev kaydına yazılır; bu sıra ikinci bir başarı üretmez. Sonrakine geçmek görevi tamamlamaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review today's steps in order. Progress uses the same task record; the session adds no second achievement. Moving to the next step does not complete a task."
+          }
+        }
+      }
+    },
+    "routine.group.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rutin takvimi grup görünümünü ve hatırlatmasını yönetir. Mevcut görevlerin tekrarları korunur; ortak bir görevi duraklatmaz. Yeni adımlar seçili günlerle başlar. Adımı kaydetmek görev listesine de ekler; gruptan çıkmak görevi silmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The routine schedule controls the group and its reminder. Existing tasks keep their repeats; shared tasks are not paused. New steps start on selected days. Saving a step also adds it to the task list; leaving the group does not delete it."
+          }
+        }
+      }
+    },
+    "routine.days": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rutinin günleri"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine days"
+          }
+        }
+      }
+    },
+    "routine.start": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rutini başlat / sürdür"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start / resume routine"
+          }
+        }
+      }
+    },
+    "planning.support.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dakika veya sayfa alışkanlığı kitap hedefini otomatik tamamlamaz. Bağlantı, destek ilişkisini gösterir; farklı birimler toplanmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A minute or page habit does not automatically complete a book goal. The connection shows support; different units are not summed."
+          }
+        }
+      }
+    },
+    "planning.support": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağımsız destek alışkanlığı oluştur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a separate supporting habit"
+          }
+        }
+      }
+    },
+    "week.focus.empty": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu hafta için henüz odak seçmedin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No priorities selected for this week."
+          }
+        }
+      }
+    },
+    "week.focus.select": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftanın üç odağını seç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose this week's three priorities"
+          }
+        }
+      }
+    },
+    "capacity.future.confirm": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onay, yeni günlük görevleri ve seçili bitiş tarihini kaydeder. Geçmiş kayıtlar değişmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation saves new daily tasks and the selected end date. Historical records stay unchanged."
+          }
+        }
+      }
+    },
+    "capacity.editGoal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef miktarını düzenle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit goal amount"
+          }
+        }
+      }
+    },
+    "capacity.extend": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitişi 30 gün uzat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extend end by 30 days"
+          }
+        }
+      }
+    },
+    "capacity.excess": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapasiteyi aşan süre"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time above capacity"
+          }
+        }
+      }
+    },
+    "capacity.free": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapasite"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capacity"
+          }
+        }
+      }
+    },
+    "capacity.perUnit": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir birim için dakika"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minutes per unit"
+          }
+        }
+      }
+    },
+    "capacity.use": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaman kapasiteme göre dağıt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distribute by my time capacity"
+          }
+        }
+      }
+    },
+    "capacity.insufficient": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu miktar seçili günlerdeki boş zamanına sığmıyor. Tarihi uzatabilir, uygun günleri artırabilir veya hedef miktarını düzenleyebilirsin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This amount does not fit the free time on selected days. Extend the dates, add available days or edit the goal amount."
+          }
+        }
+      }
+    },
+    "capacity.unknown": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçili günlerde süresi belirsiz işler var. Önce haftalık planda bu işlerin tahmini süresini belirle veya farklı günler seç."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some selected days contain tasks without estimated duration. Set their estimates in the weekly plan or choose different days."
+          }
+        }
+      }
+    },
+    "capacity.invalid": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahmini süre 0'dan büyük ve en çok 1440 dakika olmalı."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estimated duration must be greater than zero and at most 1440 minutes."
+          }
+        }
+      }
+    },
+    "capacity.required": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce haftalık zaman kapasiteni ve birim başına süreyi belirle."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set weekly time capacity and time per unit first."
+          }
+        }
+      }
+    },
+    "capacity.estimate.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre, miktardan ayrıdır. Tahmini dakika bugünün açık planı ve sonraki tekrarlar içindir; geçmişe çalışma süresi eklemez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time is separate from quantity. Estimated minutes apply to today's open plan and future repeats; they do not add working time to history."
+          }
+        }
+      }
+    },
+    "capacity.estimate": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu adımın tahmini süresi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estimated time for this task"
+          }
+        }
+      }
+    },
+    "capacity.minutes": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Süre (dakika)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duration (minutes)"
+          }
+        }
+      }
+    },
+    "capacity.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her gün planlı işlerin için ayırabileceğin dakikayı gir. 0, o gün yeni iş için zaman ayırmadığın anlamına gelir. Bu bir plan kapasitesidir; gerçekleşen çalışma süresi değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter minutes available for planned tasks each day. Zero means no time for new tasks that day. This is planning capacity, not actual working time."
+          }
+        }
+      }
+    },
+    "capacity.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayırabileceğim süre"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My available time"
+          }
+        }
+      }
+    },
     "source.kind.activity": {
       "localizations": {
         "tr": {
@@ -1686,13 +2406,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Bitiş tarihi geçmiş adımı sürdürmeden önce düzenleyin. Sürdürme yeni bir plan dönemi başlatır; ara verilen günlere görev eklenmez."
+            "value": "Yalnızca bu rutinin takvimi ve grup hatırlatması değişir. Görevlerin diğer kullanımları ve geçmişi korunur."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit expired steps before resuming. Resuming starts a new planning cycle without filling paused days."
+            "value": "Only this routine's schedule and group reminder change. Other task uses and history are preserved."
           }
         }
       }

@@ -9,7 +9,7 @@ struct SourceLinkScreen: View {
     private var events: [SourceEvent] {
         guard let row else { return [] }
         return store.data.sourceEvents(engine:store.engine).filter { event in
-            event.domainID == row.domainID && event.unit == row.unit && store.engine.key(event.date) == row.day && event.amount > 0 && !store.data.sourceLinks.contains { $0.sourceKind == event.kind && $0.sourceID == event.sourceID }
+            event.domainID == row.domainID && event.unit == row.unit && event.day == row.day && event.amount > 0 && !store.data.sourceLinks.contains { $0.sourceKind == event.kind && $0.sourceID == event.sourceID }
         }.sorted { $0.date > $1.date }
     }
     var body: some View {

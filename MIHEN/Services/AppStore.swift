@@ -40,6 +40,7 @@ import WidgetKit
         do {
             try operation(&candidate)
             try candidate.reconcileSources(engine: engine)
+            candidate.captureEstimates(engine:engine,on:Date())
             try repository.save(candidate)
             data = candidate
             publishWidget()
@@ -84,7 +85,7 @@ import WidgetKit
             if total == document.khatms[index].totalPages { document.khatms[index].completedAt = Date() }
         }
     }
-    func saveTask(_ record: PlannedTaskRecord, effective date: Date = Date()) {
+    func saveTask(_ record: PlannedTaskRecord, estimatedMinutes: Double? = nil, effective date: Date = Date()) {
         let planner = engine
         change { document in
             if let i = document.tasks.firstIndex(where: { $0.id == record.id }) {
@@ -96,6 +97,8 @@ import WidgetKit
                 document.occurrences.removeAll { $0.taskID == record.id && $0.day > planner.key(date) && $0.status == "planned" }
             } else { document.tasks.append(record) }
             planner.materialize(&document, from: date, through: date)
+            try document.reconcileSources(engine:planner)
+            try document.setTaskEstimate(record.id,minutes:estimatedMinutes,engine:planner,on:date)
         }
     }
     func publishWidget() {

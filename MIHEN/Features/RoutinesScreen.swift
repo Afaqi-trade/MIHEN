@@ -19,7 +19,7 @@ struct RoutinesScreen: View {
             ForEach(store.data.routines) { routine in
                 Section {
                     let members = tasks(routine.id)
-                    let paused = !members.isEmpty && members.allSatisfy(\.archived)
+                    let paused = store.engine.routineIsPaused(routine.id,in:store.data)
                     if paused { Text(store.t("routine.paused")).foregroundStyle(.secondary) }
                     ForEach(store.data.routineItems.filter { $0.routineID == routine.id }.sorted { $0.rank < $1.rank }) { item in
                         if let occurrence = store.occurrences(on: Date()).first(where: { $0.taskID == item.taskID }), !paused {
@@ -28,6 +28,9 @@ struct RoutinesScreen: View {
                             Text(store.taskTitle(task.title)).foregroundStyle(.secondary)
                         }
                     }
+                    NavigationLink(destination:RoutineRunScreen(routineID:routine.id)) { Text(store.t("routine.start")) }
+                        .disabled(!store.engine.routineIsAvailable(routine.id,on:Date(),in:store.data)).accessibilityIdentifier("routine.start")
+                    Text(store.t("routine.group.help")).font(.caption)
                     Menu {
                         Button(store.t("edit")) { editing = routine }
                         Button(store.t(paused ? "routine.resume" : "routine.pause")) { changing = routine }
@@ -42,9 +45,9 @@ struct RoutinesScreen: View {
             .confirmationDialog(store.t("routine.pause.confirm"), isPresented: Binding(get: { changing != nil }, set: { if !$0 { changing = nil } })) {
                 Button(store.t("continue")) {
                     guard let routine = changing else { return }
-                    let members = tasks(routine.id), resume = !members.isEmpty && members.allSatisfy(\.archived)
+                    let resume=store.engine.routineIsPaused(routine.id,in:store.data)
                     let engine = store.engine
-                    store.change { try engine.changeRoutineRepetitions(routine.id, resume: resume, on: Date(), in: &$0) }
+                    store.change { try engine.pauseRoutine(routine.id,paused:!resume,in:&$0) }
                     changing = nil
                 }
             }
@@ -70,6 +73,7 @@ struct RoutineEditor: View {
     @State private var previousTasks = Set<String>()
     @State private var reminder = false
     @State private var reminderTime = Date()
+    @State private var weekdays=Set(1...7)
     init(routine: RoutineRecord? = nil) { _draft = State(initialValue: routine ?? .init(domainID: "health")) }
     var body: some View {
         NavigationStack {
@@ -80,6 +84,10 @@ struct RoutineEditor: View {
                     if draft.title.isEmpty {
                         HStack { Button(store.t("routine.morning")) { draft.title = store.t("routine.morning") }; Button(store.t("routine.evening")) { draft.title = store.t("routine.evening") } }.buttonStyle(.borderless)
                     }
+                }
+                Section(store.t("routine.days")) {
+                    ForEach(1...7,id:\.self) { day in Toggle(store.engine.calendar.weekdaySymbols[day-1],isOn:Binding(get:{ weekdays.contains(day) },set:{ if $0 { weekdays.insert(day) } else { weekdays.remove(day) } })) }
+                    Text(store.t("routine.group.help")).font(.footnote)
                 }
                 Section(store.t("routine.steps")) {
                     Text(store.t("routine.schedule.help")).font(.footnote)
@@ -109,15 +117,19 @@ struct RoutineEditor: View {
                             let parts = store.engine.calendar.dateComponents([.hour, .minute], from: reminderTime)
                             if store.change({ data in
                                 if let i = data.routines.firstIndex(where: { $0.id == draft.id }) { data.routines[i] = draft } else { data.routines.append(draft) }
+                                let paused=store.engine.routineIsPaused(draft.id,in:data)
+                                data.routineSchedules.removeAll { $0.routineID == draft.id }
+                                data.routineSchedules.append(.init(routineID:draft.id,weekdays:weekdays.sorted(),paused:paused))
                                 data.routineItems.removeAll { $0.routineID == draft.id }
                                 for (rank,id) in selected.enumerated() { data.routineItems.append(.init(routineID: draft.id, taskID: id, rank: rank)) }
                                 data.notificationPreferences.removeAll { $0.kind == "routine." + draft.id }
                                 if reminder { data.notificationPreferences.append(.init(kind: "routine." + draft.id, enabled: true, hour: parts.hour ?? 9, minute: parts.minute ?? 0)) }
                             }) { dismiss() }
-                        }.accessibilityIdentifier("routine.save").disabled(draft.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selected.isEmpty)
+                        }.accessibilityIdentifier("routine.save").disabled(draft.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selected.isEmpty || weekdays.isEmpty)
                     }
                 }
                 .onAppear {
+                    weekdays=Set(store.data.routineSchedules.first { $0.routineID == draft.id }?.weekdays ?? Array(1...7))
                     selected = store.data.routineItems.filter { $0.routineID == draft.id }.sorted { $0.rank < $1.rank }.map(\.taskID)
                     if let pref = store.data.notificationPreferences.first(where: { $0.kind == "routine." + draft.id }) {
                         reminder = pref.enabled
@@ -127,7 +139,7 @@ struct RoutineEditor: View {
                 .sheet(item: $editingStep) { TaskEditor(task: $0) }
                 .sheet(isPresented: $addStep, onDismiss: {
                     for task in store.data.tasks where !previousTasks.contains(task.id) && !selected.contains(task.id) { selected.append(task.id) }
-                }) { TaskEditor(domainID: draft.domainID, routineMode: true) }
+                }) { TaskEditor(domainID: draft.domainID, routineMode: true, routineWeekdays:weekdays.sorted()) }
         }
     }
 }
@@ -155,6 +167,14 @@ struct WeeklyPlanScreen: View {
                 Text(store.t("week.knownTime") + ": " + minutes.formatted(.number.locale(store.locale)) + " " + store.t("minutes"))
                 Text(store.t("week.withoutTime") + ": \(rows.filter { $0.unit != "minutes" }.count)").font(.caption)
             }
+            Section(store.t("week.focus.select")) {
+                let key=store.engine.key(days[0])
+                let focus=store.data.weeklyFocuses.filter { $0.week == key }.sorted { $0.rank < $1.rank }
+                if focus.isEmpty { Text(store.t("week.focus.empty")) }
+                ForEach(focus) { row in Text(store.taskTitle(row.title)) }
+                NavigationLink(destination:WeeklyFocusEditor(week:selected)) { Text(store.t("week.focus.select")) }
+                NavigationLink(destination:CapacityScreen()) { Text(store.t("capacity.title")) }.accessibilityIdentifier("weekly.capacity")
+            }
             Section(store.t("week.intention")) {
                 TextField(store.t("week.intention.help"), text: $weeklyNote, axis: .vertical).accessibilityIdentifier("weekly.note")
                 Button(store.t("save")) {
@@ -168,6 +188,12 @@ struct WeeklyPlanScreen: View {
             ForEach(days, id: \.self) { day in
                 Section {
                     let items = store.occurrences(on: day).filter { !["cancelled","moved","skipped"].contains($0.status) }
+                    let load=store.engine.workload(store.data,on:day)
+                    if let capacity=load.capacity {
+                        Text(store.t("capacity.free")+": "+load.minutes.formatted(.number.locale(store.locale))+" / "+String(capacity)+" "+store.t("minutes"))
+                        if load.excess > 0 { Text(store.t("capacity.excess")+": "+load.excess.formatted(.number.locale(store.locale))).foregroundStyle(Color.mihenRed) }
+                    }
+                    if load.unknown > 0 { NavigationLink(destination:DayCapacityScreen(day:day)) { Text(store.t("week.withoutTime")+": "+String(load.unknown)) } }
                     if items.isEmpty { Text(store.t("week.room")).font(.caption).foregroundStyle(.secondary) }
                     ForEach(items) { OccurrenceRow(occurrence: $0) }
                 } header: { Text(day, format: .dateTime.weekday(.wide).day().month()) }

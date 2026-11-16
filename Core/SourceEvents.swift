@@ -4,6 +4,7 @@ public struct SourceEvent: Identifiable, Equatable, Sendable {
     public let kind: String
     public let sourceID: String
     public let date: Date
+    public let day: String
     public let domainID: String
     public let unit: String
     public let amount: Double
@@ -15,22 +16,22 @@ extension BackupDocument {
         var result: [SourceEvent] = []
         for row in readings {
             if let parent = khatms.first(where: { $0.id == row.khatmID }) {
-                result.append(.init(kind:"reading",sourceID:row.id,date:row.date,domainID:"learning",unit:"pages",amount:Double(row.pages),title:parent.title))
+                result.append(.init(kind:"reading",sourceID:row.id,date:row.date,day:engine.key(row.date),domainID:"learning",unit:"pages",amount:Double(row.pages),title:parent.title))
             }
         }
         for row in memorizationReviews {
             if let parent = memorization.first(where: { $0.id == row.itemID }) {
-                result.append(.init(kind:"review",sourceID:row.id,date:row.date,domainID:"learning",unit:"count",amount:1,title:parent.title))
+                result.append(.init(kind:"review",sourceID:row.id,date:row.date,day:engine.key(row.date),domainID:"learning",unit:"count",amount:1,title:parent.title))
             }
         }
         for row in dhikr {
-            if let date=engine.date(row.day) { result.append(.init(kind:"dhikr",sourceID:row.id,date:date,domainID:"spiritual",unit:"count",amount:Double(row.value),title:row.title)) }
+            if let date=PlanningEngine(timeZone:TimeZone(secondsFromGMT:0)!).date(row.day) { result.append(.init(kind:"dhikr",sourceID:row.id,date:date,day:row.day,domainID:"spiritual",unit:"count",amount:Double(row.value),title:row.title)) }
         }
         for row in fasts {
-            result.append(.init(kind:"fast",sourceID:row.id,date:row.date,domainID:"spiritual",unit:"days",amount:row.status == "completed" ? 1 : 0,title:row.title))
+            result.append(.init(kind:"fast",sourceID:row.id,date:row.date,day:engine.key(row.date),domainID:"spiritual",unit:"days",amount:row.status == "completed" ? 1 : 0,title:row.title))
         }
-        for row in effectiveActivities(engine:engine) where !["qadaDebt","qadaDone"].contains(row.kind) {
-            result.append(.init(kind:"activity",sourceID:row.id,date:row.date,domainID:row.domainID,unit:row.unit,amount:row.amount,title:row.note.isEmpty ? "activity."+row.kind : row.note))
+        for row in activities where !["qadaDebt","qadaDone"].contains(row.kind) {
+            result.append(.init(kind:"activity",sourceID:row.id,date:row.date,day:engine.key(row.date),domainID:row.domainID,unit:row.unit,amount:row.amount,title:row.note.isEmpty ? "activity."+row.kind : row.note))
         }
         return result
     }
@@ -39,9 +40,9 @@ extension BackupDocument {
         guard let event=sourceEvents(engine:engine).first(where: { $0.id == eventID }), event.amount > 0,
               let row=occurrences.first(where: { $0.id == occurrenceID }),
               ["planned","partial","completed"].contains(row.status), row.domainID == event.domainID,
-              row.unit == event.unit, row.day == engine.key(event.date),
+              row.unit == event.unit, row.day == event.day,
               !sourceLinks.contains(where: { $0.occurrenceID == occurrenceID || ($0.sourceKind == event.kind && $0.sourceID == event.sourceID) }) else { throw PlanError.invalid("source.incompatible") }
-        next.sourceLinks.append(.init(sourceKind:event.kind,sourceID:event.sourceID,occurrenceID:row.id,previousValue:row.value))
+        next.sourceLinks.append(.init(sourceKind:event.kind,sourceID:event.sourceID,occurrenceID:row.id,previousValue:row.value,sourceDate:event.date,day:row.day))
         try next.reconcileSources(engine:engine)
         try BackupCodec.validate(next);self=next
     }
@@ -65,7 +66,7 @@ extension BackupDocument {
                 try PlanningEngine.setProgress(link.previousValue,occurrence:&occurrences[i]);removed.insert(link.id);continue
             }
             let row=occurrences[i]
-            guard row.domainID == event.domainID, row.unit == event.unit, row.day == engine.key(event.date),
+            guard row.domainID == event.domainID, row.unit == event.unit, row.day == link.day, event.date == link.sourceDate,
                   ["planned","partial","completed"].contains(row.status) else { throw PlanError.invalid("source.disconnectFirst") }
             try PlanningEngine.setProgress(min(row.target,event.amount),occurrence:&occurrences[i])
         }

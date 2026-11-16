@@ -35,6 +35,7 @@ import UserNotifications
                 if fire > now { requests.append(("task-\(task.id)-\(engine.key(day))", p.lockEnabled ? title("reminder.task") : Localization.recordTitle(task.title, language: p.language), fire)) }
             }
             for routine in document.routines {
+                guard engine.routineIsAvailable(routine.id,on:day,in:document) else { continue }
                 let ids = Set(document.routineItems.filter { $0.routineID == routine.id }.map(\.taskID))
                 guard document.tasks.contains(where: { ids.contains($0.id) && engine.isDue($0, on: day, restWeekdays: p.restWeekdays) }),
                       let pref = document.notificationPreferences.first(where: { $0.kind == "routine." + routine.id && $0.enabled }) else { continue }

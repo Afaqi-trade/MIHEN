@@ -290,9 +290,11 @@ struct TaskEditor: View {
     private let inferArea: Bool
     @State private var hasEnd = false
     @State private var details = false
-    init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil, routineMode: Bool = false) {
+    @State private var hasEstimate = false
+    @State private var estimatedMinutes = 20.0
+    init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil, routineMode: Bool = false, routineWeekdays: [Int]? = nil) {
         inferArea = task == nil && domainID == nil && goalID == nil
-        _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID, recurrence: routineMode ? "daily" : "none", isHabit: routineMode))
+        _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID, recurrence: routineMode ? (routineWeekdays == nil ? "daily" : "weekly") : "none", isHabit: routineMode, weekdays:routineWeekdays ?? []))
         _hasEnd = State(initialValue: task?.end != nil)
         _details = State(initialValue: task != nil)
     }
@@ -309,6 +311,9 @@ struct TaskEditor: View {
                 }.accessibilityIdentifier("task.goal")
                 ValueInput(title: "target", value: $draft.target)
                 UnitPicker(unit: $draft.unit)
+                Toggle(store.t("capacity.estimate"),isOn:$hasEstimate)
+                if hasEstimate { ValueInput(title:"capacity.minutes",value:$estimatedMinutes) }
+                Text(store.t("capacity.estimate.help")).font(.footnote)
                 DatePicker(store.t("start.date"), selection: $draft.start, displayedComponents: .date)
                 Toggle(store.t("end.enabled"), isOn: $hasEnd)
                 if hasEnd { DatePicker(store.t("end.date"), selection: Binding(get: { draft.end ?? draft.start }, set: { draft.end = $0 }), displayedComponents: .date) }
@@ -325,6 +330,7 @@ struct TaskEditor: View {
 
                 Text(store.t("task.edit.explanation")).font(.footnote)
             }.keyboardDone().onAppear {
+                if let estimate=store.data.taskEstimates.first(where: { $0.taskID == draft.id }) { hasEstimate=true;estimatedMinutes=estimate.minutes }
                 if inferArea && draft.title.isEmpty {
                     let enabled = store.data.domains.filter(\.enabled)
                     if enabled.count == 1 { draft.domainID = enabled[0].id }
@@ -334,7 +340,7 @@ struct TaskEditor: View {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {
                         if !hasEnd { draft.end = nil } else if draft.end == nil { draft.end = draft.start }
-                        store.saveTask(draft)
+                        store.saveTask(draft,estimatedMinutes:hasEstimate ? estimatedMinutes : nil)
                         if store.data.tasks.contains(where: { $0.id == draft.id }) && store.errorMessage == nil { dismiss() }
                     }.disabled(draft.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || draft.target <= 0).accessibilityIdentifier("task.save") }
                 }

@@ -28,7 +28,7 @@ S = {
 # V1 entity definitions above are frozen. V2 adds independent entities only.
 V1_NAMES = tuple(S)
 S.update({
-'SourceLink':[('sourceKind','String','""'),('sourceID','String','""'),('occurrenceID','String','""'),('previousValue','Double','0')],
+'SourceLink':[('sourceKind','String','""'),('sourceID','String','""'),('occurrenceID','String','""'),('previousValue','Double','0'),('sourceDate','Date','Date()'),('day','String','""')],
 'PlanningCapacity':[('weekday','Int','1'),('minutes','Int','0')],
 'TaskEstimate':[('taskID','String','""'),('minutes','Double','0')],
 'OccurrenceEstimate':[('occurrenceID','String','""'),('minutes','Double','0')],
@@ -36,7 +36,7 @@ S.update({
 'WeeklyFocus':[('week','String','""'),('kind','String','"goal"'),('referenceID','String','""'),('title','String','""'),('rank','Int','0')],
 'RoutineSchedule':[('routineID','String','""'),('weekdays','[Int]','[1,2,3,4,5,6,7]'),('paused','Bool','false')],
 'RoutineSession':[('routineID','String','""'),('day','String','""'),('taskIDs','[String]','[]'),('position','Int','0')],
-'ActivityAnnotation':[('activityID','String','""'),('meal','String','"other"'),('title','String','""')],
+'ActivityAnnotation':[('activityID','String','""'),('meal','String','"other"'),('title','String','""'),('lastUsed','Date','Date()')],
 'NutritionPlan':[('date','Date','Date()'),('kind','String','"food"'),('amount','Double','0'),('unit','String','"kcal"'),('meal','String','"other"'),('title','String','""')],
 'AppOption':[('key','String','""'),('value','String','""')]
 })

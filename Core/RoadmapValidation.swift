@@ -10,7 +10,7 @@ extension BackupDocument {
         try distinct(sourceLinks.map { $0.sourceKind+":"+$0.sourceID });try distinct(sourceLinks.map(\.occurrenceID))
         for link in sourceLinks {
             guard let event=events[link.sourceKind+":"+link.sourceID], let row=occurrences.first(where: { $0.id == link.occurrenceID }) else { throw PlanError.invalid("validation.missing") }
-            try check(row.unit == event.unit && row.domainID == event.domainID && row.day == engine.key(event.date))
+            try check(row.unit == event.unit && row.domainID == event.domainID && row.day == link.day && event.date == link.sourceDate)
             try check(link.previousValue.isFinite && link.previousValue >= 0 && link.previousValue <= row.target)
             try check(["planned","partial","completed"].contains(row.status) && row.value == min(row.target,event.amount))
         }
@@ -29,7 +29,7 @@ extension BackupDocument {
         for row in routineSessions { try check(routines.contains(row.routineID) && engine.date(row.day) != nil && row.position >= 0 && row.position <= row.taskIDs.count && row.taskIDs.count <= 1000 && Set(row.taskIDs).count == row.taskIDs.count) }
         try distinct(activityAnnotations.map(\.activityID))
         let meals=["breakfast","lunch","dinner","snack","other"]
-        for row in activityAnnotations { try check(activities.contains(row.activityID) && meals.contains(row.meal) && row.title.count <= 200) }
+        for row in activityAnnotations { try check(activities.contains(row.activityID) && meals.contains(row.meal) && row.title.count <= 200 && row.lastUsed.timeIntervalSince1970.isFinite) }
         for row in nutritionPlans { try check(["food","water","energyBurned"].contains(row.kind) && row.unit == (row.kind == "water" ? "ml" : "kcal") && row.amount.isFinite && row.amount > 0 && row.amount <= 1e9 && meals.contains(row.meal) && row.title.count <= 200 && row.date.timeIntervalSince1970.isFinite) }
         try distinct(options.map(\.key))
         for row in options {

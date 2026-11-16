@@ -110,7 +110,8 @@ extension BackupDocument {
             guard let value else { continue }
             guard value.isFinite, value >= 0, value <= 1e12 else { throw PlanError.invalid("validation.progress") }
             let id = prefix + engine.key(date)
-            let record = DomainActivityRecord(id:id,domainID:"health",date:date,kind:kind,amount:value,unit:unit)
+            let storedDate=candidate.activities.first { $0.id == id }?.date ?? engine.calendar.startOfDay(for:date)
+            let record = DomainActivityRecord(id:id,domainID:"health",date:storedDate,kind:kind,amount:value,unit:unit)
             if let i = candidate.activities.firstIndex(where: { $0.id == id }) { candidate.activities[i] = record } else { candidate.activities.append(record) }
         }
         try BackupCodec.validate(candidate); self = candidate
