@@ -368,7 +368,7 @@ final class MIHENUITests: XCTestCase {
             app.buttons["task.save"].tap()
             let title = app.staticTexts["Kısa yürüyüş"].firstMatch
             XCTAssertTrue(title.waitForExistence(timeout:5))
-            let detail = app.buttons.matching(NSPredicate(format:"label CONTAINS %@", "Kısa yürüyüş")).firstMatch
+            let detail = app.buttons.containing(.staticText, identifier:"Kısa yürüyüş").firstMatch
             reveal(detail, in:app)
             capture(app,name:"MIHEN-Today-LargeText-Task-TR")
             detail.tap()
