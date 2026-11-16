@@ -1,6 +1,24 @@
 from pathlib import Path
 import json,re
-rows='''nutrition.actual|Gerçekleşen|Actual
+rows='''report.share.title|Raporu paylaş|Share report
+report.export.comparison|Önceki dönem ve alt aralıkları da ekle|Include previous period and subperiods
+decadal|On yıllık değerlendirme|Decade reflection
+report.lighten|Miktar veya tarihi gözden geçir|Review quantity or dates
+report.decide.help|Bir planı hafifletmek için miktar veya tarihi düzenleyebilirsin. Gelecek günlük işleri arşivlemek açık onay ister. Bu kararlar geçmiş kayıtları yeniden yazmaz; kendiliğinden taşıma yapılmaz.|Edit amount or dates to lighten a plan. Archiving future daily tasks requires explicit confirmation. Decisions do not rewrite history or move tasks automatically.
+report.decide|Sonraki dönem kararım|My next-period decision
+report.metric|Ölçüm|Metric
+report.trend.help|Grafik yalnızca seçili ölçümü ve birimini gösterir. Boş aralıkta kayıt yoktur; başarısızlık veya sıfır faaliyet sonucu çıkarılmaz.|The chart shows only the selected metric and unit. Empty intervals have no records; they do not mean failure or zero activity.
+report.trend|Dönemin alt aralıkları|Subperiods
+report.difference|Kayıtlardaki fark|Difference in recorded amounts
+report.current|Bu dönem|This period
+report.compare.help|Önceki aralık aynı sayıda takvim günüdür. Kayıt olmayan ölçüm sıfır sayılmaz. Farklar yalnızca iki dönemde de en az üç kayıtlı gün ve aynı birim varsa gösterilir; bu bir anlamlılık veya yaşam kalitesi değerlendirmesi değildir.|The previous range has the same number of calendar days. Missing metrics are not zero. Differences appear only with at least three recorded days in both periods and matching units; this is not a significance or quality-of-life assessment.
+report.compare|Eşit uzunluktaki önceki dönem|Previous period of equal length
+report.cutoff.help|İçinde bulunduğumuz dönem bugünün sonuna kadar hesaplanır; gelecek günler geçmiş sonuç gibi gösterilmez.|The current period is calculated through today; future days are not shown as historical results.
+report.lastRecord|Son kayıt günü|Last recorded day
+report.firstRecord|İlk kayıt günü|First recorded day
+report.coverage.title|Kayıt kapsamı|Record coverage
+report.analysis|Karşılaştırma ve eğilim|Comparison and trends
+nutrition.actual|Gerçekleşen|Actual
 nutrition.planned|Planlanan|Planned
 nutrition.plan.help|Plan bir niyettir; gerçekleşme üretmez. kcal ve ml ayrı karşılaştırılır. Egzersizde yakılan enerji toplam günlük harcama değildir; fark kalori açığı olarak yorumlanmaz.|A plan is an intention and creates no actual entry. kcal and ml are compared separately. Exercise energy is not total daily expenditure; the difference is not a calorie deficit.
 nutrition.plan.add|Bu güne plan ekle|Add a plan for this day
@@ -452,7 +470,7 @@ recurrence|Tekrarlama|Recurrence
 daily|Her gün|Daily
 weekly|Her hafta|Weekly
 monthly|Her ay|Monthly
-yearly|Her yıl|Yearly
+yearly|Yıllık değerlendirme|Yearly reflection
 hijriMonthly|Her Hicri ay|Every Hijri month
 hijriYearly|Her Hicri yıl|Every Hijri year
 habit|Alışkanlık olarak takip et|Track as a habit

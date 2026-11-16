@@ -50,6 +50,7 @@ import SwiftData
         result.routineSessions = try context.fetch(FetchDescriptor<RoutineSession>()).map(\.record)
         result.activityAnnotations = try context.fetch(FetchDescriptor<ActivityAnnotation>()).map(\.record)
         result.nutritionPlans = try context.fetch(FetchDescriptor<NutritionPlan>()).map(\.record)
+        result.reviewResponses = try context.fetch(FetchDescriptor<ReviewResponse>()).map(\.record)
         result.options = try context.fetch(FetchDescriptor<AppOption>()).map(\.record)
         return result
     }
@@ -334,6 +335,15 @@ import SwiftData
                     if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
                 }
                 for record in data.nutritionPlans where !existing.contains(record.id) { context.insert(NutritionPlan(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<ReviewResponse>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.reviewResponses.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.reviewResponses where !existing.contains(record.id) { context.insert(ReviewResponse(record)) }
             }
             do {
                 let rows = try context.fetch(FetchDescriptor<AppOption>())

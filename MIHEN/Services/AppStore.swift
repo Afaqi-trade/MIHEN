@@ -8,6 +8,7 @@ import WidgetKit
     var data: BackupDocument
     var errorMessage: String?
     var locked = false
+    var revision = 0
     var lastProgressChange: (id: String, value: Double)?
     @ObservationIgnored private var notificationTask: Task<Void, Never>?
     let repository: Repository
@@ -43,6 +44,7 @@ import WidgetKit
             candidate.captureEstimates(engine:engine,on:Date())
             try repository.save(candidate)
             data = candidate
+            revision &+= 1
             publishWidget()
             refreshNotifications()
             return true

@@ -46,7 +46,7 @@ struct NutritionScreen: View {
                     if planned > 0 {
                         VStack(alignment:.leading) {
                             Text(store.t("activity."+key))
-                            Text(store.t("nutrition.planned")+": "+planned.formatted(.number.locale(store.locale))+" · "+store.t("nutrition.actual")+": "+total(key).formatted(.number.locale(store.locale))+" "+(key == "water" ? "ml" : "kcal"))
+                            Text(plannedLine(key,planned:planned))
                         }
                     }
                 }
@@ -62,7 +62,7 @@ struct NutritionScreen: View {
                     Button {
                         let annotation=store.data.activityAnnotations.first { $0.activityID == row.id }
                         kind=row.kind;amount=row.amount;note=row.note;meal=annotation?.meal ?? "other";foodName=annotation?.title ?? ""
-                    } label: { Text((store.data.activityAnnotations.first { $0.activityID == row.id }?.title).flatMap { $0.isEmpty ? nil : $0 } ?? store.t("activity."+row.kind))+Text(" · "+row.amount.formatted(.number.locale(store.locale))+" "+row.unit) }
+                    } label: { Text(recentLabel(row)) }
                 }
                 Text(store.t("nutrition.recent.help")).font(.footnote)
             }
@@ -93,6 +93,17 @@ struct NutritionScreen: View {
         }.buttonStyle(.borderless).keyboardDone().navigationTitle(store.t("nutrition"))
             .sheet(item:$editing) { NutritionEntryEditor(record:$0) }
             .sheet(item:$plan) { NutritionPlanEditor(record:$0) }
+    }
+    private func plannedLine(_ kind: String, planned: Double) -> String {
+        let plannedText=planned.formatted(.number.locale(store.locale))
+        let actualText=total(kind).formatted(.number.locale(store.locale))
+        let unit=kind == "water" ? "ml" : "kcal"
+        return store.t("nutrition.planned")+": "+plannedText+" · "+store.t("nutrition.actual")+": "+actualText+" "+unit
+    }
+    private func recentLabel(_ row: DomainActivityRecord) -> String {
+        let name=store.data.activityAnnotations.first { $0.activityID == row.id }?.title ?? ""
+        let title=name.isEmpty ? store.t("activity."+row.kind) : name
+        return title+" · "+row.amount.formatted(.number.locale(store.locale))+" "+row.unit
     }
     @ViewBuilder private var quickButtons: some View {
         ForEach(store.data.waterShortcuts,id:\.self) { value in Button("+\(value) ml") { addWater(value) }.frame(minHeight:44) }

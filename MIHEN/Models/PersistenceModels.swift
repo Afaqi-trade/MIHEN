@@ -780,6 +780,28 @@ import SwiftData
     }
 }
 
+@Model final class ReviewResponse {
+    @Attribute(.unique) var id: String
+    var journalID: String
+    var well: String
+    var adjust: String
+    var next: String
+    init(_ record: ReviewResponseRecord) {
+        self.id = record.id
+        self.journalID = record.journalID
+        self.well = record.well
+        self.adjust = record.adjust
+        self.next = record.next
+    }
+    var record: ReviewResponseRecord { .init(id: id, journalID: journalID, well: well, adjust: adjust, next: next) }
+    func update(_ record: ReviewResponseRecord) {
+        self.journalID = record.journalID
+        self.well = record.well
+        self.adjust = record.adjust
+        self.next = record.next
+    }
+}
+
 @Model final class AppOption {
     @Attribute(.unique) var id: String
     var key: String
@@ -802,7 +824,7 @@ enum MihenSchemaV1: VersionedSchema {
 }
 enum MihenSchema: VersionedSchema {
     static var versionIdentifier: Schema.Version { .init(2, 0, 0) }
-    static var models: [any PersistentModel.Type] { [UserPreferences.self, LifeDomain.self, Subcategory.self, Goal.self, GoalMilestone.self, GoalProgressEntry.self, PlannedTask.self, TaskOccurrence.self, Routine.self, RoutineItem.self, Project.self, QuranKhatm.self, QuranReadingLog.self, MemorizationItem.self, MemorizationReview.self, DhikrCounter.self, FastingPlan.self, CalendarEvent.self, JournalEntry.self, DomainActivity.self, NotificationPreference.self, SourceLink.self, PlanningCapacity.self, TaskEstimate.self, OccurrenceEstimate.self, GoalSupport.self, WeeklyFocus.self, RoutineSchedule.self, RoutineSession.self, ActivityAnnotation.self, NutritionPlan.self, AppOption.self] }
+    static var models: [any PersistentModel.Type] { [UserPreferences.self, LifeDomain.self, Subcategory.self, Goal.self, GoalMilestone.self, GoalProgressEntry.self, PlannedTask.self, TaskOccurrence.self, Routine.self, RoutineItem.self, Project.self, QuranKhatm.self, QuranReadingLog.self, MemorizationItem.self, MemorizationReview.self, DhikrCounter.self, FastingPlan.self, CalendarEvent.self, JournalEntry.self, DomainActivity.self, NotificationPreference.self, SourceLink.self, PlanningCapacity.self, TaskEstimate.self, OccurrenceEstimate.self, GoalSupport.self, WeeklyFocus.self, RoutineSchedule.self, RoutineSession.self, ActivityAnnotation.self, NutritionPlan.self, ReviewResponse.self, AppOption.self] }
 }
 enum MihenMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] { [MihenSchemaV1.self, MihenSchema.self] }

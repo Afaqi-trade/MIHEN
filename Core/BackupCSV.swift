@@ -33,6 +33,7 @@ extension BackupCodec {
         guard Set(data.routineSessions.map(\.id)).count == data.routineSessions.count, data.routineSessions.count <= 100_000, data.routineSessions.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
         guard Set(data.activityAnnotations.map(\.id)).count == data.activityAnnotations.count, data.activityAnnotations.count <= 100_000, data.activityAnnotations.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
         guard Set(data.nutritionPlans.map(\.id)).count == data.nutritionPlans.count, data.nutritionPlans.count <= 100_000, data.nutritionPlans.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.reviewResponses.map(\.id)).count == data.reviewResponses.count, data.reviewResponses.count <= 100_000, data.reviewResponses.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
         guard Set(data.options.map(\.id)).count == data.options.count, data.options.count <= 100_000, data.options.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
     }
     public static func exportCSV(_ data: BackupDocument) throws -> String {
@@ -69,6 +70,7 @@ extension BackupCodec {
         for record in data.routineSessions { rows.append(["RoutineSession", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.activityAnnotations { rows.append(["ActivityAnnotation", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.nutritionPlans { rows.append(["NutritionPlan", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.reviewResponses { rows.append(["ReviewResponse", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.options { rows.append(["AppOption", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         return CSV.encode(rows.map { [$0[0], CSV.safeCell($0[1]), $0[2]] })
     }
@@ -204,6 +206,10 @@ extension BackupCodec {
                 let value = try decoder().decode(NutritionPlanRecord.self, from: bytes)
                 guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.nutritionPlans.append(value)
+            case "ReviewResponse":
+                let value = try decoder().decode(ReviewResponseRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.reviewResponses.append(value)
             case "AppOption":
                 let value = try decoder().decode(AppOptionRecord.self, from: bytes)
                 guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }

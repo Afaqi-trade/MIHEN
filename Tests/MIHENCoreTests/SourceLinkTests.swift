@@ -58,7 +58,7 @@ final class SourceLinkTests: XCTestCase {
     func testV1BackupMigratesToV2AndCurrentBackupCannotSilentlyLoseNewTables() throws {
         let data=fixture();let bytes=try BackupCodec.encode(data)
         var old=try JSONSerialization.jsonObject(with:bytes) as! [String:Any]
-        let keys=["sourceLinks","capacities","taskEstimates","occurrenceEstimates","goalSupports","weeklyFocuses","routineSchedules","routineSessions","activityAnnotations","nutritionPlans","options"]
+        let keys=["sourceLinks","capacities","taskEstimates","occurrenceEstimates","goalSupports","weeklyFocuses","routineSchedules","routineSessions","activityAnnotations","nutritionPlans","options","reviewResponses"]
         for key in keys { old.removeValue(forKey:key) };old["version"]=1
         let restored=try BackupCodec.decode(JSONSerialization.data(withJSONObject:old))
         XCTAssertEqual(restored.version,2);XCTAssertEqual(restored.readings,data.readings);XCTAssertTrue(restored.sourceLinks.isEmpty)

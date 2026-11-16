@@ -75,7 +75,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons.containing(.staticText,identifier:"Kaynaklı adım").firstMatch,in:app)
         tap(app.buttons["source.openLink"],in:app)
         tap(app.buttons["source.choose.review"],in:app)
-        app.buttons["source.confirm"].tap()
+        app.buttons["source.confirm"].firstMatch.tap() // SwiftUI exposes the enclosing and nested confirmation button.
         XCTAssertEqual(app.staticTexts["source.current"].label,"1 / 6 Adet")
         capture(app,name:"MIHEN-Source-Link-TR")
         tap(app.buttons["source.disconnect"],in:app)

@@ -77,6 +77,8 @@ extension BackupDocument {
         activityAnnotations.removeAll { !activityIDs.contains($0.activityID) }
         routineSchedules.removeAll { !routineIDs.contains($0.routineID) }
         routineSessions.removeAll { !routineIDs.contains($0.routineID) }
+        let journalIDs=Set(journals.map(\.id))
+        reviewResponses.removeAll { !journalIDs.contains($0.journalID) }
         goalSupports.removeAll { !goalIDs.contains($0.goalID) || !taskIDs.contains($0.taskID) }
     }
     public func option(_ key: String, fallback: String = "") -> String { options.first { $0.key == key }?.value ?? fallback }

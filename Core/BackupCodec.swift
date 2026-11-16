@@ -111,7 +111,7 @@ public enum BackupCodec {
         for row in data.events { try check(!row.title.isEmpty && row.end >= row.date && Recurrence(rawValue: row.recurrence) != nil) }
         for row in data.journals {
             if let domain = row.domainID { try check(domainIDs.contains(domain)) }
-            try check(["note", "weekly", "monthly"].contains(row.kind) && row.text.count <= 100_000)
+            try check(["note", "weekly", "monthly", "yearly", "decadal"].contains(row.kind) && row.text.count <= 100_000)
         }
         for row in data.notificationPreferences { try check((0...23).contains(row.hour) && (0...59).contains(row.minute)) }
         for row in data.activities {

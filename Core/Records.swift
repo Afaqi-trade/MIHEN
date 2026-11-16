@@ -530,6 +530,21 @@ public struct NutritionPlanRecord: Codable, Identifiable, Equatable, Sendable {
     }
 }
 
+public struct ReviewResponseRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var journalID: String
+    public var well: String
+    public var adjust: String
+    public var next: String
+    public init(id: String = UUID().uuidString, journalID: String = "", well: String = "", adjust: String = "", next: String = "") {
+        self.id = id
+        self.journalID = journalID
+        self.well = well
+        self.adjust = adjust
+        self.next = next
+    }
+}
+
 public struct AppOptionRecord: Codable, Identifiable, Equatable, Sendable {
     public var id: String
     public var key: String
@@ -575,9 +590,10 @@ public struct BackupDocument: Codable, Equatable, Sendable {
     public var routineSessions: [RoutineSessionRecord] = []
     public var activityAnnotations: [ActivityAnnotationRecord] = []
     public var nutritionPlans: [NutritionPlanRecord] = []
+    public var reviewResponses: [ReviewResponseRecord] = []
     public var options: [AppOptionRecord] = []
     public init() {}
-    private enum CodingKeys: String, CodingKey { case version, exportedAt, preferences, domains, subcategories, goals, milestones, goalProgress, tasks, occurrences, routines, routineItems, projects, khatms, readings, memorization, memorizationReviews, dhikr, fasts, events, journals, activities, notificationPreferences, sourceLinks, capacities, taskEstimates, occurrenceEstimates, goalSupports, weeklyFocuses, routineSchedules, routineSessions, activityAnnotations, nutritionPlans, options }
+    private enum CodingKeys: String, CodingKey { case version, exportedAt, preferences, domains, subcategories, goals, milestones, goalProgress, tasks, occurrences, routines, routineItems, projects, khatms, readings, memorization, memorizationReviews, dhikr, fasts, events, journals, activities, notificationPreferences, sourceLinks, capacities, taskEstimates, occurrenceEstimates, goalSupports, weeklyFocuses, routineSchedules, routineSessions, activityAnnotations, nutritionPlans, reviewResponses, options }
     public init(from decoder: Decoder) throws {
         let box = try decoder.container(keyedBy: CodingKeys.self)
         let oldVersion = try box.decode(Int.self, forKey: .version)
@@ -615,6 +631,7 @@ public struct BackupDocument: Codable, Equatable, Sendable {
         routineSessions = oldVersion == 1 ? (try box.decodeIfPresent([RoutineSessionRecord].self, forKey: .routineSessions) ?? []) : try box.decode([RoutineSessionRecord].self, forKey: .routineSessions)
         activityAnnotations = oldVersion == 1 ? (try box.decodeIfPresent([ActivityAnnotationRecord].self, forKey: .activityAnnotations) ?? []) : try box.decode([ActivityAnnotationRecord].self, forKey: .activityAnnotations)
         nutritionPlans = oldVersion == 1 ? (try box.decodeIfPresent([NutritionPlanRecord].self, forKey: .nutritionPlans) ?? []) : try box.decode([NutritionPlanRecord].self, forKey: .nutritionPlans)
+        reviewResponses = oldVersion == 1 ? (try box.decodeIfPresent([ReviewResponseRecord].self, forKey: .reviewResponses) ?? []) : try box.decode([ReviewResponseRecord].self, forKey: .reviewResponses)
         options = oldVersion == 1 ? (try box.decodeIfPresent([AppOptionRecord].self, forKey: .options) ?? []) : try box.decode([AppOptionRecord].self, forKey: .options)
     }
 }

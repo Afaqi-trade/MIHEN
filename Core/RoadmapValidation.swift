@@ -31,6 +31,8 @@ extension BackupDocument {
         let meals=["breakfast","lunch","dinner","snack","other"]
         for row in activityAnnotations { try check(activities.contains(row.activityID) && meals.contains(row.meal) && row.title.count <= 200 && row.lastUsed.timeIntervalSince1970.isFinite) }
         for row in nutritionPlans { try check(["food","water","energyBurned"].contains(row.kind) && row.unit == (row.kind == "water" ? "ml" : "kcal") && row.amount.isFinite && row.amount > 0 && row.amount <= 1e9 && meals.contains(row.meal) && row.title.count <= 200 && row.date.timeIntervalSince1970.isFinite) }
+        try distinct(reviewResponses.map(\.journalID))
+        for row in reviewResponses { try check(journals.contains { $0.id == row.journalID && $0.kind != "note" } && [row.well,row.adjust,row.next].allSatisfy { $0.count <= 10000 }) }
         try distinct(options.map(\.key))
         for row in options {
             switch row.key {

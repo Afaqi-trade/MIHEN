@@ -6,24 +6,23 @@ struct ReportsScreen: View {
     @State private var date = Date()
     @State private var exporting = false
     private var interval: DateInterval {
-        let calendar = store.engine.calendar
-        if period == "report.tenYears" {
-            let end = calendar.dateInterval(of: .year, for: date)!.end
-            return DateInterval(start: calendar.date(byAdding: .year, value: -10, to: end)!, end: end)
-        }
-        return calendar.dateInterval(of: period == "year" ? .year : period == "week" ? .weekOfYear : .month, for: date)!
+        store.engine.reportInterval(period:period,containing:date,now:Date())
     }
     private var report: PeriodReport { store.engine.periodReport(store.data, in: interval) }
     var body: some View {
         List {
             Section {
                 Picker(store.t("period"), selection: $period) { ForEach(["week", "month", "year", "report.tenYears"], id: \.self) { Text(store.t($0)).tag($0) } }
-                DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
+                DatePicker(store.t("date"), selection: $date, in:...Date(), displayedComponents: .date)
                 Text(interval.start, format: .dateTime.day().month().year())
                 Text(store.engine.addingDays(-1, to: interval.end), format: .dateTime.day().month().year())
                 Text(store.t("report.recordedDays") + ": \(report.recordedDays.count)").accessibilityIdentifier("report.coverage.days")
                 Text(store.t("report.coverage")).font(.footnote)
                 Text(store.t("report.sources.explanation")).font(.footnote)
+            }
+            Section {
+                NavigationLink(destination:ReportAnalysisScreen(interval:interval,period:period)) { Text(store.t("report.analysis")) }.accessibilityIdentifier("report.analysis")
+                Text(store.t("report.cutoff.help")).font(.footnote)
             }
             Section(store.t("report.steps")) {
                 if report.planned == 0 { Text(store.t("report.noTasks")) }
@@ -77,7 +76,12 @@ private struct ReportDomainSection: View {
                     Text(store.t("report.goals.current")).font(.caption).foregroundStyle(.secondary)
                 }
             }
-            ForEach(notes) { row in Text(row.text).font(.subheadline) }
+            ForEach(notes) { row in
+                Text(row.text).font(.subheadline)
+                if let response=store.data.reviewResponses.first(where: { $0.journalID == row.id }) {
+                    ForEach([(store.t("review.well"),response.well),(store.t("review.adjust"),response.adjust),(store.t("review.next"),response.next)],id:\.0) { label,value in if !value.isEmpty { Text(label+": "+value).font(.subheadline) } }
+                }
+            }
         }
     }
 }

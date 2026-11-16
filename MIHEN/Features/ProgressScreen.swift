@@ -90,12 +90,12 @@ struct JournalScreen: View {
     @State private var edit: JournalEntryRecord?
     var body: some View {
         List {
-            Picker(store.t("type"), selection: $kind) { ForEach(["note", "weekly", "monthly"], id: \.self) { Text(store.t($0)).tag($0) } }
+            Picker(store.t("type"), selection: $kind) { ForEach(["note", "weekly", "monthly", "yearly", "decadal"], id: \.self) { Text(store.t($0)).tag($0) } }
             ForEach(store.data.journals.filter { $0.kind == kind && (domainID == nil || $0.domainID == domainID) }.sorted { $0.date > $1.date }) { row in
                 Button { edit = row } label: {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(row.date, format: .dateTime.day().month().year()).font(.caption).foregroundStyle(.secondary)
-                        Text(row.text).foregroundStyle(.primary)
+                        Text(row.text.isEmpty ? (store.data.reviewResponses.first { $0.journalID == row.id }.map { [$0.well,$0.adjust,$0.next].filter { !$0.isEmpty }.joined(separator:" · ") } ?? "") : row.text).foregroundStyle(.primary)
                     }
                 }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.journals.removeAll { $0.id == row.id } } } }
             }
@@ -118,8 +118,8 @@ struct JournalEditor: View {
             Form {
                 if draft.kind != "note" {
                     Section(store.t("review.summary")) {
-                        let component: Calendar.Component = draft.kind == "weekly" ? .weekOfYear : .month
-                        let interval = store.engine.calendar.dateInterval(of: component, for: draft.date)!
+                        let period=draft.kind == "weekly" ? "week" : draft.kind == "yearly" ? "year" : draft.kind == "decadal" ? "report.tenYears" : "month"
+                        let interval = store.engine.reportInterval(period:period,containing:draft.date,now:Date())
                         let rows = store.data.occurrences.filter { (draft.domainID == nil || $0.domainID == draft.domainID) && $0.day >= store.engine.key(interval.start) && $0.day < store.engine.key(interval.end) && !["skipped", "cancelled", "moved"].contains($0.status) }
                         Text("\(rows.filter { $0.status == "completed" }.count) / \(rows.count) " + store.t("tasks.completed"))
                         TextField(store.t("review.well"), text: $well, axis: .vertical)
@@ -134,13 +134,17 @@ struct JournalEditor: View {
                 }
                 TextEditor(text: $draft.text).frame(minHeight: 250).accessibilityLabel(store.t("notes"))
             }.keyboardDone().navigationTitle(store.t(draft.kind))
+                .onAppear { if let response=store.data.reviewResponses.first(where: { $0.journalID == draft.id }) { well=response.well;adjust=response.adjust;next=response.next } }
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {
                         var record = draft
-                        let answers = [("review.well", well), ("review.adjust", adjust), ("review.next", next)].filter { !$0.1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.map { store.t($0.0) + "\n" + $0.1 }
-                        record.text = ([draft.text] + answers).filter { !$0.isEmpty }.joined(separator: "\n\n")
-                        if store.change({ data in if let i = data.journals.firstIndex(where: { $0.id == record.id }) { data.journals[i] = record } else { data.journals.append(record) } }) { dismiss() }
+                        record.text=draft.text
+                        if store.change({ data in
+                            if let i = data.journals.firstIndex(where: { $0.id == record.id }) { data.journals[i] = record } else { data.journals.append(record) }
+                            data.reviewResponses.removeAll { $0.journalID == record.id }
+                            if record.kind != "note" { data.reviewResponses.append(.init(journalID:record.id,well:well,adjust:adjust,next:next)) }
+                        }) { dismiss() }
                     }.disabled([draft.text, well, adjust, next].allSatisfy { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) }
                 }
         }

@@ -1,6 +1,294 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "report.share.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raporu paylaş"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share report"
+          }
+        }
+      }
+    },
+    "report.export.comparison": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki dönem ve alt aralıkları da ekle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include previous period and subperiods"
+          }
+        }
+      }
+    },
+    "decadal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On yıllık değerlendirme"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decade reflection"
+          }
+        }
+      }
+    },
+    "report.lighten": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Miktar veya tarihi gözden geçir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review quantity or dates"
+          }
+        }
+      }
+    },
+    "report.decide.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir planı hafifletmek için miktar veya tarihi düzenleyebilirsin. Gelecek günlük işleri arşivlemek açık onay ister. Bu kararlar geçmiş kayıtları yeniden yazmaz; kendiliğinden taşıma yapılmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit amount or dates to lighten a plan. Archiving future daily tasks requires explicit confirmation. Decisions do not rewrite history or move tasks automatically."
+          }
+        }
+      }
+    },
+    "report.decide": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonraki dönem kararım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My next-period decision"
+          }
+        }
+      }
+    },
+    "report.metric": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ölçüm"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metric"
+          }
+        }
+      }
+    },
+    "report.trend.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grafik yalnızca seçili ölçümü ve birimini gösterir. Boş aralıkta kayıt yoktur; başarısızlık veya sıfır faaliyet sonucu çıkarılmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The chart shows only the selected metric and unit. Empty intervals have no records; they do not mean failure or zero activity."
+          }
+        }
+      }
+    },
+    "report.trend": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönemin alt aralıkları"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subperiods"
+          }
+        }
+      }
+    },
+    "report.difference": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtlardaki fark"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Difference in recorded amounts"
+          }
+        }
+      }
+    },
+    "report.current": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu dönem"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This period"
+          }
+        }
+      }
+    },
+    "report.compare.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki aralık aynı sayıda takvim günüdür. Kayıt olmayan ölçüm sıfır sayılmaz. Farklar yalnızca iki dönemde de en az üç kayıtlı gün ve aynı birim varsa gösterilir; bu bir anlamlılık veya yaşam kalitesi değerlendirmesi değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The previous range has the same number of calendar days. Missing metrics are not zero. Differences appear only with at least three recorded days in both periods and matching units; this is not a significance or quality-of-life assessment."
+          }
+        }
+      }
+    },
+    "report.compare": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşit uzunluktaki önceki dönem"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous period of equal length"
+          }
+        }
+      }
+    },
+    "report.cutoff.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İçinde bulunduğumuz dönem bugünün sonuna kadar hesaplanır; gelecek günler geçmiş sonuç gibi gösterilmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The current period is calculated through today; future days are not shown as historical results."
+          }
+        }
+      }
+    },
+    "report.lastRecord": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son kayıt günü"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last recorded day"
+          }
+        }
+      }
+    },
+    "report.firstRecord": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlk kayıt günü"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First recorded day"
+          }
+        }
+      }
+    },
+    "report.coverage.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt kapsamı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record coverage"
+          }
+        }
+      }
+    },
+    "report.analysis": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşılaştırma ve eğilim"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comparison and trends"
+          }
+        }
+      }
+    },
     "nutrition.actual": {
       "localizations": {
         "tr": {
@@ -7238,13 +7526,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Her yıl"
+            "value": "Yıllık değerlendirme"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yearly"
+            "value": "Yearly reflection"
           }
         }
       }

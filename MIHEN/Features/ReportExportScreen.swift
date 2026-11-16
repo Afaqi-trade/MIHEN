@@ -8,19 +8,12 @@ struct ReportExportScreen: View {
     let interval: DateInterval
     @State private var selected = Set<String>()
     @State private var includeNotes = false
+    @State private var includeComparison = false
     @State private var exporting = false
     @State private var document: TransferDocument?
     @State private var type = UTType.pdf
     private var filtered: BackupDocument {
-        var result = store.data
-        result.occurrences.removeAll { !selected.contains($0.domainID) }
-        result.activities.removeAll { !selected.contains($0.domainID) }
-        let goalIDs = Set(result.goals.filter { !$0.domainIDs.allSatisfy { !selected.contains($0) } }.map(\.id))
-        result.goalProgress.removeAll { !goalIDs.contains($0.goalID) }
-        if !selected.contains("learning") { result.readings = []; result.memorizationReviews = [] }
-        if !selected.contains("spiritual") { result.dhikr = []; result.fasts = [] }
-        result.journals = includeNotes ? result.journals.filter { $0.domainID.map { selected.contains($0) } ?? false } : []
-        return result
+        store.data.scopedReport(areas:selected,includeNotes:includeNotes)
     }
     private var rows: [[String]] {
         let data = filtered, report = store.engine.periodReport(data, in: interval)
@@ -30,7 +23,27 @@ struct ReportExportScreen: View {
             let contribution = store.engine.contributions(goal.id, in: data, interval: interval)
             rows.append([goal.title, store.t("report.goal.period"), contribution.total.formatted(.number.grouping(.never).locale(store.locale)),store.t(goal.unit)])
         }
-        for note in data.journals where note.date >= interval.start && note.date < interval.end { rows.append([store.t("notes"), store.engine.key(note.date),note.text]) }
+        for note in data.journals where note.date >= interval.start && note.date < interval.end {
+            rows.append([store.t("notes"),store.engine.key(note.date),note.text])
+            if let response=data.reviewResponses.first(where: { $0.journalID == note.id }) {
+                rows.append([store.t("review.well"),response.well]);rows.append([store.t("review.adjust"),response.adjust]);rows.append([store.t("review.next"),response.next])
+            }
+        }
+        if includeComparison {
+            let days=store.engine.calendar.dateComponents([.day],from:interval.start,to:interval.end).day ?? 1
+            let component:Calendar.Component = days > 366 ? .year : days > 31 ? .month : .weekOfYear
+            let analysis=store.engine.analyzeReport(data,interval:interval,component:component)
+            rows.append([store.t("report.compare"),store.engine.key(analysis.previousInterval.start),store.engine.key(store.engine.addingDays(-1,to:analysis.previousInterval.end))])
+            for item in analysis.comparisons {
+                let current=item.current.map { $0.formatted(.number.grouping(.never).locale(store.locale)) } ?? store.t("report.noData")
+                let previous=item.previous.map { $0.formatted(.number.grouping(.never).locale(store.locale)) } ?? store.t("report.noData")
+                rows.append([store.title(item.metric.domainID),store.t(item.metric.key),store.t("report.current"),current,store.t("comparison.previous"),previous,store.t(item.metric.unit)])
+            }
+            for bucket in analysis.buckets {
+                rows.append([store.engine.key(bucket.interval.start),store.t("report.recordedDays"),String(bucket.report.recordedDays.count)])
+                for item in bucket.report.metrics { rows.append([store.title(item.domainID),store.t(item.key),item.value.formatted(.number.grouping(.never).locale(store.locale)),store.t(item.unit)]) }
+            }
+        }
         return rows
     }
     var body: some View {
@@ -41,12 +54,13 @@ struct ReportExportScreen: View {
                     Toggle(store.title(domain.id), isOn: Binding(get: { selected.contains(domain.id) }, set: { if $0 { selected.insert(domain.id) } else { selected.remove(domain.id) } }))
                 }
                 Toggle(store.t("report.export.notes"), isOn: $includeNotes)
+                Toggle(store.t("report.export.comparison"),isOn:$includeComparison)
                 Picker(store.t("report.export.format"), selection: $type) { Text("PDF").tag(UTType.pdf); Text("CSV").tag(UTType.commaSeparatedText) }
                 Button(store.t("report.export")) {
                     let data = type == .pdf ? renderPDF(rows: rows) : Data(CSV.encode(rows.map { $0.map(CSV.safeCell) }).utf8)
                     document = .init(data: data); exporting = true
                 }.disabled(selected.isEmpty).buttonStyle(.borderedProminent).accessibilityIdentifier("report.export.confirm")
-            }.navigationTitle(store.t("report.export"))
+            }.navigationTitle(store.t("report.share.title"))
                 .toolbar { Button(store.t("close")) { dismiss() } }
                 .fileExporter(isPresented: $exporting, document: document, contentType: type, defaultFilename: "MIHEN-Report-" + store.engine.key(interval.start)) { result in
                     if case .failure(let error) = result { store.errorMessage = error.localizedDescription }
