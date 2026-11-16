@@ -84,19 +84,22 @@ struct SettingsScreen: View {
             Section(store.t("data")) {
                 if lastExport > 0 { Text(store.t("backup.lastExport")); Text(Date(timeIntervalSince1970: lastExport), format: .dateTime.day().month().year().hour().minute()) }
                 else { Text(store.t("backup.none")) }
-                Text(store.t("backup.scope")).font(.footnote)
                 if exportSucceeded { Text(store.t("backup.exported")).foregroundStyle(Color.mihenGreen) }
-                Button(store.t("export.json")) { export(.json) }
+                Button(store.t("export.json")) { export(.json) }.buttonStyle(.borderedProminent)
+                DisclosureGroup(store.t("backup.details")) {
+                    Text(store.t("backup.scope")).font(.footnote)
+                    Text(store.t("backup.explanation")).font(.footnote)
+                }.accessibilityIdentifier("backup.details")
                 Button(store.t("export.csv")) { export(.commaSeparatedText) }
                 Button(store.t("export.planCSV")) { export(.commaSeparatedText, editablePlan: true) }
                 Button(store.t("recovery.preview")) {
                     do { let archive = try RecoveryBackup.loadArchive(); let document = archive.document; pendingImport = .init(document: document, replaces: true, errors: [], added: document.tasks.count + document.goals.count + document.occurrences.count, prayer: archive.prayer, restoresPrayer: true) } catch { store.errorMessage = error.localizedDescription }
                 }
                 Button(store.t("import")) { importing = true }.accessibilityIdentifier("settings.import")
-                Text(store.t("backup.explanation")).font(.footnote)
-                NavigationLink(destination: StarterTemplatesScreen()) { Text(store.t("templates.choose")) }
-                Button(store.t("data.delete"), role: .destructive) { reset = true }
             }
+            Section(store.t("plan.tools")) { NavigationLink(destination: StarterTemplatesScreen()) { Text(store.t("templates.choose")) }
+            }
+            Section(store.t("danger.zone")) { Button(store.t("data.delete"), role: .destructive) { reset = true } }
             Section(store.t("help")) {
                 NavigationLink(destination: HelpScreen()) { Text(store.t("help.body")) }.accessibilityIdentifier("settings.help")
                 Text("MİHEN 1.0.0 (1)").font(.caption)

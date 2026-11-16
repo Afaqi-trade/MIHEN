@@ -137,3 +137,22 @@ extension PlanningEngine {
         }
     }
 }
+
+extension PlanningEngine {
+    public func changeRoutineRepetitions(_ routineID: String, resume: Bool, on now: Date, in data: inout BackupDocument) throws {
+        let ids=Set(data.routineItems.filter { $0.routineID == routineID }.map(\.taskID))
+        let members=data.tasks.filter { ids.contains($0.id) }
+        guard !members.isEmpty else { throw PlanError.invalid("validation.missing") }
+        let tomorrow=calendar.startOfDay(for:addingDays(1,to:now))
+        if resume && members.contains(where: { $0.end.map { calendar.startOfDay(for:$0) < tomorrow } ?? false }) { throw PlanError.invalid("routine.expired") }
+        if !resume { for task in members { materialize(&data,from:max(task.start,addingDays(-366,to:now)),through:now) } }
+        for i in data.tasks.indices where ids.contains(data.tasks[i].id) {
+            data.tasks[i].archived = !resume
+            // A fresh effective start prevents a foreground refresh from backfilling
+            // paused dates. Historical occurrences stay independent snapshots.
+            if resume { data.tasks[i].start=tomorrow }
+        }
+        data.occurrences.removeAll { ids.contains($0.taskID) && $0.day > key(now) && $0.status == "planned" }
+        if resume { materialize(&data,from:tomorrow,through:addingDays(7,to:now)) }
+    }
+}

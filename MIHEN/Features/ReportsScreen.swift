@@ -29,7 +29,7 @@ struct ReportsScreen: View {
                 if report.planned == 0 { Text(store.t("report.noTasks")) }
                 else { Text("\(report.completed) / \(report.planned) " + store.t("tasks.completed")) }
                 Text(store.t("report.partial") + ": \(report.partial)")
-                HStack { Text(store.t("skipped") + ": \(report.skipped)"); Text(store.t("cancelled") + ": \(report.cancelled)"); Text(store.t("moved") + ": \(report.moved)") }.font(.caption)
+                HStack { Text(store.t("report.skipped") + ": \(report.skipped)"); Text(store.t("report.cancelled") + ": \(report.cancelled)"); Text(store.t("report.moved") + ": \(report.moved)") }.font(.caption)
                 DisclosureGroup(store.t("report.formula")) { Text(store.t("statistics.formula")).font(.footnote) }
             }
             ForEach(store.data.domains.sorted { $0.enabled == $1.enabled ? $0.rank < $1.rank : $0.enabled }) { domain in
@@ -58,10 +58,13 @@ private struct ReportDomainSection: View {
             let metrics = report.metrics.filter { $0.domainID == domain.id }
             if metrics.isEmpty && goals.isEmpty && notes.isEmpty { Text(store.t("report.noData")).font(.subheadline).foregroundStyle(.secondary) }
             ForEach(metrics) { metric in
-                let value = metric.value.formatted(.number.locale(store.locale)) + " " + store.t(["fajr","dhuhr","asr","maghrib","isha","witr"].contains(metric.unit) ? "prayer." + metric.unit : metric.unit)
-                LabeledContent(store.t(metric.key), value: value)
+                let isPrayer = ["fajr","dhuhr","asr","maghrib","isha","witr"].contains(metric.unit)
+                let unit = store.t(isPrayer ? "prayer." + metric.unit : metric.unit)
+                let number = metric.value.formatted(.number.locale(store.locale))
+                let label = isPrayer ? unit + " · " + store.t(metric.key) : store.t(metric.key)
+                LabeledContent(label, value: number + (isPrayer ? "" : " " + unit))
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(store.t(metric.key)).accessibilityValue(value)
+                    .accessibilityLabel(label).accessibilityValue(number + " " + unit)
                     .accessibilityIdentifier("report.metric." + metric.id)
             }
             ForEach(goals) { goal in

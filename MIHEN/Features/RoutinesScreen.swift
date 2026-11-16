@@ -28,9 +28,11 @@ struct RoutinesScreen: View {
                             Text(store.taskTitle(task.title)).foregroundStyle(.secondary)
                         }
                     }
-                    Button(store.t("edit")) { editing = routine }
-                    Button(store.t(paused ? "routine.resume" : "routine.pause")) { changing = routine }
-                    Button(store.t("routine.remove"), role: .destructive) { removing = routine }
+                    Menu {
+                        Button(store.t("edit")) { editing = routine }
+                        Button(store.t(paused ? "routine.resume" : "routine.pause")) { changing = routine }
+                        Button(store.t("routine.remove"), role: .destructive) { removing = routine }
+                    } label: { Label(store.t("routine.manage"), systemImage: "ellipsis.circle") }
                 } header: { Text(routine.title).accessibilityIdentifier("routine.group." + routine.id) }
             }
         }.buttonStyle(.borderless).navigationTitle(store.t("routines"))
@@ -41,15 +43,8 @@ struct RoutinesScreen: View {
                 Button(store.t("continue")) {
                     guard let routine = changing else { return }
                     let members = tasks(routine.id), resume = !members.isEmpty && members.allSatisfy(\.archived)
-                    let ids = Set(members.map(\.id)), engine = store.engine, now = Date()
-                    store.change { document in
-                        // Materialize old rules before a user-approved future schedule change.
-                        for task in members { engine.materialize(&document, from: max(task.start, engine.addingDays(-366, to: now)), through: now) }
-                        for i in document.tasks.indices where ids.contains(document.tasks[i].id) { document.tasks[i].archived = !resume }
-                        document.occurrences.removeAll { ids.contains($0.taskID) && $0.day > engine.key(now) && $0.status == "planned" }
-                        // Today's and all past entries are preserved. Resume applies from tomorrow.
-                        if resume { engine.materialize(&document, from: engine.addingDays(1, to: now), through: engine.addingDays(7, to: now)) }
-                    }
+                    let engine = store.engine
+                    store.change { try engine.changeRoutineRepetitions(routine.id, resume: resume, on: Date(), in: &$0) }
                     changing = nil
                 }
             }
@@ -71,6 +66,7 @@ struct RoutineEditor: View {
     @State private var draft: RoutineRecord
     @State private var selected: [String] = []
     @State private var addStep = false
+    @State private var editingStep: PlannedTaskRecord?
     @State private var previousTasks = Set<String>()
     @State private var reminder = false
     @State private var reminderTime = Date()
@@ -89,7 +85,7 @@ struct RoutineEditor: View {
                     Text(store.t("routine.schedule.help")).font(.footnote)
                     ForEach(selected, id: \.self) { id in
                         if let task = store.data.tasks.first(where: { $0.id == id }) {
-                            VStack(alignment: .leading) { Text(store.taskTitle(task.title)); Text(store.t(task.recurrence)).font(.caption).foregroundStyle(.secondary) }
+                            Button { editingStep = task } label: { VStack(alignment: .leading) { Text(store.taskTitle(task.title)); Text(store.t(task.recurrence)).font(.caption).foregroundStyle(.secondary) } }
                         }
                     }.onMove { selected.move(fromOffsets: $0, toOffset: $1) }.onDelete { selected.remove(atOffsets: $0) }
                     Button(store.t("routine.step.add")) { previousTasks = Set(store.data.tasks.map(\.id)); addStep = true }.accessibilityIdentifier("routine.step.add")
@@ -128,6 +124,7 @@ struct RoutineEditor: View {
                         reminderTime = store.engine.calendar.date(bySettingHour: pref.hour, minute: pref.minute, second: 0, of: Date()) ?? Date()
                     }
                 }
+                .sheet(item: $editingStep) { TaskEditor(task: $0) }
                 .sheet(isPresented: $addStep, onDismiss: {
                     for task in store.data.tasks where !previousTasks.contains(task.id) && !selected.contains(task.id) { selected.append(task.id) }
                 }) { TaskEditor(domainID: draft.domainID, routineMode: true) }

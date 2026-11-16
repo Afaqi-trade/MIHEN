@@ -80,11 +80,13 @@ struct OnboardingView: View {
             Form {
                 if step == 0 {
                     Section {
-                        BrandMark().frame(width: 80, height: 80)
-                        Text("MİHEN").font(.largeTitle.bold())
-                        Text(store.t("slogan")).font(.title3)
-                        Text(store.t("welcome.promise")).font(.headline)
-                        Text(store.t("welcome.steps"))
+                        VStack(alignment: .leading, spacing: 16) {
+                            BrandMark().frame(width: 72, height: 72)
+                            Text("MİHEN").font(.largeTitle.bold())
+                            Text(store.t("slogan")).font(.title3)
+                            Text(store.t("welcome.promise")).font(.headline)
+                            Text(store.t("welcome.steps"))
+                        }.padding(.vertical, 8)
                         TextField(store.t("name"), text: $name).textContentType(.givenName)
                         Text(store.t("welcome.privacy")).font(.footnote).foregroundStyle(.secondary)
                     }
@@ -112,7 +114,7 @@ struct OnboardingView: View {
                 }
                 if step < 2 { Button(store.t("continue")) { step += 1 }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.continue") }
                 if step > 0 { Button(store.t("back")) { step -= 1 } }
-            }.keyboardDone().navigationTitle(store.t("welcome.title"))
+            }.keyboardDone().navigationTitle(step == 0 ? "MİHEN" : store.t("welcome.title")).navigationBarTitleDisplayMode(.inline)
                 .toolbar { Button(store.t("skip")) { templates = []; selected = Set(LifeArea.allCases.map(\.rawValue)); finish() }.accessibilityIdentifier("onboarding.skip") }
         }
     }

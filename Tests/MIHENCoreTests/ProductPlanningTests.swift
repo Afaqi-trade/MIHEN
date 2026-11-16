@@ -85,3 +85,22 @@ extension ProductPlanningTests {
         try BackupCodec.validate(data)
     }
 }
+
+extension ProductPlanningTests {
+    func testRoutineResumeDoesNotInventTasksDuringPauseAndKeepsHistory() throws {
+        var data=BackupDocument.fresh();let start=engine.date("2026-11-01")!
+        data.tasks=[.init(id:"t",title:"Walk",domainID:"health",start:start,recurrence:"daily")]
+        data.routines=[.init(id:"r",title:"Morning",domainID:"health")]
+        data.routineItems=[.init(routineID:"r",taskID:"t")]
+        engine.materialize(&data,from:start,through:start)
+        try PlanningEngine.setProgress(1,occurrence:&data.occurrences[0])
+        let history=data.occurrences[0]
+        try engine.changeRoutineRepetitions("r",resume:false,on:start,in:&data)
+        try engine.changeRoutineRepetitions("r",resume:true,on:engine.addingDays(3,to:start),in:&data)
+        engine.materialize(&data,from:start,through:engine.addingDays(7,to:start))
+        XCTAssertEqual(data.occurrences.first { $0.day == engine.key(start) },history)
+        for gap in 1...3 { XCTAssertFalse(data.occurrences.contains { $0.day == engine.key(engine.addingDays(gap,to:start)) }) }
+        XCTAssertTrue(data.occurrences.contains { $0.day == engine.key(engine.addingDays(4,to:start)) })
+        try BackupCodec.validate(data)
+    }
+}

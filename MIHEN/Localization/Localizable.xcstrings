@@ -1,6 +1,150 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "routine.manage": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rutin seçenekleri"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine options"
+          }
+        }
+      }
+    },
+    "backup.details": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yedek içeriği ve gizlilik"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup contents and privacy"
+          }
+        }
+      }
+    },
+    "danger.zone": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verileri silme"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete data"
+          }
+        }
+      }
+    },
+    "report.qada.added": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönemde eklenen kaza"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qada quantity added in this period"
+          }
+        }
+      }
+    },
+    "report.qada.done": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönemde kılınan kaza"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qada prayers completed in this period"
+          }
+        }
+      }
+    },
+    "report.skipped": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atlanan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipped"
+          }
+        }
+      }
+    },
+    "report.cancelled": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal edilen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelled"
+          }
+        }
+      }
+    },
+    "report.moved": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taşınan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moved"
+          }
+        }
+      }
+    },
+    "routine.expired": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir adımın bitiş tarihi geçmiş. Rutin düzenleyicide o adıma dokunup bitişini değiştirin; ardından yeniden sürdürün."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A step has expired. Open it in the routine editor and change its end date before resuming."
+          }
+        }
+      }
+    },
     "heatmap.legend": {
       "localizations": {
         "tr": {
@@ -1270,13 +1414,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Tek seferlik adımların tarihini ayrıca düzenleyin."
+            "value": "Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Bitiş tarihi geçmiş adımı sürdürmeden önce düzenleyin. Sürdürme yeni bir plan dönemi başlatır; ara verilen günlere görev eklenmez."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit one-time steps' dates separately."
+            "value": "Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit expired steps before resuming. Resuming starts a new planning cycle without filling paused days."
           }
         }
       }
@@ -7286,13 +7430,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Widget için App Group henüz yapılandırılmamış. Ana uygulama yerel olarak kullanılabilir."
+            "value": "Widget bu sürümde henüz kullanılamıyor."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "App Group is not configured for the widget. The main app remains available locally."
+            "value": "Widgets are not available in this build yet."
           }
         }
       }

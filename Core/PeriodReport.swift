@@ -60,8 +60,8 @@ extension PlanningEngine {
             let added = ledger.filter { includes($0.date) && $0.kind == "qadaDebt" }.reduce(0) { $0 + $1.amount }
             let done = ledger.filter { includes($0.date) && $0.kind == "qadaDone" }.reduce(0) { $0 + $1.amount }
             metric(prayer+"opening","spiritual","report.qada.opening",prayer,opening)
-            metric(prayer+"added","spiritual","activity.qadaDebt",prayer,added)
-            metric(prayer+"done","spiritual","activity.qadaDone",prayer,done)
+            metric(prayer+"added","spiritual","report.qada.added",prayer,added)
+            metric(prayer+"done","spiritual","report.qada.done",prayer,done)
             metric(prayer+"closing","spiritual","report.qada.closing",prayer,opening+added-done)
         }
         data.goalProgress.filter { includes($0.date) }.forEach { report.recordedDays.insert(key($0.date)) }

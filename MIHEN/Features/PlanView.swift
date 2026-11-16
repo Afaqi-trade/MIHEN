@@ -211,14 +211,16 @@ struct GoalEditor: View {
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var draft: GoalRecord
+    private let inferArea: Bool
     init(goal: GoalRecord? = nil, domainID: String? = nil) {
+        inferArea = goal == nil && domainID == nil
         _draft = State(initialValue: goal ?? .init(domainIDs: [domainID ?? "learning"], end: Calendar.current.date(byAdding: .year, value: 1, to: Date())!))
     }
     var body: some View {
         NavigationStack {
             Form {
                 TextField(store.t("title"), text: $draft.title).autocorrectionDisabled().accessibilityIdentifier("goal.title")
-                Section(store.t("eight.areas")) {
+                DisclosureGroup(store.t("eight.areas")) {
                     ForEach(store.data.domains) { area in
                         Toggle(store.title(area.id), isOn: Binding(get: { draft.domainIDs.contains(area.id) }, set: { if $0 { if !draft.domainIDs.contains(area.id) { draft.domainIDs.append(area.id) } } else { draft.domainIDs.removeAll { $0 == area.id } } }))
                     }
@@ -238,7 +240,12 @@ struct GoalEditor: View {
                 DatePicker(store.t("end.date"), selection: $draft.end, displayedComponents: .date)
                 Picker(store.t("priority"), selection: $draft.priority) { ForEach(0..<3) { Text(store.t("priority.\($0)")).tag($0) } }
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
-            }.keyboardDone().navigationTitle(store.t(store.data.goals.contains(where: { $0.id == draft.id }) ? "goal.edit" : "goal.new"))
+            }.keyboardDone().onAppear {
+                if inferArea && draft.title.isEmpty {
+                    let enabled = store.data.domains.filter(\.enabled)
+                    if enabled.count == 1 { draft.domainIDs = [enabled[0].id] }
+                }
+            }.navigationTitle(store.t(store.data.goals.contains(where: { $0.id == draft.id }) ? "goal.edit" : "goal.new"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) {
@@ -280,9 +287,11 @@ struct TaskEditor: View {
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var draft: PlannedTaskRecord
+    private let inferArea: Bool
     @State private var hasEnd = false
     @State private var details = false
     init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil, routineMode: Bool = false) {
+        inferArea = task == nil && domainID == nil && goalID == nil
         _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID, recurrence: routineMode ? "daily" : "none", isHabit: routineMode))
         _hasEnd = State(initialValue: task?.end != nil)
         _details = State(initialValue: task != nil)
@@ -315,7 +324,12 @@ struct TaskEditor: View {
                 } label: { Text(store.t("task.details")).accessibilityIdentifier("task.details") }
 
                 Text(store.t("task.edit.explanation")).font(.footnote)
-            }.keyboardDone().navigationTitle(store.t(store.data.tasks.contains(where: { $0.id == draft.id }) ? "task.edit" : "task.new"))
+            }.keyboardDone().onAppear {
+                if inferArea && draft.title.isEmpty {
+                    let enabled = store.data.domains.filter(\.enabled)
+                    if enabled.count == 1 { draft.domainID = enabled[0].id }
+                }
+            }.navigationTitle(store.t(store.data.tasks.contains(where: { $0.id == draft.id }) ? "task.edit" : "task.new"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {

@@ -1,6 +1,15 @@
 from pathlib import Path
 import json,re
-rows='''heatmap.legend|Açık ton: az tamamlanan görev; koyu ton: yüksek tamamlama oranı. Kayıt olmayan günler boş kabul edilir; başarısızlık değildir.|Lighter shades: fewer completed tasks; darker shades: higher completion rate. Unrecorded days are empty, not failures.
+rows='''routine.manage|Rutin seçenekleri|Routine options
+backup.details|Yedek içeriği ve gizlilik|Backup contents and privacy
+danger.zone|Verileri silme|Delete data
+report.qada.added|Dönemde eklenen kaza|Qada quantity added in this period
+report.qada.done|Dönemde kılınan kaza|Qada prayers completed in this period
+report.skipped|Atlanan|Skipped
+report.cancelled|İptal edilen|Cancelled
+report.moved|Taşınan|Moved
+routine.expired|Bir adımın bitiş tarihi geçmiş. Rutin düzenleyicide o adıma dokunup bitişini değiştirin; ardından yeniden sürdürün.|A step has expired. Open it in the routine editor and change its end date before resuming.
+heatmap.legend|Açık ton: az tamamlanan görev; koyu ton: yüksek tamamlama oranı. Kayıt olmayan günler boş kabul edilir; başarısızlık değildir.|Lighter shades: fewer completed tasks; darker shades: higher completion rate. Unrecorded days are empty, not failures.
 startup.safe|Kayıtlar şu anda açılamıyor. Güvenlik için boş veriyle değiştirilmedi. Tekrar deneyin; sürerse teknik ayrıntıyla destek alın.|Records cannot be opened right now. They have not been replaced with empty data. Retry, or use technical details for support if it continues.
 startup.retry|Tekrar dene|Retry
 startup.details|Destek için teknik ayrıntı|Technical details for support
@@ -79,7 +88,7 @@ routine.reminder|Rutine özel saatli hatırlatma|Reminder at a chosen time
 routine.pause|Gelecek tekrarları duraklat|Pause future repetitions
 routine.resume|Gelecek tekrarları sürdür|Resume future repetitions
 routine.paused|Rutindeki görev şablonları duraklatıldı.|Task templates in this routine are paused.
-routine.pause.confirm|Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Tek seferlik adımların tarihini ayrıca düzenleyin.|Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit one-time steps' dates separately.
+routine.pause.confirm|Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Bitiş tarihi geçmiş adımı sürdürmeden önce düzenleyin. Sürdürme yeni bir plan dönemi başlatır; ara verilen günlere görev eklenmez.|Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit expired steps before resuming. Resuming starts a new planning cycle without filling paused days.
 reminder.time|Hatırlatma saati|Reminder time
 reminder.global.off|Bildirimler kapalı. Hatırlatmaların ulaşması için Profil'den bildirimleri etkinleştir.|Notifications are off. Enable them in Profile to receive reminders.
 week.previous|Önceki hafta|Previous week
@@ -457,7 +466,7 @@ privacy|Gizlilik|Privacy
 lock|Face ID / cihaz parolası kilidi|Face ID / device passcode lock
 privacy.policy|Gizlilik politikası|Privacy policy
 local.only|Veriler cihazda saklanır. Hesap, reklam, analiz SDK'sı veya zorunlu internet bağlantısı yoktur.|Data stays on your device. No account, advertising, analytics SDK or internet connection is required.
-widget.unavailable|Widget için App Group henüz yapılandırılmamış. Ana uygulama yerel olarak kullanılabilir.|App Group is not configured for the widget. The main app remains available locally.
+widget.unavailable|Widget bu sürümde henüz kullanılamıyor.|Widgets are not available in this build yet.
 widget.available|Widget bugünkü gerçek kayıtlardan üretilir; uygulama kilidi açıkken içerik gizlenir.|The widget uses today's real records; content is hidden when app lock is enabled.
 data|Veriler ve yedekleme|Data and backups
 export.json|JSON yedek oluştur|Create JSON backup

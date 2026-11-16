@@ -310,6 +310,7 @@ final class MIHENUITests: XCTestCase {
         let app = start()
         capture(app,name:"MIHEN-Today-Empty-TR")
         app.tabBars.buttons["Profil"].tap()
+        tap(app.descendants(matching:.any)["backup.details"].firstMatch,in:app)
         let scope = app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "JSON yedeği kayıtları")).firstMatch
         for _ in 0..<12 { if scope.exists && scope.isHittable { break }; app.swipeUp() }
         XCTAssertTrue(scope.waitForExistence(timeout:5))
