@@ -88,7 +88,7 @@ struct OnboardingView: View {
                             Text(store.t("welcome.steps"))
                         }.padding(.vertical, 8)
                         TextField(store.t("name"), text: $name).textContentType(.givenName)
-                        Text(store.t("welcome.privacy")).font(.footnote).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                        Text(store.t("welcome.privacy")).font(.body).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                     }
                 } else if step == 1 {
                     Section(store.t("welcome.focus")) {
@@ -114,7 +114,7 @@ struct OnboardingView: View {
                 }
                 if step < 2 {
                     Button { step += 1 } label: {
-                        Text(store.t("continue")).fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity)
+                        Text(store.t("continue")).font(.body).fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity)
                     }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.continue")
                 }
                 if step > 0 { Button(store.t("back")) { step -= 1 } }
