@@ -1,6 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import UserNotifications
+import WidgetKit
 
 struct TransferDocument: FileDocument {
     static var readableContentTypes: [UTType] { [.json, .commaSeparatedText] }
@@ -15,27 +16,34 @@ struct ImportPreview: Identifiable {
     var replaces: Bool
     var errors: [String]
     var added: Int
+    var prayer: PrayerSettings? = nil
+    var restoresPrayer: Bool = false
 }
 struct SettingsScreen: View {
     @Environment(AppStore.self) private var store
+    @AppStorage("backup.lastExport") private var lastExport = 0.0
+    @State private var exportIsArchive = false
+    @State private var exportSucceeded = false
     @State private var exporting = false
     @State private var importing = false
     @State private var exportDocument: TransferDocument?
     @State private var exportType: UTType = .json
     @State private var pendingImport: ImportPreview?
     @State private var reset = false
-    @State private var loadTemplates = false
     @State private var notificationPrompt = false
     @State private var enablingLock = false
     var body: some View {
         Form {
             Section(store.t("profile")) {
-                NavigationLink(destination: ScreenTimeScreen()) { Text(store.t("screen.title")) }.accessibilityIdentifier("settings.screentime")
-                NavigationLink(destination: CustomRemindersScreen()) { Text(store.t("custom.reminders")) }
                 TextField(store.t("name"), text: preference(\.name))
                 Picker(store.t("language"), selection: preference(\.language)) { Text("Türkçe").tag("tr"); Text("English").tag("en") }.accessibilityIdentifier("settings.language")
                 Picker(store.t("theme"), selection: preference(\.theme)) { ForEach(["system", "light", "dark"], id: \.self) { Text(store.t($0)).tag($0) } }.accessibilityIdentifier("settings.theme")
-                Picker(store.t("timezone"), selection: preference(\.timeZoneID)) { ForEach(TimeZone.knownTimeZoneIdentifiers, id: \.self) { Text($0).tag($0) } }
+                NavigationLink(destination: TimeZonePickerScreen(selection: preference(\.timeZoneID))) { LabeledContent(store.t("timezone"), value: store.preferences.timeZoneID) }
+            }
+            Section(store.t("connections")) {
+                NavigationLink(destination: ScreenTimeScreen()) { Text(store.t("screen.title")) }.accessibilityIdentifier("settings.screentime")
+                NavigationLink(destination: CustomRemindersScreen()) { Text(store.t("custom.reminders")) }
+                NavigationLink(destination: HealthSummaryScreen()) { Text(store.t("health.connection")) }
             }
             Section(store.t("calendar.hijri")) {
                 Toggle(store.t("hijri.show"), isOn: preference(\.showHijri))
@@ -74,15 +82,19 @@ struct SettingsScreen: View {
                 Text(store.t(SharedWidgetStore.url == nil ? "widget.unavailable" : "widget.available")).font(.footnote)
             }
             Section(store.t("data")) {
+                if lastExport > 0 { Text(store.t("backup.lastExport")); Text(Date(timeIntervalSince1970: lastExport), format: .dateTime.day().month().year().hour().minute()) }
+                else { Text(store.t("backup.none")) }
+                Text(store.t("backup.scope")).font(.footnote)
+                if exportSucceeded { Text(store.t("backup.exported")).foregroundStyle(Color.mihenGreen) }
                 Button(store.t("export.json")) { export(.json) }
                 Button(store.t("export.csv")) { export(.commaSeparatedText) }
                 Button(store.t("export.planCSV")) { export(.commaSeparatedText, editablePlan: true) }
                 Button(store.t("recovery.preview")) {
-                    do { let document = try RecoveryBackup.load(); pendingImport = .init(document: document, replaces: true, errors: [], added: document.tasks.count + document.goals.count + document.occurrences.count) } catch { store.errorMessage = error.localizedDescription }
+                    do { let archive = try RecoveryBackup.loadArchive(); let document = archive.document; pendingImport = .init(document: document, replaces: true, errors: [], added: document.tasks.count + document.goals.count + document.occurrences.count, prayer: archive.prayer, restoresPrayer: true) } catch { store.errorMessage = error.localizedDescription }
                 }
                 Button(store.t("import")) { importing = true }.accessibilityIdentifier("settings.import")
                 Text(store.t("backup.explanation")).font(.footnote)
-                Button(store.t("templates.load")) { loadTemplates = true }
+                NavigationLink(destination: StarterTemplatesScreen()) { Text(store.t("templates.choose")) }
                 Button(store.t("data.delete"), role: .destructive) { reset = true }
             }
             Section(store.t("help")) {
@@ -92,7 +104,10 @@ struct SettingsScreen: View {
             }
         }.keyboardDone().navigationTitle(store.t("profile"))
             .fileExporter(isPresented: $exporting, document: exportDocument, contentType: exportType, defaultFilename: "MIHEN-\(store.engine.key(Date()))") { result in
-                if case .failure(let error) = result { store.errorMessage = error.localizedDescription }
+                switch result {
+                case .failure(let error): store.errorMessage = error.localizedDescription
+                case .success: if exportIsArchive { lastExport = Date().timeIntervalSince1970; exportSucceeded = true }
+                }
             }
             .fileImporter(isPresented: $importing, allowedContentTypes: [.json, .commaSeparatedText], allowsMultipleSelection: false) { result in
                 do { if let url = try result.get().first { try prepareImport(url) } } catch { store.errorMessage = error.localizedDescription }
@@ -101,19 +116,25 @@ struct SettingsScreen: View {
                 NavigationStack {
                     List {
                         Text(store.t(preview.replaces ? "import.replaces" : "import.adds"))
+                        Text(store.t(preview.restoresPrayer ? "backup.prayerIncluded" : "backup.legacy")).font(.footnote)
                         Text(store.t("records") + ": \(preview.added)")
                         Text(store.t("goals") + ": \(preview.document.goals.count)")
                         Text(store.t("tasks.habits") + ": \(preview.document.tasks.count)")
                         Text(store.t("history") + ": \(preview.document.occurrences.count)")
                         ForEach(preview.errors, id: \.self) { Text($0).foregroundStyle(.red) }
                         Button(store.t("import.confirm"), role: preview.replaces ? .destructive : nil) {
-                            do { try RecoveryBackup.preserve(store.data) } catch { store.errorMessage = error.localizedDescription; return }
-                            if store.change({ $0 = preview.document }) {
-                                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                                if store.preferences.remindersEnabled { store.refreshNotifications() }
-                                pendingImport = nil
-                                store.locked = store.preferences.lockEnabled
-                            }
+                            do {
+                                try BackupArchive(document: preview.document, prayer: preview.prayer).validate()
+                                let prayerBytes = try preview.prayer.map { try JSONEncoder().encode($0) }
+                                try RecoveryBackup.preserve(store.data, prayer: PrayerSettingsStore.read())
+                                if store.change({ $0 = preview.document }) {
+                                    if preview.restoresPrayer { PrayerSettingsStore.restore(prayerBytes); WidgetCenter.shared.reloadAllTimelines() }
+                                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                                    if store.preferences.remindersEnabled { store.refreshNotifications() }
+                                    pendingImport = nil
+                                    store.locked = store.preferences.lockEnabled
+                                }
+                            } catch { store.errorMessage = error.localizedDescription }
                         }.disabled(!preview.errors.isEmpty)
                     }.keyboardDone().navigationTitle(store.t("import.preview"))
                         .toolbar { Button(store.t("cancel")) { pendingImport = nil } }
@@ -128,9 +149,6 @@ struct SettingsScreen: View {
                         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                     }
                 }
-            }
-            .confirmationDialog(store.t("templates.explanation"), isPresented: $loadTemplates) {
-                Button(store.t("templates.load")) { let planner = store.engine; store.change { $0.addStarterTemplates(on: Date(), engine: planner) } }
             }
             .confirmationDialog(store.t("notifications.permission"), isPresented: $notificationPrompt) {
                 Button(store.t("continue")) {
@@ -158,7 +176,9 @@ struct SettingsScreen: View {
         do {
             var snapshot = store.data
             snapshot.exportedAt = Date()
-            let bytes = type == .json ? try BackupCodec.encode(snapshot) : Data((editablePlan ? PlanCSV.export(snapshot, engine: store.engine) : try BackupCodec.exportCSV(snapshot)).utf8)
+            let bytes = type == .json ? try BackupArchive(document: snapshot, prayer: PrayerSettingsStore.read()).encoded() : Data((editablePlan ? PlanCSV.export(snapshot, engine: store.engine) : try BackupCodec.exportCSV(snapshot)).utf8)
+            exportIsArchive = type == .json
+            exportSucceeded = false
             exportDocument = TransferDocument(data: bytes)
             exportType = type
             exporting = true
@@ -171,8 +191,10 @@ struct SettingsScreen: View {
         guard size <= BackupCodec.maximumBytes else { throw PlanError.invalid("validation.fileSize") }
         let bytes = try Data(contentsOf: url, options: .mappedIfSafe)
         if url.pathExtension.lowercased() == "json" {
-            let document = try BackupCodec.decode(bytes)
-            pendingImport = .init(document: document, replaces: true, errors: [], added: document.tasks.count + document.goals.count + document.occurrences.count)
+            let archive = try BackupArchive.decode(bytes)
+            let document = archive.document
+            let restoresPrayer = (try JSONSerialization.jsonObject(with: bytes) as? [String: Any])?["format"] != nil
+            pendingImport = .init(document: document, replaces: true, errors: [], added: document.tasks.count + document.goals.count + document.occurrences.count, prayer: archive.prayer, restoresPrayer: restoresPrayer)
         } else {
             guard let text = String(data: bytes, encoding: .utf8) else { throw PlanError.invalid("validation.csv") }
             if try CSV.parse(text).first == PlanCSV.header {

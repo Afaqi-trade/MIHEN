@@ -15,6 +15,27 @@ import SwiftData
         XCTAssertEqual(try RecoveryBackup.load(from: url).journals.first?.text, "Aktarma öncesi")
     }
 
+    func testRecoveryEnvelopeIncludesPrayerAndRejectsInvalidSettingsBeforeOverwriting() throws {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathComponent("recovery.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let document = BackupDocument.fresh()
+        let settings = PrayerSettings(latitude:41.0082,longitude:28.9784,timeZoneID:"Europe/Istanbul",method:"turkey",hanafi:true)
+        try RecoveryBackup.preserve(document,prayer:settings,at:url)
+        XCTAssertEqual(try RecoveryBackup.loadArchive(from:url).prayer,settings)
+        var invalid=settings;invalid.longitude=200
+        XCTAssertThrowsError(try RecoveryBackup.preserve(document,prayer:invalid,at:url))
+        XCTAssertEqual(try RecoveryBackup.loadArchive(from:url).prayer,settings)
+    }
+    func testArchiveImportPersistsRecordsAcrossRepositoryReopen() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at:folder) }
+        let url=folder.appendingPathComponent("restore.store")
+        var document=BackupDocument.fresh(); document.journals.append(.init(text:"Geri yükleme örneği"))
+        let archive=try BackupArchive.decode(BackupArchive(document:document).encoded())
+        do { let repository=try Repository(storeURL:url);try repository.save(archive.document) }
+        XCTAssertEqual(try Repository(storeURL:url).load().journals.first?.text,"Geri yükleme örneği")
+    }
+
     func testSaveReopenPartialProgressAndTurkishText() throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

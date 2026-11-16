@@ -8,11 +8,20 @@ struct DomainActivityScreen: View {
     @State private var kind = "other"
     @State private var note = ""
     @State private var date = Date()
+    private var kinds: [String] {
+        switch domainID {
+        case "finance": return ["income", "expense", "budget", "obligation", "giving", "other"]
+        case "health": return ["exercise", "sleep", "other"]
+        case "career", "learning": return ["learning", "other"]
+        case "service": return ["volunteering", "giving", "other"]
+        default: return ["other"]
+        }
+    }
     var body: some View {
         List {
             Section(store.t("activity.new")) {
                 Picker(store.t("type"), selection: $kind) {
-                    ForEach(["exercise", "sleep", "income", "expense", "budget", "obligation", "giving", "volunteering", "learning", "other"], id: \.self) { Text(store.t("activity.\($0)")).tag($0) }
+                    ForEach(kinds, id: \.self) { Text(store.t("activity.\($0)")).tag($0) }
                 }
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
                 ValueInput(title: "amount", value: $amount)
@@ -33,6 +42,7 @@ struct DomainActivityScreen: View {
                 }
             }
         }.keyboardDone().navigationTitle(store.t("activity.log"))
+            .onAppear { if domainID == "finance" { unit = "TRY" } }
     }
 }
 struct ProjectsScreen: View {

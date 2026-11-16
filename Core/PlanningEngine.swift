@@ -160,11 +160,9 @@ public struct PlanningEngine: Sendable {
         guard !dates.isEmpty, dates.count <= 90, ["planned", "partial"].contains(occurrence.status), occurrence.value < occurrence.target else { throw PlanError.invalid("validation.data") }
         let keys = dates.map(key)
         guard !data.occurrences.contains(where: { $0.taskID == occurrence.taskID && keys.contains($0.day) }) else { throw PlanError.invalid("validation.duplicateDay") }
-        let remaining = occurrence.target - occurrence.value
-        let each = remaining / Double(keys.count)
-        return keys.enumerated().map { i, day in
-            // Carry already recorded progress once; never duplicate it in aggregates.
-            Allocation(day: day, target: each + (i == 0 ? occurrence.value : 0), value: i == 0 ? occurrence.value : 0)
+        let proposal = try allocations(total: occurrence.target - occurrence.value, unit: occurrence.unit, from: start, through: end)
+        return proposal.enumerated().map { index, item in
+            Allocation(day: item.day, target: item.amount + (index == 0 ? occurrence.value : 0), value: index == 0 ? occurrence.value : 0)
         }
     }
     public func redistribute(_ id: String, from start: Date, through end: Date, in data: inout BackupDocument) throws {
@@ -190,8 +188,7 @@ public struct PlanningEngine: Sendable {
         return .init(day: key(date), planned: items.count, completed: completed, partial: partial, ratio: items.isEmpty ? nil : Double(completed) / Double(items.count))
     }
     public func goalValue(_ goalID: String, in data: BackupDocument) -> Double {
-        let unit = data.goals.first { $0.id == goalID }?.unit
-        return data.goalProgress.filter { $0.goalID == goalID }.reduce(0) { $0 + $1.amount } + data.occurrences.filter { $0.goalID == goalID && $0.status != "moved" && $0.unit == unit }.reduce(0) { $0 + $1.value }
+        contributions(goalID, in: data).total
     }
     public func remainingPerDay(total: Double, completed: Double, start: Date, end: Date, now: Date) -> Double {
         guard total > 0, total.isFinite, completed.isFinite else { return 0 }

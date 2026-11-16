@@ -39,5 +39,8 @@ enum PrayerSettingsStore {
     static func save(_ settings: PrayerSettings) throws {
         defaults.set(try JSONEncoder().encode(settings), forKey: "prayer.settings.v1")
     }
+    static func restore(_ bytes: Data?) {
+        if let bytes { defaults.set(bytes, forKey: "prayer.settings.v1") } else { clear() }
+    }
     static func clear() { defaults.removeObject(forKey: "prayer.settings.v1") }
 }

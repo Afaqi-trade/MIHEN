@@ -8,6 +8,7 @@ import WidgetKit
     var data: BackupDocument
     var errorMessage: String?
     var locked = false
+    var lastProgressChange: (id: String, value: Double)?
     @ObservationIgnored private var notificationTask: Task<Void, Never>?
     let repository: Repository
     var engine: PlanningEngine {
@@ -63,10 +64,15 @@ import WidgetKit
         data.occurrences.filter { $0.day == engine.key(date) }.sorted { $0.priority == $1.priority ? $0.title < $1.title : $0.priority > $1.priority }
     }
     func progress(_ id: String, value: Double) {
-        change { document in
+        let old = data.occurrences.first { $0.id == id }?.value
+        if change({ document in
             guard let i = document.occurrences.firstIndex(where: { $0.id == id }) else { throw PlanError.invalid("validation.missing") }
             try PlanningEngine.setProgress(value, occurrence: &document.occurrences[i])
-        }
+        }), let old { lastProgressChange = (id, old) }
+    }
+    func undoProgress() {
+        guard let last = lastProgressChange else { return }
+        progress(last.id, value: last.value); lastProgressChange = nil
     }
     func addReading(khatmID: String, pages: Int) {
         change { document in

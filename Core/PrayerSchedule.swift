@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PrayerSettings: Codable, Equatable {
+public struct PrayerSettings: Codable, Equatable, Sendable {
     public var latitude: Double
     public var longitude: Double
     public var timeZoneID: String

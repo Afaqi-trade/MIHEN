@@ -31,7 +31,7 @@ struct ProgressScreen: View {
                 }
                 .chartXScale(domain: interval.start...interval.end)
                 .chartXAxis {
-                    AxisMarks(values: .stride(by: period == "year" ? .month : .day)) { _ in
+                    AxisMarks(values: .stride(by: period == "year" ? .month : .day, count: period == "month" ? 7 : 1)) { _ in
                         AxisGridLine()
                         if period == "year" { AxisValueLabel(format: .dateTime.month(.abbreviated)) }
                         else { AxisValueLabel(format: .dateTime.day()) }
@@ -39,7 +39,7 @@ struct ProgressScreen: View {
                 }
                 .chartYScale(domain: 0...100).frame(height: 200).accessibilityLabel(store.t("chart.progress"))
                 Text(store.t("eight.areas")).font(.title2.bold())
-                ForEach(store.data.domains) { area in
+                ForEach(store.data.domains.filter(\.enabled)) { area in
                     let days = store.engine.days(from: interval.start, through: Date()).map { store.engine.summary(store.data, on: $0, domainID: area.id) }
                     let total = days.reduce(0) { $0 + $1.planned }, done = days.reduce(0) { $0 + $1.completed }
                     VStack(alignment: .leading, spacing: 8) {
@@ -97,6 +97,9 @@ struct JournalScreen: View {
 struct JournalEditor: View {
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
+    @State private var well = ""
+    @State private var adjust = ""
+    @State private var next = ""
     @State private var draft: JournalEntryRecord
     init(entry: JournalEntryRecord? = nil, kind: String = "note", domainID: String? = nil) { _draft = State(initialValue: entry ?? .init(domainID: domainID, kind: kind)) }
     var body: some View {
@@ -108,7 +111,9 @@ struct JournalEditor: View {
                         let interval = store.engine.calendar.dateInterval(of: component, for: draft.date)!
                         let rows = store.data.occurrences.filter { (draft.domainID == nil || $0.domainID == draft.domainID) && $0.day >= store.engine.key(interval.start) && $0.day < store.engine.key(interval.end) && !["skipped", "cancelled", "moved"].contains($0.status) }
                         Text("\(rows.filter { $0.status == "completed" }.count) / \(rows.count) " + store.t("tasks.completed"))
-                        Text(store.t("review.prompts")).font(.subheadline)
+                        TextField(store.t("review.well"), text: $well, axis: .vertical)
+                        TextField(store.t("review.adjust"), text: $adjust, axis: .vertical)
+                        TextField(store.t("review.next"), text: $next, axis: .vertical)
                     }
                 }
                 DatePicker(store.t("date"), selection: $draft.date, displayedComponents: .date)
@@ -121,8 +126,11 @@ struct JournalEditor: View {
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {
-                        if store.change({ data in if let i = data.journals.firstIndex(where: { $0.id == draft.id }) { data.journals[i] = draft } else { data.journals.append(draft) } }) { dismiss() }
-                    }.disabled(draft.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) }
+                        var record = draft
+                        let answers = [("review.well", well), ("review.adjust", adjust), ("review.next", next)].filter { !$0.1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.map { store.t($0.0) + "\n" + $0.1 }
+                        record.text = ([draft.text] + answers).filter { !$0.isEmpty }.joined(separator: "\n\n")
+                        if store.change({ data in if let i = data.journals.firstIndex(where: { $0.id == record.id }) { data.journals[i] = record } else { data.journals.append(record) } }) { dismiss() }
+                    }.disabled([draft.text, well, adjust, next].allSatisfy { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) }
                 }
         }
     }

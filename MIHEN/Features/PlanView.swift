@@ -5,10 +5,13 @@ struct PlanView: View {
     @State private var addGoal = false
     var body: some View {
         List {
-            Section(store.t("eight.areas")) {
-                ForEach(orderedDomains) { domain in DomainNavigationRow(domain: domain) }
+            Section(store.t("plan.tools")) { shortcuts }
+            Section(store.t("focus.areas")) {
+                ForEach(orderedDomains.filter(\.enabled)) { domain in DomainNavigationRow(domain: domain) }
             }
-            Section { shortcuts }
+            if orderedDomains.contains(where: { !$0.enabled }) {
+                Section(store.t("other.areas")) { ForEach(orderedDomains.filter { !$0.enabled }) { domain in DomainNavigationRow(domain: domain) } }
+            }
         }
         .navigationTitle(store.t("plan"))
         .toolbar {
@@ -40,7 +43,7 @@ private struct DomainNavigationRow: View {
                     .font(.title3).foregroundStyle(Color.mihenGreen).frame(width: 30)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(store.title(domain.id)).font(.headline)
-                    Text("\(count) " + store.t("goals")).font(.caption).foregroundStyle(.secondary)
+                    Text(count == 0 ? store.t("goals.none") : "\(count) " + store.t("goals.count")).font(.caption).foregroundStyle(.secondary)
                 }
                 if !domain.enabled { Image(systemName: "pause.circle").accessibilityLabel(store.t("inactive")) }
             }.padding(.vertical, 5)
@@ -133,7 +136,10 @@ struct GoalDetail: View {
     @State private var edit = false
     @State private var addTask = false
     @State private var delete = false
-    @State private var amount = 1.0
+    @State private var amount = 0.0
+    @State private var confirmContribution = false
+    @State private var archivePlan = false
+    @State private var editingTask: PlannedTaskRecord?
     @State private var milestone = ""
     var body: some View {
         List {
@@ -143,12 +149,21 @@ struct GoalDetail: View {
                     ForEach(goal.domainIDs, id: \.self) { Text(store.title($0)).font(.caption) }
                     Text(goal.notes)
                     Text(goal.end, format: .dateTime.day().month().year())
-                    Text(store.t("daily.suggestion") + ": " + store.engine.remainingPerDay(total: goal.target, completed: store.engine.goalValue(goalID, in: store.data), start: goal.start, end: goal.end, now: Date()).formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
-                    Text(store.t("pacing.explanation")).font(.footnote).foregroundStyle(.secondary)
+                    let contributions = store.engine.contributions(goalID, in: store.data)
+                    Text(store.t("contribution.tasks") + ": " + contributions.tasks.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
+                    Text(store.t("contribution.manual") + ": " + contributions.manual.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
+                    Text(store.t("planning.noConversion")).font(.footnote).foregroundStyle(.secondary)
                 }
                 Section(store.t("progress.add")) {
                     ValueInput(title: "amount", value: $amount)
-                    Button(store.t("save")) { store.change { $0.goalProgress.append(.init(goalID: goalID, amount: amount)) } }
+                    Text(store.t("contribution.warning")).font(.footnote)
+                    Button(store.t("contribution.add")) { confirmContribution = true }.disabled(!amount.isFinite || amount <= 0)
+                        .confirmationDialog(store.t("contribution.confirm"), isPresented: $confirmContribution) {
+                            Button(store.t("contribution.add")) {
+                                guard amount.isFinite, amount > 0 else { return }
+                                if store.change({ $0.goalProgress.append(.init(goalID: goalID, amount: amount)) }) { amount = 0 }
+                            }
+                        }
                     ForEach(store.data.goalProgress.filter { $0.goalID == goalID }.sorted { $0.date > $1.date }) { entry in
                         HStack { Text(entry.date, format: .dateTime.day().month()); Spacer(); Text(entry.amount.formatted(.number.locale(store.locale))) }
                             .swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.goalProgress.removeAll { $0.id == entry.id } } } }
@@ -163,13 +178,25 @@ struct GoalDetail: View {
                 }
                 Section(store.t("linked.tasks")) {
                     NavigationLink(destination: GoalPlanningScreen(goalID: goalID)) { Text(store.t("goal.split")) }.accessibilityIdentifier("goal.split.open")
-                    ForEach(store.data.tasks.filter { $0.goalID == goalID }) { Text(store.taskTitle($0.title)) }
+                    ForEach(store.data.tasks.filter { $0.goalID == goalID && !$0.archived }) { task in
+                        Button(store.taskTitle(task.title)) { editingTask = task }
+                    }
+                    if store.data.tasks.contains(where: { $0.goalID == goalID && !$0.archived }) {
+                        Button(store.t("planning.archive")) { archivePlan = true }
+                    }
                     Button(store.t("task.new")) { addTask = true }
                 }
                 Section {
                     Button(store.t("edit")) { edit = true }
                     Button(store.t(goal.archived ? "unarchive" : "archive")) { store.change { data in if let i = data.goals.firstIndex(where: { $0.id == goalID }) { data.goals[i].archived.toggle() } } }
                     Button(store.t("delete"), role: .destructive) { delete = true }
+                }
+                .sheet(item: $editingTask) { TaskEditor(task: $0) }
+                .confirmationDialog(store.t("planning.archive.confirm"), isPresented: $archivePlan) {
+                    Button(store.t("planning.archive")) {
+                        let engine = store.engine
+                        store.change { engine.archiveFutureGoalPlan(goalID, on: Date(), in: &$0) }
+                    }
                 }
                 .sheet(isPresented: $edit) { GoalEditor(goal: goal) }
                 .sheet(isPresented: $addTask) { TaskEditor(goalID: goalID, domainID: goal.domainIDs.first) }
@@ -209,7 +236,7 @@ struct GoalEditor: View {
                 DatePicker(store.t("end.date"), selection: $draft.end, displayedComponents: .date)
                 Picker(store.t("priority"), selection: $draft.priority) { ForEach(0..<3) { Text(store.t("priority.\($0)")).tag($0) } }
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
-            }.keyboardDone().navigationTitle(store.t("goal.edit"))
+            }.keyboardDone().navigationTitle(store.t(store.data.goals.contains(where: { $0.id == draft.id }) ? "goal.edit" : "goal.new"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) {
@@ -248,14 +275,18 @@ struct TaskEditor: View {
     @Environment(\.dismiss) private var dismiss
     @State private var draft: PlannedTaskRecord
     @State private var hasEnd = false
-    init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil) {
-        _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID))
+    @State private var details = false
+    init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil, routineMode: Bool = false) {
+        _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID, recurrence: routineMode ? "daily" : "none", isHabit: routineMode))
         _hasEnd = State(initialValue: task?.end != nil)
+        _details = State(initialValue: task != nil)
     }
     var body: some View {
         NavigationStack {
             Form {
                 TextField(store.t("title"), text: Binding(get: { store.taskTitle(draft.title) }, set: { draft.title = $0 })).autocorrectionDisabled().accessibilityIdentifier("task.title")
+                Text(store.t("task.quick.explanation")).font(.footnote)
+                DisclosureGroup(isExpanded: $details) {
                 Picker(store.t("area"), selection: $draft.domainID) { ForEach(store.data.domains) { Text(store.title($0.id)).tag($0.id) } }
                 Picker(store.t("linked.goal"), selection: $draft.goalID) {
                     Text(store.t("none")).tag(String?.none)
@@ -275,8 +306,10 @@ struct TaskEditor: View {
                 Toggle(store.t("habit"), isOn: $draft.isHabit)
                 Picker(store.t("priority"), selection: $draft.priority) { ForEach(0..<3) { Text(store.t("priority.\($0)")).tag($0) } }
                 TextEditor(text: $draft.notes).frame(minHeight: 80).accessibilityLabel(store.t("notes"))
+                } label: { Text(store.t("task.details")).accessibilityIdentifier("task.details") }
+
                 Text(store.t("task.edit.explanation")).font(.footnote)
-            }.keyboardDone().navigationTitle(store.t("task.edit"))
+            }.keyboardDone().navigationTitle(store.t(store.data.tasks.contains(where: { $0.id == draft.id }) ? "task.edit" : "task.new"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {

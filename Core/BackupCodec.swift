@@ -116,12 +116,13 @@ public enum BackupCodec {
         for row in data.notificationPreferences { try check((0...23).contains(row.hour) && (0...59).contains(row.minute)) }
         for row in data.activities {
             try check(domainIDs.contains(row.domainID) && row.amount.isFinite && row.amount >= 0 && row.amount <= 1e12)
-            try check(["qadaDebt", "qadaDone", "food", "energyBurned", "water", "exercise", "sleep", "income", "expense", "budget", "obligation", "giving", "volunteering", "learning", "other"].contains(row.kind))
+            try check(["qadaDebt", "qadaDone", "food", "energyBurned", "water", "steps", "exercise", "sleep", "income", "expense", "budget", "obligation", "giving", "volunteering", "learning", "other"].contains(row.kind))
         }
         for row in data.activities {
             if ["qadaDebt", "qadaDone"].contains(row.kind) {
                 try check(row.domainID == "spiritual" && ["fajr", "dhuhr", "asr", "maghrib", "isha", "witr"].contains(row.unit) && row.amount.rounded() == row.amount)
             }
+            if row.kind == "steps" { try check(row.domainID == "health" && row.unit == "count") }
             if ["food", "energyBurned", "water"].contains(row.kind) {
                 try check(row.domainID == "health" && row.unit == (row.kind == "water" ? "ml" : "kcal"))
             }

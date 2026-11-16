@@ -91,13 +91,8 @@ struct KhatmDetail: View {
                     if let completed = khatm.completedAt { Text(completed, format: .dateTime.day().month().year()) }
                 }
                 Section(store.t("reading.add")) {
-                    HStack {
-                        Text(store.t("pages"))
-                        Spacer()
-                        TextField(store.t("pages"), value: $pages, format: .number.locale(store.locale))
-                            .keyboardType(.numberPad).multilineTextAlignment(.trailing)
-                            .accessibilityIdentifier("khatm.pages").focused($readingFocused)
-                    }
+                    IntegerInput(title: "pages", value: $pages, fieldID: "khatm.pages")
+                    Text(store.t("reading.quantity.help")).font(.footnote)
                     Button(store.t("save")) { store.addReading(khatmID: khatmID, pages: pages); readingFocused = false }.disabled(pages <= 0 || total + pages > khatm.totalPages).accessibilityIdentifier("khatm.reading.save")
                 }
                 Section(store.t("history")) {
@@ -180,11 +175,6 @@ struct DhikrScreen: View {
     @State private var target = 100
     var body: some View {
         List {
-            Section(store.t("counter.new")) {
-                TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
-                IntegerInput(title: "target", value: $target, fieldID: "counter.target")
-                Button(store.t("add")) { if store.change({ $0.dhikr.append(.init(title: title, day: store.engine.key(Date()), target: target)) }) { title = "" } }.disabled(title.isEmpty || target <= 0)
-            }
             Section(store.t("today")) {
                 ForEach(store.data.dhikr.filter { $0.day == store.engine.key(Date()) }) { counter in
                     VStack(alignment: .leading, spacing: 12) {
@@ -196,6 +186,11 @@ struct DhikrScreen: View {
                         }.buttonStyle(.borderless)
                     }.padding(.vertical)
                 }
+            }
+            Section(store.t("counter.new")) {
+                TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
+                IntegerInput(title: "target", value: $target, fieldID: "counter.target")
+                Button(store.t("add")) { if store.change({ $0.dhikr.append(.init(title: title, day: store.engine.key(Date()), target: target)) }) { title = "" } }.disabled(title.isEmpty || target <= 0)
             }
             Section(store.t("history")) {
                 ForEach(store.data.dhikr.filter { $0.day != store.engine.key(Date()) }.sorted { $0.day > $1.day }) { row in Text("\(row.day) · \(row.title) · \(row.value)/\(row.target)") }
@@ -219,8 +214,8 @@ struct FastingScreen: View {
                 Button(store.t("add")) { if store.change({ $0.fasts.append(.init(date: date, title: title)) }) { title = "" } }.disabled(title.isEmpty)
             }
             Section(store.t("summary")) {
-                Text(store.t("planned") + ": \(store.data.fasts.filter { $0.status == "planned" }.count)")
-                Text(store.t("completed") + ": \(store.data.fasts.filter { $0.status == "completed" }.count)")
+                Text(store.t("fasting.upcoming") + ": \(store.data.fasts.filter { $0.status == "planned" }.count)")
+                Text(store.t("fasting.recorded") + ": \(store.data.fasts.filter { $0.status == "completed" }.count)")
             }
             ForEach(store.data.fasts.sorted { $0.date > $1.date }) { fast in
                 VStack(alignment: .leading) {

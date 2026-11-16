@@ -139,6 +139,59 @@ final class BackupTests: XCTestCase {
 
 import XCTest
 @testable import MIHEN
+final class PeriodReportTests: XCTestCase {
+    let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Istanbul")!)
+    func testIndependentSourcesHalfOpenCoverageAndQadaBalances() throws {
+        var data=BackupDocument.fresh()
+        let start=engine.date("2026-11-01")!, end=engine.date("2026-12-01")!
+        data.activities=[.init(domainID:"spiritual",date:engine.addingDays(-2,to:start),kind:"qadaDebt",amount:10,unit:"fajr"), .init(domainID:"spiritual",date:start,kind:"qadaDone",amount:2,unit:"fajr"), .init(domainID:"health",date:start,kind:"food",amount:450,unit:"kcal"), .init(domainID:"health",date:end,kind:"food",amount:900,unit:"kcal")]
+        let result=engine.periodReport(data,in:DateInterval(start:start,end:end))
+        XCTAssertEqual(result.recordedDays.count,1)
+        XCTAssertEqual(result.metrics.first { $0.id == "fajropening" }?.value,10)
+        XCTAssertEqual(result.metrics.first { $0.id == "fajrclosing" }?.value,8)
+        XCTAssertEqual(result.metrics.first { $0.key == "activity.food" }?.value,450)
+        XCTAssertEqual(result.planned,0)
+        let empty=engine.periodReport(data,in:DateInterval(start:engine.addingDays(1,to:end),end:engine.addingDays(2,to:end)))
+        XCTAssertTrue(empty.recordedDays.isEmpty)
+    }
+    func testArchiveFuturePlanKeepsPastAndRecordedContribution() throws {
+        var data=BackupDocument.fresh();let now=engine.date("2026-11-16")!
+        data.goals=[.init(id:"g",title:"Read",domainIDs:["learning"],target:10,unit:"pages")]
+        data.tasks=[.init(id:"t",title:"Read",domainID:"learning",goalID:"g",start:engine.addingDays(-1,to:now),recurrence:"daily",target:6,unit:"pages")]
+        engine.materialize(&data,from:engine.addingDays(-1,to:now),through:engine.addingDays(1,to:now))
+        let past=data.occurrences[0]
+        try PlanningEngine.setProgress(2,occurrence:&data.occurrences[1])
+        engine.archiveFutureGoalPlan("g",on:now,in:&data)
+        XCTAssertEqual(data.occurrences[0],past)
+        XCTAssertEqual(engine.contributions("g",in:data).tasks,2)
+        XCTAssertTrue(data.tasks[0].archived)
+        let plan=try engine.goalAllocations("g",in:data,from:now,through:engine.addingDays(2,to:now),weekdays:Set(1...7))
+        XCTAssertEqual(plan.map(\.amount).reduce(0,+),8)
+        try BackupCodec.validate(data)
+    }
+}
+
+extension PeriodReportTests {
+    func testHealthImportIsIdempotentAndManualEnergyIsRetainedWithoutDoubleCounting() throws {
+        var data=BackupDocument.fresh();let day=engine.date("2026-11-16")!
+        data.activities=[.init(domainID:"health",date:day,kind:"energyBurned",amount:100,unit:"kcal")]
+        try data.recordHealthSummary(on:day,steps:5000,energy:300,engine:engine)
+        try data.recordHealthSummary(on:day,steps:5100,energy:310,engine:engine)
+        XCTAssertEqual(data.activities.count,3)
+        let totals=data.effectiveActivities(engine:engine)
+        XCTAssertEqual(totals.filter { $0.kind == "energyBurned" }.reduce(0) { $0 + $1.amount },310)
+        let report=engine.periodReport(data,in:DateInterval(start:engine.calendar.startOfDay(for:day),end:engine.addingDays(1,to:engine.calendar.startOfDay(for:day))))
+        XCTAssertEqual(report.metrics.first { $0.key == "activity.steps" }?.value,5100)
+        data.activities.removeAll { $0.id.hasPrefix("health.energy:") }
+        XCTAssertEqual(data.effectiveActivities(engine:engine).filter { $0.kind == "energyBurned" }.reduce(0) { $0 + $1.amount },100)
+        let snapshot=data
+        XCTAssertThrowsError(try data.recordHealthSummary(on:day,steps:-1,energy:0,engine:engine))
+        XCTAssertEqual(data,snapshot)
+    }
+}
+
+import XCTest
+@testable import MIHEN
 
 final class PlanningTests: XCTestCase {
     func testUpcomingRecurringEventUsesNextOccurrence() throws {
@@ -371,6 +424,63 @@ final class PrayerTests: XCTestCase {
         XCTAssertTrue(settings.schedule(on: day)[3].date > standard[3].date)
         settings.latitude = 91
         XCTAssertTrue(settings.schedule(on: day).isEmpty)
+    }
+}
+
+import XCTest
+@testable import MIHEN
+
+final class ProductPlanningTests: XCTestCase {
+    let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+    func testSparseWholeAllocationsAndExactMoneyTotals() throws {
+        let start = engine.date("2026-01-01")!, end = engine.date("2026-12-31")!
+        let books = try engine.allocations(total: 24, unit: "books", from: start, through: end)
+        XCTAssertEqual(books.count, 24)
+        XCTAssertTrue(books.allSatisfy { $0.amount == 1 })
+        XCTAssertEqual(books.first?.day, "2026-01-01")
+        XCTAssertEqual(books.last?.day, "2026-12-31")
+        let pages = try engine.allocations(total: 604, unit: "pages", from: start, through: end)
+        XCTAssertEqual(pages.reduce(0) { $0 + $1.amount }, 604)
+        XCTAssertTrue(pages.allSatisfy { $0.amount.rounded() == $0.amount })
+        let money = try engine.allocations(total: 10.01, unit: "TRY", from: start, through: engine.addingDays(2, to: start))
+        XCTAssertEqual(money.map { Int(($0.amount * 100).rounded()) }.reduce(0,+), 1001)
+    }
+    func testInvalidPrecisionAndDaysRejected() throws {
+        let day = engine.date("2026-01-01")!
+        XCTAssertThrowsError(try engine.allocations(total: 1.5, unit: "count", from: day, through: day))
+        XCTAssertThrowsError(try engine.allocations(total: 1.001, unit: "minutes", from: day, through: day))
+        XCTAssertThrowsError(try engine.allocations(total: 2, unit: "count", from: day, through: engine.addingDays(366, to: day)))
+        XCTAssertThrowsError(try engine.allocations(total: 2, unit: "count", from: day, through: day, weekdays: []))
+    }
+    func testApplyUsesProposalAndRejectsSecondPlanWithoutChangingHistory() throws {
+        var data = BackupDocument.fresh(); let day = engine.date("2026-11-16")!
+        data.goals=[.init(id:"g",title:"Books",domainIDs:["learning"],start:day,end:engine.addingDays(6,to:day),target:3,unit:"books")]
+        let expected = try engine.goalAllocations("g", in:data, from:day, through:engine.addingDays(6,to:day), weekdays:Set(1...7))
+        try engine.applyGoalPlan("g",from:day,through:engine.addingDays(6,to:day),weekdays:Set(1...7),in:&data)
+        XCTAssertEqual(data.tasks.map(\.target),expected.map(\.amount))
+        let snapshot=data
+        XCTAssertThrowsError(try engine.applyGoalPlan("g",from:day,through:day,weekdays:Set(1...7),in:&data))
+        XCTAssertEqual(data,snapshot); try BackupCodec.validate(data)
+    }
+    func testArchiveLegacyCompatibilityPrayerValidationAndVersions() throws {
+        var data=BackupDocument.fresh(); data.exportedAt=engine.date("2026-11-16")!
+        let legacy=try BackupArchive.decode(BackupCodec.encode(data))
+        XCTAssertEqual(legacy.document,data); XCTAssertNil(legacy.prayer)
+        let prayer=PrayerSettings(latitude:41.0082,longitude:28.9784,timeZoneID:"Europe/Istanbul",method:"turkey",hanafi:true)
+        let archive=BackupArchive(document:data,prayer:prayer)
+        XCTAssertEqual(try BackupArchive.decode(archive.encoded()),archive)
+        var invalid=archive; invalid.prayer?.latitude=100
+        XCTAssertThrowsError(try invalid.encoded())
+        invalid=archive; invalid.archiveVersion=2
+        XCTAssertThrowsError(try invalid.encoded())
+    }
+    func testOnlyExplicitTemplatesAndNoGeneratedSuccess() throws {
+        var data=BackupDocument.fresh(); let day=engine.date("2026-11-16")!
+        data.addSelectedTemplates(["template.family"],on:day,engine:engine)
+        data.addSelectedTemplates(["template.family"],on:day,engine:engine)
+        XCTAssertEqual(data.tasks.count,1)
+        XCTAssertTrue(data.occurrences.allSatisfy { $0.value == 0 && $0.status == "planned" })
+        try BackupCodec.validate(data)
     }
 }
 

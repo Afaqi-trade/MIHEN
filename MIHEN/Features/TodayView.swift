@@ -4,68 +4,122 @@ struct TodayView: View {
     @Environment(AppStore.self) private var store
     @State private var taskEditor = false
     @State private var noteEditor = false
+    @State private var focusEditor = false
+    @State private var completedOpen = false
     private var today: Date { Date() }
+    private var rows: [TaskOccurrenceRecord] { store.occurrences(on: today) }
+    private var pending: [TaskOccurrenceRecord] { rows.filter { ["planned", "partial"].contains($0.status) } }
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text(today, format: .dateTime.weekday(.wide).day().month(.wide).year()).foregroundStyle(.secondary)
-                if store.preferences.showHijri {
-                    Text(hijriDate).font(.subheadline).foregroundStyle(.secondary)
-                }
+            VStack(alignment: .leading, spacing: 16) {
+                Text(today, format: .dateTime.weekday(.wide).day().month(.wide)).foregroundStyle(.secondary)
+                if store.preferences.showHijri { Text(hijriDate).font(.subheadline).foregroundStyle(.secondary) }
                 summaryCard
-                HStack {
-                    Text(store.t("today.plan")).font(.title2.bold())
-                    Spacer()
-                    NavigationLink(destination: TaskListScreen()) { Text(store.t("manage")) }
-                }
-                if store.occurrences(on: today).isEmpty { EmptyState(key: "empty.tasks") }
-                ForEach(store.occurrences(on: today)) { OccurrenceRow(occurrence: $0) }
-                NavigationLink(destination: SpiritualScreen()) { Label(store.t("spiritual"), systemImage: "sparkles").mihenCard() }
-                Button { noteEditor = true } label: { Label(store.t("quick.note"), systemImage: "square.and.pencil").mihenCard() }
-                let events = store.engine.upcomingEvents(store.data.events, after: today)
-                if !events.isEmpty {
-                    Text(store.t("upcoming")).font(.title2.bold())
-                    ForEach(Array(events.prefix(3)), id: \.event.id) { item in
-                        VStack(alignment: .leading) { Text(item.event.title); Text(item.next, format: .dateTime.day().month().hour().minute()).font(.caption).foregroundStyle(.secondary) }.mihenCard()
+                if store.lastProgressChange != nil { Button(store.t("undo")) { store.undoProgress() }.accessibilityIdentifier("today.undo") }
+                if rows.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(store.t("today.first.title")).font(.title2.bold())
+                        Text(store.t("today.first.body"))
+                        Button(store.t("today.first.add")) { taskEditor = true }.buttonStyle(.borderedProminent)
+                        NavigationLink(destination: StarterTemplatesScreen()) { Text(store.t("templates.choose")) }
+                    }.mihenCard()
+                } else {
+                    HStack {
+                        Text(store.t("today.plan")).font(.title2.bold()); Spacer()
+                        Button(store.t("focus.choose")) { focusEditor = true }.accessibilityIdentifier("today.focus")
+                    }
+                    ForEach(pending) { OccurrenceRow(occurrence: $0) }
+                    let completed = rows.filter { $0.status == "completed" }
+                    if !completed.isEmpty {
+                        DisclosureGroup(isExpanded: $completedOpen) {
+                            ForEach(completed) { OccurrenceRow(occurrence: $0) }
+                        } label: { Text(store.t("completed") + " · \(completed.count)") }
+                        .accessibilityIdentifier("today.completed")
                     }
                 }
+                HStack {
+                    NavigationLink(destination: WeeklyPlanScreen()) { Label(store.t("weekly.plan"), systemImage: "calendar") }
+                    Spacer()
+                    Button { noteEditor = true } label: { Label(store.t("quick.note"), systemImage: "square.and.pencil") }
+                }.font(.subheadline)
+                if store.data.domains.contains(where: { $0.key == "spiritual" && $0.enabled }) {
+                    NavigationLink(destination: SpiritualScreen()) { Label(store.t("spiritual"), systemImage: "sparkles").mihenCard() }
+                }
+                let dueReviews = store.data.memorization.filter { item in
+                    store.engine.nextReview(item, reviews: store.data.memorizationReviews).map { $0 <= today } ?? false
+                }
+                if !dueReviews.isEmpty { NavigationLink(destination: MemorizationScreen()) { Text(store.t("today.reviewsDue") + ": \(dueReviews.count)") } }
+                let events = store.engine.upcomingEvents(store.data.events, after: today)
+                ForEach(Array(events.prefix(3)), id: \.event.id) { item in
+                    VStack(alignment: .leading) { Text(item.event.title); Text(item.next, format: .dateTime.day().month().hour().minute()).font(.caption).foregroundStyle(.secondary) }.mihenCard()
+                }
                 NavigationLink(destination: JournalScreen()) { Text(store.t("reviews")) }
+                NavigationLink(destination: TaskListScreen()) { Text(store.t("manage")) }.font(.footnote)
             }.padding()
-        }
-        .background(Color.mihenBackground)
-        .navigationTitle(greeting)
-        .toolbar {
-            Button { taskEditor = true } label: { Image(systemName: "plus") }.accessibilityLabel(store.t("task.new")).accessibilityIdentifier("today.add")
-        }
-        .sheet(isPresented: $taskEditor) { TaskEditor() }
-        .sheet(isPresented: $noteEditor) { JournalEditor(kind: "note") }
+        }.background(Color.mihenBackground).navigationTitle(greeting)
+            .toolbar { Button { taskEditor = true } label: { Image(systemName: "plus").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(store.t("task.new")).accessibilityIdentifier("today.add") }
+            .onAppear { completedOpen = pending.isEmpty }
+            .onChange(of: pending.count) { _, count in if count == 0 { completedOpen = true } }
+            .sheet(isPresented: $taskEditor) { TaskEditor() }
+            .sheet(isPresented: $noteEditor) { JournalEditor(kind: "note") }
+            .sheet(isPresented: $focusEditor) { TodayFocusScreen() }
     }
     private var greeting: String {
         let hour = store.engine.calendar.component(.hour, from: today)
         return store.t(hour < 12 ? "greeting.morning" : hour < 18 ? "greeting.day" : "greeting.evening") + (store.preferences.name.isEmpty ? "" : ", \(store.preferences.name)")
     }
     private var hijriDate: String {
-        let formatter = DateFormatter()
-        formatter.calendar = store.engine.hijriCalendar
-        formatter.locale = store.locale
-        formatter.timeZone = store.engine.timeZone
-        formatter.dateStyle = .long
+        let formatter = DateFormatter(); formatter.calendar = store.engine.hijriCalendar
+        formatter.locale = store.locale; formatter.timeZone = store.engine.timeZone; formatter.dateStyle = .long
         return formatter.string(from: store.engine.addingDays(store.preferences.hijriOffset, to: today))
     }
     private var summaryCard: some View {
         let summary = store.engine.summary(store.data, on: today)
-        return VStack(alignment: .leading, spacing: 16) {
-            Text(store.t("completion.rate")).font(.headline)
-            Text(summary.ratio.map { $0.formatted(.percent.precision(.fractionLength(0)).locale(store.locale)) } ?? "—").font(.system(.largeTitle, design: .rounded, weight: .bold)).accessibilityIdentifier("today.progress")
-            Text("\(summary.completed) / \(summary.planned) " + store.t("tasks.completed"))
-            ProgressView(value: summary.ratio ?? 0).tint(.white)
-            Text(store.t("top.three")).font(.subheadline.bold())
-            ForEach(Array(store.occurrences(on: today).filter { ["planned", "partial"].contains($0.status) }.prefix(3))) { Text("• " + store.taskTitle($0.title)).font(.subheadline) }
-        }.padding(24).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.white)
-            .background(Color.mihenNavy.gradient, in: RoundedRectangle(cornerRadius: 28))
+        return VStack(alignment: .leading, spacing: 8) {
+            Text(store.t("today.steps")).font(.headline)
+            Text("\(summary.completed) " + store.t("today.finished") + " · \(summary.partial) " + store.t("today.started"))
+                .font(.title3.bold()).accessibilityIdentifier("today.effort")
+            if summary.partial > 0 { Text(store.t("today.partial.encouragement")).font(.subheadline) }
+            else if summary.completed > 0 { Text(store.t("today.completed.encouragement")).font(.subheadline) }
+            else { Text(store.t("today.next.encouragement")).font(.subheadline) }
+            if let ratio = summary.ratio {
+                Text(store.t("completion.rate") + ": " + ratio.formatted(.percent.precision(.fractionLength(0)).locale(store.locale))).font(.caption).accessibilityIdentifier("today.progress")
+            }
+            let focus = pending.filter { $0.priority == 2 }
+            if !focus.isEmpty { Text(store.t("top.three")).font(.subheadline.bold()); ForEach(Array(focus.prefix(3))) { Text("• " + store.taskTitle($0.title)).font(.subheadline) } }
+        }.padding(20).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.white)
+            .background(Color.mihenNavy, in: RoundedRectangle(cornerRadius: 22))
     }
 }
 
+struct TodayFocusScreen: View {
+    @Environment(AppStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var selected = Set<String>()
+    var body: some View {
+        NavigationStack {
+            List {
+                Text(store.t("focus.explanation")).font(.footnote)
+                ForEach(store.occurrences(on: Date()).filter { ["planned", "partial"].contains($0.status) }) { row in
+                    Toggle(store.taskTitle(row.title), isOn: Binding(get: { selected.contains(row.id) }, set: { if $0 && selected.count < 3 { selected.insert(row.id) } else { selected.remove(row.id) } }))
+                }
+            }.navigationTitle(store.t("focus.choose"))
+                .onAppear { selected = Set(store.occurrences(on: Date()).filter { $0.priority == 2 && ["planned", "partial"].contains($0.status) }.prefix(3).map(\.id)) }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
+                    ToolbarItem(placement: .confirmationAction) { Button(store.t("save")) {
+                        let today = store.engine.key(Date())
+                        if store.change({ data in
+                            for i in data.occurrences.indices where data.occurrences[i].day == today && ["planned", "partial"].contains(data.occurrences[i].status) {
+                                if selected.contains(data.occurrences[i].id) { data.occurrences[i].priority = 2 }
+                                else if data.occurrences[i].priority == 2 { data.occurrences[i].priority = 1 }
+                            }
+                        }) { dismiss() }
+                    } }
+                }
+        }
+    }
+}
 struct OccurrenceRow: View {
     @Environment(AppStore.self) private var store
     let occurrence: TaskOccurrenceRecord
@@ -77,7 +131,7 @@ struct OccurrenceRow: View {
                 store.progress(occurrence.id, value: occurrence.status == "completed" ? 0 : occurrence.target)
             } label: {
                 Image(systemName: occurrence.status == "completed" ? "checkmark.circle.fill" : occurrence.status == "partial" ? "circle.lefthalf.filled" : "circle")
-                    .font(.title2).foregroundStyle(occurrence.status == "completed" ? Color.mihenGreen : .secondary)
+                    .font(.title2).foregroundStyle(occurrence.status == "completed" ? Color.mihenGreen : .secondary).frame(minWidth: 44, minHeight: 44)
             }
             .disabled(!active).accessibilityLabel(store.t("complete") + " " + store.taskTitle(occurrence.title))
             .accessibilityIdentifier("occurrence.complete.\(occurrence.taskID)")
@@ -89,12 +143,12 @@ struct OccurrenceRow: View {
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.buttonStyle(.plain)
             if occurrence.target > 1 && active {
-                Button { store.progress(occurrence.id, value: max(0, occurrence.value - 1)) } label: { Image(systemName: "minus") }
+                Button { store.progress(occurrence.id, value: max(0, occurrence.value - 1)) } label: { Image(systemName: "minus").frame(minWidth: 44, minHeight: 44) }
                     .accessibilityLabel(store.t("decrease"))
                 Button { store.progress(occurrence.id, value: occurrence.value + 1) } label: { Image(systemName: "plus") }
                     .accessibilityLabel(store.t("increase"))
             }
-        }.mihenCard()
+        }.buttonStyle(.borderless).mihenCard()
             .sheet(isPresented: $details) { OccurrenceDetail(id: occurrence.id) }
     }
 }

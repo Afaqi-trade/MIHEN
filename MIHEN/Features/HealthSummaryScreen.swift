@@ -37,6 +37,8 @@ struct HealthSummaryScreen: View {
     @Environment(AppStore.self) private var store
     @State private var summary = HealthSummary()
     @State private var date = Date()
+    @State private var confirmImport = false
+    @State private var saved = false
     var body: some View {
         Form {
             Text(store.t("health.explanation"))
@@ -45,8 +47,19 @@ struct HealthSummaryScreen: View {
             if summary.busy { ProgressView() }
             Text(store.t("health.steps") + ": " + (summary.steps.map { $0.formatted(.number.locale(store.locale)) } ?? "—"))
             Text(store.t("health.energy") + ": " + (summary.energy.map { $0.formatted(.number.locale(store.locale)) + " kcal" } ?? "—"))
+            Text(store.t("health.source.help")).font(.footnote)
+            if summary.steps != nil || summary.energy != nil {
+                Button(store.t("health.import")) { confirmImport = true }.disabled(summary.busy)
+            }
+            if saved { Text(store.t("health.imported")) }
             if let error = summary.error { Text(error).foregroundStyle(.red) }
         }.navigationTitle(store.t("health.connection"))
-            .onChange(of: date) { _, _ in summary.steps = nil; summary.energy = nil }
+            .onChange(of: date) { _, _ in summary.steps = nil; summary.energy = nil; saved = false }
+            .confirmationDialog(store.t("health.import.confirm"), isPresented: $confirmImport) {
+                Button(store.t("health.import")) {
+                    let engine = store.engine
+                    saved = store.change { try $0.recordHealthSummary(on: date, steps: summary.steps, energy: summary.energy, engine: engine) }
+                }
+            }
     }
 }

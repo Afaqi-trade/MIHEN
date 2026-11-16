@@ -34,6 +34,13 @@ import UserNotifications
                 guard occurrence == nil || ["planned", "partial"].contains(occurrence!.status) else { continue }
                 if fire > now { requests.append(("task-\(task.id)-\(engine.key(day))", p.lockEnabled ? title("reminder.task") : Localization.recordTitle(task.title, language: p.language), fire)) }
             }
+            for routine in document.routines {
+                let ids = Set(document.routineItems.filter { $0.routineID == routine.id }.map(\.taskID))
+                guard document.tasks.contains(where: { ids.contains($0.id) && engine.isDue($0, on: day, restWeekdays: p.restWeekdays) }),
+                      let pref = document.notificationPreferences.first(where: { $0.kind == "routine." + routine.id && $0.enabled }) else { continue }
+                let time = engine.calendar.date(bySettingHour: pref.hour, minute: pref.minute, second: 0, of: day)!
+                if time > now { requests.append(("routine-\(routine.id)-\(engine.key(day))", p.lockEnabled ? title("reminder.task") : routine.title, time)) }
+            }
             for pref in document.notificationPreferences where pref.enabled && ["evening", "weekly", "water", "movement", "review"].contains(pref.kind) {
                 if pref.kind == "weekly" && engine.calendar.component(.weekday, from: day) != 1 { continue }
                 let date = engine.calendar.date(bySettingHour: pref.hour, minute: pref.minute, second: 0, of: day)!

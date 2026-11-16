@@ -1,6 +1,139 @@
 from pathlib import Path
 import json,re
-rows='''screen.monitor.lost|Sistem günlük izlemeyi durdurmuş. Sınır kapatıldı; seçimi ve izni kontrol edip yeniden etkinleştirin.|The system stopped daily monitoring. The limit was disabled; check authorization and selection, then enable it again.
+rows='''connections|Bağlantılar ve hatırlatmalar|Connections and reminders
+timezone.common|Sık kullanılan bölgeler|Common time zones
+timezone.search|Şehir veya bölge ara|Search city or region
+reading.quantity.help|Bu kayıtta okuduğun sayfa miktarını gir; ulaştığın sayfa numarasını değil.|Enter the number of pages read in this entry, not the page number you reached.
+fasting.upcoming|Planlı kayıtlar|Planned entries
+fasting.recorded|Tutulan oruç kayıtları|Completed fast entries
+qada.witr.optional|Vitir kaydını da göster|Also show Witr records
+back|Geri|Back
+undo|Geri al|Undo
+planning.availableDays|Uygun günleri seç|Choose available days
+planning.actions|planlanan adım|planned actions
+planning.archive|Gelecek planını arşivle|Archive future plan
+planning.archive.confirm|Bugünden itibaren bu hedefin açık görevleri kapatılıp şablonları arşivlenecek. Kaydedilmiş miktarlar ve geçmiş korunur. Ardından yeni planı ayrıca onaylayabilirsiniz.|Open tasks from today onward will close and their templates will be archived. Recorded quantities and history are preserved. You can then approve a new plan separately.
+plan.tools|Planlama araçların|Your planning tools
+focus.areas|Odaklandığın yaşam alanları|Your focus areas
+other.areas|Diğer yaşam alanları|Other life areas
+goals.none|Henüz hedef yok · Hedef ekle|No goals yet · Add a goal
+goals.count|hedef|goals
+task.quick.explanation|Başlığı yazıp bugün için kaydedebilirsin. Miktar, tekrar ve hedef bağlantısı ayrıntılarda.|Enter a title to save an action for today. Quantity, repetition and goal links are in details.
+task.details|Miktar, tekrar ve diğer ayrıntılar|Quantity, repetition and other details
+starter.explanation|Yalnızca seçtiğin günlük adımlar eklenir. Tamamlanmış geçmiş oluşturulmaz. Her adımı sonradan düzenleyebilirsin.|Only selected daily actions are added. No completed history is created. You can edit each action later.
+starter.selected|günlük adım eklenecek|daily actions will be added
+starter.apply|Seçtiğim adımları ekle|Add selected actions
+welcome.title|MİHEN'e hoş geldin|Welcome to MIHEN
+welcome.promise|Önem verdiğin hayatı, bugünün küçük adımlarına dönüştür.|Turn what matters into small steps today.
+welcome.steps|Bir hedef seç. Haftana yer aç. Bugün küçük bir adım at.|Choose a goal. Make room in your week. Take a small step today.
+welcome.privacy|Hesap gerekmez. Temel kullanım çevrimdışı çalışır; kayıtların cihazında kalır.|No account needed. Core features work offline; your records stay on your device.
+welcome.focus|Bu dönemde neye yer açmak istersin?|What would you like to make room for?
+welcome.focus.help|1-3 alanla başlayabilirsin. Sekiz yaşam alanı korunur; tercihlerini sonra değiştirebilirsin.|You can start with 1-3 areas. All eight areas remain available; change your choices later.
+welcome.begin|Bugünkü ilk adımıma geç|Start my first step today
+today.first.title|Küçük bir adımla başla|Start with one small step
+today.first.body|Bugün yapmak istediğin tek bir eylem ekle. Bütün hayatını bir kerede planlaman gerekmiyor.|Add one action for today. You do not need to plan your whole life at once.
+today.first.add|İlk adımımı ekle|Add my first step
+today.steps|Bugünkü adımların|Your steps today
+today.finished|tamamlandı|finished
+today.started|işe başlandı|in progress
+today.partial.encouragement|Kısmi ilerlemen kaydedildi. Kaldığın yerden devam edebilirsin.|Your partial progress is recorded. Continue where you left off.
+today.completed.encouragement|Attığın adımlar kaydedildi. Devam etmek ya da dinlenmek senin seçimin.|Your steps are recorded. Continuing or resting is your choice.
+today.next.encouragement|Bir sonraki küçük adımını seç.|Choose your next small step.
+today.reviewsDue|Tekrar zamanı gelen kayıtlar|Reviews due
+focus.choose|Bugünün odağını seç|Choose today's focus
+focus.explanation|Bugün için en çok üç açık eylem seç. Bu seçim yalnızca bugünün önceliğini değiştirir; geçmişi ve gelecek tekrarları değiştirmez.|Choose up to three open actions for today. This changes today's priorities only, preserving history and future repetitions.
+routine.empty|Sabah veya akşam için küçük bir rutin oluştur. Yeni adımlar ekleyebilir veya mevcut görevlerini seçebilirsin.|Build a small morning or evening routine. Add new steps or choose existing tasks.
+routine.morning|Sabah rutini|Morning routine
+routine.evening|Akşam rutini|Evening routine
+routine.steps|Rutinin adımları|Routine steps
+routine.existing|Mevcut görevlerden seç|Choose existing tasks
+routine.step.add|Yeni adım oluştur|Create a new step
+routine.schedule.help|Düzenle ile adımların sırasını değiştir. Yeni adım günlük alışkanlık olarak başlar; ayrıntılarında günleri değiştirebilirsin. Mevcut görevlerin tekrar planı korunur.|Use Edit to reorder steps. New steps start as daily habits; change days in their details. Existing task schedules are preserved.
+routine.reminder|Rutine özel saatli hatırlatma|Reminder at a chosen time
+routine.pause|Gelecek tekrarları duraklat|Pause future repetitions
+routine.resume|Gelecek tekrarları sürdür|Resume future repetitions
+routine.paused|Rutindeki görev şablonları duraklatıldı.|Task templates in this routine are paused.
+routine.pause.confirm|Gruptaki tüm görev şablonlarının gelecek tekrarları duraklatılacak veya sürdürülecek. Ortak görevler diğer rutinlerde de etkilenir. Bugünkü ve geçmiş kayıtlar değişmez; sürdürme yarından başlar. Tek seferlik adımların tarihini ayrıca düzenleyin.|Future repetitions of all task templates in this group will pause or resume. Shared tasks are affected in other routines too. Today's and past entries stay unchanged; resuming starts tomorrow. Edit one-time steps' dates separately.
+reminder.time|Hatırlatma saati|Reminder time
+reminder.global.off|Bildirimler kapalı. Hatırlatmaların ulaşması için Profil'den bildirimleri etkinleştir.|Notifications are off. Enable them in Profile to receive reminders.
+week.previous|Önceki hafta|Previous week
+week.next|Sonraki hafta|Next week
+week.knownTime|Süresi belirtilen plan|Plan with known duration
+week.withoutTime|Süresi belirtilmeyen adım|Actions without a duration
+week.intention|Haftanın odağı ve notu|Weekly focus and note
+week.intention.help|Bu hafta önemli olan 1-3 şeyi yaz.|Write 1-3 things that matter this week.
+week.room|Henüz adım yok. Bu güne yer açabilirsin.|No actions yet. There is room in this day.
+week.backlog|Önceki 30 günün bekleyenleri|Open actions from the previous 30 days
+week.backlog.help|Seçili haftadan önceki 30 güne ait açık kayıtlar. Taşımak veya atlamak için kaydı aç; değişiklikler onayla uygulanır.|Open entries in the 30 days before the selected week. Open an entry to move or skip it; changes require confirmation.
+week.decide|Haftanın kalanlarını düzenle|Review unfinished actions
+week.decide.help|Yalnızca seçtiğin açık kayıtlar değişir. Aynı görevin hedef günde zaten kaydı varsa taşıma yapılmaz.|Only selected open entries change. Moving is blocked if that task already has an entry on the destination day.
+week.decide.apply|Seçili kayıtlara uygula|Apply to selected entries
+week.decide.confirm|Seçili kayıtlar gösterilen tarihe taşınsın veya bu kez atlansın mı? Kaydedilen ilerleme korunur.|Move selected entries to the shown date or skip them this time? Recorded progress is preserved.
+report.recordedDays|Kayıt bulunan gün|Days with records
+report.sources.explanation|Modül kayıtları kendi birimleriyle ayrı gösterilir; görev katkılarıyla toplanmaz. Kayıtlı gün, o günün tümüyle kaydedildiği anlamına gelmez. Kaza bakiyeleri kayıt tarihine göredir.|Module records keep their own units and are not added to task contributions. A recorded day does not imply a complete daily record. Qada balances follow entry dates.
+report.steps|Dönemdeki görev kayıtları|Task entries in this period
+report.noTasks|Bu dönemde planlanmış görev kaydı yok.|No planned task entries in this period.
+report.noData|Bu dönemde bu alanda kayıt yok.|No records in this area for this period.
+report.formula|Nasıl hesaplanır?|How is this calculated?
+report.goal.period|Dönemdeki hedef katkısı|Goal contribution in this period
+report.reading|Kaydedilen okuma|Recorded reading
+report.reviews|Yapılan ezber tekrarı|Memorization reviews
+report.fasts|Tutulan oruç|Completed fasts
+report.qada.opening|Kaza dönem başı kayıt bakiyesi|Qada opening recorded balance
+report.qada.closing|Kaza dönem sonu kayıt bakiyesi|Qada closing recorded balance
+report.next|Gelecek dönem için karar ver|Decide on the next period
+report.reflect|Ne işe yaradı? Neyi değiştireceksin?|What worked? What will you change?
+report.next.help|Önce kayıtlarına bak, ardından haftanı hafiflet veya önceliklerini değiştir. Plan kendiliğinden değiştirilmez.|Review your records, then lighten your week or change priorities. Plans never change automatically.
+report.export|Dönem raporunu dışa aktar|Export period report
+report.export.help|Paylaşılacak yaşam alanlarını açıkça seç. Bu özet yedek dosyası değildir; yalnızca seçtiğin dönem ve alanları içerir.|Explicitly select the life areas to share. This summary is not a backup; it contains the selected period and areas only.
+report.export.notes|Seçili alanların kişisel notlarını da ekle|Include personal notes for selected areas
+report.export.format|Dosya biçimi|File format
+health.source|Kaynak: Apple Sağlık seçili gün toplamı|Source: Apple Health daily total
+manual.source|Kaynak: Elle girilen kayıtlar|Source: Manual entries
+health.source.help|Sağlık günü kaydedilirse o günün aktif enerji toplamı kullanılır; elle girilmiş egzersiz enerjisi ayrıca toplanmaz, kayıtları korunur. Sağlık kaydını silince elle girilen toplam geri görünür.|Saving a Health day uses its active energy total; manual exercise energy is retained but not added again. Removing the Health entry restores the manual subtotal.
+health.import|Seçili gün toplamlarını kaydet|Save selected day's totals
+health.import.confirm|Seçili günün Sağlık toplamları kaydedilsin mi? Aynı gün yeniden kaydedilirse miktar güncellenir, ikinci kopya eklenmez.|Save the selected day's Health totals? Saving the same day updates values without creating another copy.
+health.imported|Seçili gün kaydedildi. Dönem raporunda görebilirsin.|Day saved. You can view it in period reports.
+activity.steps|Adım sayısı|Step count
+nutrition.quick|Hızlı su kaydı|Quick water entry
+nutrition.amount.water|Su miktarı (ml)|Water quantity (ml)
+nutrition.amount.energy|Enerji miktarı (kcal)|Energy quantity (kcal)
+review.well|Ne işe yaradı?|What worked?
+review.adjust|Nerede zorlandın, neyi azaltabilirsin?|What was difficult? What could you reduce?
+review.next|Gelecek dönemin 1-3 odağı|1-3 priorities for the next period
+qada.prayer|Vakit|Prayer
+qada.kind.label|Kayıt türü|Entry type
+qada.quick|Bir kaza kıldım|Record one completed prayer
+qada.first|Başlangıç miktarını ekleyerek başla. Yaşa göre otomatik borç tahmini yapılmaz.|Start by adding your initial quantities. No debt is estimated from age.
+prayer.settings|Konum ve hesap ayarları|Location and calculation settings
+prayer.city|Konum|Location
+prayer.asr.standard|Standart ikindi hesabı|Standard Asr calculation
+prayer.asr.hanafi|Hanefî ikindi hesabı|Hanafi Asr calculation
+prayer.current.city|İstanbul merkez varsayılan konumdur. Farklı konum için ayarları aç.|Central Istanbul is the default. Open settings for a different location.
+notifications.status|Hatırlatmalar uygulama açıkken yenilenir; sistem teslimatı etkileyebilir. Sessiz saatlerde gönderilmez.|Reminders refresh while the app is open; delivery depends on the system. Quiet hours are respected.
+planning.invalid|En çok 366 gün, uygun günler ve sıfırdan büyük bir miktar seçin.|Choose up to 366 days, available weekdays and a positive quantity.
+planning.whole|Adet, kitap ve sayfa hedefleri için kalan miktar tam sayı olmalı. Önce hedef veya katkı kayıtlarını gözden geçirin.|Remaining counts, books and pages must be whole numbers. Review the target or contributions first.
+planning.precision|Miktarı en çok iki ondalık basamakla girin.|Use at most two decimal places.
+planning.linked|Bu hedefte etkin görevler var. Görevleri düzenleyin veya gelecek planını arşivleyip yeniden planlayın. Geçmiş kayıtlar korunur.|This goal has active tasks. Edit them or archive the future plan before replanning. History is preserved.
+planning.total|Planın toplamı|Plan total
+planning.range|Gün başına miktar aralığı|Quantity range per planned day
+planning.preview|Oluşturulacak görevleri incele|Review proposed tasks
+planning.noConversion|Birim korunur. Kitap, sayfa ve dakika birbirine otomatik dönüştürülmez.|Units are preserved. Books, pages and minutes are never converted automatically.
+planning.intention|Bu dönemin odağı|Focus for this period
+planning.next90|İlk 90 günlük ara sonuç|First 90-day milestone
+planning.milestone.placeholder|Örneğin: ilk 3 kitabı bitir|For example: finish the first 3 books
+contribution.manual|Bağımsız elle eklenen katkı|Independent manual contribution
+contribution.tasks|Bağlı görevlerden gelen katkı|Contribution from linked tasks
+contribution.warning|Görevde kaydettiğiniz aynı miktarı burada tekrar girmeyin. Bu alan yalnızca bağlı görevler dışında yapılan ek katkılar içindir.|Do not enter the same quantity already recorded in a task. Use this only for additional independent contributions.
+contribution.confirm|Bu miktar bağlı görevlerde kaydedilmemiş bağımsız bir katkı mı?|Is this an independent contribution not already recorded in linked tasks?
+contribution.add|Bağımsız katkıyı ekle|Add independent contribution
+backup.lastExport|Son başarılı JSON yedek dışa aktarımı|Last successful JSON backup export
+backup.none|Henüz cihaz dışına yedek aktarılmadı.|No backup has been exported yet.
+backup.scope|JSON yedeği kayıtlarınızı, tercihlerinizi ve kaydedilmiş namaz ayarlarını içerir. Cihazdaki kayıt tek başına cihaz dışı yedek değildir. Hassas kayıtlar içeren dosyayı güvenli bir yerde saklayın.|JSON backups include records, preferences and saved prayer settings. On-device storage alone is not an external backup. Keep the file containing sensitive records in a safe place.
+backup.exported|Dosya dışa aktarıldı. Seçtiğiniz konumda saklandığını kontrol edin.|File exported. Check it is kept in your chosen location.
+backup.prayerIncluded|Bu yedek namaz ayarlarını da geri yükler; ayar yoksa varsayılana döner.|This backup also restores prayer settings, or resets to defaults when absent.
+backup.legacy|Bu eski JSON veya CSV dosyası namaz ayarlarını içermez; mevcut namaz ayarları korunur.|This legacy JSON or CSV file does not include prayer settings; current prayer settings are kept.
+screen.monitor.lost|Sistem günlük izlemeyi durdurmuş. Sınır kapatıldı; seçimi ve izni kontrol edip yeniden etkinleştirin.|The system stopped daily monitoring. The limit was disabled; check authorization and selection, then enable it again.
 screen.title|Uygulama süre sınırı|App time limit
 screen.explanation|Seçtiğiniz uygulama, kategori ve web sitelerine ortak günlük dakika sınırı koyun. Toplam süre dolduğunda iOS seçimi kısıtlar. Günlük bütçe cihazın yerel takvim gününe göre yenilenir.|Set one shared daily minute budget for selected apps, categories and websites. iOS restricts the selection when combined usage reaches the limit. The budget resets with the device's local calendar day.
 screen.device.requirement|Bu özellik Ekran Süresi izni ve uygun iPhone yapılandırması gerektirir. Bireysel izin sistem ayarlarından kaldırılabilir. Sosyal medya içerikleri veya mesajları okunmaz.|This feature needs Screen Time permission and a configured iPhone. Individual authorization can be revoked in system settings. Social media content and messages are not read.
@@ -18,28 +151,28 @@ screen.selection.count|Uygulama / kategori / web sitesi|Apps / categories / webs
 screen.enable|Günlük sınırı etkinleştir|Enable daily limit
 screen.temporary|Onaylı geçici erişim|Approved temporary access
 screen.open|Doğrula ve geçici aç|Verify and temporarily open
-screen.temporary.explanation|Geçici erişim günlük bütçeyi sıfırlamaz. Face ID veya cihaz parolası gerekir. Süre bitince iOS izleme uzantısı kısıtı geri uygular; sistem callback zamanlaması cihazda doğrulanmalıdır. Ayarı değiştirmek için önce sınırı kapatın.|Temporary access does not reset the daily budget. Face ID or device passcode is required. The iOS monitor restores restrictions after expiry; system callback timing must be verified on device. Disable the limit before changing the configuration.
+screen.temporary.explanation|Geçici erişim günlük bütçeyi sıfırlamaz. Face ID veya cihaz parolanızla kendiniz onay verirsiniz. Süre sonunda kısıt yeniden uygulanır. Ayarı değiştirmek için önce sınırı kapatın.|Temporary access does not reset the daily budget. You approve it yourself with Face ID or the device passcode. Restrictions return after expiry. Disable the limit before changing settings.
 screen.disable|Doğrula ve sınırı kapat|Verify and disable limit
 screen.refresh|Durumu yenile|Refresh status
 screen.approve.temporary|Seçili uygulamalar geçici açılsın mı?|Temporarily open the selected apps?
 screen.approve.disable|Günlük sınır ve kısıtlamalar kapatılsın mı?|Disable the daily limit and restrictions?
 screen.auth.reason|Uygulama süre sınırını değiştirmek için kimliğinizi doğrulayın.|Verify your identity to change the app time limit.
-screen.group.required|Ortak uygulama alanı kullanılamıyor. iPhone kurulumu için App Group yetkilerini yapılandırın.|Shared app storage is unavailable. Configure App Group entitlements for iPhone installation.
+screen.group.required|Bu sürümde uygulama sınırı kullanılamıyor. Uygulamayı güncelleyin veya Yardım bölümüne bakın.|App limits are unavailable in this build. Update the app or see Help.
 screen.storage.error|Süre sınırı verisi okunamadı. Kısıtlama kendiliğinden kaldırılmadı; ayarı kapatıp yeniden kurun.|Time limit data could not be read. Restrictions were retained; disable and reconfigure the limit.
 screen.invalid|Seçimi, dakika sınırını veya geçici erişim durumunu kontrol edin.|Check the selection, minute limit or temporary access state.
 screen.disable.first|Ayarı değiştirmeden önce mevcut sınırı kapatın.|Disable the existing limit before changing its configuration.
 screen.approval.required|Bu işlem için cihaz doğrulaması gerekli.|Device verification is required for this action.
 screen.changed|Süre sınırı değişti. Durumu yenileyip tekrar deneyin.|The limit changed. Refresh and try again.
-screen.system.error|Ekran Süresi işlemi tamamlanamadı. Sistem izni ve Family Controls yetkilerini kontrol edin.|Screen Time could not complete the operation. Check system authorization and Family Controls entitlements.
+screen.system.error|Ekran Süresi işlemi tamamlanamadı. Sistem iznini kontrol edip tekrar deneyin.|Screen Time could not complete the operation. Check system permission and try again.
 prayer.istanbul|İstanbul konumunu kullan|Use Istanbul location
 prayer.times|Namaz vakitleri|Prayer times
 prayer.source|Vakitler Adhan açık kaynak astronomik hesaplarıdır. Türkiye seçeneği yaklaşık hesaptır; resmî Diyanet verisi değildir. Yerel takvimle kontrol edin.|Times use Adhan open source astronomical calculations. Turkey is an approximation, not official Diyanet data. Check your local timetable.
 prayer.diyanet|Resmî Diyanet takvimini aç|Open official Diyanet timetable
-prayer.manual.location|Koordinatları ve saat dilimini kendiniz seçin. Başlangıç konumu İstanbul merkezidir; kesin konumunuza göre değiştirebilirsiniz. Ayarlar cihazda ve widget için App Group'ta saklanır; JSON yedeğine dahil değildir.|Choose coordinates and timezone. The initial location is central Istanbul; adjust it for your exact location. Settings stay on device and in the widget App Group; they are not included in JSON backup.
+prayer.manual.location|Konum ve yöntem ayarları cihazda, widget için ortak alanda ve JSON yedeğinde saklanır. Konumu kendiniz seçersiniz.|Location and method settings are stored on device, in the widget shared area and in JSON backups. You choose the location.
 latitude|Enlem|Latitude
 longitude|Boylam|Longitude
 prayer.method|Hesaplama yöntemi|Calculation method
-prayer.hanafi|İkindi: Hanefî (kapalı: standart/Şafiî)|Asr: Hanafi (off: standard/Shafi)
+prayer.hanafi|İkindi hesabı|Asr calculation
 prayer.highLatitude|Yüksek enlem kuralı|High latitude rule
 prayer.saved|Widget için kaydedildi|Saved for widget
 prayer.unavailable|Bu ayar ve tarih için vakit hesaplanamadı.|Times unavailable for these settings and date.
@@ -88,12 +221,12 @@ activity.food|Alınan enerji|Energy intake
 activity.energyBurned|Egzersizde harcanan enerji|Exercise energy expenditure
 activity.water|Su tüketimi|Water intake
 goal.split|Hedefi günlere böl|Split goal into days
-goal.split.explanation|Kalan miktar seçilen günlere eşit dağıtılır (en çok 366 gün). Aynı birim korunur. Etkin bağlı görev varsa önce mevcut planı düzenleyin.|The remaining quantity is distributed equally over selected days (up to 366 days). Units are preserved. Edit existing active linked tasks before creating another plan.
+goal.split.explanation|Kalan miktar uygun günlere dağıtılır. Tam sayılı birimler korunur; onaydan önce toplamı ve günleri inceleyin.|Remaining quantity is distributed across available days. Discrete units stay whole; review totals and dates before approval.
 goal.split.apply|Günlük görevleri oluştur|Create daily tasks
 goal.split.confirm|Gösterilen dağılımla yeni görevler oluşturulsun mu?|Create new tasks using this distribution?
 days|gün|days
 routines|Rutinler|Routines
-routine.new|Görevlerden rutin oluştur|Create a routine from tasks
+routine.new|Rutin oluştur|Create routine
 routine.remove|Grubu kaldır (görevler korunur)|Remove group (keep tasks)
 weekly.plan|Haftalık planlama|Weekly planning
 overdue|Önceki günlerden kalanlar|Unfinished from previous days
@@ -301,10 +434,10 @@ local.only|Veriler cihazda saklanır. Hesap, reklam, analiz SDK'sı veya zorunlu
 widget.unavailable|Widget için App Group henüz yapılandırılmamış. Ana uygulama yerel olarak kullanılabilir.|App Group is not configured for the widget. The main app remains available locally.
 widget.available|Widget bugünkü gerçek kayıtlardan üretilir; uygulama kilidi açıkken içerik gizlenir.|The widget uses today's real records; content is hidden when app lock is enabled.
 data|Veriler ve yedekleme|Data and backups
-export.json|JSON yedeğini dışa aktar|Export JSON backup
-export.csv|CSV yedeğini dışa aktar|Export CSV backup
-export.planCSV|Excel için düzenlenebilir plan CSV'si|Editable plan CSV for Excel
-import|İçe aktar / yedekten dön|Import / restore
+export.json|JSON yedek oluştur|Create JSON backup
+export.csv|Kayıtları CSV olarak aktar (namaz ayarları hariç)|Export records as CSV (excluding prayer settings)
+export.planCSV|Düzenlenebilir plan tablosu aktar|Export editable plan table
+import|Yedek veya plan tablosundan içe aktar|Import backup or plan table
 backup.explanation|JSON ve yedek CSV tüm kayıtları geri yükler. Plan CSV hedef ve görev ekler. Dosyalar şifrelenmez; güvenli bir konum seçin. İçe aktarmadan önce önizleme ve onay gerekir. XLSX desteklenmez.|JSON and backup CSV restore all records. Plan CSV adds goals and tasks. Exports are not encrypted; choose a safe destination. Imports require preview and confirmation. XLSX is not supported.
 data.delete|Tüm verileri sil|Delete all data
 help|Yardım|Help

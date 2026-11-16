@@ -2,8 +2,8 @@ import SwiftUI
 
 extension Color {
     static let mihenNavy = Color(red: 11/255, green: 34/255, blue: 68/255)
-    static let mihenGreen = Color(red: 22/255, green: 139/255, blue: 73/255)
-    static let mihenRed = Color(red: 229/255, green: 57/255, blue: 53/255)
+    static let mihenGreen = Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? UIColor(red: 0.36, green: 0.85, blue: 0.55, alpha: 1) : UIColor(red: 17/255, green: 107/255, blue: 58/255, alpha: 1) })
+    static let mihenRed = Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? UIColor(red: 1, green: 0.48, blue: 0.47, alpha: 1) : UIColor(red: 0.7, green: 0.15, blue: 0.13, alpha: 1) })
     static let mihenBackground = Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? .systemGroupedBackground : UIColor(red: 247/255, green: 245/255, blue: 239/255, alpha: 1) })
 }
 struct MihenCard: ViewModifier {

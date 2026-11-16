@@ -61,32 +61,48 @@ struct RootView: View {
 struct OnboardingView: View {
     @Environment(AppStore.self) private var store
     @State private var name = ""
-    @State private var selected = Set(LifeArea.allCases.map(\.rawValue))
-    @State private var templates = false
+    @State private var selected = Set<String>()
+    @State private var templates = Set<String>()
+    @State private var step = 0
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    VStack(alignment: .leading, spacing: 12) {
-                        BrandMark().frame(width: 90, height: 90)
+                if step == 0 {
+                    Section {
+                        BrandMark().frame(width: 80, height: 80)
                         Text("MİHEN").font(.largeTitle.bold())
                         Text(store.t("slogan")).font(.title3)
-                        Text(store.t("onboarding.body")).foregroundStyle(.secondary)
-                    }.padding(.vertical)
-                    TextField(store.t("name"), text: $name).textContentType(.givenName)
-                }
-                Section(store.t("priorities")) {
-                    ForEach(LifeArea.allCases, id: \.rawValue) { area in
-                        Toggle(store.title(area.rawValue), isOn: Binding(get: { selected.contains(area.rawValue) }, set: { if $0 { selected.insert(area.rawValue) } else { selected.remove(area.rawValue) } }))
+                        Text(store.t("welcome.promise")).font(.headline)
+                        Text(store.t("welcome.steps"))
+                        TextField(store.t("name"), text: $name).textContentType(.givenName)
+                        Text(store.t("welcome.privacy")).font(.footnote).foregroundStyle(.secondary)
                     }
+                } else if step == 1 {
+                    Section(store.t("welcome.focus")) {
+                        Text(store.t("welcome.focus.help")).font(.footnote)
+                        ForEach(LifeArea.allCases, id: \.rawValue) { area in
+                            Toggle(store.title(area.rawValue), isOn: Binding(get: { selected.contains(area.rawValue) }, set: { if $0 { selected.insert(area.rawValue) } else { selected.remove(area.rawValue) } })).accessibilityIdentifier("onboarding.area." + area.rawValue)
+                        }
+                    }
+                } else {
+                    Section(store.t("templates.choose")) {
+                        Text(store.t("starter.explanation")).font(.footnote)
+                        ForEach(StarterTemplate.choices) { item in
+                            Toggle(isOn: Binding(get: { templates.contains(item.id) }, set: { if $0 { templates.insert(item.id); selected.insert(item.area) } else { templates.remove(item.id) } })) {
+                                VStack(alignment: .leading) {
+                                    Text(store.t(item.id))
+                                    Text(item.target.formatted(.number.locale(store.locale)) + " " + store.t(item.unit) + " · " + store.t("daily")).font(.caption)
+                                }
+                            }.accessibilityIdentifier("onboarding." + item.id)
+                        }
+                    }
+                    Text("\(templates.count) " + store.t("starter.selected"))
+                    Button(store.t("welcome.begin")) { finish() }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.start")
                 }
-                Section {
-                    Toggle(store.t("templates.load"), isOn: $templates)
-                    Text(store.t("templates.explanation")).font(.footnote)
-                    Button(store.t("start")) { finish() }.accessibilityIdentifier("onboarding.start")
-                }
-            }
-            .toolbar { Button(store.t("skip")) { templates = false; finish() }.accessibilityIdentifier("onboarding.skip") }
+                if step < 2 { Button(store.t("continue")) { step += 1 }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.continue") }
+                if step > 0 { Button(store.t("back")) { step -= 1 } }
+            }.keyboardDone().navigationTitle(store.t("welcome.title"))
+                .toolbar { Button(store.t("skip")) { templates = []; selected = Set(LifeArea.allCases.map(\.rawValue)); finish() }.accessibilityIdentifier("onboarding.skip") }
         }
     }
     private func finish() {
@@ -95,7 +111,7 @@ struct OnboardingView: View {
             data.preferences[0].name = name
             data.preferences[0].onboarded = true
             for i in data.domains.indices { data.domains[i].enabled = selected.contains(data.domains[i].key) }
-            if templates { data.addStarterTemplates(on: Date(), engine: planner) }
+            data.addSelectedTemplates(templates, on: Date(), engine: planner)
         }
     }
 }
