@@ -18,7 +18,6 @@ struct RoutinesScreen: View {
             }
             ForEach(store.data.routines) { routine in
                 Section {
-                    let members = tasks(routine.id)
                     let paused = store.engine.routineIsPaused(routine.id,in:store.data)
                     if paused { Text(store.t("routine.paused")).foregroundStyle(.secondary) }
                     ForEach(store.data.routineItems.filter { $0.routineID == routine.id }.sorted { $0.rank < $1.rank }) { item in

@@ -711,6 +711,16 @@ final class ReportAnalysisTests: XCTestCase {
         let food=analysis.comparisons.first { $0.metric.key == "activity.food" }!
         XCTAssertNil(food.previous);XCTAssertNil(food.difference)
     }
+    func testUnrelatedNotesCannotMakeSparseMetricComparisonLookReliable() throws {
+        var data=BackupDocument.fresh();let start=engine.date("2026-11-10")!
+        for offset in -3..<3 { data.journals.append(.init(date:engine.addingDays(offset,to:start),text:"Note")) }
+        data.activities=[.init(domainID:"health",date:start,kind:"water",amount:250,unit:"ml"),.init(domainID:"health",date:engine.addingDays(-1,to:start),kind:"water",amount:200,unit:"ml")]
+        let result=engine.analyzeReport(data,interval:.init(start:start,end:engine.addingDays(3,to:start)),component:.day)
+        XCTAssertEqual(result.current.recordedDays.count,3)
+        XCTAssertEqual(result.comparisons.first?.currentDays,1)
+        XCTAssertNil(result.comparisons.first?.difference)
+        XCTAssertTrue(result.current.taskRecordedDays.isEmpty)
+    }
     func testTenYearBucketsDoNotInventEarlierHistoryOrIncludeFuture() throws {
         let now=engine.date("2026-11-17")!,interval=engine.reportInterval(period:"report.tenYears",containing:now,now:now)
         XCTAssertEqual(engine.key(interval.start),"2017-01-01");XCTAssertEqual(engine.key(interval.end),"2026-11-18")

@@ -144,6 +144,8 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["progress.reports"],in:app)
         XCTAssertTrue(app.staticTexts["Emeğinin görünümü"].waitForExistence(timeout:15))
         capture(app,name:"MIHEN-Executive-Report-TR")
+        reveal(app.staticTexts["report.trend.title"],in:app)
+        capture(app,name:"MIHEN-Report-Trend-TR")
         tap(app.buttons["report.area.health"],in:app)
         let water=app.descendants(matching:.any).matching(NSPredicate(format:"identifier BEGINSWITH %@","report.metric.activity.")).firstMatch
         XCTAssertTrue(water.waitForExistence(timeout:5));XCTAssertEqual(water.value as? String,"250 ml")

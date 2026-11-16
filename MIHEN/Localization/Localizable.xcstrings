@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "report.capacity.setup": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftanın kapasitesini belirle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set your weekly capacity"
+          }
+        }
+      }
+    },
     "water.widget.stale": {
       "localizations": {
         "tr": {
@@ -3686,13 +3702,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Düzenle ile adımların sırasını değiştir. Yeni adım günlük alışkanlık olarak başlar; ayrıntılarında günleri değiştirebilirsin. Mevcut görevlerin tekrar planı korunur."
+            "value": "Adımların sırasını düzenle, grup günlerini seç ve kendi temponda ilerle. Mevcut görevlerin tekrar planı korunur."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Use Edit to reorder steps. New steps start as daily habits; change days in their details. Existing task schedules are preserved."
+            "value": "Reorder steps, choose group days and progress at your pace. Existing task schedules are preserved."
           }
         }
       }
@@ -3718,13 +3734,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gelecek tekrarları duraklat"
+            "value": "Rutini duraklat"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pause future repetitions"
+            "value": "Pause routine"
           }
         }
       }
@@ -3734,13 +3750,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gelecek tekrarları sürdür"
+            "value": "Rutini sürdür"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Resume future repetitions"
+            "value": "Resume routine"
           }
         }
       }
@@ -3750,13 +3766,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rutindeki görev şablonları duraklatıldı."
+            "value": "Bu rutinin grup takvimi ve hatırlatması duraklatıldı. Görevleri ayrıca düzenleyebilirsin."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Task templates in this routine are paused."
+            "value": "This routine's group schedule and reminder are paused. Tasks can be edited separately."
           }
         }
       }

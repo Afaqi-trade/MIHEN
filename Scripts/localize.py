@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
-rows='''water.widget.stale|Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek.|The widget belonged to a different day. The entry will use today's date shown here.
+rows='''report.capacity.setup|Haftanın kapasitesini belirle|Set your weekly capacity
+water.widget.stale|Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek.|The widget belonged to a different day. The entry will use today's date shown here.
 water.widget.help|Widget bu formu açar. İçtiğiniz miktarı kontrol edip Kaydet'e dokununca yalnızca bir kayıt eklenir.|The widget opens this form. Check the amount you drank, then tap Save to add one record.
 water.widget|Su kaydet|Record water
 report.duration.unknown|Tahmini süresi olmayan adım|Steps without an estimated duration
@@ -230,11 +231,11 @@ routine.evening|Akşam rutini|Evening routine
 routine.steps|Rutinin adımları|Routine steps
 routine.existing|Mevcut görevlerden seç|Choose existing tasks
 routine.step.add|Yeni adım oluştur|Create a new step
-routine.schedule.help|Düzenle ile adımların sırasını değiştir. Yeni adım günlük alışkanlık olarak başlar; ayrıntılarında günleri değiştirebilirsin. Mevcut görevlerin tekrar planı korunur.|Use Edit to reorder steps. New steps start as daily habits; change days in their details. Existing task schedules are preserved.
+routine.schedule.help|Adımların sırasını düzenle, grup günlerini seç ve kendi temponda ilerle. Mevcut görevlerin tekrar planı korunur.|Reorder steps, choose group days and progress at your pace. Existing task schedules are preserved.
 routine.reminder|Rutine özel saatli hatırlatma|Reminder at a chosen time
-routine.pause|Gelecek tekrarları duraklat|Pause future repetitions
-routine.resume|Gelecek tekrarları sürdür|Resume future repetitions
-routine.paused|Rutindeki görev şablonları duraklatıldı.|Task templates in this routine are paused.
+routine.pause|Rutini duraklat|Pause routine
+routine.resume|Rutini sürdür|Resume routine
+routine.paused|Bu rutinin grup takvimi ve hatırlatması duraklatıldı. Görevleri ayrıca düzenleyebilirsin.|This routine's group schedule and reminder are paused. Tasks can be edited separately.
 routine.pause.confirm|Yalnızca bu rutinin takvimi ve grup hatırlatması değişir. Görevlerin diğer kullanımları ve geçmişi korunur.|Only this routine's schedule and group reminder change. Other task uses and history are preserved.
 reminder.time|Hatırlatma saati|Reminder time
 reminder.global.off|Bildirimler kapalı. Hatırlatmaların ulaşması için Profil'den bildirimleri etkinleştir.|Notifications are off. Enable them in Profile to receive reminders.

@@ -12,6 +12,13 @@ import zipfile
 
 REQUIRED_MODULE_CAPTURES = {'MIHEN-Qada-TR', 'MIHEN-WeeklyPlan-TR', 'MIHEN-Routines-TR', 'MIHEN-GoalSplit-TR', 'MIHEN-GoalSplit-Preview-TR'}
 LABELS = {
+    'MIHEN-Executive-Report-TR': 'Yönetici özeti — gerçek kayıtlarla dönem görünümü',
+    'MIHEN-Report-Trend-TR': 'Kaynak seçimi ve dönem eğilimi',
+    'MIHEN-Report-Health-TR': 'Sağlık alanının ayrıntılı raporu',
+    'MIHEN-Report-Comparison-TR': 'Önceki dönem ve kaynak kapsamı',
+    'MIHEN-Executive-LargeText-TR': 'Yönetici özeti — en büyük yazı',
+    'MIHEN-Prayer-Cities-TR': 'Çevrimdışı şehir ve ülke seçimi',
+    'MIHEN-Template-Week-TR': 'Seçilen şablonun örnek haftası', 
     'MIHEN-Capacity-TR': 'Haftalık zaman kapasitesi',
     'MIHEN-Weekly-Focus-TR': 'Hedefe bağlı haftalık odaklar',
     'MIHEN-Routine-Run-TR': 'Rutini adım adım çalıştırma',

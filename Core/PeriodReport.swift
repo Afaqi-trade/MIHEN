@@ -15,6 +15,7 @@ public struct PeriodReport: Sendable {
     public var cancelled = 0
     public var moved = 0
     public var recordedDays = Set<String>()
+    public var taskRecordedDays = Set<String>()
     public var metrics: [ReportMetric] = []
 }
 extension PlanningEngine {
@@ -30,7 +31,7 @@ extension PlanningEngine {
         report.skipped = rows.filter { $0.status == "skipped" }.count
         report.cancelled = rows.filter { $0.status == "cancelled" }.count
         report.moved = rows.filter { $0.status == "moved" }.count
-        for row in rows where row.value > 0 && row.status != "moved" { report.recordedDays.insert(row.day) }
+        for row in rows where row.value > 0 && row.status != "moved" { report.recordedDays.insert(row.day);report.taskRecordedDays.insert(row.day) }
         func metric(_ id: String, _ domain: String, _ key: String, _ unit: String, _ value: Double) {
             report.metrics.append(.init(id:id,domainID:domain,key:key,unit:unit,value:value))
         }

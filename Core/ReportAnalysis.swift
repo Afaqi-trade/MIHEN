@@ -107,6 +107,7 @@ public struct ExecutiveReport: Sendable {
     public let areas: [ReportAreaSummary]
     public let elapsedDays: Int
     public let overloadedDays: Int
+    public let capacityConfigured: Bool
     public let unknownDuration: Int
     public let goalsNeedingReview: Int
 }
@@ -121,7 +122,10 @@ extension PlanningEngine {
             return ReportAreaSummary(id:domain.id,report:periodReport(scoped,in:interval),activeGoals:goals.count,goalsNeedingReview:overdue)
         }
         let week=calendar.dateInterval(of:.weekOfYear,for:now)!
-        let loads=days(from:week.start,through:addingDays(-1,to:week.end)).map { workload(data,on:$0) }
-        return .init(analysis:analysis,areas:areas,elapsedDays:calendar.dateComponents([.day],from:interval.start,to:interval.end).day ?? 0,overloadedDays:loads.filter { $0.excess > 0 }.count,unknownDuration:loads.reduce(0) { $0+$1.unknown },goalsNeedingReview:data.goals.filter { !$0.archived && $0.start < interval.end && $0.end >= interval.start && $0.end < calendar.startOfDay(for:now) && contributions($0.id,in:data).total < $0.target }.count)
+        var forecast=data
+        materialize(&forecast,from:week.start,through:addingDays(-1,to:week.end))
+        forecast.captureEstimates(engine:self,on:week.start)
+        let loads=days(from:week.start,through:addingDays(-1,to:week.end)).map { workload(forecast,on:$0) }
+        return .init(analysis:analysis,areas:areas,elapsedDays:calendar.dateComponents([.day],from:interval.start,to:interval.end).day ?? 0,overloadedDays:loads.filter { $0.excess > 0 }.count,capacityConfigured:data.capacities.count == 7,unknownDuration:loads.reduce(0) { $0+$1.unknown },goalsNeedingReview:data.goals.filter { !$0.archived && $0.start < interval.end && $0.end >= interval.start && $0.end < calendar.startOfDay(for:now) && contributions($0.id,in:data).total < $0.target }.count)
     }
 }

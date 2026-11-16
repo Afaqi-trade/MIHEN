@@ -107,7 +107,7 @@ private struct ReportHighlights: View {
         VStack(alignment:.leading,spacing:16) {
             Text(store.t("report.highlights")).font(.title2.bold()).accessibilityAddTraits(.isHeader)
             Label(store.t("report.compare"),systemImage:"arrow.left.arrow.right").font(.headline)
-            if current.recordedDays.count >= 3 && previous.recordedDays.count >= 3 && current.planned > 0 && previous.planned > 0 {
+            if current.taskRecordedDays.count >= 3 && previous.taskRecordedDays.count >= 3 && current.planned > 0 && previous.planned > 0 {
                 let difference=current.completed-previous.completed
                 Text((difference > 0 ? "+" : "")+String(difference)+" "+store.t("report.steps.change")).font(.title3.bold()).foregroundStyle(Color.mihenGreen)
                 Text(store.t("report.current")+": \(current.completed) / \(current.planned) · "+store.t("comparison.previous")+": \(previous.completed) / \(previous.planned)")
@@ -130,7 +130,7 @@ struct ReportTrendCard: View {
     private var selected: MetricComparison? { analysis.comparisons.first { $0.id == metric } }
     var body: some View {
         VStack(alignment:.leading,spacing:16) {
-            Text(store.t("report.trend")).font(.title2.bold()).accessibilityAddTraits(.isHeader)
+            Text(store.t("report.trend")).font(.title2.bold()).accessibilityAddTraits(.isHeader).accessibilityIdentifier("report.trend.title")
             Picker(store.t("report.metric"),selection:$metric) {
                 Text(store.t("report.steps")).tag("steps")
                 ForEach(analysis.comparisons) { item in Text(label(item)).tag(item.id) }
@@ -204,7 +204,8 @@ private struct ReportNextActions: View {
     var body: some View {
         VStack(alignment:.leading,spacing:14) {
             Text(store.t("report.next")).font(.title2.bold()).accessibilityAddTraits(.isHeader)
-            Text(store.t("report.thisWeek.capacity")+": \(data.overloadedDays)").font(.headline)
+            if data.capacityConfigured { Text(store.t("report.thisWeek.capacity")+": \(data.overloadedDays)").font(.headline) }
+            else { NavigationLink(destination:CapacityScreen()) { Text(store.t("report.capacity.setup")) } }
             Text(store.t("report.duration.unknown")+": \(data.unknownDuration)").font(.subheadline)
             NavigationLink(destination:WeeklyPlanScreen()) { Label(store.t("week.focus.select"),systemImage:"calendar") }.frame(minHeight:44)
             NavigationLink(destination:ReportDecisionScreen()) { Label(store.t("report.decide"),systemImage:"slider.horizontal.3") }.frame(minHeight:44)
