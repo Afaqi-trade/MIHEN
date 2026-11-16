@@ -22,10 +22,11 @@ struct TodayWidgetView: View {
                 let today = PlanningEngine(timeZone: TimeZone(identifier: snapshot.timeZoneID) ?? .current).key(entry.date)
                 if snapshot.locked { Label(text("unlock", snapshot), systemImage: "lock") }
                 else if snapshot.day == today {
-                    Text("\(snapshot.completed) / \(snapshot.planned)").font(.largeTitle.bold())
+                    Text(snapshot.planned > 0 ? "\(snapshot.completed) / \(snapshot.planned) " + text("tasks.completed", snapshot) : text("today.first.title", snapshot)).font(.headline)
                     ProgressView(value: snapshot.planned > 0 ? Double(snapshot.completed) / Double(snapshot.planned) : 0)
                     if let next = snapshot.nextTitle { Text(next).font(.caption).lineLimit(2) }
                     else { Text(text("today", snapshot)).font(.caption) }
+                    Link(destination:URL(string:"mihen://add-task")!) { Label(text("task.new",snapshot),systemImage:"plus.circle").font(.caption) }
                 } else { Text(text("widget.open", snapshot)) }
             } else { Text(LocalizedStringKey("widget.open")) }
         }.containerBackground(for: .widget) { Color(red: 11/255, green: 34/255, blue: 68/255) }

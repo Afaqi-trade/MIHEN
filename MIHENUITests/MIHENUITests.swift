@@ -18,7 +18,8 @@ final class MIHENUITests: XCTestCase {
             if details.exists { tap(details, in: app) }
         }
         tap(field, in: app)
-        let value = field.value as? String ?? ""
+        let raw = field.value as? String ?? ""
+        let value = raw == field.placeholderValue ? "" : raw
         if !value.isEmpty {
             let textEnd = field.coordinate(withNormalizedOffset: CGVector(dx: 0.999, dy: 0.5))
             textEnd.tap()
@@ -110,7 +111,7 @@ final class MIHENUITests: XCTestCase {
         let balance = app.descendants(matching:.any)["report.metric.fajrclosing"].firstMatch
         for _ in 0..<10 { if balance.exists && balance.isHittable { break }; app.swipeUp() }
         XCTAssertTrue(balance.waitForExistence(timeout:5))
-        XCTAssertTrue(app.staticTexts["8 Sabah"].exists)
+        XCTAssertEqual(balance.value as? String, "8 Sabah")
         capture(app,name:"MIHEN-Reports-Qada-TR")
 
     }
@@ -162,6 +163,12 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Dönem raporları"], in: app)
         XCTAssertTrue(app.staticTexts["Yalnızca kayıtlı veriler raporlanır. Kayıt olmayan günler başarısızlık sayılmaz."].waitForExistence(timeout: 5))
         capture(app, name: "MIHEN-Reports-TR")
+        app.buttons["report.export.open"].tap()
+        capture(app,name:"MIHEN-Report-Export-TR")
+        let exportButton=app.buttons["report.export.confirm"]
+        for _ in 0..<8 { if exportButton.exists && exportButton.isHittable { break };app.swipeUp() }
+        XCTAssertTrue(exportButton.exists)
+        XCTAssertFalse(exportButton.isEnabled, "Sharing requires an explicit life-area selection")
     }
     @MainActor func testOnboardingLinkedGoalPartialCompletionAndPersistence() throws {
         let app = start(persistent: true)
@@ -307,6 +314,8 @@ final class MIHENUITests: XCTestCase {
         for _ in 0..<12 { if scope.exists && scope.isHittable { break }; app.swipeUp() }
         XCTAssertTrue(scope.waitForExistence(timeout:5))
         capture(app,name:"MIHEN-Backup-TR")
+        tap(app.descendants(matching:.any)["settings.help"].firstMatch,in:app)
+        capture(app,name:"MIHEN-Help-TR")
         app.tabBars.buttons["Plan"].tap()
         tap(app.buttons["Beslenme ve hareket"],in:app)
         tap(app.buttons["+250 ml"],in:app)
@@ -314,6 +323,16 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Geri al"],in:app)
         XCTAssertTrue(app.staticTexts["Su tüketimi: 0 ml"].exists)
         capture(app,name:"MIHEN-Nutrition-Quick-TR")
+    }
+
+    @MainActor func testAccessibilityDescriptionsAndDynamicTypeOnFirstUse() throws {
+        let app=XCUIApplication();app.launchArguments=["--ui-testing"];app.launch()
+        XCTAssertTrue(app.buttons["onboarding.skip"].waitForExistence(timeout:10))
+        try app.performAccessibilityAudit(for:[.dynamicType,.sufficientElementDescription])
+        app.buttons["onboarding.skip"].tap()
+        XCTAssertTrue(app.buttons["today.add"].waitForExistence(timeout:5))
+        try app.performAccessibilityAudit(for:[.dynamicType,.sufficientElementDescription])
+        capture(app,name:app.frame.width <= 375 ? "MIHEN-Today-LargeText-TR" : "MIHEN-Today-Accessibility-TR")
     }
 
 }

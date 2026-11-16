@@ -50,3 +50,24 @@ extension PeriodReportTests {
         XCTAssertEqual(data,snapshot)
     }
 }
+
+extension PeriodReportTests {
+    func testTenYearReportWithOverTenThousandSyntheticOccurrences() throws {
+        var data=BackupDocument.fresh();let start=engine.date("2016-01-01")!,end=engine.date("2026-01-01")!
+        let dates=engine.days(from:start,through:engine.addingDays(-1,to:end))
+        data.tasks=(0..<3).map { .init(id:"stress-task-\($0)",title:"Synthetic fixture",domainID:"health",start:start,recurrence:"daily") }
+        for (index,date) in dates.enumerated() {
+            for task in data.tasks {
+                let done=(index + (task.id.hasSuffix("1") ? 1 : 0)) % 2 == 0
+                data.occurrences.append(.init(taskID:task.id,day:engine.key(date),title:task.title,domainID:task.domainID,value:done ? 1 : 0,status:done ? "completed" : "planned"))
+            }
+        }
+        try BackupCodec.validate(data)
+        let clock=Date()
+        let result=engine.periodReport(data,in:DateInterval(start:engine.calendar.startOfDay(for:start),end:engine.calendar.startOfDay(for:end)))
+        print("Synthetic Core ten-year report: \(data.occurrences.count) occurrences, \(Date().timeIntervalSince(clock) * 1000) ms")
+        XCTAssertTrue(data.occurrences.count > 10_000)
+        XCTAssertEqual(result.planned,data.occurrences.count)
+        XCTAssertEqual(result.recordedDays.count,dates.count)
+    }
+}

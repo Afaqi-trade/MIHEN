@@ -1,5 +1,6 @@
 import XCTest
 import SwiftData
+import PDFKit
 @testable import MIHEN
 
 @MainActor final class PersistenceTests: XCTestCase {
@@ -34,6 +35,15 @@ import SwiftData
         let archive=try BackupArchive.decode(BackupArchive(document:document).encoded())
         do { let repository=try Repository(storeURL:url);try repository.save(archive.document) }
         XCTAssertEqual(try Repository(storeURL:url).load().journals.first?.text,"Geri yükleme örneği")
+    }
+
+    func testNativePeriodReportPDFHasReadableTurkishTextAndMultiplePages() throws {
+        let bytes=PeriodReportPDF.render(title:"MİHEN dönem raporu",paragraphs:["Örnek test kaydı: Sabah kalan 8"] + Array(repeating:"Türkçe kayıt örneği: okunan sayfalar, günlük adımlar ve kişisel değerlendirme.",count:120))
+        let pdf=try XCTUnwrap(PDFDocument(data:bytes))
+        XCTAssertTrue(pdf.pageCount >= 2)
+        XCTAssertTrue(pdf.string?.contains("Sabah kalan 8") == true)
+        let attachment=XCTAttachment(data:bytes,uniformTypeIdentifier:"com.adobe.pdf")
+        attachment.name="MIHEN-Report-PDF-Test";attachment.lifetime = .keepAlways;add(attachment)
     }
 
     func testSaveReopenPartialProgressAndTurkishText() throws {

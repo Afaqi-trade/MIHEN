@@ -27,15 +27,16 @@ struct ProgressScreen: View {
                 NavigationLink(destination: ReportsScreen()) { Label(store.t("reports"), systemImage: "doc.text") }
                 Picker(store.t("period"), selection: $period) { ForEach(["day", "week", "month", "year"], id: \.self) { Text(store.t($0)).tag($0) } }.pickerStyle(.segmented)
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(store.t("completion.rate")).font(.headline)
-                    Text(totals.1 > 0 ? (Double(totals.0) / Double(totals.1)).formatted(.percent.precision(.fractionLength(0)).locale(store.locale)) : "—").font(.largeTitle.bold())
+                    Text(store.t("report.steps")).font(.headline)
+                    Text("\(totals.0) " + store.t("today.finished") + " · \(series.reduce(0) { $0 + $1.partial }) " + store.t("today.started")).font(.title3.bold())
+                    Text(totals.1 > 0 ? (Double(totals.0) / Double(totals.1)).formatted(.percent.precision(.fractionLength(0)).locale(store.locale)) : "—").font(.subheadline)
                     Text("\(totals.0) / \(totals.1) " + store.t("tasks.completed"))
                     Text(store.t("statistics.formula")).font(.caption).foregroundStyle(.secondary)
                     Text(comparison).font(.subheadline)
                 }.mihenCard()
                 Chart(chartSeries, id: \.day) { day in
                     if let date = store.engine.date(day.day), let ratio = day.ratio {
-                        BarMark(x: .value(store.t("date"), date, unit: .day), y: .value(store.t("progress"), ratio * 100)).foregroundStyle(Color.mihenGreen)
+                        BarMark(x: .value(store.t("date"), date, unit: period == "year" ? .month : .day), y: .value(store.t("progress"), ratio * 100)).foregroundStyle(Color.mihenGreen)
                     }
                 }
                 .chartXScale(domain: interval.start...interval.end)
@@ -58,6 +59,7 @@ struct ProgressScreen: View {
                     }.mihenCard()
                 }
                 Text(store.t("heatmap")).font(.title2.bold())
+                Text(store.t("heatmap.legend")).font(.caption).foregroundStyle(.secondary)
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
                     ForEach(store.engine.days(from: store.engine.addingDays(-27, to: Date()), through: Date()), id: \.self) { date in
                         let summary = store.engine.summary(store.data, on: date)

@@ -10,7 +10,20 @@ from pathlib import Path
 import shutil
 import zipfile
 
+REQUIRED_MODULE_CAPTURES = {'MIHEN-Qada-TR', 'MIHEN-WeeklyPlan-TR', 'MIHEN-Routines-TR', 'MIHEN-GoalSplit-TR', 'MIHEN-GoalSplit-Preview-TR'}
 LABELS = {
+    'MIHEN-Onboarding-TR': 'İlk kullanım · kısa başlangıç',
+    'MIHEN-Onboarding-Choices-TR': 'İlk kullanım · açık şablon seçimi',
+    'MIHEN-Today-Empty-TR': 'Bugün · ilk adım',
+    'MIHEN-Today-Guided-TR': 'Bugün · seçilen adımlar',
+    'MIHEN-Backup-TR': 'Yedekleme · kapsam ve dışa aktarma',
+    'MIHEN-Reports-Qada-TR': 'Dönem raporu · gerçek kaza hareketleri',
+    'MIHEN-Report-Export-TR': 'Dönem raporu · paylaşılacak alan seçimi',
+    'MIHEN-Nutrition-Quick-TR': 'Beslenme · hızlı su kaydı ve geri alma',
+    'MIHEN-Help-TR': 'Yardım · anlaşılır kullanım rehberi',
+    'MIHEN-Today-Accessibility-TR': 'Bugün · erişilebilirlik kontrolü',
+    'MIHEN-Today-LargeText-TR': 'Bugün · küçük ekran ve büyük metin',
+
     'MIHEN-Qada-TR': 'Kaza namazı takibi',
     'MIHEN-WeeklyPlan-TR': 'Haftalık planlama',
     'MIHEN-GoalSplit-TR': 'Hedef parçalama · tarih ve gün seçimi',
@@ -37,6 +50,8 @@ def main():
     parser.add_argument('artifact', type=Path)
     parser.add_argument('--run', required=True)
     parser.add_argument('--source', required=True)
+    parser.add_argument('--require-capture', action='append', help='Required capture name for a focused follow-up run; default requires all five module captures.')
+    parser.add_argument('--scope', default='full')
     parser.add_argument('--output', type=Path, default=Path('.build-results/current-screens-20261116'))
     parser.add_argument('--review-date', default='2026-11-16')
     args = parser.parse_args()
@@ -56,7 +71,7 @@ def main():
     manifest = manifests[0]
     captures = json.loads(manifest.read_text())
     captured_names = {a['suggestedHumanReadableName'].split('_0_')[0] for test in captures for a in test['attachments']}
-    required = set(list(LABELS)[:5])
+    required = set(args.require_capture) if args.require_capture else REQUIRED_MODULE_CAPTURES
     if not required <= captured_names:
         raise ValueError('Missing requested module captures: ' + ', '.join(sorted(required - captured_names)))
     for test in captures:
@@ -68,7 +83,7 @@ def main():
             shutil.copy2(manifest.parent / attachment['exportedFileName'], target)
             entries[name] = {
                 'file': target.name, 'run': args.run, 'source': args.source,
-                'test': test['testIdentifier'],
+                'test': test['testIdentifier'], 'scope': args.scope,
                 'capturedUTC': datetime.datetime.fromtimestamp(attachment['timestamp'], datetime.timezone.utc).isoformat(),
                 'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
             }
@@ -87,7 +102,7 @@ def main():
     page = '''<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MİHEN · Güncel uygulama ekranları</title><style>
 *{box-sizing:border-box}body{margin:0;background:#f7f5ef;color:#0b2244;font:16px system-ui,-apple-system,sans-serif}header,main{max-width:1300px;margin:auto;padding:28px}header p{max-width:950px;line-height:1.65}h1{font-size:32px;margin:0 0 12px}.notice{background:#fff;padding:18px;border-radius:16px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;padding-top:0}article{background:white;border-radius:20px;padding:16px}h2{font-size:17px;min-height:38px;margin:0 0 14px}article p{font-size:12px;color:#596775;line-height:1.5}.shot{background:none;border:0;padding:0;width:100%;cursor:zoom-in}.shot img{width:100%;height:auto;display:block;border-radius:14px}dialog{border:0;border-radius:18px;background:#fff;padding:16px;max-width:95vw;max-height:95vh}dialog::backdrop{background:#000b}dialog img{max-width:85vw;max-height:80vh;object-fit:contain;display:block;margin:auto}dialog button{border:0;background:#0b2244;color:white;border-radius:10px;padding:10px 16px;margin-bottom:12px;cursor:pointer}</style><header><h1>MİHEN · Güncel uygulama ekranları</h1>'''
     page += f'<p>{html.escape(args.review_date)} incelemesi · {len(cards)} özgün ekran görüntüsü. Her ekran gerçek XCUITest koşusunda çalışan SwiftUI uygulamasından alınmıştır. Görsellerin içeriği düzenlenmemiştir. Çekim tarihi her kartın altında gösterilir. Büyütmek için ekrana dokunun.</p>'
-    page += '<p class="notice">Yeni modüllerde görünen görev, rutin, kaza kaydı ve hedef ayrı test oturumunda arayüz üzerinden oluşturulmuştur; kişisel geçmişiniz değildir. Hedef dağıtım görüntüsü onaydan önceki öneriyi gösterir. Ekran Süresi görüntüsü Apple izni ve App Group kurulumu bekleyen gerçek durumdur. Widget ana ekranı, biyometri ve gerçek Sağlık verisi bu galeride taklit edilmez.</p></header><main>'
+    page += '<p class="notice">Görev, rutin, kaza kaydı ve hedef ayrı test oturumunda arayüz üzerinden oluşturulmuştur; kişisel geçmişiniz değildir. Kartlardaki kaynak koşu ve çekim tarihleri korunur. Hedef dağıtım görüntüsü onaydan önceki öneriyi gösterir. Ekran Süresi görüntüsü Apple izni ve App Group kurulumu bekleyen gerçek durumdur. Widget ana ekranı, biyometri ve gerçek Sağlık verisi bu galeride taklit edilmez.</p></header><main>'
     page += ''.join(cards)
     page += '''</main><dialog id="viewer"><button id="close">Kapat</button><img alt="Büyütülmüş uygulama ekranı"></dialog><script>const viewer=document.querySelector('#viewer');document.querySelectorAll('.shot').forEach(button=>button.addEventListener('click',()=>{const image=button.querySelector('img');viewer.querySelector('img').src=image.src;viewer.querySelector('img').alt=image.alt;viewer.showModal()}));document.querySelector('#close').addEventListener('click',()=>viewer.close());viewer.addEventListener('click',event=>{if(event.target===viewer)viewer.close()});</script></html>'''
     provenance.write_text(json.dumps({'reviewedOn': args.review_date, 'images': list(entries.values())}, ensure_ascii=False, indent=2) + '\n')

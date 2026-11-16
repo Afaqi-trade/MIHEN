@@ -66,3 +66,22 @@ extension ProductPlanningTests {
         XCTAssertEqual(months.reduce(0) { $0 + $1.actions },24)
     }
 }
+
+extension ProductPlanningTests {
+    func testArchivedAndMovedSourceProgressIsNotDuplicatedAcrossPeriods() throws {
+        let start=engine.date("2026-11-16")!, end=engine.addingDays(1,to:start)
+        var data=BackupDocument.fresh()
+        data.goals=[.init(id:"g",title:"Read",domainIDs:["learning"],target:6,unit:"pages")]
+        data.tasks=[.init(id:"t",title:"Read",domainID:"learning",goalID:"g",start:start,target:6,unit:"pages")]
+        engine.materialize(&data,from:start,through:start)
+        try PlanningEngine.setProgress(2,occurrence:&data.occurrences[0])
+        let id=data.occurrences[0].id
+        try engine.move(id,to:end,in:&data)
+        data.goalProgress=[.init(goalID:"g",date:end,amount:1)]
+        let whole=engine.contributions("g",in:data)
+        XCTAssertEqual(whole.manual,1);XCTAssertEqual(whole.tasks,2);XCTAssertEqual(whole.total,3)
+        let firstDay=engine.contributions("g",in:data,interval:DateInterval(start:engine.calendar.startOfDay(for:start),end:engine.calendar.startOfDay(for:end)))
+        XCTAssertEqual(firstDay.total,0)
+        try BackupCodec.validate(data)
+    }
+}

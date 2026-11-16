@@ -1,47 +1,53 @@
-# MİHEN kullanım kılavuzu
+# MİHEN kullanım rehberi
 
-İlk açılışta adını ve öncelikli alanları seç. Şablon istemiyorsan boş başlayabilir veya onboarding'i atlayabilirsin. Şablonlar gerçek geçmişin olarak eklenmez.
+MİHEN, “Dengeli • Planlı • Anlamlı Yaşam” için hedeflerini günlük eylemlere bağlar. Hesap gerekmez; temel kullanım çevrimdışıdır. Sekiz yaşam alanının sayısı ve anlamı sabittir. İstediğin alanlara odaklanabilirsin; diğerleri Plan'da erişilebilir kalır.
 
-Plan → yaşam alanı → Hedef ekle ile miktar, birim, dönem ve tarihleri belirle. Bir hedefi birden fazla alana veya bir üst hedefe bağlayabilirsin. Görevler ve alışkanlıklar bölümünde hedefe bağlı tekrar eden bir görev oluştur. Mevcut gerçekleşmelerin bilgileri, görev şablonunu düzenlediğinde değişmez. Sayısal klavyeyi Bitti düğmesiyle kapatabilirsin.
+## İlk kullanım ve Bugün
 
-Bugün ekranında daire tamamlar/geri alır; + ve − birer birim ekler/çıkarır. Görev başlığına dokunarak tam miktar girebilir, başka güne taşıyabilir, yeniden dağıtım önerisi isteyebilir, atlayabilir veya iptal edebilirsin. Taşıma/dağıtım onay ister. Hedef günü zaten doluysa otomatik üzerine yazılmaz. Sayfa, dakika ve kitap gibi farklı birimler birbirine eklenmez.
+Kısa karşılama sonrası odak alanlarını seç. Başlangıç adımlarını tek tek incele: yalnızca seçilen şablonlar eklenir, tamamlanmış geçmiş üretilmez. Atla seçeneği şablon eklemeden açar. Bugün boşsa ilk küçük adımını ekle; başlık yazıp kaydetmen yeterli. Miktar, tekrar, hedef bağlantısı ve diğer ayarlar “Miktar, tekrar ve diğer ayrıntılar” altında açılır.
 
-Plan → Manevi takip: hatim oluştur, toplam sayfayı kendi baskına göre ayarla, okunan sayfaları ekle. Mealli okuma üç yıllık hatmin içindedir; tefsir ayrı plandır. Ezber ayet aralığını ve öğrenilen miktarı düzenle; tekrar kaydı sonraki tekrar önerisini oluşturur. Zikir sayacı tarih bazlıdır. Oruç yalnızca tamamlandı seçildiğinde tutulmuş sayılır; ertelendi durumundan sonra yeni tarihi ayrı planlayabilirsin.
+2/6 gibi kısmi girişler kartında korunur; üst özet kaç işe başlandığını ayrıca söyler. Tamamlama oranı yalnızca tamamen biten görevlerin oranıdır; yaşam veya manevi değer puanı değildir. En son miktar değişimini Geri al ile düzeltebilirsin. Tamamlanan işler ayrı açılır bölümde yer alır. Günün odağını seç ile en çok üç açık eylemi işaretle; bu seçim bugünün önceliğidir, geçmişi ve gelecek tekrarları değiştirmez.
 
-Takvim'de gün, hafta veya ay seç; etkinlik ekle ve ilgili günün görevlerini gör. Profil'de saat dilimi ve isteğe bağlı Hicri tarih düzeltmesi ayarlanır. Algoritmik Hicri tarihler yerel resmî takvimle farklı olabilir.
+## Hedef ve haftalık plan
 
-İlerleme gerçek tamamlanmış görev oranını gösterir. Kısmi kayıt ayrı saklanır. Görev bulunmayan alanlarda başarı yüzdesi üretilmez. Haftalık/aylık değerlendirmelerde kendi cevaplarını kaydedebilirsin.
+Plan → Hedefler veya bir yaşam alanından hedef oluştur. Hedef sonucunu, miktarını, birimini ve bitişini seç. Hedef ayrıntısında bağlı görev katkısı ile bağımsız elle eklenen katkı ayrı görünür. Aynı işi hem görevde hem manuel katkıda ikinci kez kaydetme; manuel ekleme bağımsız katkı için açık teyit ister. Kayıtlı katkı varken hedef birimi kilitlenir.
 
-Profil → JSON yedeğini dışa aktar ile düzenli yedek al. Geri yükleme mevcut verinin tamamını değiştirir; önizlemeyi okuyup onayla. Plan CSV ise hedef ve görev ekler; bir satır bile hatalıysa hiçbir satır alınmaz. Excel'den UTF-8 CSV kaydet; XLSX dosyası desteklenmez. Dışa aktarılan dosyalar şifrelenmez.
+“Hedefi günlere böl” uygun günleri, ilk 90 gün toplamını, aylık/haftalık dağılımı ve günlük görevleri önizletir. Adet/kitap/sayfa tam sayılı dağıtılır; dakika ve para kendi birimiyle kalır. Miktar toplamını inceleyip onayla. İstersen aylık ara sonuçları milestone olarak kaydet; bunlar ayrıca başarı veya katkı üretmez. Birim dönüşümü otomatik yapılmaz. Aktif bağlı görev varsa önce görevini düzenle veya onayla gelecek planını arşivle; kaydedilen miktarlar ve geçmiş korunur.
 
-Bildirim izni yalnızca etkinleştirdiğinde istenir. Face ID/cihaz parolası kilidi isteğe bağlıdır. iCloud senkronizasyonu yoktur. Widget için yayın sahibinin App Group yapılandırmasını tamamlaması gerekir.
+Haftalık planlama'da hafta aralığı, süresi bilinen dakika toplamı ve süresiz adım sayısı ayrıdır. Haftanın 1-3 odağını kendi notun olarak yazabilirsin. “Haftanın kalanlarını düzenle” yalnızca seçilen açık kayıtları onayla taşır veya atlar. Çakışma otomatik birleştirilmez. Gecikenler bölümü seçilen haftadan önceki 30 günü kapsar; kayda dokununca tekil kararları da verebilirsin.
 
-## Yeni planlama ve kayıt ekranları
+## Rutinler
 
-Plan ekranının altındaki kısayollardan Haftalık planlama, Rutinler, Beslenme ve hareket ve Kaza namazı takibine ulaşılır.
+Plan → Rutinler → + ile sabah/akşam veya kendi rutinini oluştur. Yeni adım ekleyebilir veya mevcut görevlerini seçebilirsin. Yeni adımlar günlük alışkanlık olarak başlar; ayrıntılarda günlerini değiştirebilirsin. Mevcut görevin tekrar planı değiştirilmez. Düzenle ile sırayı değiştir; rutine saatli hatırlatma ekle. Genel bildirim izni kapalıysa hatırlatma gelmez.
 
-Hedef detayında “Hedefi günlere böl”: başlangıç/bitiş ve haftanın günlerini seçin, günlük öneriyi inceleyin, onaylayın. Mevcut aktif bağlı görev varsa ikinci plan açılmaz. Aynı ölçü birimi korunur.
+Rutin aynı görev kayıtlarını kullanır; ikinci bir tamamlama üretmez. Duraklatma tüm üye görev şablonlarının gelecek tekrarlarını etkiler; görev başka rutinde de varsa orası da etkilenir. Bugün ve geçmiş değişmez; sürdürme yarından başlar. Tek seferlik adımı yeniden yapmak için tarihini ayrıca düzenle. Grubu kaldırmak görev/geçmişi silmez.
 
-Rutinler: var olan görevleri seçip bir grup oluşturun. Günün gerçekleşmesi varsa aynı gerçek kaydı tamamlayabilirsiniz; grubun silinmesi görevleri silmez.
+## Rapor ve değerlendirme
 
-İlerleme → Dönem raporları: seçilen tarihin hafta, ay veya yılı; 10 yıl seçeneğinde seçilen yılın sonuna kadar son 10 takvim yılı raporlanır. Boş geçmiş üretilmez. Hedef satırları güncel durumu gösterir.
+İlerleme → Dönem raporları: hafta/ay/yıl veya seçilen yılın sonuna kadar son 10 takvim yılı. Kayıt bulunan gün sayısı, günlüğün tamamen doldurulduğu anlamına gelmez. Boş geçmiş başarısızlık değildir ve 10 yıl seçmek geçmiş üretmez.
 
-Beslenme ve hareket: tarihi, alınan/egzersizde harcanan enerjiyi veya suyu seçin. Enerji kcal, su ml birimiyle kaydedilir. Apple Sağlık ekranı izin verildiğinde seçilen günün adım ve aktif enerjisini ayrı gösterir; elle girilen kaloriye eklemez. Veri gelmemesi izin reddi ile veri yokluğunu ayırt etmeyebilir.
+Görev durumları; hedefin dönem katkısı ve güncel durumu; sayfa, ezber tekrarı, zikir, oruç, kaza hareketleri ve beslenme/faaliyet kayıtları kendi birimleriyle gösterilir. Farklı modül miktarları görev katkısına yeniden eklenmez. Kaza dönem başı/sonu bakiyesi kayıt tarihlerine bağlıdır. Nitel alanlar kişisel notlarla değerlendirilir.
 
-Kaza namazı: önce ilgili vakit için takip edilecek miktarı ekleyin, ardından kılınan miktarı kaydedin. Uygulama size kendiliğinden borç hesaplamaz. Vitir ayrı ve isteğe bağlıdır.
+Paylaş düğmesinde dışa aktarılacak alanları seç. Kişisel alan notları ayrıca seçilir; PDF/CSV dönem özeti tam yedek değildir. Değerlendirmede neyin işe yaradığını, neyi azaltabileceğini ve sonraki dönemin odağını yaz; bunlar yalnızca kendi cevaplarındır, yapay başarı veya AI yorumu değildir.
 
-Profil → Kişisel hatırlatmalar: su, hareket ve değerlendirme için saat ekleyin; genel bildirim iznini Profil'den etkinleştirin. Sessiz saatler geçerlidir. İşletim sisteminin bildirim sunum tercihleri uygulamanın üstündedir.
+## Namaz ve kaza
 
-İçe aktarmadan önce son mevcut belge cihazda bir kurtarma dosyasına alınır. Profil'deki kurtarma önizlemesiyle inceleyip geri yükleyebilirsiniz. Bu, dışa aktarılan kişisel yedeğinizin yerine geçmez. Tüm verileri silme işlemi kurtarma dosyasını da kaldırır.
+Namaz ekranı önce vakitleri gösterir. Başlangıç konumu İstanbul merkezidir: 41.0082 / 28.9784, Europe/Istanbul, Türkiye yaklaşık hesap. Konum ve hesap ayarlarını açarak koordinat, saat dilimi, yöntem ve ayrı ikindi tercihini değiştir. Konum elle seçilir; GPS kullanılmaz. Kaydet, ayarı cihaz ve widget için saklar; yeni JSON yedeği ayarı da içerir. Türkiye hesabı resmî canlı Diyanet verisi değildir; yerel takvimle fark olabilir. Hesaplanamayan kutup koşullarında vakit uydurulmaz.
 
-## Namaz vakitleri ve widget
+Kaza ekranında başlangıç miktarını vakit bazında ekle, sonra kılınan miktarı kaydet. Yaşa göre otomatik borç hesaplanmaz. + düğmesi seçili kayıt tarihinde bir kılınan miktar ekler; son eklenen kaydı Geri al ile düzeltebilirsin. Borçtan fazla gerçekleşme veya geçersiz borç silme reddedilir. Vitir görünümü isteğe bağlıdır; gizlemek kayıt silmez.
 
-Plan → Manevi takip → Namaz vakitleri ekranında enlem, boylam ve saat dilimini seçin. Türkiye yaklaşık yöntemi başlangıç seçeneğidir. İkindi hesabı için Hanefî seçimi ayrıca yapılır; uluslararası hesaplama yöntemleri ayrı listelenir. Yüksek enlem kuralı ayrıca ayarlanır. İlk konum İstanbul merkezidir (41.0082, 28.9784), saat dilimi Europe/Istanbul ve yöntem Türkiye yaklaşık hesabıdır. Kendi konumunuza göre değiştirebilir veya İstanbul düğmesiyle başlangıca dönebilirsiniz.
+## Beslenme, Sağlık ve dijital denge
 
-Kaydet ile tercihler cihazda ve kullanılabiliyorsa App Group içinde tutulur. iPhone ana ekranında widget eklerken MİHEN Namaz / Prayer seçilir. Sonraki vakit gösterilir. App Group yapılandırması eksikse widget ayarı alamaz; bu durum cihaz kurulumu sırasında doğrulanmalıdır. Namaz hesabı internet kullanmaz; konum izni istemez. Koordinat değiştiğinde yeniden kaydedin. Bu ayarlar JSON yedeğinde yer almaz; başka cihaza geçerken tekrar girin.
+Beslenmede günü, alınan enerjiyi/egzersizi/suyu seç; birimler kcal veya ml'dir. Hızlı su düğmeleri ve geri alma vardır. Kalori veritabanı veya otomatik kalori açığı hesabı yoktur. Egzersiz enerjisi toplam günlük harcama değildir.
 
-Türkiye hesabı resmî canlı takvim değildir; yerel takvimle küçük farklar olabilir. Resmî takvimi ekran içindeki bağlantıyla karşılaştırabilirsiniz. Hesaplanamayan kutup koşullarında uygulama ikame bir vakit üretmez.
+Apple Sağlık okuması açık izninle yapılır. Seçilen gün toplamlarını ayrıca kaydedersen aynı gün yeniden alma kayıt eklemek yerine günceller. Sağlık aktif enerjisi varken aynı günün manuel egzersiz satırları korunur fakat subtotalda ayrıca toplanmaz. Sağlık satırını silersen manuel subtotal geri görünür. Sağlık'a veri yazılmaz. Veri yokluğu ile okuma izninin reddi ayırt edilemeyebilir. Gerçek cihaz kabulü gerekir.
 
-## Sosyal medya ve uygulama süre sınırı
+Apple Takvim aktarımı sistem editöründe tek etkinlik kopyasıdır; çift yönlü eşitleme değildir. Profil → Uygulama süre sınırı, seçilen uygulama/kategori/web sitelerinin toplamına ortak günlük bütçe uygular. Cihaz sahibi Face ID/parola ile 15/30/60 dakika geçici açabilir. Bireysel izin kaldırılabilir; dışarıdan onaylayan yoktur ve sosyal medya mesaj/içerikleri okunmaz. Family Controls/App Group ve gerçek cihaz doğrulaması tamamlanmadan bu özelliğin çalıştığını varsayma.
 
-Profil → Uygulama süre sınırı ekranından Ekran Süresi iznini açın. Sistem seçicisinde uygulama/kategori/web sitesi seçin ve ortak günlük dakika bütçesini etkinleştirin. Toplam kullanım sınırı dolunca iOS seçimi kısıtlar. MİHEN'e dönerek 15/30/60 dakika seçin; onay ve Face ID/cihaz parolasıyla geçici açın. Bu işlem günlük bütçeyi sıfırlamaz. Süre bitince izleme uzantısı yeniden kısıtlar; uygulama tekrar açıldığında da bitiş denetlenir. Sınırı veya seçimi değiştirmek için önce doğrulamayla kapatın. Tam cihaz kurulum ve test adımları SCREEN_TIME_TR.md içinde.
+## Yedek, gizlilik ve yardım
+
+Profil'de JSON yedek oluştur. Başarılı dışa aktarma zamanı görünür; dosyanın seçtiğin güvenli konumda saklandığını kontrol et. Bu durum dosyanın sonsuza kadar erişilebilir kaldığı garantisi değildir. JSON kayıtları, uygulama tercihlerini ve namaz ayarlarını içerir. CSV kayıt aktarımı namaz ayarını taşımaz; düzenlenebilir plan tablosu yalnızca hedef/görev ekler. Eski JSON/CSV yüklenirse mevcut namaz ayarı korunur. Ekran Süresi izinleri ve seçimi yeni cihazda yeniden kurulur. Dosyalar şifrelenmez; hassas kayıtlarını güvenli tut.
+
+İçe aktarma önizleme/onay ister ve mevcut geçerli verinin son kurtarma kopyasını cihazda saklar. Bu, cihaz dışı yedeğin yerini tutmaz. Tüm verileri sil, kurtarma kopyasını da kaldırır. Kilit etkinse uygulama pasifleşince kilitlenir; kaydedilmemiş form kapanabilir. Uygulama değiştiricide pencerelerin üstünde yalnızca MİHEN örtüsü gösterilir. Cihaz kabul sınırları KNOWN_LIMITATIONS.md içindedir.
+
+Profil → Kullanım rehberi ve sık sorulanlar bölümünden kısa açıklamalara ulaş. Sürüm bilgilerini paylaş, kişisel kayıt içermeyen bir metin hazırlar; alıcıyı sen seçersin. Uygulama kendiliğinden destek mesajı göndermez.

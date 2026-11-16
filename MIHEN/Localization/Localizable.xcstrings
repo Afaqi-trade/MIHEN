@@ -1,6 +1,326 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "heatmap.legend": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık ton: az tamamlanan görev; koyu ton: yüksek tamamlama oranı. Kayıt olmayan günler boş kabul edilir; başarısızlık değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lighter shades: fewer completed tasks; darker shades: higher completion rate. Unrecorded days are empty, not failures."
+          }
+        }
+      }
+    },
+    "startup.safe": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtlar şu anda açılamıyor. Güvenlik için boş veriyle değiştirilmedi. Tekrar deneyin; sürerse teknik ayrıntıyla destek alın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Records cannot be opened right now. They have not been replaced with empty data. Retry, or use technical details for support if it continues."
+          }
+        }
+      }
+    },
+    "startup.retry": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekrar dene"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry"
+          }
+        }
+      }
+    },
+    "startup.details": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destek için teknik ayrıntı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Technical details for support"
+          }
+        }
+      }
+    },
+    "help.basics.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef, görev ve rutin arasındaki fark nedir?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What is the difference between goals, tasks and routines?"
+          }
+        }
+      }
+    },
+    "help.basics.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef ulaşmak istediğin sonuçtur. Görev bugün veya seçtiğin gün yapacağın eylemdir. Rutin aynı görevleri düzenli bir sırayla bir araya getirir; ikinci bir ilerleme kaydı üretmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A goal is an outcome. A task is an action for today or a chosen date. A routine groups the same tasks in a regular order without generating a second progress record."
+          }
+        }
+      }
+    },
+    "help.partial.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısmi ilerlemem nasıl görünür?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How does partial progress appear?"
+          }
+        }
+      }
+    },
+    "help.partial.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2/6 gibi bir kayıt emek olarak görünür ve saklanır. Tamamlama oranı yalnızca tamamen biten görevleri sayar; kısmi kaydın silinmez. Bu oran hayatının veya manevi değerinin puanı değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A 2/6 entry is shown and saved as progress. Completion rate counts only fully finished tasks; partial records are retained. This rate is not a score of your life or spiritual worth."
+          }
+        }
+      }
+    },
+    "help.week.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftam ağır geliyorsa ne yapabilirim?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What if my week feels too full?"
+          }
+        }
+      }
+    },
+    "help.week.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan'dan Haftalık planlama'yı aç. Süresi bilinen işleri ve süresi belirtilmeyenleri ayrı gör. Kalanları düzenle bölümünde açık kayıtları seçip taşımayı veya bu kez atlamayı onayla. Plan kendiliğinden değişmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Weekly planning from Plan. Review known duration separately from actions without duration. Select open entries in Review unfinished actions and approve moving or skipping them. Plans never change automatically."
+          }
+        }
+      }
+    },
+    "help.backup.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yedek, senkronizasyon anlamına gelir mi?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is backup the same as sync?"
+          }
+        }
+      }
+    },
+    "help.backup.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hayır. JSON yedeği dışa aktardığın andaki kayıtları ve namaz ayarlarını içerir. Dosyayı cihaz dışında güvenli yerde tut. CSV kayıt aktarımı namaz ayarlarını içermez. Ekran Süresi izinleri yeni cihazda yeniden kurulur."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No. A JSON backup contains records and prayer settings at export time. Keep the file somewhere safe outside this device. CSV record exports exclude prayer settings. Screen Time permissions must be set up on a new device."
+          }
+        }
+      }
+    },
+    "help.permissions.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzin vermeden uygulamayı kullanabilir miyim?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can I use the app without permissions?"
+          }
+        }
+      }
+    },
+    "help.permissions.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temel planlama çevrimdışı ve hesapsız çalışır. Sağlık okuması, bildirim ve uygulama sınırı kendi iznini gerektirir. Bu izinleri vermemek diğer kayıtlarını kullanmanı engellemez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core planning works offline without an account. Health reading, notifications and app limits need their own permissions. Declining these does not prevent using your other records."
+          }
+        }
+      }
+    },
+    "help.limits.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dijital sınır ve geçici açma nasıl çalışır?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How do app limits and temporary access work?"
+          }
+        }
+      }
+    },
+    "help.limits.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen uygulamaların toplamına ortak günlük bütçe uygulanır. Geçici erişimi aynı cihaz sahibi Face ID veya parolayla onaylar; dışarıdan bir onaylayan yoktur. Bireysel sistem izni kaldırılabilir. Sosyal medya mesajları veya içerikleri okunmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One shared daily budget applies to the selected apps. The same device owner approves temporary access with Face ID or passcode; there is no outside approver. Individual system permission can be revoked. Social media content or messages are not read."
+          }
+        }
+      }
+    },
+    "help.support": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yardım ve sorun bildirimi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help and issue reporting"
+          }
+        }
+      }
+    },
+    "help.support.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sorunun oluştuğu adımları not et. Paylaş düğmesi yalnızca sürüm bilgilerini hazırlar; kişisel kayıt, sağlık veya manevi veri eklemez. Dosyayı kime göndereceğini sen seçersin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note the steps leading to the problem. Sharing prepares version information only, excluding personal, health and spiritual records. You choose whom to send it to."
+          }
+        }
+      }
+    },
+    "help.diagnostics.safe": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu metinde kişisel kayıt yoktur."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No personal records are included in this text."
+          }
+        }
+      }
+    },
+    "help.diagnostics.share": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürüm bilgilerini paylaş"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share version information"
+          }
+        }
+      }
+    },
     "planning.unit.locked": {
       "localizations": {
         "tr": {
@@ -3238,13 +3558,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yalnızca seçili günün adım ve aktif enerji toplamları okunur. Sağlık'a veri yazılmaz. Boş sonuç veri yok veya okuma izni yok anlamına gelebilir. Elle girilen egzersiz kayıtlarına eklenmez."
+            "value": "Seçili günün adım ve aktif enerji toplamlarını isteğe bağlı okuyabilirsin. Sağlık'a veri yazılmaz. Boş sonuç veri veya okuma izni olmadığını gösterebilir. Kaydet dediğinde MİHEN günlüğüne tek günlük özet eklenir."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Only steps and active energy totals for the selected day are read. No data is written to Health. An empty result may mean no data or no read permission. Totals are not added to manual exercise entries."
+            "value": "Optionally read steps and active energy for the selected day. Nothing is written to Health. An empty result may mean no data or read permission. Saving adds one daily snapshot to your MIHEN log."
           }
         }
       }
@@ -7126,13 +7446,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Plan'dan yaşam alanını seçerek hedef oluşturun. Günlük görevi bir hedefe bağlayın ve Bugün ekranından ilerleme kaydedin. Düzenli yedek alın."
+            "value": "Kullanım rehberi ve sık sorulanlar"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose a life area in Plan to create a goal. Link a daily task to a goal, then record progress in Today. Back up regularly."
+            "value": "User guide and common questions"
           }
         }
       }

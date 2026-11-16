@@ -100,6 +100,7 @@ struct TodayFocusScreen: View {
         NavigationStack {
             List {
                 Text(store.t("focus.explanation")).font(.footnote)
+                Text("\(selected.count) / 3").font(.headline)
                 ForEach(store.occurrences(on: Date()).filter { ["planned", "partial"].contains($0.status) }) { row in
                     Toggle(store.taskTitle(row.title), isOn: Binding(get: { selected.contains(row.id) }, set: { if $0 && selected.count < 3 { selected.insert(row.id) } else { selected.remove(row.id) } }))
                 }

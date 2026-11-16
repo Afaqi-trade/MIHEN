@@ -136,3 +136,9 @@ Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43704463900 . Workflow 
 Yeni galeri testi gerçek arayüz üzerinden haftalık görev, kaydedilmiş Sabah rutini ve kaza kaydı oluşturdu. Tam sayı 10, ardından 2 girişi ve Sabah kalan **8** assertion'ları geçti. Hedefin 365 miktarı tam eşitlikle girildi; tarih/gün seçimi ve 366 gün için günlük 1 Adet önerisi çekildi. Hedef dağıtım onayı verilmedi; görüntü öneri aşamasıdır. Ortak sayı alanını kullanan hatim, ezber/tekrar ve zikir UI regresyonları da geçti.
 
 Beş özgün PNG görsel olarak incelendi ve `docs/evidence/43864948660/` içinde sonuç JSON'u, toolchain, kaynak/test/çekim zamanı/SHA256 ile korundu. Gerçek xcresult `.build-results/remote-43864948660/` içindedir. Önceki 16 ekranla birleşik galeri **21 ekran** içerir; HTML içindeki 21 PNG hash'i, dosya hash'leri ve ZIP CRC/hash'leri doğrulandı. Başarısız koşuların görselleri galeriye alınmadı. Örnek kayıtlar bağımsız UI-test bellek deposundadır; kullanıcının kişisel geçmişi değildir.
+
+## Ürün incelemesi uygulaması — 16 Kasım, doğrulama sürüyor
+
+`43874697968` / `b1ae313`: çekirdek testleri ve proje yapısı geçti; gerçek iOS derlemesi iki kaynak hatasıyla durdu (GoalPlanningScreen uzun tip çıkarımı ve PDF başlığında MainActor çağrısı). Başarılı sayılmadı. `5803366` bunları düzeltti; `43875429816` tam koşusu başlatıldı. Sonraki yardım/gizlilik/audit/rapor renderer değişiklikleri bu koşunun kapsamı değildir ve ayrıca test edilmelidir.
+
+Yerel son çekirdek: `swift build` geçti. CLT fallback 56 senaryo / 184 assertion / 0 hata. 10.959 sentetik gerçekleşmede 10 yıllık Core raporu doğruluğu kontrol edildi; yerel zaman çıktısı product-core.log içinde. Bu, iOS arayüz veya fiziksel cihaz performansı değildir. Tam Xcode tip kontrolü ve UI kanıtı uzak son commit sonucu gelmeden başarılı kabul edilmez.

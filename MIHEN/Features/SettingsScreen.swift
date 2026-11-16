@@ -98,7 +98,7 @@ struct SettingsScreen: View {
                 Button(store.t("data.delete"), role: .destructive) { reset = true }
             }
             Section(store.t("help")) {
-                Text(store.t("help.body"))
+                NavigationLink(destination: HelpScreen()) { Text(store.t("help.body")) }.accessibilityIdentifier("settings.help")
                 Text("MİHEN 1.0.0 (1)").font(.caption)
                 Text(store.t("cloud.unavailable")).font(.caption)
             }
@@ -131,6 +131,7 @@ struct SettingsScreen: View {
                                     if preview.restoresPrayer { PrayerSettingsStore.restore(prayerBytes); WidgetCenter.shared.reloadAllTimelines() }
                                     UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                                     if store.preferences.remindersEnabled { store.refreshNotifications() }
+                                    store.lastProgressChange = nil
                                     pendingImport = nil
                                     store.locked = store.preferences.lockEnabled
                                 }
@@ -146,6 +147,9 @@ struct SettingsScreen: View {
                     if store.change({ $0 = .fresh() }) {
                         try? FileManager.default.removeItem(at: RecoveryBackup.url)
                         PrayerSettingsStore.clear()
+                        lastExport = 0
+                        exportSucceeded = false
+                        store.lastProgressChange = nil
                         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                     }
                 }

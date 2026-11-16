@@ -54,3 +54,11 @@ Ekran Süresi gerçek uygulama kullanımı/shield ve biyometri doğrulaması iç
 `testNewModuleScreensGallery` ayrı bellek deposunda arayüz üzerinden görev, rutin, kaza kaydı ve hedef oluşturur. Haftalık plan, kaydedilmiş rutin, 10 eklenip 2 kılınan kaza miktarında kalan 8 ve hedefin onay öncesi dağıtım önerisi native PNG olarak alınır. Sayı girişleri tam eşitlikle doğrulanır. Üretim verisi kullanılmaz.
 
 Artifact indirildikten sonra `Scripts/build-screenshot-gallery.py` başarılı sonuç JSON'unu ve beş yeni modül attachment'ının varlığını kontrol eder; orijinal PNG byte'larını koruyarak önceki galeriyle birleştirir. Kaynak koşu, commit, test kimliği, çekim zamanı ve SHA256 her görselin provenance kaydında saklanır.
+
+## Küçük ekran erişilebilirlik koşusu
+
+`suite=accessibility`, mevcut iOS runtime üzerinde iPhone SE (3. nesil) simülatörü oluşturur, içerik boyutunu accessibility-extra-extra-extra-large yapar ve tüm uygulama birim/kalıcılık testleriyle ilk kullanım/Bugün açıklama ve Dynamic Type audit testini çalıştırır. Runtime/cihaz profili yoksa adım başarısız olur; başka cihaz testi gibi sunulmaz. Bu kapsam tüm ekranların erişilebilirlik sertifikası değildir; VoiceOver ve fiziksel cihaz matrisi ayrıca doğrulanır. Minimum iOS 18 desteği compiler kontrolünden ayrı runtime kabulü gerektirir.
+
+```sh
+/Users/iz/.local/bin/gh workflow run ios.yml --ref main -f suite=accessibility
+```

@@ -257,10 +257,11 @@ struct TaskListScreen: View {
     @Environment(AppStore.self) private var store
     @State private var editor = false
     @State private var editing: PlannedTaskRecord?
+    @State private var search = ""
     var body: some View {
         List {
             if store.data.tasks.isEmpty { EmptyState(key: "empty.tasks") }
-            ForEach(store.data.tasks.filter { !$0.archived }) { task in
+            ForEach(store.data.tasks.filter { !$0.archived && (search.isEmpty || store.taskTitle($0.title).localizedCaseInsensitiveContains(search)) }) { task in
                 Button { editing = task } label: {
                     VStack(alignment: .leading) {
                         Text(store.taskTitle(task.title)).foregroundStyle(.primary)
@@ -269,7 +270,7 @@ struct TaskListScreen: View {
                     }
                 }.swipeActions { Button(store.t("archive")) { store.change { $0.archiveTask(task.id) } } }
             }
-        }.keyboardDone().navigationTitle(store.t("tasks.habits"))
+        }.keyboardDone().navigationTitle(store.t("tasks.habits")).searchable(text: $search, prompt: Text(store.t("search")))
             .toolbar { Button { editor = true } label: { Image(systemName: "plus") } }
             .sheet(isPresented: $editor) { TaskEditor() }
             .sheet(item: $editing) { TaskEditor(task: $0) }

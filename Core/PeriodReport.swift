@@ -48,9 +48,10 @@ extension PlanningEngine {
         let activities = data.effectiveActivities(engine: self).filter { includes($0.date) }
         activities.forEach { report.recordedDays.insert(key($0.date)) }
         // Each source retains its own unit. Never merge module quantities with task contributions.
-        let grouped = Dictionary(grouping:activities.filter { !["qadaDebt","qadaDone"].contains($0.kind) }) { $0.domainID + "|" + $0.kind + "|" + $0.unit }
-        for (id, items) in grouped.sorted(by: { $0.key < $1.key }) {
-            if let first = items.first { metric(id,first.domainID,"activity."+first.kind,first.unit,items.reduce(0) { $0 + $1.amount }) }
+        struct ActivityKey: Hashable { let domain: String; let kind: String; let unit: String }
+        let grouped = Dictionary(grouping:activities.filter { !["qadaDebt","qadaDone"].contains($0.kind) }) { ActivityKey(domain:$0.domainID,kind:$0.kind,unit:$0.unit) }
+        for (_, items) in grouped.sorted(by: { ($0.key.domain,$0.key.kind,$0.key.unit) < ($1.key.domain,$1.key.kind,$1.key.unit) }) {
+            if let first = items.first { metric("activity." + first.id,first.domainID,"activity."+first.kind,first.unit,items.reduce(0) { $0 + $1.amount }) }
         }
         for prayer in ["fajr","dhuhr","asr","maghrib","isha","witr"] {
             let ledger = data.activities.filter { $0.unit == prayer && ["qadaDebt","qadaDone"].contains($0.kind) }

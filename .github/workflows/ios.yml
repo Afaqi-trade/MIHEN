@@ -10,6 +10,7 @@ on:
           - full
           - screen-time
           - module-gallery
+          - accessibility
 defaults:
   run:
     shell: bash

@@ -4,6 +4,7 @@ struct RootView: View {
     @Bindable var store: AppStore
     @State private var tab = 0
     @State private var prayers = false
+    @State private var quickTask = false
     @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         ZStack {
@@ -18,6 +19,7 @@ struct RootView: View {
                     }
                 } else { OnboardingView() }
             }
+            .id(store.locked)
             .disabled(store.locked)
             .accessibilityHidden(store.locked)
             if store.locked { lockView }
@@ -37,10 +39,19 @@ struct RootView: View {
             Button(store.t("ok")) { store.errorMessage = nil }
         } message: { Text(store.errorMessage ?? "") }
         .sheet(isPresented: $prayers) { NavigationStack { PrayerTimesScreen().toolbar { Button(store.t("close")) { prayers = false } } } }
-        .onOpenURL { url in if url.scheme == "mihen" { tab = 0; if url.host == "prayers" && !store.locked { prayers = true } } }
+        .sheet(isPresented: $quickTask) { TaskEditor() }
+        .onOpenURL { url in
+            if url.scheme == "mihen" {
+                tab = 0
+                if !store.locked && store.preferences.onboarded {
+                    if url.host == "prayers" { prayers = true }
+                    if url.host == "add-task" { quickTask = true }
+                }
+            }
+        }
         .task { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .background && store.preferences.lockEnabled { store.locked = true }
+            if phase == .background && store.preferences.lockEnabled { prayers = false; quickTask = false; store.locked = true }
             if phase == .active { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         }
     }

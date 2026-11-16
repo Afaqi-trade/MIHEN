@@ -8,7 +8,11 @@ import SwiftUI
             Group {
                 if let store { RootView(store: store) }
                 else if let startupError {
-                    ContentUnavailableView("MİHEN", systemImage: "externaldrive.badge.exclamationmark", description: Text(startupError))
+                    VStack(spacing: 16) {
+                        ContentUnavailableView("MİHEN", systemImage: "externaldrive.badge.exclamationmark", description: Text(Localization.text("startup.safe",language:Locale.current.languageCode == "tr" ? "tr" : "en")))
+                        Button(Localization.text("startup.retry",language:Locale.current.languageCode == "tr" ? "tr" : "en")) { self.startupError = nil; start() }.buttonStyle(.borderedProminent)
+                        DisclosureGroup(Localization.text("startup.details",language:Locale.current.languageCode == "tr" ? "tr" : "en")) { Text(startupError).font(.caption).textSelection(.enabled) }.padding()
+                    }
                 } else { ProgressView().task { start() } }
             }
         }
@@ -27,7 +31,9 @@ import SwiftUI
                 inMemory = false
             }
             #endif
-            store = try AppStore(repository: Repository(inMemory: inMemory, storeURL: storeURL))
+            let loaded = try AppStore(repository: Repository(inMemory: inMemory, storeURL: storeURL))
+            store = loaded
+            PrivacyCurtain.shared.attach(loaded)
         } catch {
             // Never silently replace an unreadable store with an empty one.
             startupError = error.localizedDescription

@@ -1,6 +1,26 @@
 from pathlib import Path
 import json,re
-rows='''planning.unit.locked|Kaydedilmiş katkıların anlamını korumak için bu hedefin birimi değiştirilemez. Farklı birim için yeni hedef oluştur.|This goal's unit is locked to preserve the meaning of recorded contributions. Create a new goal for a different unit.
+rows='''heatmap.legend|Açık ton: az tamamlanan görev; koyu ton: yüksek tamamlama oranı. Kayıt olmayan günler boş kabul edilir; başarısızlık değildir.|Lighter shades: fewer completed tasks; darker shades: higher completion rate. Unrecorded days are empty, not failures.
+startup.safe|Kayıtlar şu anda açılamıyor. Güvenlik için boş veriyle değiştirilmedi. Tekrar deneyin; sürerse teknik ayrıntıyla destek alın.|Records cannot be opened right now. They have not been replaced with empty data. Retry, or use technical details for support if it continues.
+startup.retry|Tekrar dene|Retry
+startup.details|Destek için teknik ayrıntı|Technical details for support
+help.basics.title|Hedef, görev ve rutin arasındaki fark nedir?|What is the difference between goals, tasks and routines?
+help.basics.body|Hedef ulaşmak istediğin sonuçtur. Görev bugün veya seçtiğin gün yapacağın eylemdir. Rutin aynı görevleri düzenli bir sırayla bir araya getirir; ikinci bir ilerleme kaydı üretmez.|A goal is an outcome. A task is an action for today or a chosen date. A routine groups the same tasks in a regular order without generating a second progress record.
+help.partial.title|Kısmi ilerlemem nasıl görünür?|How does partial progress appear?
+help.partial.body|2/6 gibi bir kayıt emek olarak görünür ve saklanır. Tamamlama oranı yalnızca tamamen biten görevleri sayar; kısmi kaydın silinmez. Bu oran hayatının veya manevi değerinin puanı değildir.|A 2/6 entry is shown and saved as progress. Completion rate counts only fully finished tasks; partial records are retained. This rate is not a score of your life or spiritual worth.
+help.week.title|Haftam ağır geliyorsa ne yapabilirim?|What if my week feels too full?
+help.week.body|Plan'dan Haftalık planlama'yı aç. Süresi bilinen işleri ve süresi belirtilmeyenleri ayrı gör. Kalanları düzenle bölümünde açık kayıtları seçip taşımayı veya bu kez atlamayı onayla. Plan kendiliğinden değişmez.|Open Weekly planning from Plan. Review known duration separately from actions without duration. Select open entries in Review unfinished actions and approve moving or skipping them. Plans never change automatically.
+help.backup.title|Yedek, senkronizasyon anlamına gelir mi?|Is backup the same as sync?
+help.backup.body|Hayır. JSON yedeği dışa aktardığın andaki kayıtları ve namaz ayarlarını içerir. Dosyayı cihaz dışında güvenli yerde tut. CSV kayıt aktarımı namaz ayarlarını içermez. Ekran Süresi izinleri yeni cihazda yeniden kurulur.|No. A JSON backup contains records and prayer settings at export time. Keep the file somewhere safe outside this device. CSV record exports exclude prayer settings. Screen Time permissions must be set up on a new device.
+help.permissions.title|İzin vermeden uygulamayı kullanabilir miyim?|Can I use the app without permissions?
+help.permissions.body|Temel planlama çevrimdışı ve hesapsız çalışır. Sağlık okuması, bildirim ve uygulama sınırı kendi iznini gerektirir. Bu izinleri vermemek diğer kayıtlarını kullanmanı engellemez.|Core planning works offline without an account. Health reading, notifications and app limits need their own permissions. Declining these does not prevent using your other records.
+help.limits.title|Dijital sınır ve geçici açma nasıl çalışır?|How do app limits and temporary access work?
+help.limits.body|Seçilen uygulamaların toplamına ortak günlük bütçe uygulanır. Geçici erişimi aynı cihaz sahibi Face ID veya parolayla onaylar; dışarıdan bir onaylayan yoktur. Bireysel sistem izni kaldırılabilir. Sosyal medya mesajları veya içerikleri okunmaz.|One shared daily budget applies to the selected apps. The same device owner approves temporary access with Face ID or passcode; there is no outside approver. Individual system permission can be revoked. Social media content or messages are not read.
+help.support|Yardım ve sorun bildirimi|Help and issue reporting
+help.support.body|Sorunun oluştuğu adımları not et. Paylaş düğmesi yalnızca sürüm bilgilerini hazırlar; kişisel kayıt, sağlık veya manevi veri eklemez. Dosyayı kime göndereceğini sen seçersin.|Note the steps leading to the problem. Sharing prepares version information only, excluding personal, health and spiritual records. You choose whom to send it to.
+help.diagnostics.safe|Bu metinde kişisel kayıt yoktur.|No personal records are included in this text.
+help.diagnostics.share|Sürüm bilgilerini paylaş|Share version information
+planning.unit.locked|Kaydedilmiş katkıların anlamını korumak için bu hedefin birimi değiştirilemez. Farklı birim için yeni hedef oluştur.|This goal's unit is locked to preserve the meaning of recorded contributions. Create a new goal for a different unit.
 planning.roadmap|Yıldan haftaya yol haritası|Roadmap from year to week
 planning.months|Aylık dağılım|Monthly breakdown
 planning.weeks|Haftalık dağılım|Weekly breakdown
@@ -202,7 +222,7 @@ health.connection|Apple Sağlık|Apple Health
 health.read|İzin ver ve seçili günü oku|Authorize and read selected day
 health.steps|Adım|Steps
 health.energy|Aktif enerji|Active energy
-health.explanation|Yalnızca seçili günün adım ve aktif enerji toplamları okunur. Sağlık'a veri yazılmaz. Boş sonuç veri yok veya okuma izni yok anlamına gelebilir. Elle girilen egzersiz kayıtlarına eklenmez.|Only steps and active energy totals for the selected day are read. No data is written to Health. An empty result may mean no data or no read permission. Totals are not added to manual exercise entries.
+health.explanation|Seçili günün adım ve aktif enerji toplamlarını isteğe bağlı okuyabilirsin. Sağlık'a veri yazılmaz. Boş sonuç veri veya okuma izni olmadığını gösterebilir. Kaydet dediğinde MİHEN günlüğüne tek günlük özet eklenir.|Optionally read steps and active energy for the selected day. Nothing is written to Health. An empty result may mean no data or read permission. Saving adds one daily snapshot to your MIHEN log.
 report.goals.current|Dönemle ilişkili hedefler (güncel durum)|Goals associated with this period (current status)
 calendar.apple.export|Apple Takvim'de kopyasını oluştur|Create a copy in Apple Calendar
 calendar.apple.explanation|Bu etkinliğin tek bir kopyası Apple düzenleyicisinde açılır. Kaydetme kararını orada verirsiniz. Tekrar kuralları aktarılmaz; iki kopya otomatik eşitlenmez.|A single copy opens in Apple's editor for you to save. Recurrence rules are not transferred; the copies do not synchronize automatically.
@@ -447,7 +467,7 @@ import|Yedek veya plan tablosundan içe aktar|Import backup or plan table
 backup.explanation|JSON ve yedek CSV tüm kayıtları geri yükler. Plan CSV hedef ve görev ekler. Dosyalar şifrelenmez; güvenli bir konum seçin. İçe aktarmadan önce önizleme ve onay gerekir. XLSX desteklenmez.|JSON and backup CSV restore all records. Plan CSV adds goals and tasks. Exports are not encrypted; choose a safe destination. Imports require preview and confirmation. XLSX is not supported.
 data.delete|Tüm verileri sil|Delete all data
 help|Yardım|Help
-help.body|Plan'dan yaşam alanını seçerek hedef oluşturun. Günlük görevi bir hedefe bağlayın ve Bugün ekranından ilerleme kaydedin. Düzenli yedek alın.|Choose a life area in Plan to create a goal. Link a daily task to a goal, then record progress in Today. Back up regularly.
+help.body|Kullanım rehberi ve sık sorulanlar|User guide and common questions
 cloud.unavailable|iCloud senkronizasyonu bu sürümde etkin değildir.|iCloud sync is not enabled in this version.
 import.replaces|Bu yedek mevcut verilerin tamamını değiştirecek. Önce dışa aktararak yedek almanız önerilir.|This backup replaces all current data. Export a backup first.
 import.adds|Geçerli satırlar mevcut plana eklenecek. Hatalar varsa hiçbir satır alınmaz.|Valid rows will be added to your plan. If any row has errors, nothing is imported.

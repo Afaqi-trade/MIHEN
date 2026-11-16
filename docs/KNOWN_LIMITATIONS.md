@@ -1,45 +1,34 @@
 # Bilinen sınırlar
 
-Tarih: 2026-11-15. Durum: Xcode 26.6 uzak derlemesi; son tam koşu 64/64, son UTC değişikliği için odaklı koşu 56/56. Geliştirme sürümüdür; fiziksel cihaz ve yayın kabul kapıları açıktır.
+Güncelleme: 16 Kasım 2026. Kaynak ürün incelemesinden sonra genişletiliyor; son kaynak için uzak doğrulama TEST_REPORT.md içindeki commit ve kapsamla birlikte okunmalıdır. Önceki sınırların tarihsel dökümü history/KNOWN_LIMITATIONS_20261115.md içindedir; güncel özellik listesi olarak kullanılmaz.
 
-- Yerel ortam yalnızca Swift 5.10 CLT içeriyor. XCTest ve iOS SDK/simülatör yok. Swift 6 hedef ayarları, SwiftData makroları ve SwiftUI API tip uyumluluğu uzak Xcode 26.6 derlemesinde doğrulandı.
-- Son tam koşuda 54 birim/kalıcılık ve 10 UI testi; son UTC değişikliği için ayrıca 55 birim/kalıcılık ve 1 odaklı UI testi geçti. Dil/tema, hatim, ezber, zikir, oruç, hedef bağlantısı/kısmi tamamlama ve yeniden açılınca kalıcılık UI akışlarında doğrulandı. Ekran görüntüleri gerçek test uygulamasından alındı. Fiziksel cihaz/TestFlight ve App Store görsel seti onayı tamamlanmadı.
-- Widget salt okunur günlük snapshot kullanır; App Intents ile görev tamamlama henüz uygulanmadı. Gece yarısından sonra ana uygulama açılana kadar eski veriyi güncel başarı gibi göstermez. App Group kimlikleri örnektir; provisioning doğrulaması gerekir.
-- CloudKit/iCloud senkronizasyonu ve XLSX yok. JSON/tam yedek CSV ile geri yükleme ve düzenlenebilir hedef/görev CSV'si kodlandı; cihaz dosya sağlayıcılarıyla test edilmedi. Plan CSV çok alan/üst hedef/proje bağlarını tam taşımaz; JSON kayıpsız ana yedek biçimidir.
-- Orucun ertelendi durumu saklanır; yeni tarih manuel planlanır. Recep/Şaban 15 gün ve Hicri 13–15 hedefleri manuel oluşturulur. Resmî dini gün veri kaynağı bağlanmadı. Hicri takvim Foundation Umm al-Qura algoritmasıdır; yerel takvimden farklı olabilir.
-- Rutin ve rutin item tabloları var; UI başlangıç rutinlerini görev/alışkanlık şablonu olarak sunar. Ayrı rutin gruplama/editör deneyimi genişletilmelidir. Alt kategori ve proje düzenleme deneyimi temel seviyededir.
-- Hedef bölme kalan günlük miktarı gösterir; kullanıcı onaylı 90 güne kadar eşit yeniden dağıtım vardır. Kitap adedinden dakika gibi farklı birime dönüşüm çıkarılmaz. Alışkanlık izinleri haftanın dinlenme günleriyle sınırlı; özel tarih aralıklı izin takvimi yok.
-- Sayısal grafikte görev gerçekleşmesi ölçülür. Nitel yaşam kalitesi skoru veya otomatik AI değerlendirmesi üretilmez. Alışkanlık istikrarı görev listesinde gösterilir; gelişmiş yıllık alışkanlık karşılaştırmaları yok.
-- Bildirimler uygulama açılışı/değişikliğinde yakın 7 gün ve en çok 60 istekle yenilenir. Akşam/haftalık değerlendirme saati 20:00, görev/sabah saati ayarlanabilir. Sessiz saatler atlanır; sınırsız veya garantili teslimat yoktur.
-- Core CSV/JSON kontrollere rağmen geniş fuzz/performance ölçümü henüz yok. Store güncellemesi tüm belgeyi doğrular; büyük veri için fetch/validation maliyeti ölçülmelidir. Geçmiş backfill foreground'da 366 günle sınırlıdır.
-- İlk sürüm migration planı V1'i tanımlar; gelecekteki şema geçişi için ayrı migration ve gerçek store yükseltme testi şarttır. UUID referanslarının bütünlüğü uygulama katmanında denetlenir, SwiftData @Relationship/cascade kullanılmaz.
-- İmzalı fiziksel cihaz dağıtımı, App Store isim uygunluğu, hukuki değerlendirme, yayıncı iletişimi ve politika/destek URL'leri tamamlanmadı. Yerelde uyumlu Xcode 16.2 App Store'un güncel Xcode 26+ yükleme şartını sağlamaz.
+| Konu | Kaynaktaki güncel davranış | Açık kabul sınırı |
+|---|---|---|
+| Yerel veri | SwiftData V1, offline-first; başarısız kayıt aday belgeyi commit etmez | Fiziksel cihaz dosya koruması, cihaz kaybı ve dosya sağlayıcısı testi |
+| JSON yedek | Sürümlü mihen.archive zarfı; mevcut V1 kayıtları ve namaz ayarları; eski düz V1 JSON kabul edilir | Harici dosyanın kalıcı saklandığı ancak cihazda doğrulanabilir; dışa aktarma senkronizasyon değildir |
+| CSV | Tam kayıt CSV'si veya düzenlenebilir hedef/görev plan tablosu; namaz ayarı taşımaz | XLSX yok; plan tablosu tüm ilişkileri taşımaz |
+| İçe aktarma | Önizleme ve onay; önce geçerli kurtarma dosyası; eski JSON/CSV mevcut namaz ayarını korur | Son tek kurtarma kopyası cihaz dışı yedek değildir; birden çok dosyada süreç kesintisi için kurtarma gerekebilir |
+| Hedef dağıtımı | En çok 366 takvim günü; ayrık birimde tam sayılar; diğer birimlerde 0,01 hassasiyet; aynı önizleme/kayıt algoritması | 1 milyardan büyük toplamlar ve desteklenmeyen hassasiyetler reddedilir; birimler otomatik dönüştürülmez |
+| Hedef aşamaları | İlk 90 gün toplamı, aylık/haftalık önizleme; onayla aylık milestone ve günlük görevler | Ayrı alt hedef hiyerarşisini kendiliğinden üretmez; milestone ikinci katkı kaynağı değildir |
+| Katkı kaynakları | Bağlı görev / bağımsız manuel katkı ayrı; manuel giriş açık ikinci onay ister | Aynı gerçek olayı kullanıcı iki bağımsız kayıtta bildirirse sistem bunu anlamsal olarak tespit edemez |
+| Geçmiş | Görev snapshot'ları korunur; taşıma ve yeniden dağıtım onaylı; gelecek hedef planı arşivlenebilir | Geçmişteki hedef metadata durumunu yeniden kuran sürümlü tarihçe yok; güncel durum ayrı etiketli |
+| Bugün | Kısmi emek görünür; tamamlama oranı ayrı; günün en çok üç odağı; hızlı giriş; son miktar değişimini geri alma | Genel yaşam kalitesi veya manevi değer puanı üretilmez |
+| Rutin | Ekran içinde yeni günlük adım, mevcut görev seçimi, sıra/düzenleme, saatli hatırlatma | Duraklatma tüm üye görev şablonlarını etkiler; ortak görev diğer rutinlerde de etkilenir; bugün/geçmiş değişmez; sürdürme yarından başlar; tek seferlik adım tarihi ayrıca düzenlenir |
+| Haftalık plan | Bilinen dakika / süresiz adım sayısı, haftalık not, günler, onaylı toplu taşıma/atlama | Süresi olmayan görevlerin süresi tahmin edilmez; çakışan görev otomatik birleştirilmez; geçmiş bekleyenler seçili haftadan önceki 30 günle sınırlı görünür |
+| Rapor | Görev durumları, kaynakları ayrı hedef katkısı, sayfa/tekrar/oruç/kaza/beslenme/faaliyet ve notlar; gerçek kayıt kapsamı | Yaşam dengesi puanı yok; planlanmamış gün başarısızlık sayılmaz; 10 yıllık geçmiş üretilmez; kaza bakiyesi kaydın tarihine bağlıdır |
+| Rapor dışa aktarma | Kullanıcının seçtiği alanlarla PDF/CSV; kişisel alan notları ayrıca seçilir | Ham veri yedeği değildir; genel/alan bağlanmamış notlar seçili alan dışa aktarımına girmez |
+| Namaz | İstanbul merkez başlangıç; çevrimdışı Adhan hesabı; yöntem ve ikindi tercihi ayrı; vakitler önce, ayarlar ikinci katmanda | Resmî canlı Diyanet verisi değildir; koordinat elle; GPS yok; kutup ikamesi yok; kurum takvimiyle fark olabilir |
+| Namaz widget | Sonraki vakit; kaydedilmiş konum/yöntem | Gerçek App Group provisioning ve fiziksel cihaz doğrulaması açık |
+| Beslenme | Tarihli manuel enerji/su kaydı, hızlı su ve geri alma | Besin veritabanı, yemek fotoğrafı, otomatik kalori açığı veya tıbbi/diyet önerisi yok |
+| Apple Sağlık | Açık izinle günün adım/aktif enerjisi; isteğe bağlı tek günlük idempotent kayıt | Gerçek cihaz/izin/veri kabulü açık; yokluk ile reddedilmiş okuma izni ayrıştırılamaz; Sağlık'a yazılmaz |
+| Enerji kaynağı | Sağlık günlük toplamı varsa manuel egzersiz subtotalı ayrıca toplanmaz; manuel satırlar korunur | Sağlık satırı silinince manuel subtotal geri görünür; bu toplam tüm günlük harcama değildir |
+| Apple Takvim | Sistem editöründe tek etkinlik kopyası | Çift yönlü eşitleme veya tekrar kuralı aktarımı yok; cihaz kabulü açık |
+| Ekran Süresi | Seçili gruba ortak günlük bütçe; cihaz sahibi onayıyla geçici açma | Uygulama başına farklı bütçe yok; içerik/mesaj okuma yok; Family Controls, App Group, gerçek shield/callback/biyometri cihaz kabulü açık |
+| Bildirim | Kullanıcı saati, sessiz saatler, rutin bazlı hatırlatma; açık genel izin | Yakın 7 gün/en çok 60 istek; sistem teslimatı garanti değildir; bildirim ayarını açmak veri üretmez |
+| Widget etkileşim | Günlük özet ve uygulamada hızlı görev açan bağlantı | Widget üstünden doğrudan kayıt tamamlama yok; kilitliyken içerik/giriş gizli; eski günlük snapshot güncel başarı gibi gösterilmez |
+| Güvenlik | İsteğe bağlı cihaz doğrulaması; pencere seviyesinde geçici gizlilik örtüsü | Fiziksel app switcher/Face ID/bildirim/Files senaryoları henüz kabul edilmiş değildir; dışa aktarılan dosyalar şifrelenmez |
+| Erişilebilirlik | Semantik açık/koyu eylem renkleri, büyük dokunma alanları, açıklamalar, Dynamic Type tabanlı metin | Otomatik audit yalnızca test edilen ekranları kapsar; VoiceOver/Voice Control/Reduce Motion ve iOS 18 runtime matrisi ayrıca gerekir |
+| Performans | 10.959 sentetik kayıtta çekirdek rapor doğruluğu/zamanı ölçülür | Gerçek SwiftUI/SwiftData açılış, kaydırma, pil ve fiziksel cihaz performansı değildir |
+| Ticari kapsam | Ücretsiz, hesapsız çekirdek; reklam/abonelik/harici analitik eklenmedi | Gerçek kullanılabilirlik, devam kullanımı ve ödeme isteği araştırması katılımcı gerektirir; fiyat/gelir doğrulanmadı |
 
-Son tam UI koşusu iPhone 17 Pro / iOS 26.4.1 üzerinde çalıştı. Minimum iOS 18 deployment compiler tarafından kontrol edilir; son kaynak için iOS 18 cihaz/runtime ve küçük ekran/Dynamic Type matrisi ayrıca doğrulanmalıdır.
-
-## 14 Kasım genişletme çalışması — doğrulama sürüyor
-
-Yeni kod: aktarma öncesi tek yerel kurtarma yedeği; hafta/ay/yıl/10 yıl kayıt raporu; günlük hedef dağılımı; haftalık gündem; görev gruplarından rutin; tarihli beslenme/su/egzersiz ve kaza namazı kayıtları; saat seçilebilir su/hareket/değerlendirme hatırlatmaları; Apple Takvim sistem editöründe tek etkinlik kopyası.
-
-Bu liste tamamlanmış kabul kriteri değildir. Son kaynak için uzak iOS testi doğrulanmadan yeni özelliklerin cihazda çalıştığı ileri sürülmez.
-
-- Kurtarma yedeği yalnızca son içe aktarma öncesini saklar; cihaz dışı yedek değildir. Tüm verileri silme işleminde kaldırılır. Files sağlayıcısı ile uçtan uca UI doğrulaması hâlâ açık.
-- Günlük hedef dağıtımı aynı birimi korur, 366 günle sınırlıdır; aktif bağlı görevi olan hedefte ikinci plan oluşturulmaz. Yıllık/90 günlük/aylık hiyerarşiyi otomatik oluşturan tam sihirbaz henüz yok.
-- Haftalık ekran günleri ve geciken kayıtları gösterir; taşıma mevcut tekil onaylı işlem üzerinden yapılır. Toplu karar verme henüz yok.
-- Rutinler mevcut görevleri gruplar; grup kaldırıldığında görev/geçmiş korunur. Sürükleyerek sıralama, grup düzenleme ve grup duraklatma henüz yok.
-- Raporlar mevcut gerçekleşme kayıtlarını sayar; 10 yıllık geçmiş üretmez. İlgili hedefler güncel durumlarıyla etiketlenir; geçmiş tarihteki hedef durumunu yeniden kurmaz. PDF/CSV dönem raporu dışa aktarımı henüz yok.
-- Beslenme ve egzersiz kalorileri elle girilir. Besin veritabanı, yemek fotoğrafından kalori, otomatik enerji açığı, HealthKit okuması veya diyet önerisi yok.
-- Kaza namazı başlangıç miktarını kullanıcı girer. Beş vakit ve isteğe bağlı vitir ayrı tutulur; yapılan miktar borcu aşamaz. Kayıt düzeltme/geri alma akışı henüz geliştirilmelidir.
-- Apple Takvim aktarımı tek kopyadır, tekrar kuralı aktarmaz ve çift yönlü senkronizasyon değildir. Sistem editörünün kaydet/iptal akışı fiziksel cihazda doğrulanmalıdır.
-- Namaz vakitleri ve namaz widget'ı henüz uygulanmadı. Resmî Diyanet Awqat Salah servisi kullanıcı başvurusu ve kimlik doğrulama ister: https://awqatsalah.diyanet.gov.tr/index.html . Bu başvuru yapılmadı; hiçbir anahtar kaynak koda eklenmedi. Yerel astronomik yöntem ile resmî Diyanet verisi aynı kaynakmış gibi gösterilmemelidir. İkindi mezhep tercihi hesaplama kuruluşundan ayrı ayar olmalıdır.
-- Sağlık/adım için seçili günün toplamlarını okuyan isteğe bağlı HealthKit ekranı kodlandı; gerçek cihaz izni/verisi ve provisioning doğrulanmadı. Sosyal medya süre sınırı henüz uygulanmadı. HealthKit veri türü bazında izin; Screen Time için Family Controls ve uygun uzantılar gerekir. Sosyal medya içeriklerini genel olarak okumak bu izinlerden çıkmaz. Dağıtım yetkisi Apple tarafından ayrıca onaylanır: https://developer.apple.com/documentation/familycontrols/requesting-the-family-controls-entitlement .
-
-## 15 Kasım namaz vakitleri güncellemesi
-
-Ürün sahibi resmî Diyanet servisi gerektirmediğini netleştirdi. Çevrimdışı Adhan Swift hesaplamaları (MIT, sabit kaynak commit ve lisans Design/Licenses içinde) uygulama ve ayrı namaz widget'ına eklendi. Türkiye yaklaşık hesap yöntemi varsayılan; diğer uluslararası yöntem, Hanefî ikindi ve yüksek enlem kuralı seçilebilir. Bu yöntemler ilgili kurumun canlı resmî verisi olduğu iddiasını taşımaz. Koordinat/saat dilimi elle seçilir; başlangıç koordinatları İstanbul merkezidir; GPS konumu değildir. Ayarlar cihaz/App Group tercihlerinde saklanır; JSON yedeğine henüz dahil değildir. Tüm veri silme ayarları da temizler. App Group cihaz provisioning ve widget görünümü fiziksel cihazda doğrulanmalıdır. Kutup ikamesi kapalı; hesaplanamayan vakit için boş/hata durumu gösterilir.
-
-Kaza kaydında onaylı silme/düzeltme eklendi; borçtan fazla gerçekleşme doğuracak silme repository doğrulamasında reddedilir. Manevi takipte Rutinler artık rutin grup ekranına gider.
-
-## Ekran Süresi geliştirmesi — 15 Kasım
-
-Sosyal medya süre sınırı artık tasarım aşamasının ötesinde kaynakta uygulanmıştır: Apple uygulama seçicisi, bir seçili grup için ortak günlük dakika bütçesi, monitor uzantısı, eşik dolunca shield, cihaz doğrulamasıyla 15/30/60 dakika geçici açma, süre bitince yeniden kısıtlama. Her uygulamaya ayrı farklı bütçe ve özel shield ekranından doğrudan açma bu sürümün kapsamında değildir; geçici erişim MİHEN içinden verilir. Fiziksel cihazda gerçek uygulama kullanım süresi, OS shield, biyometri ve uzantı callback teslimatı henüz doğrulanmamıştır. Ana uygulama ve monitor için Family Controls dağıtım yetkisi ve aynı App Group provisioning gerekir. Ekranı açmak izin istemez. İzin/seçim/ortak depolama olmadan etkinleştirme başarı gibi gösterilmez. Ayrıntı ve cihaz kabul senaryoları: SCREEN_TIME_TR.md.
+Apple Developer üyeliği ürün sahibinin bildirimine göre etkinleştirilme sürecindedir. İmzalı dağıtım, App Store Connect yüklemesi, TestFlight daveti ve Family Controls dağıtım onayı yapılmış kabul edilmez. Kaynak ve simülatör testleri bu hesap işlemlerinin yerine geçmez.

@@ -45,7 +45,7 @@ struct ReportExportScreen: View {
                 Button(store.t("report.export")) {
                     let data = type == .pdf ? renderPDF(rows: rows) : Data(CSV.encode(rows.map { $0.map(CSV.safeCell) }).utf8)
                     document = .init(data: data); exporting = true
-                }.disabled(selected.isEmpty).buttonStyle(.borderedProminent)
+                }.disabled(selected.isEmpty).buttonStyle(.borderedProminent).accessibilityIdentifier("report.export.confirm")
             }.navigationTitle(store.t("report.export"))
                 .toolbar { Button(store.t("close")) { dismiss() } }
                 .fileExporter(isPresented: $exporting, document: document, contentType: type, defaultFilename: "MIHEN-Report-" + store.engine.key(interval.start)) { result in
@@ -54,29 +54,6 @@ struct ReportExportScreen: View {
         }
     }
     private func renderPDF(rows: [[String]]) -> Data {
-        let bounds = CGRect(x:0,y:0,width:595,height:842)
-        let renderer = UIGraphicsPDFRenderer(bounds:bounds)
-        let heading = "MİHEN · " + store.t("reports")
-        return renderer.pdfData { context in
-            var y: CGFloat = 50
-            func newPage() {
-                context.beginPage(); y = 50
-                (heading as NSString).draw(at: CGPoint(x:44,y:y), withAttributes:[.font:UIFont.boldSystemFont(ofSize:20),.foregroundColor:UIColor.black]); y += 36
-            }
-            newPage()
-            for line in [store.t("report.coverage"),store.t("report.sources.explanation")] + rows.map({ $0.joined(separator:" · ") }) {
-                let attributes: [NSAttributedString.Key:Any] = [.font:UIFont.systemFont(ofSize:11),.foregroundColor:UIColor.black]
-                // Long notes are divided into bounded lines to avoid crossing page boundaries.
-                for piece in line.components(separatedBy:"\n") {
-                    var remaining = piece[...]
-                    while !remaining.isEmpty {
-                        let chunk = String(remaining.prefix(100)); remaining = remaining.dropFirst(min(100,remaining.count))
-                        let height = (chunk as NSString).boundingRect(with:CGSize(width:507,height:1000),options:[.usesLineFragmentOrigin,.usesFontLeading],attributes:attributes,context:nil).height + 8
-                        if y + height > 790 { newPage() }
-                        (chunk as NSString).draw(in:CGRect(x:44,y:y,width:507,height:height),withAttributes:attributes); y += height
-                    }
-                }
-            }
-        }
+        PeriodReportPDF.render(title: "MİHEN · " + store.t("reports"), paragraphs: [store.t("report.coverage"),store.t("report.sources.explanation")] + rows.map { $0.joined(separator:" · ") })
     }
 }

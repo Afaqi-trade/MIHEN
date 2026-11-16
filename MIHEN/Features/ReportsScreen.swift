@@ -41,7 +41,7 @@ struct ReportsScreen: View {
                 Text(store.t("report.next.help")).font(.footnote)
             }
         }.navigationTitle(store.t("reports"))
-            .toolbar { Button { exporting = true } label: { Image(systemName: "square.and.arrow.up") }.accessibilityLabel(store.t("report.export")) }
+            .toolbar { Button { exporting = true } label: { Image(systemName: "square.and.arrow.up") }.accessibilityLabel(store.t("report.export")).accessibilityIdentifier("report.export.open") }
             .sheet(isPresented: $exporting) { ReportExportScreen(interval: interval) }
     }
 }
@@ -58,7 +58,11 @@ private struct ReportDomainSection: View {
             let metrics = report.metrics.filter { $0.domainID == domain.id }
             if metrics.isEmpty && goals.isEmpty && notes.isEmpty { Text(store.t("report.noData")).font(.subheadline).foregroundStyle(.secondary) }
             ForEach(metrics) { metric in
-                LabeledContent(store.t(metric.key), value: metric.value.formatted(.number.locale(store.locale)) + " " + store.t(["fajr","dhuhr","asr","maghrib","isha","witr"].contains(metric.unit) ? "prayer." + metric.unit : metric.unit)).accessibilityIdentifier("report.metric." + metric.id)
+                let value = metric.value.formatted(.number.locale(store.locale)) + " " + store.t(["fajr","dhuhr","asr","maghrib","isha","witr"].contains(metric.unit) ? "prayer." + metric.unit : metric.unit)
+                LabeledContent(store.t(metric.key), value: value)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(store.t(metric.key)).accessibilityValue(value)
+                    .accessibilityIdentifier("report.metric." + metric.id)
             }
             ForEach(goals) { goal in
                 VStack(alignment: .leading, spacing: 4) {
