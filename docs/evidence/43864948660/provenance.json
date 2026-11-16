@@ -1,0 +1,42 @@
+[
+  {
+    "file": "MIHEN-GoalSplit-Preview-TR.png",
+    "run": "43864948660",
+    "source": "c38ea9a44f4f975c2ee06a5f68865023b56e2931",
+    "test": "MIHENUITests/testNewModuleScreensGallery()",
+    "capturedUTC": "2026-11-16T12:25:22.195000+00:00",
+    "sha256": "837435bf3132f351e7e51662de3cfc8e76429ece0a566f7d31c9607aa6663ed0"
+  },
+  {
+    "file": "MIHEN-GoalSplit-TR.png",
+    "run": "43864948660",
+    "source": "c38ea9a44f4f975c2ee06a5f68865023b56e2931",
+    "test": "MIHENUITests/testNewModuleScreensGallery()",
+    "capturedUTC": "2026-11-16T12:25:19.383000+00:00",
+    "sha256": "95a62886969e5e69045b0e3856cadbfb4cf2db40e649f04e747419052ec6e4e3"
+  },
+  {
+    "file": "MIHEN-Qada-TR.png",
+    "run": "43864948660",
+    "source": "c38ea9a44f4f975c2ee06a5f68865023b56e2931",
+    "test": "MIHENUITests/testNewModuleScreensGallery()",
+    "capturedUTC": "2026-11-16T12:23:54.327000+00:00",
+    "sha256": "e88a845e300d85d5e0b35329c97c48a397f6c34883040bc6553a049b5ba989a2"
+  },
+  {
+    "file": "MIHEN-Routines-TR.png",
+    "run": "43864948660",
+    "source": "c38ea9a44f4f975c2ee06a5f68865023b56e2931",
+    "test": "MIHENUITests/testNewModuleScreensGallery()",
+    "capturedUTC": "2026-11-16T12:23:02.246000+00:00",
+    "sha256": "58941e6057990be6dd74f2f4dca3922d8b1425d881958682c9e4a39bd1ad259b"
+  },
+  {
+    "file": "MIHEN-WeeklyPlan-TR.png",
+    "run": "43864948660",
+    "source": "c38ea9a44f4f975c2ee06a5f68865023b56e2931",
+    "test": "MIHENUITests/testNewModuleScreensGallery()",
+    "capturedUTC": "2026-11-16T12:22:39.568000+00:00",
+    "sha256": "9be353ea59cfc97cd78a54bdf55ce84550ce13c1b1b0b9dbd769ef891eceb6bf"
+  }
+]

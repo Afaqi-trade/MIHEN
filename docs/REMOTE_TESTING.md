@@ -25,7 +25,7 @@ gh run watch RUN_ID --repo OWNER/MIHEN --exit-status
 gh run download RUN_ID --repo OWNER/MIHEN --name MIHEN-test-results --dir .build-results/remote-RUN_ID
 ```
 
-Kurulan özel depo: https://github.com/Afaqi-trade/MIHEN . Son doğrulanmış simülatör başarısı: run 43619860236, Xcode 26.6, 46/46 iOS test. Yerel CLI /Users/iz/.local/bin/gh altında kurulu; terminalde `export PATH="$HOME/.local/bin:$PATH"` ile erişilebilir. `OWNER` ve `RUN_ID` gerçek değerlerle değiştirilir. Token/şifreyi belgeye, chate veya Git'e koymayın. GitHub bağlantısı henüz doğrulanmamışsa uzak koşu başlatılamaz.
+Kurulan özel depo: https://github.com/Afaqi-trade/MIHEN . Doğrulanmış koşuların kapsamı ve sonuçları docs/TEST_REPORT.md içinde kayıtlıdır. Yerel CLI /Users/iz/.local/bin/gh altında kurulu; terminalde `export PATH="$HOME/.local/bin:$PATH"` ile erişilebilir. `OWNER` ve `RUN_ID` gerçek değerlerle değiştirilir. Token/şifreyi belgeye, chate veya Git'e koymayın. GitHub bağlantısı henüz doğrulanmamışsa uzak koşu başlatılamaz.
 
 ## Sınırlar
 
@@ -42,3 +42,15 @@ Manuel workflow'un `suite` seçeneği varsayılan olarak `full` değerindedir. `
 ```
 
 Ekran Süresi gerçek uygulama kullanımı/shield ve biyometri doğrulaması için SCREEN_TIME_TR.md fiziksel cihaz kabul listesini kullanın. CI yetki verilmiş veya gerçek başka uygulamalar kısıtlanmış gibi davranan bir sahte başarı ekranı kullanmaz.
+
+## Yeni modül ekran galerisi
+
+`suite=module-gallery` tüm uygulama birim/kalıcılık testlerini ve dört UI testini çalıştırır: yeni modül galerisi, ezber/tekrar, zikir sayacı ve hatim/takvim akışı. Uygulama ve uzantılar gerçek simülatör için derlenir; SwiftPM çekirdek testleri ayrıca çalışır. Tam UI matrisi değildir.
+
+```sh
+/Users/iz/.local/bin/gh workflow run ios.yml --ref main -f suite=module-gallery
+```
+
+`testNewModuleScreensGallery` ayrı bellek deposunda arayüz üzerinden görev, rutin, kaza kaydı ve hedef oluşturur. Haftalık plan, kaydedilmiş rutin, 10 eklenip 2 kılınan kaza miktarında kalan 8 ve hedefin onay öncesi dağıtım önerisi native PNG olarak alınır. Sayı girişleri tam eşitlikle doğrulanır. Üretim verisi kullanılmaz.
+
+Artifact indirildikten sonra `Scripts/build-screenshot-gallery.py` başarılı sonuç JSON'unu ve beş yeni modül attachment'ının varlığını kontrol eder; orijinal PNG byte'larını koruyarak önceki galeriyle birleştirir. Kaynak koşu, commit, test kimliği, çekim zamanı ve SHA256 her görselin provenance kaydında saklanır.

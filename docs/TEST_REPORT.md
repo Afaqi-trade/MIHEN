@@ -122,3 +122,17 @@ Koşular: https://github.com/Afaqi-trade/MIHEN/actions/runs/43701076134 (tam), h
 Hesap sahibi aktif Apple Developer Program üyeliği olmadığını bildirdi. Apple hesabında giriş/yetki, gerçek bundle/App Group kayıtları, Family Controls dağıtım onayı, imzalama sertifikası/profilleri ve App Store Connect uygulama kaydı henüz tamamlanmadı. **İmzalı arşiv doğrulanmadı, App Store Connect'e yükleme yapılmadı, TestFlight daveti oluşturulmadı.** İmzasız teknik arşiv iPhone'a kurulabilir paket olarak sunulmaz. Kullanıcının adımları TESTFLIGHT_OWNER_STEPS_TR.md; Family Controls taslağı APPLE_FAMILY_CONTROLS_REQUEST.md içindedir.
 
 Koşu: https://github.com/Afaqi-trade/MIHEN/actions/runs/43704463900 . Workflow varsayılan otomatik yayına bağlı değildir; yalnızca manuel teknik hazırlık yapar.
+
+## Yeni modül galerisi — 16 Kasım 2026
+
+`43859546404` / `1d88ae7`: gerçek derleme ve birim testleri geçti; yeni galeri UI testi rutin seçim anahtarının etiketine dokunulduğunda açık duruma geçmediğini ve kaza miktarının eksik silindiğini yakaladı. Başarı veya galeri kaynağı sayılmadı. `43860953949` sonraki koşuyla değiştirildi; iptal edildi.
+
+`43861206079` / `ca96676`: rutin seçimi/kaydı ve üç mevcut UI regresyon testi geçti; yeni galeri testi kaza sayısında 10 yerine 101, 2 yerine 2101 değerini yakaladı. Bu koşu da galeriye alınmadı. IntegerInput düzenleme sırasında metin state'ini korur; metin değiştirme helper'ı geniş alanın boş ortası yerine metnin sağ ucundan seçim/silme yapacak şekilde düzeltildi. Tam değer ve kalan 8 assertion'ları korunur. Sonraki koşunun sonucu ayrıca doğrulanmalıdır.
+
+`43863080599` / `39c17b9`: 58 passed / 1 failed / 0 skipped. İkinci sayı değişimi 2 olarak geçti; ilk tek haneli 1 değeri 101 kaldığı için sonuç kabul edilmedi. Native test videosu uzun basış sonrası imlecin dar 1 rakamının önünde olduğunu gösterdi. `c38ea9a` helper dokunuşunu alanın son yüzde 0,1'ine taşır; tam eşitlik ve kalan miktar kontrolleri değiştirilmez. Bu başarısız koşunun PNG'leri galeriye alınmadı.
+
+**Son doğrulanmış koşu: [43864948660](https://github.com/Afaqi-trade/MIHEN/actions/runs/43864948660) / c38ea9a44f4f975c2ee06a5f68865023b56e2931.** Gerçek BUILD SUCCEEDED ve TEST SUCCEEDED; sonuç JSON'u **59 passed / 0 failed / 0 skipped** (55 uygulama birim/kalıcılık + 4 UI). SwiftPM çekirdek ayrıca 45/45 geçti. Xcode 26.6 / 17F113, iPhone 17 Pro / iOS Simulator 26.4.1. `module-gallery` kapsamıdır; tam UI matrisi değildir.
+
+Yeni galeri testi gerçek arayüz üzerinden haftalık görev, kaydedilmiş Sabah rutini ve kaza kaydı oluşturdu. Tam sayı 10, ardından 2 girişi ve Sabah kalan **8** assertion'ları geçti. Hedefin 365 miktarı tam eşitlikle girildi; tarih/gün seçimi ve 366 gün için günlük 1 Adet önerisi çekildi. Hedef dağıtım onayı verilmedi; görüntü öneri aşamasıdır. Ortak sayı alanını kullanan hatim, ezber/tekrar ve zikir UI regresyonları da geçti.
+
+Beş özgün PNG görsel olarak incelendi ve `docs/evidence/43864948660/` içinde sonuç JSON'u, toolchain, kaynak/test/çekim zamanı/SHA256 ile korundu. Gerçek xcresult `.build-results/remote-43864948660/` içindedir. Önceki 16 ekranla birleşik galeri **21 ekran** içerir; HTML içindeki 21 PNG hash'i, dosya hash'leri ve ZIP CRC/hash'leri doğrulandı. Başarısız koşuların görselleri galeriye alınmadı. Örnek kayıtlar bağımsız UI-test bellek deposundadır; kullanıcının kişisel geçmişi değildir.

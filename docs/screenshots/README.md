@@ -18,3 +18,9 @@ Kaynak dosyalar gerçek UI testinde üretilmiştir. Test sayıları için ../TES
 | ![Bugün](MIHEN-Today-Partial-TR.png) | ![Plan](MIHEN-Plan-TR.png) | ![Profil](MIHEN-Profile-Dark-EN.png) |
 
 ![Ezber ve tekrar](MIHEN-Memorization-TR.png)
+
+## 16 Kasım ek modül çekimleri
+
+Kaza namazı, haftalık planlama, hedef parçalamanın tarih/gün seçimi ve önerisi ile rutin oluşturucu için beş ek native görüntü ayrı UI akışından alınır. Doğrulanmış son koşunun kanıt bağlantısı TEST_REPORT.md içinde bulunur. Birleşik çevrimdışı galeri `.build-results/MIHEN_Current_Screens_20261116.html`, özgün PNG paketi `.build-results/MIHEN_Current_Screens_20261116.zip` olarak üretilir. Test oturumundaki örnek kayıtlar kişisel geçmiş değildir.
+
+Son ek çekim kanıtı: [43864948660](../evidence/43864948660/provenance.json). Birleşik galeri 21 ekran içerir; beş yeni görüntü 16 Kasım 2026 tarihinde çekilmiştir.
