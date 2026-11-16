@@ -1,0 +1,13 @@
+{
+  "images": [
+    {
+      "file": "MIHEN-Today-LargeText-TR.png",
+      "run": "43921587177",
+      "source": "0983becf4c47cc217d04fe4fb755e36d7fa06432",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-16T18:01:28.502000+00:00",
+      "sha256": "7a1f2e364c5e4c6123e8a32b4d5e66cf5bfab7c9c1fb334c3968917edd20a09e"
+    }
+  ]
+}

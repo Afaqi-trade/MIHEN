@@ -1,8 +1,20 @@
 # Test raporu
 
-Tarih: 2026-11-14 (Europe/Istanbul).
+Güncelleme: 2026-11-16 (Europe/Istanbul).
 
-**Son doğrulanmış koşu:** [43619860236](https://github.com/Afaqi-trade/MIHEN/actions/runs/43619860236), kaynak commit `1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8`. macos-26 GitHub runner, Xcode 26.6, iOS 26.5 Simulator SDK; iPhone 17 Pro / iOS 26.4.1 simülatörü. Gerçek BUILD SUCCEEDED ve TEST SUCCEEDED logları doğrulandı. Sonuç: **46 passed, 0 failed**.
+## Güncel sonuç — ürün incelemesi sonrası
+
+| Koşu | Kaynak | Kapsam | Sonuç |
+|---|---|---|---|
+| [43927332097](https://github.com/Afaqi-trade/MIHEN/actions/runs/43927332097) | `441886f` | Tam; 70 uygulama birim/kalıcılık + 14 UI | **84 passed / 0 failed / 0 skipped** |
+| [43930797517](https://github.com/Afaqi-trade/MIHEN/actions/runs/43930797517) | `1906be8` | SE 3; 70 uygulama birim/kalıcılık + 1 UI | **71 passed / 0 failed / 0 skipped** |
+
+Her iki koşuda gerçek BUILD SUCCEEDED ve TEST SUCCEEDED doğrulandı. Xcode 26.6 / 17F113; iOS Simulator 26.4.1. SwiftPM çekirdek ayrıca 57/57 geçti. Yerel CLT fallback 57 senaryo / 189 assertion geçti. Koşuların ortak testleri iki ayrı doğrulamadır; benzersiz test sayısı olarak toplanmaz. Sonraki tarihsel bölümler güncel sonuç yerine kullanılmaz.
+
+Uygulama/Core/widget/monitor kaynakları iki commit arasında aynıdır; fark yalnızca UI-test kart sorgusudur. Küçük ekran sonucunu tam UI matrisi gibi sunmayın. Fiziksel iPhone, iOS 18 runtime, tüm ekranlarda VoiceOver/Voice Control/Reduce Motion, Files sağlayıcısı, izinli entegrasyonlar ve TestFlight ayrı kabul kapılarıdır. Sonraki kaynak değişiklikleri bu sonuçla doğrulanmış sayılmaz.
+
+
+**14 Kasım tarihsel koşusu:** [43619860236](https://github.com/Afaqi-trade/MIHEN/actions/runs/43619860236), kaynak commit `1aeadbd980e303e7567a1fc8b431cb3e2ea58dd8`. macos-26 GitHub runner, Xcode 26.6, iOS 26.5 Simulator SDK; iPhone 17 Pro / iOS 26.4.1 simülatörü. Gerçek BUILD SUCCEEDED ve TEST SUCCEEDED logları doğrulandı. Sonuç: **46 passed, 0 failed**.
 
 | Kontrol | Gerçek sonuç |
 |---|---|
@@ -159,3 +171,17 @@ Yerel güncel kontrol: `swift build` başarılı; CLT fallback **57 senaryo / 18
 `43921587110` / `0983bec`: gerçek derleme ve 70 birim/kalıcılık testi geçti; tam UI koşusu ilk kullanımda iki SwiftUI Dynamic Type heuristik bulgusu ve oruç menüsüne geçişte başarısız oldu. Sayı değiştirme (tam 10, 2, 365 ve 6), 2/6, raporda 8 Sabah, beslenme kalıcılığı ve namaz koordinat kontrolleri geçti. Başarısız koşu galeriye alınmadı. `43921587177` aynı kaynak için SE 3 / iOS 26.4.1 odaklı koşuda **71 passed / 0 failed / 0 skipped**; ancak görünür denetim alanı dışında kalan metinler için genellenmez.
 
 Gerçek SE görüntüsü, en büyük yazıda özetin ilk eylemi aşağı ittiğini gösterdi. `b63a446` büyük yazı yerleşiminde ilk eylem/görevleri öne alır; boş/dolu görünümü ayrı çeker. Sonraki test düzeltmesi heuristik bulguları görmezden gelen bir handler eklemez: gerçek SwiftUI ağacını yalnızca DEBUG ve açık UI-test bayrağıyla XS ve accessibility5 ortamlarında açar, ilk kullanım gizlilik metni ve Devam eyleminin yükseklik büyümesini ayrı ayrı assert eder, ölçüm JSON'u ve native PNG'leri saklar. Sistem tercihi/Release davranışı değiştirilmez. Açıklama audit’i korunur. Tüm ara boyutların veya tüm ekranların sertifikası değildir. Manevi modül geçişinde typed button sorgusu ve Plan başlığını bekleme, genel kaydırmada iki yönlü arama ve gerçek hittable ön koşulu kullanılır. Tam koşu süresi yeni ölçümleri kapsamak için 45 dakikaya çıkarıldı.
+
+
+## Son arayüz doğrulaması ve galeri
+
+`43921587110` sonuç JSON’u 82 passed / 2 failed / 0 skipped olarak doğrulandı. `43927332055` / `441886f` odaklı koşusunda 70 passed / 1 failed: XS/en büyük yazı ölçümleri ve açıklama audit’i geçti; görev içindeki StaticText için tek yönlü kaydırma/hittable kontrolü başarısız oldu. Gerçek ekran, kartın geçilerek sayfa altına kaydırıldığını gösterdi. `6a59955` ve `1906be8` yalnızca UI testini düzeltti: kartın metin çocuğunu içeren gerçek Button iki yönlü bulunur, görüntü alınır, dokunularak Görev ayrıntısı açılması assert edilir. `43930596900` eski sorguyla başlatılan ve yenisiyle değiştirilen iptal koşusudur; başarı sayılmaz.
+
+Son SE koşusu 71/71 geçti. Ölçüm JSON’u: gizlilik metni yüksekliği XS 66 → accessibility5 589,5; Devam eylemi 61 → 107,5. Bunlar metnin satırlara yayılmasını da içerir; fontun dokuz kat büyüdüğü iddiası değildir. DEBUG test boyutu SwiftUI ortamını açıkça seçer; varsayılan küçük ekran akışı ayrıca sistemin en büyük içerik ayarında çalışır. Açıklama audit’i ilk kullanım ve boş Bugün’ü kapsar. SwiftUI Dynamic Type heuristiğiyle tüm ara boyutların uyumluluğu ilan edilmez.
+
+Tam koşuda ilk kullanımda yalnızca seçilen şablon, hızlı görev/geri alma, 2/6 ve yeniden açma kalıcılığı, tam sayı 10/2/365/6, raporda 8 Sabah, İstanbul koordinatı ve 06:16 fixture vakti, beslenme 450 kcal kalıcılığı, hızlı su/geri alma, rutin/hafta/hedef önerisi, hatim/ezber/zikir/oruç, dil/tema ve rapor paylaşım alanı seçimi doğrulandı. PDFKit üretim renderer’ının Türkçe içerikli çok sayfalı çıktısını okudu.
+
+
+Güncel galeri **35 özgün PNG** içerir: 31 görsel tam koşudan, 4 görsel son SE koşusundan. Güncel kaynak listesi `screenshots/CURRENT.md` ve byte SHA256 kayıtları `screenshots/current-provenance.json` içindedir. Tam koşunun 33 capture’ı ve SE koşusunun 4 capture’ı kendi evidence klasörlerinde ayrıca korunur; ortak ilk kullanım ölçüm görüntülerinde galeri son SE çekimini kullanır. Başarısız koşuların PNG’leri güncel galeriye alınmadı. Büyük yazılı görevli ekran kaydırma sonrası özeti gösterir; görev kartına dokunup ayrıntı açıldığı UI assertion’ıyla ayrıca doğrulandı.
+
+Gerçek xcresult bundle’ları ve dışa aktarılmış summary/attachment manifestleri `.build-results/remote-43927332097/` ve `.build-results/remote-43930797517/` altında incelendi. Her iki bundle’ın Info.plist/root kaydı vardır; sonuç JSON’ları 84/0/0 ve 71/0/0 ile loglara uyar. Native PNG byte’ları, HTML gömülü resimleri ve ZIP CRC/hash’leri doğrulandı. `docs/evidence/review-source-equivalence.json`, Core/uygulama/widget/monitor/paylaşılan politika/proje Git tree’lerinin iki kaynakta aynı olduğunu kaydeder. Bu son yalnızca belge/galeri metni/kanıt değişikliği uygulama kaynağını değiştirmez.

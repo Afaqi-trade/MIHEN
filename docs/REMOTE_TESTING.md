@@ -4,13 +4,13 @@ Yerel Mac: macOS 14.6.1; tam Xcode yok. Uzaktaki GitHub-hosted macos-26 runner, 
 
 ## Hazır akış
 
-`.github/workflows/ios.yml` yalnızca manuel `workflow_dispatch` ile başlar. Push/PR otomatik koşusu yoktur. Depo içeriğine salt okuma izni kullanır; ödeme, yayın veya signing sırrı içermez. Aynı branch için önceki koşuyu iptal eder; 35 dakikalık zaman sınırı vardır. Test çıktıları 7 gün tutulur.
+`.github/workflows/ios.yml` yalnızca manuel `workflow_dispatch` ile başlar. Push/PR otomatik koşusu yoktur. Depo içeriğine salt okuma izni kullanır; ödeme, yayın veya signing sırrı içermez. Aynı branch için önceki koşuyu iptal eder; 45 dakikalık zaman sınırı vardır. Test çıktıları 7 gün tutulur.
 
-Sıra: toolchain bilgisini kaydet → `swift test` ile gerçek XCTest → proje yapısını doğrula → uygulama/widget simülatör derlemesi → SwiftData/birim/XCUITest → `.xcresult`, log ve cihaz listesini artifact olarak sakla. Kurulan özel depoda gerçek koşular yapıldı; son doğrulanmış sonuç TEST_REPORT.md içinde. CI dosyasının tek başına var olması başarı kanıtı değildir.
+Sıra: toolchain bilgisini kaydet → `swift test` ile gerçek XCTest → proje yapısını doğrula → uygulama/widget simülatör derlemesi → SwiftData/birim/XCUITest → `.xcresult`, log ve cihaz listesini artifact olarak sakla. Depoda gerçek koşular yapıldı; son doğrulanmış sonuç TEST_REPORT.md içinde. CI dosyasının tek başına var olması başarı kanıtı değildir.
 
 ## Başlatma
 
-1. GitHub bağlantısını tamamlayın. Var olan özel bir depo seçin veya yeni özel MIHEN deposu oluşturun. Kaynağı halka açık hale getirmeyin.
+1. GitHub bağlantısını tamamlayın ve ürün sahibinin seçtiği depoyu kullanın. Afaqi-trade/MIHEN, ürün sahibi tarafından 16 Kasım 2026’da Actions engelini aşmak için public yapıldı; özgün master prompt ve referans ZIP Git dışında tutulur.
 2. GitHub hesabında Actions'ın etkinliğini ve dahil olan kullanım kotasını doğrulayın. Ücretsiz kullanım garantisi yoktur; kota aşımında ücretli kullanım devreye girmemelidir. Bütçe ayarını hesap sahibi kontrol eder. Ücretli kapasite satın alınmaz.
 3. Kodu push edin. GitHub → Actions → iOS validation → Run workflow.
 4. Başarısız aşamanın logunu okuyun, hatayı düzeltip yeni commit ile tekrar çalıştırın. Sadece workflow yeşil olunca gerçek iOS testlerinin geçtiğini raporlayın.
@@ -25,7 +25,7 @@ gh run watch RUN_ID --repo OWNER/MIHEN --exit-status
 gh run download RUN_ID --repo OWNER/MIHEN --name MIHEN-test-results --dir .build-results/remote-RUN_ID
 ```
 
-Kurulan özel depo: https://github.com/Afaqi-trade/MIHEN . Doğrulanmış koşuların kapsamı ve sonuçları docs/TEST_REPORT.md içinde kayıtlıdır. Yerel CLI /Users/iz/.local/bin/gh altında kurulu; terminalde `export PATH="$HOME/.local/bin:$PATH"` ile erişilebilir. `OWNER` ve `RUN_ID` gerçek değerlerle değiştirilir. Token/şifreyi belgeye, chate veya Git'e koymayın. GitHub bağlantısı henüz doğrulanmamışsa uzak koşu başlatılamaz.
+Kullanılan depo: https://github.com/Afaqi-trade/MIHEN . Doğrulanmış koşuların kapsamı ve sonuçları docs/TEST_REPORT.md içinde kayıtlıdır. Yerel CLI /Users/iz/.local/bin/gh altında kurulu; terminalde `export PATH="$HOME/.local/bin:$PATH"` ile erişilebilir. `OWNER` ve `RUN_ID` gerçek değerlerle değiştirilir. Token/şifreyi belgeye, chate veya Git'e koymayın. GitHub bağlantısı henüz doğrulanmamışsa uzak koşu başlatılamaz.
 
 ## Sınırlar
 
@@ -57,7 +57,7 @@ Artifact indirildikten sonra `Scripts/build-screenshot-gallery.py` başarılı s
 
 ## Küçük ekran erişilebilirlik koşusu
 
-`suite=accessibility`, mevcut iOS runtime üzerinde iPhone SE (3. nesil) simülatörü oluşturur, içerik boyutunu accessibility-extra-extra-extra-large yapar ve tüm uygulama birim/kalıcılık testleriyle ilk kullanım/Bugün açıklama ve Dynamic Type audit testini çalıştırır. Runtime/cihaz profili yoksa adım başarısız olur; başka cihaz testi gibi sunulmaz. Bu kapsam tüm ekranların erişilebilirlik sertifikası değildir; VoiceOver ve fiziksel cihaz matrisi ayrıca doğrulanır. Minimum iOS 18 desteği compiler kontrolünden ayrı runtime kabulü gerektirir.
+`suite=accessibility`, mevcut iOS runtime üzerinde iPhone SE (3. nesil) simülatörü oluşturur, içerik boyutunu accessibility-extra-extra-extra-large yapar ve tüm uygulama birim/kalıcılık testleriyle ilk kullanım/Bugün açıklama audit’ini ve gerçek XS/accessibility5 metin/eylem büyüme ölçümünü çalıştırır. Boyut geçişi yalnızca DEBUG UI-test bayrağıyla gerçek SwiftUI ağacına uygulanır; ölçüm JSON’u ve native PNG’ler attachment olarak saklanır. Küçük ekranda boş Bugün ve arayüzden eklenen görev ayrıca çekilir. SwiftUI Dynamic Type heuristiğindeki kısmi destek bulguları görmezden gelinerek başarılı sayılmaz; bu heuristik tam uygunluk kanıtı olarak kullanılmaz. Runtime/cihaz profili yoksa adım başarısız olur; başka cihaz testi gibi sunulmaz. Bu kapsam tüm ekranların erişilebilirlik sertifikası değildir; VoiceOver ve fiziksel cihaz matrisi ayrıca doğrulanır. Minimum iOS 18 desteği compiler kontrolünden ayrı runtime kabulü gerektirir.
 
 ```sh
 /Users/iz/.local/bin/gh workflow run ios.yml --ref main -f suite=accessibility

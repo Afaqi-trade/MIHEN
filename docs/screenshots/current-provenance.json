@@ -1,0 +1,320 @@
+{
+  "reviewedOn": "2026-11-16",
+  "images": [
+    {
+      "file": "MIHEN-Dhikr-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testDhikrCounterIncreaseDecrease()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:42:52.200000+00:00",
+      "sha256": "22f74b525146d384b522be3678009e04be6de4001e4f04e0662d9e08778dc6eb"
+    },
+    {
+      "file": "MIHEN-Fasting-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testFastingPlannedAndCompletedRemainDistinct()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:43:31.404000+00:00",
+      "sha256": "f7fd748ed02bb9f4fc71956f1627070417e1ed9b2d171319873cb17a5e8fa882"
+    },
+    {
+      "file": "MIHEN-Progress-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:45:41.167000+00:00",
+      "sha256": "96162cbce83c3e325a1119b9fe315c74a8d8d0b04923a92b3c75c42743d3a3ad"
+    },
+    {
+      "file": "MIHEN-Calendar-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:45:35.790000+00:00",
+      "sha256": "d55203cd250735a12af48114271f08ed2470359bddfdee3354a447492c3528d9"
+    },
+    {
+      "file": "MIHEN-Khatm-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:45:31.700000+00:00",
+      "sha256": "8ca64b9b121e3ef930fa1132ce1aea0b0c54a622b9fc355cb09d783fdd8b5281"
+    },
+    {
+      "file": "MIHEN-Plan-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testKhatmCalendarProgressAndMainTabs()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:44:59.279000+00:00",
+      "sha256": "64a71378e7705eda7957b6dfb5813afcb38718a75591057267c8a3d695a5776e"
+    },
+    {
+      "file": "MIHEN-Today-Light-EN.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testLanguageAndLightDarkThemes()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:46:12.537000+00:00",
+      "sha256": "eb9c1e230438ea7dfd71aff80b53baef8693ada721eab7c89abd29319c871e9f"
+    },
+    {
+      "file": "MIHEN-Profile-Light-EN.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testLanguageAndLightDarkThemes()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:46:10.441000+00:00",
+      "sha256": "8350401c66dcbed6e5d83eb32dbd9f957d34a8f7c8e78cd7937685efd586bb7e"
+    },
+    {
+      "file": "MIHEN-Profile-Dark-EN.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testLanguageAndLightDarkThemes()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:46:05.549000+00:00",
+      "sha256": "336c34512eab2d5889f1ed992a9438ebb605649a02f0dbcd131140c539227728"
+    },
+    {
+      "file": "MIHEN-Memorization-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testMemorizationAndNextReview()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:47:06.211000+00:00",
+      "sha256": "23cd47df88682dacb50ef4cdada0c43a980dd051ab2b882ad87907392f47e623"
+    },
+    {
+      "file": "MIHEN-Nutrition-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNutritionPersistsManualCalories()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:51:39.062000+00:00",
+      "sha256": "feb96906afbad0f4d3f18d5c71299580a8e1e7304f49db5142720c5eb0e5c104"
+    },
+    {
+      "file": "MIHEN-Prayer-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testOfflinePrayerTimes()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:52:55.519000+00:00",
+      "sha256": "d9a657e3b54bf4ffa93b8aa9fc96c2892f999db2194a2cf5a4e8d84973807d8f"
+    },
+    {
+      "file": "MIHEN-Today-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testOnboardingLinkedGoalPartialCompletionAndPersistence()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:54:39.074000+00:00",
+      "sha256": "6b337ac1db8581749c6bde0afba4b881a09affb184c2dd73cd770e4446b3a5c7"
+    },
+    {
+      "file": "MIHEN-Today-Partial-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testOnboardingLinkedGoalPartialCompletionAndPersistence()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:54:28.391000+00:00",
+      "sha256": "071e699fa22bc0c2eed8d62c9364edccff558b2e3a39e1b534883d97fddd1a9a"
+    },
+    {
+      "file": "MIHEN-Reports-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testReportsNavigation()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:54:58.667000+00:00",
+      "sha256": "fc81eb7266b47d3ecddf24a74781ab3684bcf0ed576cf146e2c1d8003426338a"
+    },
+    {
+      "file": "MIHEN-ScreenTime-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:55:27.400000+00:00",
+      "sha256": "a8f4cedc9bc518bb0897dfd79ed516610026ae748b21c7858dc680f41962f82a"
+    },
+    {
+      "file": "MIHEN-GoalSplit-Preview-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:50:42.782000+00:00",
+      "sha256": "5b00983d940cd55bdbc1a244ff52ea26790cdb8e93a6f814beb7dd8555f44675"
+    },
+    {
+      "file": "MIHEN-GoalSplit-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:50:39.770000+00:00",
+      "sha256": "7766376891fede75cf096abefb5d92753cc5bce60c84586497e19259d41864fc"
+    },
+    {
+      "file": "MIHEN-Qada-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:49:39.199000+00:00",
+      "sha256": "555d71bf224c18271071a91203e01fc8ca7c44de6b68f5970fc9cc4be05aacc5"
+    },
+    {
+      "file": "MIHEN-Routines-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:48:33.889000+00:00",
+      "sha256": "2799a07424faf0cdb38e374a7bcce280198da89acd21d71005a6d3f7f5c05e99"
+    },
+    {
+      "file": "MIHEN-WeeklyPlan-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:47:53.975000+00:00",
+      "sha256": "3c9e152be2a3d691637fec66dc7d40d81e0624e95cbb0f12ad0f51bcf5785cec"
+    },
+    {
+      "file": "MIHEN-Today-LargeText-TR.png",
+      "run": "43930797517",
+      "source": "1906be8bc35fe55d496f06f8a561b2ad4e604793",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-16T18:51:44.964000+00:00",
+      "sha256": "57d147d787affe07a9c59837f7557fd0f9de30ba6e2dd1bfbac001d4c95a7c83"
+    },
+    {
+      "file": "MIHEN-Today-LargeText-Task-TR.png",
+      "run": "43930797517",
+      "source": "1906be8bc35fe55d496f06f8a561b2ad4e604793",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-16T18:52:41.246000+00:00",
+      "sha256": "8ef9945ab72b6fb20e55b9806cf07d33e46c82bef3ffe48815dcbc7306ee44a3"
+    },
+    {
+      "file": "MIHEN-Onboarding-LargeText-TR.png",
+      "run": "43930797517",
+      "source": "1906be8bc35fe55d496f06f8a561b2ad4e604793",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-16T18:51:24.738000+00:00",
+      "sha256": "9102752f34cc679c5cf68ac5a11a3bbe97624ef966295afc6435180109af2727"
+    },
+    {
+      "file": "MIHEN-Onboarding-SmallText-TR.png",
+      "run": "43930797517",
+      "source": "1906be8bc35fe55d496f06f8a561b2ad4e604793",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-16T18:51:03.962000+00:00",
+      "sha256": "91cc15fb5cd81b425e2908f4fafbe079828b91d62cb7b58b8f6da8ba2b6e14b0"
+    },
+    {
+      "file": "MIHEN-Today-Accessibility-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:40:49.244000+00:00",
+      "sha256": "169d30cbd1fbe69afee8b3b133884d8a1eff373f56fcae9cb46fe4c50e8cd544"
+    },
+    {
+      "file": "MIHEN-Nutrition-Quick-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:41:58.868000+00:00",
+      "sha256": "9afab484aaeadfb812af14c525d0747caa83af98224a9ee74ed3d0f733944c96"
+    },
+    {
+      "file": "MIHEN-Help-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:41:43.092000+00:00",
+      "sha256": "9a43990a6c48d1bce7e0540cdf8720a4261bce64334dfacbde4ace73d17bcf94"
+    },
+    {
+      "file": "MIHEN-Backup-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:41:32.312000+00:00",
+      "sha256": "83f0415c9054a449fc9d71dd2c9cc6efa070bab3a3e4b6ddac062224e7b5236f"
+    },
+    {
+      "file": "MIHEN-Today-Empty-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:41:02.414000+00:00",
+      "sha256": "5ef87551ca65fa58930b82fd08a8db8d864bec762418c70f5fa90c16ecba1823"
+    },
+    {
+      "file": "MIHEN-Today-Guided-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testGuidedOnboardingExplicitTemplatesAndQuickTaskUndo()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:44:20.532000+00:00",
+      "sha256": "319de6567ef25417f26fa275cea68199287e969187ca6847f7c51bd91450aadc"
+    },
+    {
+      "file": "MIHEN-Onboarding-Choices-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testGuidedOnboardingExplicitTemplatesAndQuickTaskUndo()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:43:54.166000+00:00",
+      "sha256": "02c41068ba62aa5aa11ce09cf2fa90b234fe25485681cadb7159b9ffc3013ed7"
+    },
+    {
+      "file": "MIHEN-Onboarding-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testGuidedOnboardingExplicitTemplatesAndQuickTaskUndo()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:43:40.351000+00:00",
+      "sha256": "95793fab7f7538c25cace914783b5ddc7bd47c79c2c26fb464f48c67905329d7"
+    },
+    {
+      "file": "MIHEN-Reports-Qada-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:51:01.609000+00:00",
+      "sha256": "04083b8e6088c55d7cb397af9121b0004a945cf83f895b9cfe37b69726af6dfc"
+    },
+    {
+      "file": "MIHEN-Report-Export-TR.png",
+      "run": "43927332097",
+      "source": "441886f5162024c6fd4cf17c63dfe89c16c6d18a",
+      "test": "MIHENUITests/testReportsNavigation()",
+      "scope": "full",
+      "capturedUTC": "2026-11-16T18:55:01.032000+00:00",
+      "sha256": "5375f882250b99ce807ae3d3f7dbd34af2c346d46f2ea1feedfdb8ec5fe492df"
+    }
+  ]
+}

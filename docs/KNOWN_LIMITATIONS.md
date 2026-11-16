@@ -1,6 +1,6 @@
 # Bilinen sınırlar
 
-Güncelleme: 16 Kasım 2026. Kaynak ürün incelemesinden sonra genişletiliyor; son kaynak için uzak doğrulama TEST_REPORT.md içindeki commit ve kapsamla birlikte okunmalıdır. Önceki sınırların tarihsel dökümü history/KNOWN_LIMITATIONS_20261115.md içindedir; güncel özellik listesi olarak kullanılmaz.
+Güncelleme: 16 Kasım 2026. Ürün incelemesi sonrası güncel davranış aşağıdadır; uzak doğrulama TEST_REPORT.md içindeki commit ve kapsamla birlikte okunmalıdır. Önceki sınırların tarihsel dökümü history/KNOWN_LIMITATIONS_20261115.md içindedir; güncel özellik listesi olarak kullanılmaz.
 
 | Konu | Kaynaktaki güncel davranış | Açık kabul sınırı |
 |---|---|---|

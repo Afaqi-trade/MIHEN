@@ -33,3 +33,6 @@
 ## Yedekleme ve şema kararı
 
 SwiftData V1 alanları değiştirilmedi. Yeni arşiv biçiminin kendi sürümü ve eski belge okuma yolu vardır. Kayıt türü olarak `steps`, mevcut String alanının ek kabul edilen değeridir. Sözleşme DATA_SCHEMA.md içinde; ileride model alanı değişirse sürümlü store migration ve gerçek yükseltme testi gerekir. Tüm geçmişi veya başarıyı otomatik üretmek, birimleri çevirmek veya kullanıcı onayı olmadan taşımak bu geliştirmede yapılmaz.
+
+
+Son doğrulama: tam iOS **84/84** (`43927332097`), SE 3 odaklı **71/71** (`43930797517`); iki koşunun uygulama kaynakları aynıdır. [35 güncel ekran ve provenance](screenshots/CURRENT.md). TEST_REPORT.md sonuçları ve açık cihaz/araştırma kapılarını birbirinden ayırır.
