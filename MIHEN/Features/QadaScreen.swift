@@ -18,17 +18,17 @@ struct QadaScreen: View {
                 HStack {
                     Text(store.t("prayer." + prayer))
                     Spacer()
-                    Text(max(0, total("qadaDebt", prayer) - total("qadaDone", prayer)).formatted(.number.locale(store.locale)))
+                    Text(max(0, total("qadaDebt", prayer) - total("qadaDone", prayer)).formatted(.number.locale(store.locale))).accessibilityIdentifier("qada.remaining." + prayer)
                 }
             }
             Section(store.t("activity.new")) {
                 Picker(store.t("type"), selection: $prayer) { ForEach(prayers, id: \.self) { Text(store.t("prayer." + $0)).tag($0) } }
-                Picker(store.t("type"), selection: $kind) { ForEach(["qadaDebt", "qadaDone"], id: \.self) { Text(store.t("activity." + $0)).tag($0) } }
+                Picker(store.t("type"), selection: $kind) { ForEach(["qadaDebt", "qadaDone"], id: \.self) { Text(store.t("activity." + $0)).tag($0) } }.accessibilityIdentifier("qada.kind")
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
                 IntegerInput(title: "amount", value: $amount)
                 Button(store.t("save")) {
                     store.change { $0.activities.append(.init(domainID: "spiritual", date: date, kind: kind, amount: Double(amount), unit: prayer)) }
-                }.disabled(amount <= 0 || (kind == "qadaDone" && Double(amount) > total("qadaDebt", prayer) - total("qadaDone", prayer)))
+                }.accessibilityIdentifier("qada.save").disabled(amount <= 0 || (kind == "qadaDone" && Double(amount) > total("qadaDebt", prayer) - total("qadaDone", prayer)))
             }
             Section(store.t("history")) {
                 ForEach(store.data.activities.filter { ["qadaDebt", "qadaDone"].contains($0.kind) }.sorted { $0.date > $1.date }) { row in

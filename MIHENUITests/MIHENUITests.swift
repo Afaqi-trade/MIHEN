@@ -48,6 +48,53 @@ final class MIHENUITests: XCTestCase {
         tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
         tap(app.descendants(matching: .any)["spiritual." + module].firstMatch, in: app)
     }
+    @MainActor func testNewModuleScreensGallery() throws {
+        let app = start()
+        app.buttons["today.add"].tap()
+        replace(app.textFields["task.title"], with: "Sabah yürüyüşü")
+        app.buttons["task.save"].tap()
+        XCTAssertTrue(app.staticTexts["Sabah yürüyüşü"].waitForExistence(timeout: 5))
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.descendants(matching: .any)["plan.weekly"].firstMatch, in: app)
+        let weeklyTask = app.staticTexts["Sabah yürüyüşü"].firstMatch
+        for _ in 0..<5 { if weeklyTask.exists && weeklyTask.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(weeklyTask.exists)
+        capture(app, name: "MIHEN-WeeklyPlan-TR")
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        tap(app.descendants(matching: .any)["plan.routines"].firstMatch, in: app)
+        replace(app.textFields["routine.title"], with: "Sabah rutini")
+        app.switches["Sabah yürüyüşü"].tap()
+        tap(app.buttons["routine.save"], in: app)
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] %@", "Sabah rutini")).firstMatch.waitForExistence(timeout: 5))
+        capture(app, name: "MIHEN-Routines-TR")
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        tap(app.descendants(matching: .any)["plan.qada"].firstMatch, in: app)
+        tap(app.descendants(matching: .any)["qada.kind"].firstMatch, in: app)
+        app.buttons["Takip edilecek miktar ekle"].tap()
+        replace(app.textFields["amount"], with: "10")
+        tap(app.buttons["qada.save"], in: app)
+        tap(app.descendants(matching: .any)["qada.kind"].firstMatch, in: app)
+        app.buttons["Kılınan miktar kaydet"].tap()
+        replace(app.textFields["amount"], with: "2")
+        tap(app.buttons["qada.save"], in: app)
+        for _ in 0..<3 { app.swipeDown() }
+        XCTAssertEqual(app.staticTexts["qada.remaining.fajr"].label, "8")
+        capture(app, name: "MIHEN-Qada-TR")
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        app.buttons["plan.add"].tap()
+        replace(app.textFields["goal.title"], with: "Yıllık hareket hedefi")
+        replace(app.textFields["target"], with: "365")
+        app.buttons["goal.save"].tap()
+        tap(app.descendants(matching: .any)["plan.goals"].firstMatch, in: app)
+        tap(app.staticTexts["Yıllık hareket hedefi"], in: app)
+        tap(app.descendants(matching: .any)["goal.split.open"].firstMatch, in: app)
+        XCTAssertTrue(app.staticTexts["Yıllık hareket hedefi"].waitForExistence(timeout: 5))
+        capture(app, name: "MIHEN-GoalSplit-TR")
+        let suggestion = app.staticTexts["goal.split.suggestion"]
+        for _ in 0..<5 { if suggestion.exists && suggestion.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(suggestion.exists)
+        capture(app, name: "MIHEN-GoalSplit-Preview-TR")
+    }
     @MainActor func testNutritionPersistsManualCalories() throws {
         let app = start(persistent: true)
         app.tabBars.buttons["Plan"].tap()

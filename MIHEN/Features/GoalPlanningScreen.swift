@@ -25,7 +25,7 @@ struct GoalPlanningScreen: View {
                 }
                 Text("\(dates.count) " + store.t("days"))
                 if !dates.isEmpty {
-                    Text(store.t("daily.suggestion") + ": " + (remaining / Double(dates.count)).formatted(.number.precision(.fractionLength(0...2)).locale(store.locale)) + " " + store.t(goal.unit))
+                    Text(store.t("daily.suggestion") + ": " + (remaining / Double(dates.count)).formatted(.number.precision(.fractionLength(0...2)).locale(store.locale)) + " " + store.t(goal.unit)).accessibilityIdentifier("goal.split.suggestion")
                 }
                 Button(store.t("goal.split.apply")) { confirmation = true }
                     .disabled(dates.isEmpty || remaining <= 0 || store.data.tasks.contains { $0.goalID == goalID && !$0.archived })

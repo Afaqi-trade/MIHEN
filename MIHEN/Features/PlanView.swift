@@ -19,11 +19,11 @@ struct PlanView: View {
     }
     private var orderedDomains: [LifeDomainRecord] { store.data.domains.sorted { $0.rank < $1.rank } }
     @ViewBuilder private var shortcuts: some View {
-        NavigationLink(destination: QadaScreen()) { Label(store.t("qada"), systemImage: "moon.stars") }
+        NavigationLink(destination: QadaScreen()) { Label(store.t("qada"), systemImage: "moon.stars") }.accessibilityIdentifier("plan.qada")
         NavigationLink(destination: NutritionScreen()) { Label(store.t("nutrition"), systemImage: "fork.knife") }
-        NavigationLink(destination: WeeklyPlanScreen()) { Label(store.t("weekly.plan"), systemImage: "calendar") }
-        NavigationLink(destination: RoutinesScreen()) { Label(store.t("routines"), systemImage: "list.bullet") }
-        NavigationLink(destination: GoalListScreen()) { Label(store.t("goals"), systemImage: "target") }
+        NavigationLink(destination: WeeklyPlanScreen()) { Label(store.t("weekly.plan"), systemImage: "calendar") }.accessibilityIdentifier("plan.weekly")
+        NavigationLink(destination: RoutinesScreen()) { Label(store.t("routines"), systemImage: "list.bullet") }.accessibilityIdentifier("plan.routines")
+        NavigationLink(destination: GoalListScreen()) { Label(store.t("goals"), systemImage: "target") }.accessibilityIdentifier("plan.goals")
         NavigationLink(destination: TaskListScreen()) { Label(store.t("tasks.habits"), systemImage: "repeat") }
         NavigationLink(destination: SpiritualScreen()) { Label(store.t("spiritual"), systemImage: "sparkles") }.accessibilityIdentifier("plan.spiritual")
         NavigationLink(destination: JournalScreen()) { Label(store.t("reviews"), systemImage: "text.book.closed") }
@@ -162,7 +162,7 @@ struct GoalDetail: View {
                     Button(store.t("add")) { if store.change({ $0.milestones.append(.init(goalID: goalID, title: milestone, due: goal.end)) }) { milestone = "" } }.disabled(milestone.isEmpty)
                 }
                 Section(store.t("linked.tasks")) {
-                    NavigationLink(destination: GoalPlanningScreen(goalID: goalID)) { Text(store.t("goal.split")) }
+                    NavigationLink(destination: GoalPlanningScreen(goalID: goalID)) { Text(store.t("goal.split")) }.accessibilityIdentifier("goal.split.open")
                     ForEach(store.data.tasks.filter { $0.goalID == goalID }) { Text(store.taskTitle($0.title)) }
                     Button(store.t("task.new")) { addTask = true }
                 }

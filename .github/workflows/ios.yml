@@ -9,6 +9,7 @@ on:
         options:
           - full
           - screen-time
+          - module-gallery
 defaults:
   run:
     shell: bash

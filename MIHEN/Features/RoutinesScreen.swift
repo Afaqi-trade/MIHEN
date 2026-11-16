@@ -8,7 +8,7 @@ struct RoutinesScreen: View {
     var body: some View {
         List {
             Section(store.t("routine.new")) {
-                TextField(store.t("title"), text: $title)
+                TextField(store.t("title"), text: $title).accessibilityIdentifier("routine.title")
                 Picker(store.t("area"), selection: $domain) {
                     ForEach(store.data.domains) { Text(store.title($0.id)).tag($0.id) }
                 }
@@ -22,7 +22,7 @@ struct RoutinesScreen: View {
                         document.routines.append(routine)
                         for (rank, task) in tasks.enumerated() { document.routineItems.append(.init(routineID: routine.id, taskID: task.id, rank: rank)) }
                     }) { title = ""; selected = [] }
-                }.disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selected.isEmpty)
+                }.accessibilityIdentifier("routine.save").disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selected.isEmpty)
             }
             ForEach(store.data.routines) { routine in
                 Section(routine.title) {

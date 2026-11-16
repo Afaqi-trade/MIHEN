@@ -18,6 +18,7 @@ typeset -a MIHEN_TEST_ARGUMENTS=()
 case "${MIHEN_TEST_SCOPE:-full}" in
   full) ;;
   screen-time) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry) ;;
+  module-gallery) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testNewModuleScreensGallery) ;;
   *) print -u2 'Unknown MIHEN_TEST_SCOPE'; exit 2 ;;
 esac
 print "Test scope: ${MIHEN_TEST_SCOPE:-full}"
