@@ -12,6 +12,8 @@ public struct MetricComparison: Identifiable, Sendable {
     public let current: Double?
     public let previous: Double?
     public let difference: Double?
+    public let currentDays: Int
+    public let previousDays: Int
     public var id: String { metric.id }
 }
 public struct ReportBucket: Identifiable, Sendable {
@@ -38,9 +40,9 @@ extension PlanningEngine {
         let previous=periodReport(data,in:previousInterval)
         let a=Dictionary(uniqueKeysWithValues:current.metrics.map { (ReportMetricKey($0),$0.value) })
         let b=Dictionary(uniqueKeysWithValues:previous.metrics.map { (ReportMetricKey($0),$0.value) })
-        let enough=current.recordedDays.count >= 3 && previous.recordedDays.count >= 3
         let comparisons=Set(a.keys).union(b.keys).sorted { $0.id < $1.id }.map { key in
-            MetricComparison(metric:key,current:a[key],previous:b[key],difference:enough ? a[key].flatMap { av in b[key].map { av-$0 } } : nil)
+            let currentDays=metricDays(key,in:data,interval:interval),previousDays=metricDays(key,in:data,interval:previousInterval)
+            return MetricComparison(metric:key,current:a[key],previous:b[key],difference:currentDays >= 3 && previousDays >= 3 ? a[key].flatMap { av in b[key].map { av-$0 } } : nil,currentDays:currentDays,previousDays:previousDays)
         }
         var cursor=interval.start,buckets=[ReportBucket]()
         while cursor < interval.end && buckets.count < 120 {
@@ -52,6 +54,20 @@ extension PlanningEngine {
         }
         let days=current.recordedDays.sorted()
         return .init(current:current,previous:previous,previousInterval:previousInterval,comparisons:comparisons,buckets:buckets,firstRecordedDay:days.first,lastRecordedDay:days.last)
+    }
+    private func metricDays(_ metric: ReportMetricKey,in data: BackupDocument,interval: DateInterval) -> Int {
+        var dates=[Date]()
+        switch metric.key {
+        case "report.reading": dates=data.readings.map(\.date)
+        case "report.reviews": dates=data.memorizationReviews.map(\.date)
+        case "report.fasts": dates=data.fasts.filter { $0.status == "completed" }.map(\.date)
+        case "dhikr": dates=data.dhikr.filter { $0.value > 0 }.compactMap { date($0.day) }
+        default:
+            dates=data.effectiveActivities(engine:self).filter {
+                $0.domainID == metric.domainID && $0.unit == metric.unit && ("activity."+$0.kind == metric.key || (metric.key.hasPrefix("report.qada.") && ["qadaDebt","qadaDone"].contains($0.kind)))
+            }.map(\.date)
+        }
+        return Set(dates.filter { $0 >= interval.start && $0 < interval.end }.map { key($0) }).count
     }
     public func reportInterval(period: String, containing date: Date, now: Date) -> DateInterval {
         let selected=min(date,now)
@@ -77,5 +93,35 @@ extension BackupDocument {
         let journals=Set(result.journals.map(\.id))
         result.reviewResponses.removeAll { !journals.contains($0.journalID) }
         return result
+    }
+}
+
+public struct ReportAreaSummary: Identifiable, Sendable {
+    public let id: String
+    public let report: PeriodReport
+    public let activeGoals: Int
+    public let goalsNeedingReview: Int
+}
+public struct ExecutiveReport: Sendable {
+    public let analysis: ReportAnalysis
+    public let areas: [ReportAreaSummary]
+    public let elapsedDays: Int
+    public let overloadedDays: Int
+    public let unknownDuration: Int
+    public let goalsNeedingReview: Int
+}
+extension PlanningEngine {
+    public func executiveReport(_ data: BackupDocument, interval: DateInterval, period: String, now: Date) -> ExecutiveReport {
+        let component:Calendar.Component = period == "report.tenYears" ? .year : period == "year" ? .month : period == "month" ? .weekOfYear : .day
+        let analysis=analyzeReport(data,interval:interval,component:component)
+        let areas=data.domains.sorted { $0.rank < $1.rank }.map { domain in
+            let scoped=data.scopedReport(areas:[domain.id],includeNotes:true)
+            let goals=data.goals.filter { !$0.archived && $0.domainIDs.contains(domain.id) && $0.start < interval.end && $0.end >= interval.start }
+            let overdue=goals.filter { $0.end < calendar.startOfDay(for:now) && contributions($0.id,in:data).total < $0.target }.count
+            return ReportAreaSummary(id:domain.id,report:periodReport(scoped,in:interval),activeGoals:goals.count,goalsNeedingReview:overdue)
+        }
+        let week=calendar.dateInterval(of:.weekOfYear,for:now)!
+        let loads=days(from:week.start,through:addingDays(-1,to:week.end)).map { workload(data,on:$0) }
+        return .init(analysis:analysis,areas:areas,elapsedDays:calendar.dateComponents([.day],from:interval.start,to:interval.end).day ?? 0,overloadedDays:loads.filter { $0.excess > 0 }.count,unknownDuration:loads.reduce(0) { $0+$1.unknown },goalsNeedingReview:data.goals.filter { !$0.archived && $0.start < interval.end && $0.end >= interval.start && $0.end < calendar.startOfDay(for:now) && contributions($0.id,in:data).total < $0.target }.count)
     }
 }

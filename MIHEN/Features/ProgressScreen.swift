@@ -24,7 +24,7 @@ struct ProgressScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                NavigationLink(destination: ReportsScreen()) { Label(store.t("reports"), systemImage: "doc.text") }
+                NavigationLink(destination: ReportsScreen()) { MihenIntro(title:"reports",subtitle:"design.progress.body") }.buttonStyle(.plain).accessibilityIdentifier("progress.reports")
                 Picker(store.t("period"), selection: $period) { ForEach(["day", "week", "month", "year"], id: \.self) { Text(store.t($0)).tag($0) } }.pickerStyle(.segmented)
                 VStack(alignment: .leading, spacing: 12) {
                     Text(store.t("report.steps")).font(.headline)

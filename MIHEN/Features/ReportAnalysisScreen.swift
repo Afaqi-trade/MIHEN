@@ -7,7 +7,7 @@ struct ReportAnalysisScreen: View {
     let period: String
     @State private var analysis: ReportAnalysis?
     @State private var selected=""
-    private var component: Calendar.Component { period == "report.tenYears" ? .year : period == "year" ? .month : .weekOfYear }
+    private var component: Calendar.Component { period == "report.tenYears" ? .year : period == "year" ? .month : period == "week" ? .day : .weekOfYear }
     var body: some View {
         List {
             if let analysis {
@@ -47,6 +47,7 @@ struct ReportAnalysisScreen: View {
                     Text(store.title(item.metric.domainID)+" · "+store.t(item.metric.key)).font(.headline)
                     Text(store.t("report.current")+": "+value(item.current,unit:item.metric.unit))
                     Text(store.t("comparison.previous")+": "+value(item.previous,unit:item.metric.unit))
+                    Text(store.t("report.metric.coverage")+": \(item.currentDays) / \(item.previousDays)").font(.caption)
                     if let difference=item.difference { Text(store.t("report.difference")+": "+value(difference,unit:item.metric.unit)) }
                 }
             }
@@ -56,7 +57,7 @@ struct ReportAnalysisScreen: View {
         Section(store.t("report.trend")) {
             if !data.comparisons.isEmpty {
                 Picker(store.t("report.metric"),selection:$selected) {
-                    ForEach(data.comparisons) { item in Text(store.title(item.metric.domainID)+" · "+store.t(item.metric.key)+" ("+store.t(item.metric.unit)+")").tag(item.id) }
+                    ForEach(data.comparisons) { item in Text(store.title(item.metric.domainID)+" · "+store.t(item.metric.key)+" ("+store.reportUnit(item.metric.unit)+")").tag(item.id) }
                 }
                 if let chosen=data.comparisons.first(where: { $0.id == selected }) {
                     Chart {

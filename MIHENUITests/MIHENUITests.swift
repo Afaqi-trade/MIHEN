@@ -130,6 +130,52 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Planlanan: 500 · Gerçekleşen: 0 kcal"].waitForExistence(timeout:5))
         capture(app,name:"MIHEN-Nutrition-Planning-TR")
     }
+    @MainActor func testExecutiveReportAndOfflineCityGallery() throws {
+        let app=start()
+        app.buttons["today.add"].tap()
+        replace(app.textFields["task.title"],with:"Odaklı bir adım")
+        replace(app.textFields["target"],with:"6")
+        app.buttons["task.save"].tap()
+        app.buttons["Bir artır"].tap();app.buttons["Bir artır"].tap()
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.buttons["Beslenme ve hareket"],in:app)
+        tap(app.buttons["+250 ml"],in:app)
+        app.tabBars.buttons["İlerleme"].tap()
+        tap(app.buttons["progress.reports"],in:app)
+        XCTAssertTrue(app.staticTexts["Emeğinin görünümü"].waitForExistence(timeout:15))
+        capture(app,name:"MIHEN-Executive-Report-TR")
+        tap(app.buttons["report.area.health"],in:app)
+        let water=app.descendants(matching:.any).matching(NSPredicate(format:"identifier BEGINSWITH %@","report.metric.activity.")).firstMatch
+        XCTAssertTrue(water.waitForExistence(timeout:5));XCTAssertEqual(water.value as? String,"250 ml")
+        capture(app,name:"MIHEN-Report-Health-TR")
+        app.navigationBars.buttons.element(boundBy:0).tap()
+        tap(app.buttons["report.analysis"],in:app)
+        XCTAssertTrue(app.staticTexts["Kayıt kapsamı"].waitForExistence(timeout:10))
+        capture(app,name:"MIHEN-Report-Comparison-TR")
+        spiritual("prayer",in:app)
+        tap(app.buttons["Konum ve hesap ayarları"],in:app)
+        tap(app.buttons["prayer.city.choose"],in:app)
+        capture(app,name:"MIHEN-Prayer-Cities-TR")
+        tap(app.buttons["city.istanbul"],in:app)
+        XCTAssertTrue(app.staticTexts["İstanbul · Türkiye"].exists)
+    }
+    @MainActor func testExecutiveReportLargeTypeNavigation() throws {
+        let app=XCUIApplication();app.launchArguments=["--ui-testing","--ui-text-ax5"];app.launch()
+        XCTAssertTrue(app.buttons["onboarding.skip"].waitForExistence(timeout:10));app.buttons["onboarding.skip"].tap()
+        app.tabBars.buttons["İlerleme"].tap()
+        tap(app.buttons["progress.reports"],in:app)
+        let heading=app.staticTexts["Yeni bir başlangıç"]
+        reveal(heading,in:app)
+        XCTAssertLessThanOrEqual(heading.frame.maxX,app.frame.maxX)
+        XCTAssertGreaterThanOrEqual(heading.frame.minX,app.frame.minX)
+        try app.performAccessibilityAudit(for:[.sufficientElementDescription])
+        capture(app,name:"MIHEN-Executive-LargeText-TR")
+        let area=app.buttons["report.area.learning"]
+        for _ in 0..<24 { if area.exists && area.isHittable { break };app.swipeUp() }
+        XCTAssertTrue(area.exists && area.isHittable)
+        area.tap()
+        XCTAssertTrue(app.buttons["Alanı ve planımı aç"].waitForExistence(timeout:5))
+    }
     @MainActor func testNewModuleScreensGallery() throws {
         let app = start()
         app.buttons["today.add"].tap()
@@ -182,7 +228,8 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(suggestion.exists)
         capture(app, name: "MIHEN-GoalSplit-Preview-TR")
         app.tabBars.buttons["İlerleme"].tap()
-        tap(app.buttons["Dönem raporları"], in:app)
+        tap(app.buttons["progress.reports"], in:app)
+        tap(app.buttons["report.area.spiritual"],in:app)
         let balance = app.descendants(matching:.any)["report.metric.fajrclosing"].firstMatch
         for _ in 0..<10 { if balance.exists && balance.isHittable { break }; app.swipeUp() }
         XCTAssertTrue(balance.waitForExistence(timeout:5))
@@ -237,8 +284,9 @@ final class MIHENUITests: XCTestCase {
     @MainActor func testReportsNavigation() throws {
         let app = start()
         app.tabBars.buttons["İlerleme"].tap()
-        tap(app.buttons["Dönem raporları"], in: app)
-        XCTAssertTrue(app.staticTexts["Yalnızca kayıtlı veriler raporlanır. Kayıt olmayan günler başarısızlık sayılmaz."].waitForExistence(timeout: 5))
+        tap(app.buttons["progress.reports"], in: app)
+        XCTAssertTrue(app.staticTexts["Yeni bir başlangıç"].waitForExistence(timeout:10))
+        XCTAssertTrue(app.staticTexts["report.coverage.days"].exists)
         capture(app, name: "MIHEN-Reports-TR")
         app.buttons["report.export.open"].tap()
         capture(app,name:"MIHEN-Report-Export-TR")
@@ -340,6 +388,10 @@ final class MIHENUITests: XCTestCase {
         XCTAssertFalse(app.buttons["memorization.save"].waitForExistence(timeout: 2), "Recording a review must not open the edit sheet")
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Sonraki tekrar:")).firstMatch.exists)
         capture(app, name: "MIHEN-Memorization-TR")
+        tap(app.buttons["review.undo"],in:app)
+        XCTAssertFalse(app.buttons["review.undo"].exists)
+        app.buttons["Tekrar yaptım"].tap()
+        XCTAssertTrue(app.buttons["review.undo"].exists)
     }
     @MainActor func testDhikrCounterIncreaseDecrease() throws {
         let app = start()
@@ -367,6 +419,10 @@ final class MIHENUITests: XCTestCase {
         if movement.value as? String != "1" { movement.coordinate(withNormalizedOffset:CGVector(dx:0.9,dy:0.5)).tap() }
         XCTAssertEqual(movement.value as? String, "1")
         capture(app, name: "MIHEN-Onboarding-Choices-TR")
+        tap(app.buttons["template.preview"],in:app)
+        XCTAssertTrue(app.staticTexts["7 planlanan adım; miktarlar ayrı birimlerle gösterilir."].exists)
+        capture(app,name:"MIHEN-Template-Week-TR")
+        app.navigationBars.buttons.element(boundBy:0).tap()
         tap(app.buttons["onboarding.start"], in: app)
         XCTAssertTrue(app.staticTexts["Hareket / egzersiz"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["0 / 30 Dakika"].exists)

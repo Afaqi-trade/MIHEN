@@ -31,6 +31,7 @@ import WidgetKit
         locked = preferences.lockEnabled
     }
     func t(_ key: String) -> String { Localization.text(key, language: preferences.language) }
+    func reportUnit(_ unit: String) -> String { t(["fajr","dhuhr","asr","maghrib","isha","witr"].contains(unit) ? "prayer."+unit : unit) }
     func taskTitle(_ title: String) -> String { Localization.recordTitle(title, language: preferences.language) }
     func title(_ domainID: String) -> String {
         guard let domain = data.domains.first(where: { $0.id == domainID }), let area = LifeArea(rawValue: domain.key) else { return domainID }

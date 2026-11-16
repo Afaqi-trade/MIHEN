@@ -5,6 +5,8 @@ struct RootView: View {
     @State private var tab = 0
     @State private var prayers = false
     @State private var quickTask = false
+    @State private var waterEntry=false
+    @State private var widgetDay: String?
     @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         ZStack {
@@ -30,6 +32,9 @@ struct RootView: View {
             }
         }
         .environment(store)
+        .fontDesign(.rounded)
+        .scrollContentBackground(.hidden)
+        .background(Color.mihenBackground)
         .environment(\.locale, store.locale)
         .environment(\.calendar, store.engine.calendar)
         .environment(\.timeZone, store.engine.timeZone)
@@ -40,18 +45,20 @@ struct RootView: View {
         } message: { Text(store.errorMessage ?? "") }
         .sheet(isPresented: $prayers) { NavigationStack { PrayerTimesScreen().toolbar { Button(store.t("close")) { prayers = false } } } }
         .sheet(isPresented: $quickTask) { TaskEditor() }
+        .sheet(isPresented:$waterEntry) { WidgetWaterEntry(requestedDay:widgetDay) }
         .onOpenURL { url in
             if url.scheme == "mihen" {
                 tab = 0
                 if !store.locked && store.preferences.onboarded {
                     if url.host == "prayers" { prayers = true }
                     if url.host == "add-task" { quickTask = true }
+                    if url.host == "water" { widgetDay=URLComponents(url:url,resolvingAgainstBaseURL:false)?.queryItems?.first { $0.name == "day" }?.value;waterEntry=true }
                 }
             }
         }
         .task { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .background && store.preferences.lockEnabled { prayers = false; quickTask = false; store.locked = true }
+            if phase == .background && store.preferences.lockEnabled { prayers = false; quickTask = false;waterEntry=false; store.locked = true }
             if phase == .active { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         }
     }
@@ -59,6 +66,7 @@ struct RootView: View {
         VStack(spacing: 24) {
             BrandMark().frame(width: 100, height: 100)
             Text("MİHEN").font(.largeTitle.bold())
+                            Text(store.t("greeting.salaam")).font(.title2.bold())
             Button(store.t("unlock"), systemImage: "faceid") {
                 Task {
                     do { if try await AppLock.authenticate(reason: store.t("lock.reason")) { store.locked = false; store.refresh() } }
@@ -81,8 +89,9 @@ struct OnboardingView: View {
                 if step == 0 {
                     Section {
                         VStack(alignment: .leading, spacing: 16) {
-                            BrandMark().frame(width: 72, height: 72)
+                            HStack { BrandMark().frame(width:72,height:72);Spacer();MihenMotif().stroke(Color.mihenGreen.opacity(0.5),lineWidth:1).frame(width:52,height:52).accessibilityHidden(true) }
                             Text("MİHEN").font(.largeTitle.bold())
+                            Text(store.t("greeting.salaam")).font(.title2.bold())
                             Text(store.t("slogan")).font(.title3)
                             Text(store.t("welcome.promise")).font(.headline)
                             Text(store.t("welcome.steps"))
@@ -110,6 +119,7 @@ struct OnboardingView: View {
                         }
                     }
                     Text("\(templates.count) " + store.t("starter.selected"))
+                    NavigationLink(destination:TemplateWeekPreview(selected:templates)) { Text(store.t("template.preview")) }.accessibilityIdentifier("template.preview")
                     Button(store.t("welcome.begin")) { finish() }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.start")
                 }
                 if step < 2 {

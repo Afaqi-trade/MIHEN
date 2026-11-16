@@ -5,6 +5,7 @@ struct PlanView: View {
     @State private var addGoal = false
     var body: some View {
         List {
+            MihenIntro(title:"design.plan.title",subtitle:"design.plan.body").listRowInsets(EdgeInsets()).listRowBackground(Color.clear)
             Section(store.t("plan.tools")) { shortcuts }
             Section(store.t("focus.areas")) {
                 ForEach(orderedDomains.filter(\.enabled)) { domain in DomainNavigationRow(domain: domain) }
@@ -58,6 +59,7 @@ struct DomainScreen: View {
     @State private var vision = ""
     var body: some View {
         List {
+            Section { NavigationLink(destination:GuidedTemplateScreen(domainID:domainID)) { Label(store.t("example.title"),systemImage:"lightbulb") }.accessibilityIdentifier("domain.example") }
             Section(store.t("vision")) {
                 TextEditor(text: $vision).frame(minHeight: 90).accessibilityLabel(store.t("vision"))
                 Button(store.t("save")) { store.change { data in if let i = data.domains.firstIndex(where: { $0.id == domainID }) { data.domains[i].vision = vision } } }

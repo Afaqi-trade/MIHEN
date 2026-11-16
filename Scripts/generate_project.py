@@ -16,7 +16,7 @@ screen_shared=sorted(str(p.relative_to(root)) for p in (root/'ScreenTimeShared')
 app_sources+=screen_shared
 monitor_sources=['MIHENActivityMonitor/UsageMonitor.swift','Core/UsageLimitPolicy.swift','Core/PlanError.swift']+screen_shared
 widget_sources=['MIHENWidget/MIHENWidget.swift','MIHEN/Services/SharedWidget.swift','MIHEN/Services/Localization.swift']+sorted(str(p.relative_to(root)) for p in (root/'Core').glob('*.swift'))
-unit_sources=['MIHENTests/CoreScenarios.swift','MIHENTests/PersistenceTests.swift','MIHENTests/UsageLimitRepositoryTests.swift']
+unit_sources=['MIHENTests/CoreScenarios.swift','MIHENTests/PersistenceTests.swift','MIHENTests/UsageLimitRepositoryTests.swift','MIHENTests/ReportPerformanceTests.swift']
 ui_sources=['MIHENUITests/MIHENUITests.swift']
 coretests='\n'.join(p.read_text().replace('@testable import MIHENCore','@testable import MIHEN') for p in sorted((root/'Tests/MIHENCoreTests').glob('*.swift')))
 (root/'MIHENTests/CoreScenarios.swift').write_text('// Generated from Tests/MIHENCoreTests.\n'+coretests)

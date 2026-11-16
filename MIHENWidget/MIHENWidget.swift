@@ -14,6 +14,7 @@ struct TodayProvider: TimelineProvider {
     }
 }
 struct TodayWidgetView: View {
+    @Environment(\.widgetFamily) private var family
     let entry: TodayEntry
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -26,7 +27,10 @@ struct TodayWidgetView: View {
                     ProgressView(value: snapshot.planned > 0 ? Double(snapshot.completed) / Double(snapshot.planned) : 0)
                     if let next = snapshot.nextTitle { Text(next).font(.caption).lineLimit(2) }
                     else { Text(text("today", snapshot)).font(.caption) }
-                    Link(destination:URL(string:"mihen://add-task")!) { Label(text("task.new",snapshot),systemImage:"plus.circle").font(.caption) }
+                    HStack {
+                        Link(destination:URL(string:"mihen://water?day="+snapshot.day)!) { Label(text("water.widget",snapshot),systemImage:"drop").font(.caption) }
+                        if family != .systemSmall { Link(destination:URL(string:"mihen://add-task")!) { Label(text("task.new",snapshot),systemImage:"plus.circle").font(.caption) }
+                    }
                 } else { Text(text("widget.open", snapshot)) }
             } else { Text(LocalizedStringKey("widget.open")) }
         }.containerBackground(for: .widget) { Color(red: 11/255, green: 34/255, blue: 68/255) }

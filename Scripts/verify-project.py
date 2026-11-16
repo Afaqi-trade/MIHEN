@@ -31,3 +31,6 @@ for name in ['MIHEN/Resources/MIHEN.entitlements','MIHENActivityMonitor/MIHENAct
 monitor_products={key for key,value in objects.items() if value['isa']=='PBXFileReference' and value.get('path')=='MIHENActivityMonitor.appex'}
 monitor_builds={key for key,value in objects.items() if value['isa']=='PBXBuildFile' and value.get('fileRef') in monitor_products}
 assert any(value['isa']=='PBXCopyFilesBuildPhase' and monitor_builds.intersection(value.get('files',[])) for value in objects.values()),'Monitor extension must be embedded'
+
+expected_core_tests='// Generated from Tests/MIHENCoreTests.\n'+'\n'.join(p.read_text().replace('@testable import MIHENCore','@testable import MIHEN') for p in sorted((root/'Tests/MIHENCoreTests').glob('*.swift')))
+assert (root/'MIHENTests/CoreScenarios.swift').read_text()==expected_core_tests,'Generated iOS test scenarios are stale; run generate_project.py'

@@ -1,6 +1,73 @@
 from pathlib import Path
 import json,re
-rows='''report.share.title|Raporu paylaş|Share report
+rows='''water.widget.stale|Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek.|The widget belonged to a different day. The entry will use today's date shown here.
+water.widget.help|Widget bu formu açar. İçtiğiniz miktarı kontrol edip Kaydet'e dokununca yalnızca bir kayıt eklenir.|The widget opens this form. Check the amount you drank, then tap Save to add one record.
+water.widget|Su kaydet|Record water
+report.duration.unknown|Tahmini süresi olmayan adım|Steps without an estimated duration
+report.metric.coverage|Bu kaynak için kayıtlı gün · bu / önceki dönem|Recorded days for this source · current / previous
+design.progress.body|Dönem özetini, değişimleri ve sekiz alanın ayrıntılarını birlikte gör.|See your executive summary, changes and details across all eight areas.
+design.plan.body|Önce bir alan seç. Hedefini küçük adımlara ayır, haftana yerleştir, kendi ritmini kur.|Choose an area. Break your goal into small steps, fit them into your week and find your rhythm.
+design.plan.title|Niyetinden ilk adıma|From intention to your first step
+report.thisWeek.capacity|Bu hafta kapasitesi aşılmış gün|Days over capacity this week
+report.openArea|Alanı ve planımı aç|Open area and plan
+report.completedSteps|tamamlanan adım|completed steps
+report.trend.table|Grafiğin sayısal ayrıntıları|Chart data table
+report.attention.help|Bunlar karar vermen için işaretlerdir; bir performans veya yaşam değeri puanı değildir.|These are prompts for your decisions, not a performance or life-value score.
+report.goals.review|Dönemde yer alan, süresi dolmuş açık hedefler|Open goals in this period whose deadline has passed
+report.attention|Gözden geçirilecekler|Worth reviewing
+report.compare.insufficient|Karşılaştırma için iki dönemde de yeterli kayıt yok. Önceki dönemin yokluğu sıfır başarı sayılmaz.|There are not enough records in both periods to compare. Missing history is not zero achievement.
+report.steps.change|tamamlanan adım farkı|change in completed steps
+report.highlights|Öne çıkanlar|Highlights
+report.areas.help|Bir alana dokunarak kaynakları, hedef katkılarını ve notlarını incele. Boş alanlar başarısızlık değildir.|Tap an area to inspect sources, goal contributions and notes. Empty areas are not failures.
+report.areas.overview|Sekiz alana genel bakış|Eight areas at a glance
+report.areas.recorded|Kayıt bulunan alan|Areas with records
+report.anchorDate|İncelenecek tarih|Review date
+report.loading|Rapor hazırlanıyor|Preparing report
+report.executive.help|Ne yaptın, neler değişti, sırada ne var? Kayıtlarından derlenen kişisel yönetici özetin.|What happened, what changed, what comes next? Your personal executive summary, built from your records.
+report.executive.empty|Yeni bir başlangıç|A fresh start
+report.executive.title|Emeğinin görünümü|Your effort, in view
+report.executive|DÖNEM ÖZETİ|PERIOD BRIEF
+greeting.salaam|Selamün aleyküm|Peace be upon you
+greeting.night|Hayırlı geceler|Have a blessed night
+dhikr.haptics|Sayaçta hafif titreşim|Light haptic feedback on counter
+review.remove|Tekrarı sil|Delete review
+prayer.location.preview|Önizleme · widget için aşağıdaki ayarları kaydedin.|Preview · save the settings below to update the widget.
+prayer.location.saved|Kaydedilmiş konum · widget bu ayarı kullanır.|Saved location · the widget uses this setting.
+prayer.city.manual|Özel koordinat|Custom coordinates
+prayer.city.help|Çevrimdışı kısa liste, yaklaşık şehir merkezlerini kullanır. Diğer konumlar için koordinat girebilirsiniz. Şehir seçimi hesaplama yönteminizi değiştirmez.|This offline shortlist uses approximate city centres. Enter coordinates for other locations. Choosing a city does not change your calculation method.
+prayer.city.search|Şehir veya ülke|City or country
+prayer.city.choose|Şehir seç|Choose a city
+example.spiritual.task|Seçtiğim manevi pratiğe zaman ayır|Make time for my chosen spiritual practice
+example.spiritual.goal|Kendime uygun manevi rutinimi oluştur|Create a spiritual routine that suits me
+example.character.task|Kısa kişisel değerlendirme|Short personal reflection
+example.character.goal|Geliştirmek istediğim bir davranışı seç ve değerlendir|Choose and review a behaviour to develop
+example.finance.task|Gelir ve giderlerimi gözden geçir|Review my income and expenses
+example.finance.goal|Kişisel bütçe planımı oluştur|Create my personal budget plan
+example.health.task|Rahat tempoda hareket|Move at a comfortable pace
+example.health.goal|Sürdürebileceğim bir hareket düzeni kur|Establish a sustainable movement routine
+example.service.task|Gönüllülük hazırlığı ve katkı|Prepare and contribute to volunteering
+example.service.goal|Bir gönüllülük çalışmasına katıl|Take part in a volunteering activity
+example.family.task|Aileyle planlama ve sohbet|Family planning and conversation
+example.family.goal|Birlikte bir aile etkinliği planla|Plan a family activity together
+example.career.task|Sertifika çalışması|Certificate study
+example.career.goal|Seçtiğim sertifika için hazırlan|Prepare for my chosen certificate
+example.learning.task|Program üzerinde çalış|Study the programme
+example.learning.goal|Seçtiğim öğrenme programını tamamla|Complete my chosen learning programme
+example.applied|Bu örnek daha önce eklendi. Mevcut planınızı düzenleyebilirsiniz.|This example has already been added. You can edit your existing plan.
+example.confirm|Önizlemedeki hedef, aşama ve görevi ekle?|Add the previewed goal, milestone and task?
+example.apply|Bu planı ekle|Add this plan
+example.support.help|Dakika kaydı hedef sonucunu otomatik tamamlamaz. Günleri ve miktarı ekledikten sonra görev ayrıntısından düzenleyebilirsiniz.|Minutes do not automatically complete the goal outcome. Edit days and amount in task details after adding.
+example.support|Haftalık destekleyici adım|Weekly supporting step
+example.milestone.help|Başlangıçtan 30. gün; otomatik tamamlanmaz.|Day 30 from the start; never completed automatically.
+example.milestone|İlk ayı değerlendir, kapsamı düzenle|Review the first month and adjust the scope
+example.horizon|90 günlük hedef · sonucu siz kaydedersiniz.|90-day goal · you record the outcome.
+example.help|Bir başlangıç örneği. Başlıkları kendinize göre değiştirin; onayladığınızda 1 hedef, 1 aşama ve haftalık 1 görev şablonu eklenir. Bunlar tamamlanmış kayıt değildir.|An editable starting example. Confirming adds 1 goal, 1 milestone and 1 weekly task template. These are plans, not completed records.
+example.title|Bu alanda nasıl başlayabilirim?|How can I start in this area?
+template.preview.empty|Yeni şablon seçilmedi.|No new template selected.
+template.preview.entries|planlanan adım; miktarlar ayrı birimlerle gösterilir.|planned steps; amounts retain their own units.
+template.preview.help|Bugünden başlayan 7 gün. Buradaki liste yalnızca önizlemedir; seçimlerinizi uygulayana kadar plan veya geçmiş oluşturmaz.|Seven days starting today. This preview creates no plan or history until you apply your selection.
+template.preview|Örnek haftayı gör|Preview the week
+report.share.title|Raporu paylaş|Share report
 report.export.comparison|Önceki dönem ve alt aralıkları da ekle|Include previous period and subperiods
 decadal|On yıllık değerlendirme|Decade reflection
 report.lighten|Miktar veya tarihi gözden geçir|Review quantity or dates
@@ -392,9 +459,9 @@ quick.note|Hızlı not|Quick note
 upcoming|Yaklaşan etkinlikler|Upcoming events
 reviews|Haftalık ve aylık değerlendirme|Weekly and monthly reviews
 task.new|Görev ekle|Add task
-greeting.morning|Günaydın|Good morning
-greeting.day|İyi günler|Good afternoon
-greeting.evening|İyi akşamlar|Good evening
+greeting.morning|Hayırlı sabahlar|Have a blessed morning
+greeting.day|Hayırlı günler|Have a blessed day
+greeting.evening|Hayırlı akşamlar|Have a blessed evening
 daily.progress|Günlük ilerleme|Daily progress
 tasks.completed|görev tamamlandı|tasks completed
 top.three|Öncelikli üç eylem|Three priority actions

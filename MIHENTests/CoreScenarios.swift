@@ -198,6 +198,42 @@ final class CapacityRoutineTests: XCTestCase {
 
 import XCTest
 @testable import MIHEN
+final class GuidedTemplateTests: XCTestCase {
+    let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Istanbul")!)
+    func testWeekPreviewIsReadOnlyAndExcludesAlreadyLoadedTemplates() throws {
+        var data=BackupDocument.fresh();let start=engine.date("2026-11-17")!
+        let preview=engine.starterPreview(["template.movement","template.family"],from:start,in:data)
+        XCTAssertEqual(preview.count,7);XCTAssertEqual(preview.reduce(0) { $0+$1.items.count },14)
+        XCTAssertTrue(data.tasks.isEmpty);XCTAssertTrue(data.occurrences.isEmpty)
+        data.addSelectedTemplates(["template.movement"],on:start,engine:engine)
+        XCTAssertEqual(engine.starterPreview(["template.movement","template.family"],from:start,in:data)[0].items.count,1)
+    }
+    func testEveryAreaExampleCreatesOnlyAnExplicitEditablePlan() throws {
+        var data=BackupDocument.fresh();let date=engine.date("2026-11-17")!
+        for template in GuidedTemplate.choices {
+            try data.applyGuidedTemplate(template,from:date,goalTitle:"Outcome",taskTitle:"Supporting step",milestoneTitle:"Review",engine:engine)
+            try data.applyGuidedTemplate(template,from:date,goalTitle:"Duplicate",taskTitle:"Duplicate",milestoneTitle:"Duplicate",engine:engine)
+        }
+        XCTAssertEqual(data.goals.count,8);XCTAssertEqual(data.tasks.count,8);XCTAssertEqual(data.milestones.count,8)
+        XCTAssertEqual(data.goalSupports.count,8);XCTAssertTrue(data.goalProgress.isEmpty)
+        XCTAssertTrue(data.occurrences.allSatisfy { $0.value == 0 && $0.status == "planned" && $0.day >= "2026-11-17" })
+        XCTAssertTrue(data.tasks.allSatisfy { $0.goalID == nil && $0.notes.isEmpty })
+        XCTAssertTrue(data.milestones.allSatisfy { !$0.done })
+        XCTAssertEqual(try BackupCodec.decode(BackupCodec.encode(data)).goals,data.goals)
+    }
+    func testCitySelectionHasValidTimeZonesAndIstanbulRemainsDefault() throws {
+        XCTAssertEqual(PrayerCity.all.first?.id,"istanbul")
+        for city in PrayerCity.all {
+            XCTAssertTrue(TimeZone(identifier:city.zone) != nil)
+            XCTAssertEqual(PrayerCity.match(latitude:city.latitude,longitude:city.longitude,zone:city.zone)?.id,city.id)
+            XCTAssertTrue((-90...90).contains(city.latitude) && (-180...180).contains(city.longitude))
+        }
+        XCTAssertNil(PrayerCity.match(latitude:0,longitude:0,zone:"UTC"))
+    }
+}
+
+import XCTest
+@testable import MIHEN
 
 final class NutritionPlanningTests: XCTestCase {
     let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Istanbul")!)
@@ -665,10 +701,10 @@ final class ReportAnalysisTests: XCTestCase {
         XCTAssertEqual(prior.end,start)
         var data=BackupDocument.fresh()
         for index in 0..<3 {
-            data.activities.append(.init(domainID:"health",kind:"water",date:engine.addingDays(index,to:start),amount:250,unit:"ml"))
-            data.activities.append(.init(domainID:"health",kind:"water",date:engine.addingDays(index,to:prior.start),amount:200,unit:"ml"))
+            data.activities.append(.init(domainID:"health",date:engine.addingDays(index,to:start),kind:"water",amount:250,unit:"ml"))
+            data.activities.append(.init(domainID:"health",date:engine.addingDays(index,to:prior.start),kind:"water",amount:200,unit:"ml"))
         }
-        data.activities.append(.init(domainID:"health",kind:"food",date:start,amount:500,unit:"kcal"))
+        data.activities.append(.init(domainID:"health",date:start,kind:"food",amount:500,unit:"kcal"))
         let analysis=engine.analyzeReport(data,interval:interval,component:.weekOfYear)
         let water=analysis.comparisons.first { $0.metric.key == "activity.water" }!
         XCTAssertEqual(water.current,750);XCTAssertEqual(water.previous,600);XCTAssertEqual(water.difference,150)
@@ -679,7 +715,7 @@ final class ReportAnalysisTests: XCTestCase {
         let now=engine.date("2026-11-17")!,interval=engine.reportInterval(period:"report.tenYears",containing:now,now:now)
         XCTAssertEqual(engine.key(interval.start),"2017-01-01");XCTAssertEqual(engine.key(interval.end),"2026-11-18")
         var data=BackupDocument.fresh()
-        data.activities=[.init(domainID:"health",kind:"water",date:now,amount:250,unit:"ml"),.init(domainID:"health",kind:"water",date:engine.addingDays(1,to:now),amount:999,unit:"ml")]
+        data.activities=[.init(domainID:"health",date:now,kind:"water",amount:250,unit:"ml"),.init(domainID:"health",date:engine.addingDays(1,to:now),kind:"water",amount:999,unit:"ml")]
         let result=engine.analyzeReport(data,interval:interval,component:.year)
         XCTAssertEqual(result.buckets.count,10)
         XCTAssertTrue(result.buckets.dropLast().allSatisfy { $0.report.recordedDays.isEmpty && $0.report.metrics.isEmpty })
@@ -688,7 +724,7 @@ final class ReportAnalysisTests: XCTestCase {
     }
     func testScopedReportExcludesPrivateNotesAndStructuredResponses() throws {
         var data=BackupDocument.fresh()
-        data.journals=[.init(id:"private",domainID:"family",text:"Private"),.init(id:"chosen",domainID:"health",text:"Chosen")]
+        data.journals=[.init(id:"private",domainID:"family",kind:"weekly",text:"Private"),.init(id:"chosen",domainID:"health",kind:"weekly",text:"Chosen")]
         data.reviewResponses=[.init(journalID:"private",well:"Private answer"),.init(journalID:"chosen",next:"Walk")]
         XCTAssertTrue(data.scopedReport(areas:["health"],includeNotes:false).reviewResponses.isEmpty)
         let scope=data.scopedReport(areas:["health"],includeNotes:true)

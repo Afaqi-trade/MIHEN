@@ -11,11 +11,17 @@ struct PrayerTimesScreen: View {
     @State private var rule = "middleOfTheNight"
     @State private var date = Date()
     @State private var saved = false
+    @State private var persisted: PrayerSettings?
     private var settings: PrayerSettings { .init(latitude: latitude, longitude: longitude, timeZoneID: zone, method: method, hanafi: hanafi, highLatitude: rule) }
+    private var cityLabel: String {
+        if let city=PrayerCity.match(latitude:latitude,longitude:longitude,zone:zone) { return city.name+" · "+city.country }
+        return store.t("prayer.city.manual")+" · "+zone
+    }
     var body: some View {
         Form {
             Section(store.t("prayer.times")) {
-                Text(store.t("prayer.current.city")).font(.caption).foregroundStyle(.secondary)
+                Text(cityLabel).font(.headline)
+                Text(store.t(persisted == settings ? "prayer.location.saved" : "prayer.location.preview")).font(.caption).foregroundStyle(.secondary)
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
                 let schedule = settings.schedule(on: date)
                 if schedule.isEmpty { Text(store.t("prayer.unavailable")) }
@@ -32,6 +38,8 @@ struct PrayerTimesScreen: View {
                 Text(store.t("prayer.manual.location")).font(.footnote)
             }
             DisclosureGroup(store.t("prayer.settings")) {
+                NavigationLink(destination:PrayerCityPicker { city in latitude=city.latitude;longitude=city.longitude;zone=city.zone;saved=false }) { Text(store.t("prayer.city.choose")) }.accessibilityIdentifier("prayer.city.choose")
+                Text(store.t("prayer.city.help")).font(.footnote)
                 Button(store.t("prayer.istanbul")) { latitude = 41.0082; longitude = 28.9784; zone = "Europe/Istanbul"; method = "turkey"; saved = false }
                 ValueInput(title: "latitude", value: $latitude)
                 ValueInput(title: "longitude", value: $longitude)
@@ -47,7 +55,7 @@ struct PrayerTimesScreen: View {
                     ForEach(HighLatitudeRule.allCases, id: \.rawValue) { Text(store.t("rule." + $0.rawValue)).tag($0.rawValue) }
                 }
                 Button(store.t("save")) {
-                    do { try PrayerSettingsStore.save(settings); saved = true; WidgetCenter.shared.reloadAllTimelines() }
+                    do { try PrayerSettingsStore.save(settings); saved = true; persisted=settings; WidgetCenter.shared.reloadAllTimelines() }
                     catch { store.errorMessage = error.localizedDescription }
                 }.disabled(settings.schedule(on: date).isEmpty)
                 if saved { Text(store.t("prayer.saved")) }
@@ -60,9 +68,25 @@ struct PrayerTimesScreen: View {
                 if arguments.contains("--ui-testing"), let index = arguments.firstIndex(of: "--prayer-test-date"), arguments.indices.contains(index + 1), let fixed = ISO8601DateFormatter().date(from: arguments[index + 1]) { date = fixed }
                 #endif
                 if let settings = PrayerSettingsStore.read() {
+                    persisted=settings
                     latitude = settings.latitude; longitude = settings.longitude; zone = settings.timeZoneID
                     method = settings.method; hanafi = settings.hanafi; rule = settings.highLatitude
                 }
             }
+    }
+}
+
+struct PrayerCityPicker: View {
+    @Environment(AppStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var query=""
+    let select: (PrayerCity) -> Void
+    private var cities: [PrayerCity] { PrayerCity.all.filter { query.isEmpty || ($0.name+" "+$0.country).localizedStandardContains(query) } }
+    var body: some View {
+        List(cities) { city in
+            Button { select(city);dismiss() } label: {
+                VStack(alignment:.leading) { Text(city.name);Text(city.country+" · "+city.zone).font(.caption) }
+            }.accessibilityIdentifier("city."+city.id)
+        }.searchable(text:$query,prompt:store.t("prayer.city.search")).navigationTitle(store.t("prayer.city.choose"))
     }
 }

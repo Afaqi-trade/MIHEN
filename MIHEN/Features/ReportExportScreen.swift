@@ -37,11 +37,11 @@ struct ReportExportScreen: View {
             for item in analysis.comparisons {
                 let current=item.current.map { $0.formatted(.number.grouping(.never).locale(store.locale)) } ?? store.t("report.noData")
                 let previous=item.previous.map { $0.formatted(.number.grouping(.never).locale(store.locale)) } ?? store.t("report.noData")
-                rows.append([store.title(item.metric.domainID),store.t(item.metric.key),store.t("report.current"),current,store.t("comparison.previous"),previous,store.t(item.metric.unit)])
+                rows.append([store.title(item.metric.domainID),store.t(item.metric.key),store.t("report.current"),current,store.t("comparison.previous"),previous,store.reportUnit(item.metric.unit)])
             }
             for bucket in analysis.buckets {
                 rows.append([store.engine.key(bucket.interval.start),store.t("report.recordedDays"),String(bucket.report.recordedDays.count)])
-                for item in bucket.report.metrics { rows.append([store.title(item.domainID),store.t(item.key),item.value.formatted(.number.grouping(.never).locale(store.locale)),store.t(item.unit)]) }
+                for item in bucket.report.metrics { rows.append([store.title(item.domainID),store.t(item.key),item.value.formatted(.number.grouping(.never).locale(store.locale)),store.reportUnit(item.unit)]) }
             }
         }
         return rows

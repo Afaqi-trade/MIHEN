@@ -1,6 +1,1078 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "water.widget.stale": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The widget belonged to a different day. The entry will use today's date shown here."
+          }
+        }
+      }
+    },
+    "water.widget.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget bu formu açar. İçtiğiniz miktarı kontrol edip Kaydet'e dokununca yalnızca bir kayıt eklenir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The widget opens this form. Check the amount you drank, then tap Save to add one record."
+          }
+        }
+      }
+    },
+    "water.widget": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Su kaydet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record water"
+          }
+        }
+      }
+    },
+    "report.duration.unknown": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahmini süresi olmayan adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steps without an estimated duration"
+          }
+        }
+      }
+    },
+    "report.metric.coverage": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kaynak için kayıtlı gün · bu / önceki dönem"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recorded days for this source · current / previous"
+          }
+        }
+      }
+    },
+    "design.progress.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönem özetini, değişimleri ve sekiz alanın ayrıntılarını birlikte gör."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See your executive summary, changes and details across all eight areas."
+          }
+        }
+      }
+    },
+    "design.plan.body": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önce bir alan seç. Hedefini küçük adımlara ayır, haftana yerleştir, kendi ritmini kur."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an area. Break your goal into small steps, fit them into your week and find your rhythm."
+          }
+        }
+      }
+    },
+    "design.plan.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niyetinden ilk adıma"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From intention to your first step"
+          }
+        }
+      }
+    },
+    "report.thisWeek.capacity": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu hafta kapasitesi aşılmış gün"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Days over capacity this week"
+          }
+        }
+      }
+    },
+    "report.openArea": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alanı ve planımı aç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open area and plan"
+          }
+        }
+      }
+    },
+    "report.completedSteps": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tamamlanan adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "completed steps"
+          }
+        }
+      }
+    },
+    "report.trend.table": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grafiğin sayısal ayrıntıları"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chart data table"
+          }
+        }
+      }
+    },
+    "report.attention.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bunlar karar vermen için işaretlerdir; bir performans veya yaşam değeri puanı değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These are prompts for your decisions, not a performance or life-value score."
+          }
+        }
+      }
+    },
+    "report.goals.review": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönemde yer alan, süresi dolmuş açık hedefler"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open goals in this period whose deadline has passed"
+          }
+        }
+      }
+    },
+    "report.attention": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gözden geçirilecekler"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Worth reviewing"
+          }
+        }
+      }
+    },
+    "report.compare.insufficient": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karşılaştırma için iki dönemde de yeterli kayıt yok. Önceki dönemin yokluğu sıfır başarı sayılmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There are not enough records in both periods to compare. Missing history is not zero achievement."
+          }
+        }
+      }
+    },
+    "report.steps.change": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tamamlanan adım farkı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "change in completed steps"
+          }
+        }
+      }
+    },
+    "report.highlights": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öne çıkanlar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Highlights"
+          }
+        }
+      }
+    },
+    "report.areas.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir alana dokunarak kaynakları, hedef katkılarını ve notlarını incele. Boş alanlar başarısızlık değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap an area to inspect sources, goal contributions and notes. Empty areas are not failures."
+          }
+        }
+      }
+    },
+    "report.areas.overview": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sekiz alana genel bakış"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eight areas at a glance"
+          }
+        }
+      }
+    },
+    "report.areas.recorded": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt bulunan alan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Areas with records"
+          }
+        }
+      }
+    },
+    "report.anchorDate": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İncelenecek tarih"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review date"
+          }
+        }
+      }
+    },
+    "report.loading": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapor hazırlanıyor"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing report"
+          }
+        }
+      }
+    },
+    "report.executive.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne yaptın, neler değişti, sırada ne var? Kayıtlarından derlenen kişisel yönetici özetin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happened, what changed, what comes next? Your personal executive summary, built from your records."
+          }
+        }
+      }
+    },
+    "report.executive.empty": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni bir başlangıç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fresh start"
+          }
+        }
+      }
+    },
+    "report.executive.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emeğinin görünümü"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your effort, in view"
+          }
+        }
+      }
+    },
+    "report.executive": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DÖNEM ÖZETİ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PERIOD BRIEF"
+          }
+        }
+      }
+    },
+    "greeting.salaam": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selamün aleyküm"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peace be upon you"
+          }
+        }
+      }
+    },
+    "greeting.night": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hayırlı geceler"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Have a blessed night"
+          }
+        }
+      }
+    },
+    "dhikr.haptics": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayaçta hafif titreşim"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light haptic feedback on counter"
+          }
+        }
+      }
+    },
+    "review.remove": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekrarı sil"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete review"
+          }
+        }
+      }
+    },
+    "prayer.location.preview": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizleme · widget için aşağıdaki ayarları kaydedin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview · save the settings below to update the widget."
+          }
+        }
+      }
+    },
+    "prayer.location.saved": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmiş konum · widget bu ayarı kullanır."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved location · the widget uses this setting."
+          }
+        }
+      }
+    },
+    "prayer.city.manual": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel koordinat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom coordinates"
+          }
+        }
+      }
+    },
+    "prayer.city.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevrimdışı kısa liste, yaklaşık şehir merkezlerini kullanır. Diğer konumlar için koordinat girebilirsiniz. Şehir seçimi hesaplama yönteminizi değiştirmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This offline shortlist uses approximate city centres. Enter coordinates for other locations. Choosing a city does not change your calculation method."
+          }
+        }
+      }
+    },
+    "prayer.city.search": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şehir veya ülke"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City or country"
+          }
+        }
+      }
+    },
+    "prayer.city.choose": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şehir seç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a city"
+          }
+        }
+      }
+    },
+    "example.spiritual.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçtiğim manevi pratiğe zaman ayır"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Make time for my chosen spiritual practice"
+          }
+        }
+      }
+    },
+    "example.spiritual.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kendime uygun manevi rutinimi oluştur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a spiritual routine that suits me"
+          }
+        }
+      }
+    },
+    "example.character.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısa kişisel değerlendirme"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Short personal reflection"
+          }
+        }
+      }
+    },
+    "example.character.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geliştirmek istediğim bir davranışı seç ve değerlendir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose and review a behaviour to develop"
+          }
+        }
+      }
+    },
+    "example.finance.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gelir ve giderlerimi gözden geçir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review my income and expenses"
+          }
+        }
+      }
+    },
+    "example.finance.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişisel bütçe planımı oluştur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create my personal budget plan"
+          }
+        }
+      }
+    },
+    "example.health.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rahat tempoda hareket"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move at a comfortable pace"
+          }
+        }
+      }
+    },
+    "example.health.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürdürebileceğim bir hareket düzeni kur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Establish a sustainable movement routine"
+          }
+        }
+      }
+    },
+    "example.service.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gönüllülük hazırlığı ve katkı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare and contribute to volunteering"
+          }
+        }
+      }
+    },
+    "example.service.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir gönüllülük çalışmasına katıl"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take part in a volunteering activity"
+          }
+        }
+      }
+    },
+    "example.family.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aileyle planlama ve sohbet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family planning and conversation"
+          }
+        }
+      }
+    },
+    "example.family.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birlikte bir aile etkinliği planla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan a family activity together"
+          }
+        }
+      }
+    },
+    "example.career.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sertifika çalışması"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certificate study"
+          }
+        }
+      }
+    },
+    "example.career.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçtiğim sertifika için hazırlan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare for my chosen certificate"
+          }
+        }
+      }
+    },
+    "example.learning.task": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Program üzerinde çalış"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Study the programme"
+          }
+        }
+      }
+    },
+    "example.learning.goal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçtiğim öğrenme programını tamamla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete my chosen learning programme"
+          }
+        }
+      }
+    },
+    "example.applied": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu örnek daha önce eklendi. Mevcut planınızı düzenleyebilirsiniz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This example has already been added. You can edit your existing plan."
+          }
+        }
+      }
+    },
+    "example.confirm": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizlemedeki hedef, aşama ve görevi ekle?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add the previewed goal, milestone and task?"
+          }
+        }
+      }
+    },
+    "example.apply": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu planı ekle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add this plan"
+          }
+        }
+      }
+    },
+    "example.support.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dakika kaydı hedef sonucunu otomatik tamamlamaz. Günleri ve miktarı ekledikten sonra görev ayrıntısından düzenleyebilirsiniz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minutes do not automatically complete the goal outcome. Edit days and amount in task details after adding."
+          }
+        }
+      }
+    },
+    "example.support": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftalık destekleyici adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly supporting step"
+          }
+        }
+      }
+    },
+    "example.milestone.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıçtan 30. gün; otomatik tamamlanmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Day 30 from the start; never completed automatically."
+          }
+        }
+      }
+    },
+    "example.milestone": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlk ayı değerlendir, kapsamı düzenle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review the first month and adjust the scope"
+          }
+        }
+      }
+    },
+    "example.horizon": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "90 günlük hedef · sonucu siz kaydedersiniz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "90-day goal · you record the outcome."
+          }
+        }
+      }
+    },
+    "example.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir başlangıç örneği. Başlıkları kendinize göre değiştirin; onayladığınızda 1 hedef, 1 aşama ve haftalık 1 görev şablonu eklenir. Bunlar tamamlanmış kayıt değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An editable starting example. Confirming adds 1 goal, 1 milestone and 1 weekly task template. These are plans, not completed records."
+          }
+        }
+      }
+    },
+    "example.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu alanda nasıl başlayabilirim?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How can I start in this area?"
+          }
+        }
+      }
+    },
+    "template.preview.empty": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni şablon seçilmedi."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No new template selected."
+          }
+        }
+      }
+    },
+    "template.preview.entries": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "planlanan adım; miktarlar ayrı birimlerle gösterilir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "planned steps; amounts retain their own units."
+          }
+        }
+      }
+    },
+    "template.preview.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugünden başlayan 7 gün. Buradaki liste yalnızca önizlemedir; seçimlerinizi uygulayana kadar plan veya geçmiş oluşturmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seven days starting today. This preview creates no plan or history until you apply your selection."
+          }
+        }
+      }
+    },
+    "template.preview": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Örnek haftayı gör"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview the week"
+          }
+        }
+      }
+    },
     "report.share.title": {
       "localizations": {
         "tr": {
@@ -6278,13 +7350,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Günaydın"
+            "value": "Hayırlı sabahlar"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Good morning"
+            "value": "Have a blessed morning"
           }
         }
       }
@@ -6294,13 +7366,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İyi günler"
+            "value": "Hayırlı günler"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Good afternoon"
+            "value": "Have a blessed day"
           }
         }
       }
@@ -6310,13 +7382,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İyi akşamlar"
+            "value": "Hayırlı akşamlar"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Good evening"
+            "value": "Have a blessed evening"
           }
         }
       }

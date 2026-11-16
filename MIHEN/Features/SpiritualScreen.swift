@@ -1,10 +1,11 @@
 import SwiftUI
+import UIKit
 
 struct SpiritualScreen: View {
     @Environment(AppStore.self) private var store
     var body: some View {
         List {
-            NavigationLink(destination: PrayerTimesScreen()) { Label(store.t("prayer.times"), systemImage: "sun.horizon") }
+            NavigationLink(destination: PrayerTimesScreen()) { Label(store.t("prayer.times"), systemImage: "sun.horizon") }.accessibilityIdentifier("spiritual.prayer")
             Section {
                 NavigationLink(destination: KhatmScreen()) { Label(store.t("quran.khatm"), systemImage: "book") }.accessibilityIdentifier("spiritual.khatm")
                 NavigationLink(destination: MemorizationScreen()) { Label(store.t("memorization"), systemImage: "brain.head.profile") }.accessibilityIdentifier("spiritual.memorization")
@@ -114,6 +115,7 @@ struct MemorizationScreen: View {
     @Environment(AppStore.self) private var store
     @State private var add = false
     @State private var editing: MemorizationItemRecord?
+    @State private var lastReview: String?
     var body: some View {
         List {
             if store.data.memorization.isEmpty { EmptyState(key: "empty.memorization") }
@@ -123,7 +125,22 @@ struct MemorizationScreen: View {
                     Text("\(item.learnedVerses) / \(item.lastVerse - item.firstVerse + 1) " + store.t("verses"))
                     if let next = store.engine.nextReview(item, reviews: store.data.memorizationReviews) { Text(store.t("review.next") + ": " + next.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted, locale: store.locale, calendar: store.engine.calendar, timeZone: store.engine.timeZone))) }
                     else { Text(store.t("review.none")) }
-                    Button(store.t("review.record")) { store.change { $0.memorizationReviews.append(.init(itemID: item.id, difficulty: item.difficulty)) } }
+                    Button(store.t("review.record")) {
+                        let review=MemorizationReviewRecord(itemID:item.id,difficulty:item.difficulty)
+                        if store.change({ $0.memorizationReviews.append(review) }) { lastReview=review.id }
+                    }
+                    if let lastReview,store.data.memorizationReviews.contains(where:{ $0.id == lastReview && $0.itemID == item.id }) {
+                        Button(store.t("undo")) { if store.change({ $0.memorizationReviews.removeAll { $0.id == lastReview } }) { self.lastReview=nil } }.accessibilityIdentifier("review.undo")
+                    }
+                    DisclosureGroup(store.t("history")) {
+                        ForEach(store.data.memorizationReviews.filter { $0.itemID == item.id }.sorted { $0.date > $1.date }) { review in
+                            HStack {
+                                Text(review.date,format:.dateTime.day().month().year().hour().minute())
+                                Spacer()
+                                Button(store.t("review.remove"),role:.destructive) { store.change { $0.memorizationReviews.removeAll { $0.id == review.id } } }.frame(minHeight:44)
+                            }
+                        }
+                    }
                     if let last = store.data.memorizationReviews.filter({ $0.itemID == item.id }).max(by: { $0.date < $1.date }) { Text(last.date, format: .dateTime.day().month().year()).font(.caption) }
                 }.padding(.vertical, 6).buttonStyle(.borderless)
             }
@@ -181,12 +198,13 @@ struct DhikrScreen: View {
                         Text(counter.title).font(.headline)
                         Text("\(counter.value) / \(counter.target)").font(.largeTitle.monospacedDigit())
                         HStack(spacing: 24) {
-                            Button { change(counter.id, delta: -1) } label: { Image(systemName: "minus.circle") }.accessibilityLabel(store.t("decrease"))
-                            Button { change(counter.id, delta: 1) } label: { Image(systemName: "plus.circle.fill").font(.largeTitle) }.accessibilityLabel(store.t("increase"))
+                            Button { change(counter.id, delta: -1) } label: { Image(systemName: "minus.circle").frame(minWidth:44,minHeight:44) }.accessibilityLabel(store.t("decrease"))
+                            Button { change(counter.id, delta: 1) } label: { Image(systemName: "plus.circle.fill").font(.largeTitle).frame(minWidth:44,minHeight:44) }.accessibilityLabel(store.t("increase"))
                         }.buttonStyle(.borderless)
                     }.padding(.vertical)
                 }
             }
+            Toggle(store.t("dhikr.haptics"),isOn:Binding(get:{ store.data.option("dhikr.haptics",fallback:"false") == "true" },set:{ value in store.change { $0.setOption("dhikr.haptics",value:value ? "true" : "false") } }))
             Section(store.t("counter.new")) {
                 TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
                 IntegerInput(title: "target", value: $target, fieldID: "counter.target")
@@ -198,7 +216,7 @@ struct DhikrScreen: View {
         }.keyboardDone().navigationTitle(store.t("dhikr"))
     }
     private func change(_ id: String, delta: Int) {
-        store.change { data in if let i = data.dhikr.firstIndex(where: { $0.id == id }) { data.dhikr[i].value = max(0, min(1_000_000, data.dhikr[i].value + delta)) } }
+        if store.change({ data in if let i = data.dhikr.firstIndex(where: { $0.id == id }) { data.dhikr[i].value = max(0, min(1_000_000, data.dhikr[i].value + delta)) } }), store.data.option("dhikr.haptics",fallback:"false") == "true" { UIImpactFeedbackGenerator(style:.light).impactOccurred() }
     }
 }
 struct FastingScreen: View {

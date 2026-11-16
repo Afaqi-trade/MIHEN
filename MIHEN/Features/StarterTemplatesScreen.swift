@@ -16,6 +16,7 @@ struct StarterTemplatesScreen: View {
                 }.disabled(store.data.tasks.contains(where: { $0.id == "starter:\(item.id)" }))
             }
             Text("\(selected.count) " + store.t("starter.selected"))
+            NavigationLink(destination:TemplateWeekPreview(selected:selected)) { Text(store.t("template.preview")) }.accessibilityIdentifier("template.preview")
             Button(store.t("starter.apply")) {
                 let engine = store.engine
                 if store.change({ $0.addSelectedTemplates(selected, on: Date(), engine: engine) }) { dismiss() }

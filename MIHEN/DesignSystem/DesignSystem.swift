@@ -11,6 +11,7 @@ struct MihenCard: ViewModifier {
     func body(content: Content) -> some View {
         content.padding(20).frame(maxWidth: .infinity, alignment: .leading)
             .background(Color(uiColor: .secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 24))
+            .overlay(RoundedRectangle(cornerRadius:24).stroke(Color.primary.opacity(0.055),lineWidth:1))
     }
 }
 extension View {
@@ -129,5 +130,37 @@ struct IntegerInput: View {
                     if !active { text = display(value) }
                 }
         }
+    }
+}
+
+/// Quiet geometric accents, drawn natively; never announced or placed behind text.
+struct MihenMotif: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path=Path()
+        let center=CGPoint(x:rect.midX,y:rect.midY),radius=min(rect.width,rect.height)*0.46
+        for index in 0..<16 {
+            let angle=Double(index)*Double.pi/8-Double.pi/2
+            let length=radius*(index.isMultiple(of:2) ? 1 : 0.57)
+            let point=CGPoint(x:center.x+cos(angle)*length,y:center.y+sin(angle)*length)
+            if index == 0 { path.move(to:point) } else { path.addLine(to:point) }
+        }
+        path.closeSubpath()
+        path.addRect(CGRect(x:center.x-radius*0.32,y:center.y-radius*0.32,width:radius*0.64,height:radius*0.64))
+        return path
+    }
+}
+struct MihenIntro: View {
+    @Environment(AppStore.self) private var store
+    @Environment(\.dynamicTypeSize) private var size
+    let title: String
+    let subtitle: String
+    var body: some View {
+        VStack(alignment:.leading,spacing:12) {
+            if !size.isAccessibilitySize {
+                HStack { Capsule().fill(Color.mihenGreen).frame(width:28,height:3);Spacer();MihenMotif().stroke(Color.mihenGreen.opacity(0.45),lineWidth:1).frame(width:44,height:44) }.accessibilityHidden(true)
+            }
+            Text(store.t(title)).font(.system(.title2,design:.serif).weight(.semibold)).accessibilityAddTraits(.isHeader)
+            Text(store.t(subtitle)).font(.subheadline).foregroundStyle(.secondary).fixedSize(horizontal:false,vertical:true)
+        }.mihenCard()
     }
 }

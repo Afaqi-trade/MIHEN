@@ -13,6 +13,7 @@ struct TodayView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                if !textSize.isAccessibilitySize { Text(store.t("greeting.salaam")).font(.subheadline.weight(.medium)).foregroundStyle(Color.mihenGreen) }
                 Text(today, format: .dateTime.weekday(.wide).day().month(.wide)).font(textSize.isAccessibilitySize ? .caption : .body).foregroundStyle(.secondary)
                 if store.preferences.showHijri { Text(hijriDate).font(.subheadline).foregroundStyle(.secondary) }
                 if !textSize.isAccessibilitySize { summaryCard }
@@ -75,7 +76,7 @@ struct TodayView: View {
     }
     private var greeting: String {
         let hour = store.engine.calendar.component(.hour, from: today)
-        return store.t(hour < 12 ? "greeting.morning" : hour < 18 ? "greeting.day" : "greeting.evening") + (store.preferences.name.isEmpty ? "" : ", \(store.preferences.name)")
+        return store.t(hour < 5 || hour >= 22 ? "greeting.night" : hour < 12 ? "greeting.morning" : hour < 18 ? "greeting.day" : "greeting.evening") + (store.preferences.name.isEmpty ? "" : ", \(store.preferences.name)")
     }
     private var hijriDate: String {
         let formatter = DateFormatter(); formatter.calendar = store.engine.hijriCalendar
@@ -85,7 +86,7 @@ struct TodayView: View {
     private var summaryCard: some View {
         let summary = store.engine.summary(store.data, on: today)
         return VStack(alignment: .leading, spacing: 8) {
-            Text(store.t("today.steps")).font(.headline)
+            HStack { Text(store.t("today.steps")).font(.system(.headline,design:.serif));Spacer();MihenMotif().stroke(.white.opacity(0.5),lineWidth:1).frame(width:32,height:32).accessibilityHidden(true) }
             Text("\(summary.completed) " + store.t("today.finished") + " · \(summary.partial) " + store.t("today.started"))
                 .font(.title3.bold()).accessibilityIdentifier("today.effort")
             if summary.partial > 0 { Text(store.t("today.partial.encouragement")).font(.subheadline) }
@@ -97,7 +98,7 @@ struct TodayView: View {
             let focus = pending.filter { $0.priority == 2 }
             if !focus.isEmpty { Text(store.t("top.three")).font(.subheadline.bold()); ForEach(Array(focus.prefix(3))) { Text("• " + store.taskTitle($0.title)).font(.subheadline) } }
         }.padding(20).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.white)
-            .background(Color.mihenNavy, in: RoundedRectangle(cornerRadius: 22))
+            .background(LinearGradient(colors:[Color.mihenNavy,Color(red:0.08,green:0.29,blue:0.30)],startPoint:.topLeading,endPoint:.bottomTrailing), in: RoundedRectangle(cornerRadius:24))
     }
 }
 
@@ -156,7 +157,7 @@ struct OccurrenceRow: View {
             if occurrence.target > 1 && active {
                 Button { store.progress(occurrence.id, value: max(0, occurrence.value - 1)) } label: { Image(systemName: "minus").frame(minWidth: 44, minHeight: 44) }
                     .accessibilityLabel(store.t("decrease"))
-                Button { store.progress(occurrence.id, value: occurrence.value + 1) } label: { Image(systemName: "plus") }
+                Button { store.progress(occurrence.id, value: occurrence.value + 1) } label: { Image(systemName: "plus").frame(minWidth:44,minHeight:44) }
                     .accessibilityLabel(store.t("increase"))
             }
         }.buttonStyle(.borderless).mihenCard()
