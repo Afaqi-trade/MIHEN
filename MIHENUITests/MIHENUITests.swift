@@ -16,13 +16,15 @@ final class MIHENUITests: XCTestCase {
         tap(field, in: app)
         let value = field.value as? String ?? ""
         if !value.isEmpty {
-            field.press(forDuration: 1.2)
+            let textEnd = field.coordinate(withNormalizedOffset: CGVector(dx: 0.98, dy: 0.5))
+            textEnd.tap()
+            textEnd.press(forDuration: 1.2)
             let predicate = NSPredicate(format: "label IN %@", ["Select All", "Tümünü Seç", "Tümünü seç"])
             let selectAllButton = app.buttons.matching(predicate).firstMatch
             let selectAllMenu = app.menuItems.matching(predicate).firstMatch
             if selectAllButton.waitForExistence(timeout: 1) { selectAllButton.tap() }
             else if selectAllMenu.exists { selectAllMenu.tap() }
-            else { field.tap(withNumberOfTaps: 3, numberOfTouches: 1) }
+            else { textEnd.tap() }
         }
         field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count) + text)
         let done = app.buttons["keyboard.done"].firstMatch
