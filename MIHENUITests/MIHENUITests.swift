@@ -63,8 +63,9 @@ final class MIHENUITests: XCTestCase {
         app.navigationBars.buttons.element(boundBy: 0).tap()
         tap(app.descendants(matching: .any)["plan.routines"].firstMatch, in: app)
         replace(app.textFields["routine.title"], with: "Sabah rutini")
-        app.switches["Sabah yürüyüşü"].tap()
-        XCTAssertEqual(app.switches["Sabah yürüyüşü"].value as? String, "1")
+        let routineTask = app.switches["Sabah yürüyüşü"]
+        routineTask.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        XCTAssertEqual(routineTask.value as? String, "1")
         tap(app.buttons["routine.save"], in: app)
         let routineGroup = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "routine.group.")).firstMatch
         for _ in 0..<4 { if routineGroup.exists && routineGroup.isHittable { break }; app.swipeUp() }
