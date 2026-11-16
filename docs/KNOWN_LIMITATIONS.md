@@ -27,7 +27,7 @@ Güncelleme: 16 Kasım 2026. Kaynak ürün incelemesinden sonra genişletiliyor;
 | Bildirim | Kullanıcı saati, sessiz saatler, rutin bazlı hatırlatma; açık genel izin | Yakın 7 gün/en çok 60 istek; sistem teslimatı garanti değildir; bildirim ayarını açmak veri üretmez |
 | Widget etkileşim | Günlük özet ve uygulamada hızlı görev açan bağlantı | Widget üstünden doğrudan kayıt tamamlama yok; kilitliyken içerik/giriş gizli; eski günlük snapshot güncel başarı gibi gösterilmez |
 | Güvenlik | İsteğe bağlı cihaz doğrulaması; pencere seviyesinde geçici gizlilik örtüsü | Fiziksel app switcher/Face ID/bildirim/Files senaryoları henüz kabul edilmiş değildir; dışa aktarılan dosyalar şifrelenmez |
-| Erişilebilirlik | Semantik açık/koyu eylem renkleri, büyük dokunma alanları, açıklamalar, Dynamic Type tabanlı metin | Otomatik audit yalnızca test edilen ekranları kapsar; VoiceOver/Voice Control/Reduce Motion ve iOS 18 runtime matrisi ayrıca gerekir |
+| Erişilebilirlik | Semantik açık/koyu eylem renkleri, büyük dokunma alanları, açıklamalar, Dynamic Type tabanlı metin | Açıklama audit’i ve gerçek XS/en büyük yazı boyutu ölçümleri yalnızca test edilen ekranları kapsar; SwiftUI Dynamic Type heuristiği tam uygunluk kanıtı sayılmaz; VoiceOver/Voice Control/Reduce Motion ve iOS 18 runtime matrisi ayrıca gerekir |
 | Performans | 10.959 sentetik kayıtta çekirdek rapor doğruluğu/zamanı ölçülür | Gerçek SwiftUI/SwiftData açılış, kaydırma, pil ve fiziksel cihaz performansı değildir |
 | Ticari kapsam | Ücretsiz, hesapsız çekirdek; reklam/abonelik/harici analitik eklenmedi | Gerçek kullanılabilirlik, devam kullanımı ve ödeme isteği araştırması katılımcı gerektirir; fiyat/gelir doğrulanmadı |
 

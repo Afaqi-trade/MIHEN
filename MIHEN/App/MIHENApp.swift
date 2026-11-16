@@ -15,6 +15,9 @@ import SwiftUI
                     }
                 } else { ProgressView().task { start() } }
             }
+            #if DEBUG
+            .modifier(UITestTextSize())
+            #endif
         }
     }
     @MainActor private func start() {
@@ -40,3 +43,18 @@ import SwiftUI
         }
     }
 }
+
+#if DEBUG
+/// Exercise the real SwiftUI hierarchy at deterministic content sizes in UI tests.
+/// No override is present in Release, or without the explicit test launch flag.
+private struct UITestTextSize: ViewModifier {
+    @ViewBuilder func body(content: Content) -> some View {
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--ui-testing") && arguments.contains("--ui-text-xs") {
+            content.environment(\.dynamicTypeSize, .xSmall)
+        } else if arguments.contains("--ui-testing") && arguments.contains("--ui-text-ax5") {
+            content.environment(\.dynamicTypeSize, .accessibility5)
+        } else { content }
+    }
+}
+#endif

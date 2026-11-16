@@ -18,7 +18,7 @@
 | P1 rapor | Görev durumları, kaynakları ayrı hedef katkısı, sayfa/tekrar/zikir/oruç/kaza/beslenme/faaliyet/not; veri kapsamı ve sonraki karar | 10−2=8 kaza hareketi; yarı açık dönem; birimler ve boş gün; 10.959 sentetik kayıt |
 | P2 rapor paylaşma | Alanlar açıkça seçilmeden dışa aktarılmaz; notlar ayrıca seçilir; gerçek native PDF veya güvenli hücrelerle CSV | Çok sayfalı PDFKit okuma ve Türkçe içerik testi; UI seçim ön koşulu |
 | P2 günlük modüller | Önce vakit, sonra konum/yöntem; kaza +1/geri al; hızlı su/geri al; hatimde okunan miktar açıklaması; zikirde mevcut kayıt önce | Namaz, kaza, su, hatim, ezber, zikir, oruç regresyonları |
-| P2 erişilebilirlik | Semantik tema renkleri, 44 pt minimum eylem alanları, açıklanabilir bakiyeler, aylık yıllık grafik ve ısı haritası açıklaması | İlk kullanım ve Bugün için açıklama/Dynamic Type audit; ayrı küçük ekran/en büyük yazı koşusu |
+| P2 erişilebilirlik | Semantik tema renkleri, 44 pt minimum eylem alanları, açıklanabilir bakiyeler, aylık yıllık grafik ve ısı haritası açıklaması | İlk kullanım ve Bugün için açıklama audit’i; XS/en büyük yazıda gerçek metin/eylem boyutu ölçümü; küçük ekranda boş/dolu Bugün görüntüsü |
 | P2 yardım/widget | Kullanım rehberi/SSS, kişisel kayıt içermeyen isteğe bağlı sürüm paylaşımı; widget'tan hızlı giriş bağlantısı; kilitli derin bağlantı güvenliği | Kaynak/iOS derlemesi; widget ve izinli entegrasyonların cihaz kabulü ayrıca |
 | P3 ticari hazırlık | App Store taslağı faydaya göre yeniden yazıldı; gerçek ekran hikâyesi; ücretsiz/hesapsız çekirdek korundu | Yayımlanmadı, fiyat/gelir iddiası yok, ödeme/analitik SDK eklenmedi |
 

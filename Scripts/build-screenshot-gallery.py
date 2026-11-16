@@ -13,6 +13,8 @@ import zipfile
 REQUIRED_MODULE_CAPTURES = {'MIHEN-Qada-TR', 'MIHEN-WeeklyPlan-TR', 'MIHEN-Routines-TR', 'MIHEN-GoalSplit-TR', 'MIHEN-GoalSplit-Preview-TR'}
 LABELS = {
     'MIHEN-Onboarding-TR': 'İlk kullanım · kısa başlangıç',
+    'MIHEN-Onboarding-SmallText-TR': 'İlk kullanım · küçük yazı ölçümü',
+    'MIHEN-Onboarding-LargeText-TR': 'İlk kullanım · en büyük yazı ölçümü',
     'MIHEN-Onboarding-Choices-TR': 'İlk kullanım · açık şablon seçimi',
     'MIHEN-Today-Empty-TR': 'Bugün · ilk adım',
     'MIHEN-Today-Guided-TR': 'Bugün · seçilen adımlar',
