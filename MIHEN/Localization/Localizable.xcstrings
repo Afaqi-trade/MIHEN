@@ -1,6 +1,278 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "source.kind.activity": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faaliyet kaydı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity record"
+          }
+        }
+      }
+    },
+    "source.kind.fast": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oruç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fasting"
+          }
+        }
+      }
+    },
+    "source.kind.dhikr": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zikir sayacı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dhikr counter"
+          }
+        }
+      }
+    },
+    "source.kind.review": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ezber tekrarı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memorization review"
+          }
+        }
+      }
+    },
+    "source.kind.reading": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okuma"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading"
+          }
+        }
+      }
+    },
+    "source.disconnectFirst": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu adım bir modül kaydına bağlı. Miktarı kaynakta değiştirin; tarih, birim, durum veya bağımsız miktar için önce bağlantıyı ayırın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This task is connected to a module record. Edit its amount at the source; disconnect before changing day, unit, status or independent progress."
+          }
+        }
+      }
+    },
+    "source.incompatible": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt aynı gün, alan ve birimde olmalı; her kayıt yalnızca bir adıma bağlanabilir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The day, area and unit must match. Each record can connect to only one task."
+          }
+        }
+      }
+    },
+    "source.connect": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydı bağla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect record"
+          }
+        }
+      }
+    },
+    "source.confirmation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kaydın miktarı mevcut manuel miktarın yerine geçsin mi? Kaynak daha sonra değişirse bu adım da güncellenir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replace the manual amount with this record? Later source changes will update this task too."
+          }
+        }
+      }
+    },
+    "source.empty": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu gün, alan ve birimde bağlanabilecek kayıt yok. Önce ilgili modülde kayıt oluşturabilirsin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No compatible record for this day, area and unit. Create a record in the relevant module first."
+          }
+        }
+      }
+    },
+    "source.available": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygun kayıtlar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatible records"
+          }
+        }
+      }
+    },
+    "source.restore": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayırınca bağlantıdan önceki manuel miktar geri gelir. Kaynak kayıt silinmez. Bağlı kaydı düzenlemek miktarı günceller; silmek bağlantıyı kaldırır."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disconnecting restores the previous manual amount without deleting the source. Editing the source updates the amount; deleting it disconnects the record."
+          }
+        }
+      }
+    },
+    "source.disconnect": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantıyı ayır"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disconnect"
+          }
+        }
+      }
+    },
+    "source.open": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak modülü aç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open source module"
+          }
+        }
+      }
+    },
+    "source.connected": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlı kayıt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected record"
+          }
+        }
+      }
+    },
+    "source.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aynı gün, yaşam alanı ve birimdeki bir modül kaydını bu adıma bağlayabilirsin. Bağlı miktar mevcut elle girilen miktarın yerine geçer; ikisi toplanmaz. Hedefi aşan kısım bu adıma eklenmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect a module record with the same day, area and unit. Its amount replaces the manual amount; they are not added together. Amount beyond the task target is not applied."
+          }
+        }
+      }
+    },
+    "source.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt bağlantısı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record connection"
+          }
+        }
+      }
+    },
     "routine.manage": {
       "localizations": {
         "tr": {

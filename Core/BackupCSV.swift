@@ -23,6 +23,17 @@ extension BackupCodec {
         guard Set(data.journals.map(\.id)).count == data.journals.count, data.journals.count <= 100_000, data.journals.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
         guard Set(data.activities.map(\.id)).count == data.activities.count, data.activities.count <= 100_000, data.activities.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
         guard Set(data.notificationPreferences.map(\.id)).count == data.notificationPreferences.count, data.notificationPreferences.count <= 100_000, data.notificationPreferences.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.sourceLinks.map(\.id)).count == data.sourceLinks.count, data.sourceLinks.count <= 100_000, data.sourceLinks.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.capacities.map(\.id)).count == data.capacities.count, data.capacities.count <= 100_000, data.capacities.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.taskEstimates.map(\.id)).count == data.taskEstimates.count, data.taskEstimates.count <= 100_000, data.taskEstimates.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.occurrenceEstimates.map(\.id)).count == data.occurrenceEstimates.count, data.occurrenceEstimates.count <= 100_000, data.occurrenceEstimates.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.goalSupports.map(\.id)).count == data.goalSupports.count, data.goalSupports.count <= 100_000, data.goalSupports.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.weeklyFocuses.map(\.id)).count == data.weeklyFocuses.count, data.weeklyFocuses.count <= 100_000, data.weeklyFocuses.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.routineSchedules.map(\.id)).count == data.routineSchedules.count, data.routineSchedules.count <= 100_000, data.routineSchedules.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.routineSessions.map(\.id)).count == data.routineSessions.count, data.routineSessions.count <= 100_000, data.routineSessions.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.activityAnnotations.map(\.id)).count == data.activityAnnotations.count, data.activityAnnotations.count <= 100_000, data.activityAnnotations.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.nutritionPlans.map(\.id)).count == data.nutritionPlans.count, data.nutritionPlans.count <= 100_000, data.nutritionPlans.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
+        guard Set(data.options.map(\.id)).count == data.options.count, data.options.count <= 100_000, data.options.allSatisfy({ !$0.id.isEmpty && $0.id.count <= 150 }) else { throw PlanError.invalid("validation.duplicates") }
     }
     public static func exportCSV(_ data: BackupDocument) throws -> String {
         try validate(data)
@@ -48,6 +59,17 @@ extension BackupCodec {
         for record in data.journals { rows.append(["JournalEntry", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.activities { rows.append(["DomainActivity", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         for record in data.notificationPreferences { rows.append(["NotificationPreference", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.sourceLinks { rows.append(["SourceLink", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.capacities { rows.append(["PlanningCapacity", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.taskEstimates { rows.append(["TaskEstimate", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.occurrenceEstimates { rows.append(["OccurrenceEstimate", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.goalSupports { rows.append(["GoalSupport", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.weeklyFocuses { rows.append(["WeeklyFocus", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.routineSchedules { rows.append(["RoutineSchedule", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.routineSessions { rows.append(["RoutineSession", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.activityAnnotations { rows.append(["ActivityAnnotation", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.nutritionPlans { rows.append(["NutritionPlan", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
+        for record in data.options { rows.append(["AppOption", record.id, String(decoding: try encoder().encode(record), as: UTF8.self)]) }
         return CSV.encode(rows.map { [$0[0], CSV.safeCell($0[1]), $0[2]] })
     }
     public static func importCSV(_ text: String) throws -> BackupDocument {
@@ -142,6 +164,50 @@ extension BackupCodec {
                 let value = try decoder().decode(NotificationPreferenceRecord.self, from: bytes)
                 guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
                 document.notificationPreferences.append(value)
+            case "SourceLink":
+                let value = try decoder().decode(SourceLinkRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.sourceLinks.append(value)
+            case "PlanningCapacity":
+                let value = try decoder().decode(PlanningCapacityRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.capacities.append(value)
+            case "TaskEstimate":
+                let value = try decoder().decode(TaskEstimateRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.taskEstimates.append(value)
+            case "OccurrenceEstimate":
+                let value = try decoder().decode(OccurrenceEstimateRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.occurrenceEstimates.append(value)
+            case "GoalSupport":
+                let value = try decoder().decode(GoalSupportRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.goalSupports.append(value)
+            case "WeeklyFocus":
+                let value = try decoder().decode(WeeklyFocusRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.weeklyFocuses.append(value)
+            case "RoutineSchedule":
+                let value = try decoder().decode(RoutineScheduleRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.routineSchedules.append(value)
+            case "RoutineSession":
+                let value = try decoder().decode(RoutineSessionRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.routineSessions.append(value)
+            case "ActivityAnnotation":
+                let value = try decoder().decode(ActivityAnnotationRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.activityAnnotations.append(value)
+            case "NutritionPlan":
+                let value = try decoder().decode(NutritionPlanRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.nutritionPlans.append(value)
+            case "AppOption":
+                let value = try decoder().decode(AppOptionRecord.self, from: bytes)
+                guard value.id == CSV.restoredCell(row[1]) else { throw PlanError.invalid("validation.data") }
+                document.options.append(value)
             default: throw PlanError.invalid("validation.csvEntity")
             }
         }

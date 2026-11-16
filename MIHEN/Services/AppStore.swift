@@ -39,6 +39,7 @@ import WidgetKit
         var candidate = data
         do {
             try operation(&candidate)
+            try candidate.reconcileSources(engine: engine)
             try repository.save(candidate)
             data = candidate
             publishWidget()
@@ -66,6 +67,7 @@ import WidgetKit
     func progress(_ id: String, value: Double) {
         let old = data.occurrences.first { $0.id == id }?.value
         if change({ document in
+            guard !document.sourceLinks.contains(where: { $0.occurrenceID == id }) else { throw PlanError.invalid("source.disconnectFirst") }
             guard let i = document.occurrences.firstIndex(where: { $0.id == id }) else { throw PlanError.invalid("validation.missing") }
             try PlanningEngine.setProgress(value, occurrence: &document.occurrences[i])
         }), let old { lastProgressChange = (id, old) }

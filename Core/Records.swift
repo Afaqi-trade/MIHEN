@@ -388,8 +388,155 @@ public struct NotificationPreferenceRecord: Codable, Identifiable, Equatable, Se
     }
 }
 
+public struct SourceLinkRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var sourceKind: String
+    public var sourceID: String
+    public var occurrenceID: String
+    public var previousValue: Double
+    public init(id: String = UUID().uuidString, sourceKind: String = "", sourceID: String = "", occurrenceID: String = "", previousValue: Double = 0) {
+        self.id = id
+        self.sourceKind = sourceKind
+        self.sourceID = sourceID
+        self.occurrenceID = occurrenceID
+        self.previousValue = previousValue
+    }
+}
+
+public struct PlanningCapacityRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var weekday: Int
+    public var minutes: Int
+    public init(id: String = UUID().uuidString, weekday: Int = 1, minutes: Int = 0) {
+        self.id = id
+        self.weekday = weekday
+        self.minutes = minutes
+    }
+}
+
+public struct TaskEstimateRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var taskID: String
+    public var minutes: Double
+    public init(id: String = UUID().uuidString, taskID: String = "", minutes: Double = 0) {
+        self.id = id
+        self.taskID = taskID
+        self.minutes = minutes
+    }
+}
+
+public struct OccurrenceEstimateRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var occurrenceID: String
+    public var minutes: Double
+    public init(id: String = UUID().uuidString, occurrenceID: String = "", minutes: Double = 0) {
+        self.id = id
+        self.occurrenceID = occurrenceID
+        self.minutes = minutes
+    }
+}
+
+public struct GoalSupportRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var goalID: String
+    public var taskID: String
+    public init(id: String = UUID().uuidString, goalID: String = "", taskID: String = "") {
+        self.id = id
+        self.goalID = goalID
+        self.taskID = taskID
+    }
+}
+
+public struct WeeklyFocusRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var week: String
+    public var kind: String
+    public var referenceID: String
+    public var title: String
+    public var rank: Int
+    public init(id: String = UUID().uuidString, week: String = "", kind: String = "goal", referenceID: String = "", title: String = "", rank: Int = 0) {
+        self.id = id
+        self.week = week
+        self.kind = kind
+        self.referenceID = referenceID
+        self.title = title
+        self.rank = rank
+    }
+}
+
+public struct RoutineScheduleRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var routineID: String
+    public var weekdays: [Int]
+    public var paused: Bool
+    public init(id: String = UUID().uuidString, routineID: String = "", weekdays: [Int] = [1,2,3,4,5,6,7], paused: Bool = false) {
+        self.id = id
+        self.routineID = routineID
+        self.weekdays = weekdays
+        self.paused = paused
+    }
+}
+
+public struct RoutineSessionRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var routineID: String
+    public var day: String
+    public var taskIDs: [String]
+    public var position: Int
+    public init(id: String = UUID().uuidString, routineID: String = "", day: String = "", taskIDs: [String] = [], position: Int = 0) {
+        self.id = id
+        self.routineID = routineID
+        self.day = day
+        self.taskIDs = taskIDs
+        self.position = position
+    }
+}
+
+public struct ActivityAnnotationRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var activityID: String
+    public var meal: String
+    public var title: String
+    public init(id: String = UUID().uuidString, activityID: String = "", meal: String = "other", title: String = "") {
+        self.id = id
+        self.activityID = activityID
+        self.meal = meal
+        self.title = title
+    }
+}
+
+public struct NutritionPlanRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var date: Date
+    public var kind: String
+    public var amount: Double
+    public var unit: String
+    public var meal: String
+    public var title: String
+    public init(id: String = UUID().uuidString, date: Date = Date(), kind: String = "food", amount: Double = 0, unit: String = "kcal", meal: String = "other", title: String = "") {
+        self.id = id
+        self.date = date
+        self.kind = kind
+        self.amount = amount
+        self.unit = unit
+        self.meal = meal
+        self.title = title
+    }
+}
+
+public struct AppOptionRecord: Codable, Identifiable, Equatable, Sendable {
+    public var id: String
+    public var key: String
+    public var value: String
+    public init(id: String = UUID().uuidString, key: String = "", value: String = "") {
+        self.id = id
+        self.key = key
+        self.value = value
+    }
+}
+
 public struct BackupDocument: Codable, Equatable, Sendable {
-    public var version: Int = 1
+    public var version: Int = 2
     public var exportedAt: Date = Date()
     public var preferences: [UserPreferencesRecord] = []
     public var domains: [LifeDomainRecord] = []
@@ -412,5 +559,56 @@ public struct BackupDocument: Codable, Equatable, Sendable {
     public var journals: [JournalEntryRecord] = []
     public var activities: [DomainActivityRecord] = []
     public var notificationPreferences: [NotificationPreferenceRecord] = []
+    public var sourceLinks: [SourceLinkRecord] = []
+    public var capacities: [PlanningCapacityRecord] = []
+    public var taskEstimates: [TaskEstimateRecord] = []
+    public var occurrenceEstimates: [OccurrenceEstimateRecord] = []
+    public var goalSupports: [GoalSupportRecord] = []
+    public var weeklyFocuses: [WeeklyFocusRecord] = []
+    public var routineSchedules: [RoutineScheduleRecord] = []
+    public var routineSessions: [RoutineSessionRecord] = []
+    public var activityAnnotations: [ActivityAnnotationRecord] = []
+    public var nutritionPlans: [NutritionPlanRecord] = []
+    public var options: [AppOptionRecord] = []
     public init() {}
+    private enum CodingKeys: String, CodingKey { case version, exportedAt, preferences, domains, subcategories, goals, milestones, goalProgress, tasks, occurrences, routines, routineItems, projects, khatms, readings, memorization, memorizationReviews, dhikr, fasts, events, journals, activities, notificationPreferences, sourceLinks, capacities, taskEstimates, occurrenceEstimates, goalSupports, weeklyFocuses, routineSchedules, routineSessions, activityAnnotations, nutritionPlans, options }
+    public init(from decoder: Decoder) throws {
+        let box = try decoder.container(keyedBy: CodingKeys.self)
+        let oldVersion = try box.decode(Int.self, forKey: .version)
+        guard [1,2].contains(oldVersion) else { throw PlanError.invalid("validation.version") }
+        version = 2
+        exportedAt = try box.decode(Date.self, forKey: .exportedAt)
+        preferences = try box.decode([UserPreferencesRecord].self, forKey: .preferences)
+        domains = try box.decode([LifeDomainRecord].self, forKey: .domains)
+        subcategories = try box.decode([SubcategoryRecord].self, forKey: .subcategories)
+        goals = try box.decode([GoalRecord].self, forKey: .goals)
+        milestones = try box.decode([GoalMilestoneRecord].self, forKey: .milestones)
+        goalProgress = try box.decode([GoalProgressEntryRecord].self, forKey: .goalProgress)
+        tasks = try box.decode([PlannedTaskRecord].self, forKey: .tasks)
+        occurrences = try box.decode([TaskOccurrenceRecord].self, forKey: .occurrences)
+        routines = try box.decode([RoutineRecord].self, forKey: .routines)
+        routineItems = try box.decode([RoutineItemRecord].self, forKey: .routineItems)
+        projects = try box.decode([ProjectRecord].self, forKey: .projects)
+        khatms = try box.decode([QuranKhatmRecord].self, forKey: .khatms)
+        readings = try box.decode([QuranReadingLogRecord].self, forKey: .readings)
+        memorization = try box.decode([MemorizationItemRecord].self, forKey: .memorization)
+        memorizationReviews = try box.decode([MemorizationReviewRecord].self, forKey: .memorizationReviews)
+        dhikr = try box.decode([DhikrCounterRecord].self, forKey: .dhikr)
+        fasts = try box.decode([FastingPlanRecord].self, forKey: .fasts)
+        events = try box.decode([CalendarEventRecord].self, forKey: .events)
+        journals = try box.decode([JournalEntryRecord].self, forKey: .journals)
+        activities = try box.decode([DomainActivityRecord].self, forKey: .activities)
+        notificationPreferences = try box.decode([NotificationPreferenceRecord].self, forKey: .notificationPreferences)
+        sourceLinks = oldVersion == 1 ? (try box.decodeIfPresent([SourceLinkRecord].self, forKey: .sourceLinks) ?? []) : try box.decode([SourceLinkRecord].self, forKey: .sourceLinks)
+        capacities = oldVersion == 1 ? (try box.decodeIfPresent([PlanningCapacityRecord].self, forKey: .capacities) ?? []) : try box.decode([PlanningCapacityRecord].self, forKey: .capacities)
+        taskEstimates = oldVersion == 1 ? (try box.decodeIfPresent([TaskEstimateRecord].self, forKey: .taskEstimates) ?? []) : try box.decode([TaskEstimateRecord].self, forKey: .taskEstimates)
+        occurrenceEstimates = oldVersion == 1 ? (try box.decodeIfPresent([OccurrenceEstimateRecord].self, forKey: .occurrenceEstimates) ?? []) : try box.decode([OccurrenceEstimateRecord].self, forKey: .occurrenceEstimates)
+        goalSupports = oldVersion == 1 ? (try box.decodeIfPresent([GoalSupportRecord].self, forKey: .goalSupports) ?? []) : try box.decode([GoalSupportRecord].self, forKey: .goalSupports)
+        weeklyFocuses = oldVersion == 1 ? (try box.decodeIfPresent([WeeklyFocusRecord].self, forKey: .weeklyFocuses) ?? []) : try box.decode([WeeklyFocusRecord].self, forKey: .weeklyFocuses)
+        routineSchedules = oldVersion == 1 ? (try box.decodeIfPresent([RoutineScheduleRecord].self, forKey: .routineSchedules) ?? []) : try box.decode([RoutineScheduleRecord].self, forKey: .routineSchedules)
+        routineSessions = oldVersion == 1 ? (try box.decodeIfPresent([RoutineSessionRecord].self, forKey: .routineSessions) ?? []) : try box.decode([RoutineSessionRecord].self, forKey: .routineSessions)
+        activityAnnotations = oldVersion == 1 ? (try box.decodeIfPresent([ActivityAnnotationRecord].self, forKey: .activityAnnotations) ?? []) : try box.decode([ActivityAnnotationRecord].self, forKey: .activityAnnotations)
+        nutritionPlans = oldVersion == 1 ? (try box.decodeIfPresent([NutritionPlanRecord].self, forKey: .nutritionPlans) ?? []) : try box.decode([NutritionPlanRecord].self, forKey: .nutritionPlans)
+        options = oldVersion == 1 ? (try box.decodeIfPresent([AppOptionRecord].self, forKey: .options) ?? []) : try box.decode([AppOptionRecord].self, forKey: .options)
+    }
 }

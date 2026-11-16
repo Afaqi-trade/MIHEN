@@ -40,6 +40,17 @@ import SwiftData
         result.journals = try context.fetch(FetchDescriptor<JournalEntry>()).map(\.record)
         result.activities = try context.fetch(FetchDescriptor<DomainActivity>()).map(\.record)
         result.notificationPreferences = try context.fetch(FetchDescriptor<NotificationPreference>()).map(\.record)
+        result.sourceLinks = try context.fetch(FetchDescriptor<SourceLink>()).map(\.record)
+        result.capacities = try context.fetch(FetchDescriptor<PlanningCapacity>()).map(\.record)
+        result.taskEstimates = try context.fetch(FetchDescriptor<TaskEstimate>()).map(\.record)
+        result.occurrenceEstimates = try context.fetch(FetchDescriptor<OccurrenceEstimate>()).map(\.record)
+        result.goalSupports = try context.fetch(FetchDescriptor<GoalSupport>()).map(\.record)
+        result.weeklyFocuses = try context.fetch(FetchDescriptor<WeeklyFocus>()).map(\.record)
+        result.routineSchedules = try context.fetch(FetchDescriptor<RoutineSchedule>()).map(\.record)
+        result.routineSessions = try context.fetch(FetchDescriptor<RoutineSession>()).map(\.record)
+        result.activityAnnotations = try context.fetch(FetchDescriptor<ActivityAnnotation>()).map(\.record)
+        result.nutritionPlans = try context.fetch(FetchDescriptor<NutritionPlan>()).map(\.record)
+        result.options = try context.fetch(FetchDescriptor<AppOption>()).map(\.record)
         return result
     }
     func save(_ data: BackupDocument) throws {
@@ -233,6 +244,105 @@ import SwiftData
                     if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
                 }
                 for record in data.notificationPreferences where !existing.contains(record.id) { context.insert(NotificationPreference(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<SourceLink>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.sourceLinks.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.sourceLinks where !existing.contains(record.id) { context.insert(SourceLink(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<PlanningCapacity>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.capacities.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.capacities where !existing.contains(record.id) { context.insert(PlanningCapacity(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<TaskEstimate>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.taskEstimates.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.taskEstimates where !existing.contains(record.id) { context.insert(TaskEstimate(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<OccurrenceEstimate>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.occurrenceEstimates.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.occurrenceEstimates where !existing.contains(record.id) { context.insert(OccurrenceEstimate(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<GoalSupport>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.goalSupports.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.goalSupports where !existing.contains(record.id) { context.insert(GoalSupport(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<WeeklyFocus>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.weeklyFocuses.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.weeklyFocuses where !existing.contains(record.id) { context.insert(WeeklyFocus(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<RoutineSchedule>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.routineSchedules.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.routineSchedules where !existing.contains(record.id) { context.insert(RoutineSchedule(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<RoutineSession>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.routineSessions.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.routineSessions where !existing.contains(record.id) { context.insert(RoutineSession(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<ActivityAnnotation>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.activityAnnotations.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.activityAnnotations where !existing.contains(record.id) { context.insert(ActivityAnnotation(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<NutritionPlan>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.nutritionPlans.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.nutritionPlans where !existing.contains(record.id) { context.insert(NutritionPlan(record)) }
+            }
+            do {
+                let rows = try context.fetch(FetchDescriptor<AppOption>())
+                let wanted = Dictionary(uniqueKeysWithValues: data.options.map { ($0.id, $0) })
+                let existing = Set(rows.map(\.id))
+                for row in rows {
+                    if let record = wanted[row.id] { if row.record != record { row.update(record) } } else { context.delete(row) }
+                }
+                for record in data.options where !existing.contains(record.id) { context.insert(AppOption(record)) }
             }
             try context.save()
         } catch {

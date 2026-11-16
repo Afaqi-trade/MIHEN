@@ -42,7 +42,7 @@ final class ProductPlanningTests: XCTestCase {
         XCTAssertEqual(try BackupArchive.decode(archive.encoded()),archive)
         var invalid=archive; invalid.prayer?.latitude=100
         XCTAssertThrowsError(try invalid.encoded())
-        invalid=archive; invalid.archiveVersion=2
+        invalid=archive; invalid.archiveVersion=999
         XCTAssertThrowsError(try invalid.encoded())
     }
     func testOnlyExplicitTemplatesAndNoGeneratedSuccess() throws {

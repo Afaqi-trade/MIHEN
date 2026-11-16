@@ -1,0 +1,59 @@
+import XCTest
+@testable import MIHENCore
+
+final class SourceLinkTests: XCTestCase {
+    let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Istanbul")!)
+    func fixture() -> BackupDocument {
+        var data=BackupDocument.fresh();let day=engine.date("2026-11-16")!
+        data.goals=[.init(id:"g",title:"Read",domainIDs:["learning"],start:day,end:day,target:12,unit:"pages")]
+        data.tasks=[.init(id:"t",title:"Read",domainID:"learning",goalID:"g",start:day,target:12,unit:"pages")]
+        data.khatms=[.init(id:"k",title:"Reading",start:day,end:day)]
+        data.readings=[.init(id:"r",khatmID:"k",date:day,pages:6)]
+        engine.materialize(&data,from:day,through:day);return data
+    }
+    func testLinkedReadingReplacesManualAmountDoesNotDoubleCountAndRestoresIt() throws {
+        var data=fixture();let id=data.occurrences[0].id
+        try PlanningEngine.setProgress(2,occurrence:&data.occurrences[0])
+        try data.connectSource("reading:r",to:id,engine:engine)
+        XCTAssertEqual(data.occurrences[0].value,6)
+        XCTAssertEqual(engine.goalValue("g",in:data),6)
+        XCTAssertThrowsError(try data.connectSource("reading:r",to:id,engine:engine))
+        data.readings[0].pages=8;try data.reconcileSources(engine:engine)
+        XCTAssertEqual(engine.goalValue("g",in:data),8)
+        try data.disconnectSource(data.sourceLinks[0].id,engine:engine)
+        XCTAssertEqual(data.occurrences[0].value,2)
+        XCTAssertEqual(data.readings[0].pages,8)
+    }
+    func testSourceDeletionRestoresIndependentProgressAndInvalidDateEditIsRejected() throws {
+        var data=fixture();let id=data.occurrences[0].id
+        try data.connectSource("reading:r",to:id,engine:engine)
+        var changed=data;changed.readings[0].date=engine.addingDays(1,to:changed.readings[0].date)
+        XCTAssertThrowsError(try changed.reconcileSources(engine:engine))
+        XCTAssertEqual(data.occurrences[0].value,6)
+        data.readings=[];try data.reconcileSources(engine:engine)
+        XCTAssertEqual(data.occurrences[0].value,0);XCTAssertTrue(data.sourceLinks.isEmpty)
+        try BackupCodec.validate(data)
+    }
+    func testSourceRequiresMatchingUnitAndOnlyOneDestination() throws {
+        var data=fixture();data.occurrences[0].unit="minutes"
+        XCTAssertThrowsError(try data.connectSource("reading:r",to:data.occurrences[0].id,engine:engine))
+        data=fixture();let day=data.tasks[0].start
+        data.tasks.append(.init(id:"t2",title:"Another",domainID:"learning",start:day,target:12,unit:"pages"))
+        engine.materialize(&data,from:day,through:day)
+        let first=data.occurrences.first { $0.taskID == "t" }!.id,second=data.occurrences.first { $0.taskID == "t2" }!.id
+        try data.connectSource("reading:r",to:first,engine:engine)
+        XCTAssertThrowsError(try data.connectSource("reading:r",to:second,engine:engine))
+    }
+    func testV1BackupMigratesToV2AndCurrentBackupCannotSilentlyLoseNewTables() throws {
+        let data=fixture();let bytes=try BackupCodec.encode(data)
+        var old=try JSONSerialization.jsonObject(with:bytes) as! [String:Any]
+        let keys=["sourceLinks","capacities","taskEstimates","occurrenceEstimates","goalSupports","weeklyFocuses","routineSchedules","routineSessions","activityAnnotations","nutritionPlans","options"]
+        for key in keys { old.removeValue(forKey:key) };old["version"]=1
+        let restored=try BackupCodec.decode(JSONSerialization.data(withJSONObject:old))
+        XCTAssertEqual(restored.version,2);XCTAssertEqual(restored.readings,data.readings);XCTAssertTrue(restored.sourceLinks.isEmpty)
+        old["version"]=2;XCTAssertThrowsError(try BackupCodec.decode(JSONSerialization.data(withJSONObject:old)))
+        var linked=data;try linked.connectSource("reading:r",to:linked.occurrences[0].id,engine:engine)
+        XCTAssertEqual(try BackupCodec.decode(BackupCodec.encode(linked)).sourceLinks,linked.sourceLinks)
+        XCTAssertEqual(try BackupCodec.importCSV(BackupCodec.exportCSV(linked)).sourceLinks,linked.sourceLinks)
+    }
+}

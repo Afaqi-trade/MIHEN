@@ -35,7 +35,7 @@ public enum BackupCodec {
             try check(items.allSatisfy { !$0.id.isEmpty && $0.id.count <= 150 })
         }
         try validateUnique(data)
-        try check(data.version == 1, "validation.version")
+        try check(data.version == 2, "validation.version")
         try check(data.preferences.count == 1)
         try check(data.domains.count == 8 && Set(data.domains.map(\.key)) == Set(LifeArea.allCases.map(\.rawValue)))
         let domainIDs = Set(data.domains.map(\.id)), goalIDs = Set(data.goals.map(\.id))
@@ -132,6 +132,7 @@ public enum BackupCodec {
             let done = data.activities.filter { $0.kind == "qadaDone" && $0.unit == prayer }.reduce(0) { $0 + $1.amount }
             try check(done <= debt)
         }
+        try data.validateRoadmap()
         try validateUnique(data)
     }
 }

@@ -4,6 +4,30 @@ import PDFKit
 @testable import MIHEN
 
 @MainActor final class PersistenceTests: XCTestCase {
+    func testV1StoreMigratesWithoutChangingHistoricalRows() throws {
+        let folder=FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at:folder) }
+        try FileManager.default.createDirectory(at:folder,withIntermediateDirectories:true)
+        let url=folder.appendingPathComponent("upgrade.store")
+        do {
+            let schema=Schema(versionedSchema:MihenSchemaV1.self)
+            let config=ModelConfiguration(schema:schema,url:url,cloudKitDatabase:.none)
+            let container=try ModelContainer(for:schema,configurations:[config])
+            let context=ModelContext(container)
+            context.insert(UserPreferences(.init(name:"V1 korunur")))
+            for row in BackupDocument.fresh().domains { context.insert(LifeDomain(row)) }
+            context.insert(JournalEntry(.init(id:"old-note",text:"Geçmiş değişmez")))
+            try context.save()
+        }
+        let repository=try Repository(storeURL:url)
+        var migrated=try repository.load()
+        XCTAssertEqual(migrated.preferences.first?.name,"V1 korunur")
+        XCTAssertEqual(migrated.journals.first?.text,"Geçmiş değişmez")
+        XCTAssertTrue(migrated.sourceLinks.isEmpty)
+        migrated.setOption("water.quick",value:"200,400")
+        try repository.save(migrated)
+        XCTAssertEqual(try Repository(storeURL:url).load().option("water.quick"),"200,400")
+    }
     func testRecoveryBackupPreservesValidSnapshotOnInvalidReplacement() throws {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathComponent("recovery.json")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }

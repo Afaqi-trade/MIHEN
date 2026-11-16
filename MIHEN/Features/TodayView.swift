@@ -183,6 +183,9 @@ struct OccurrenceDetail: View {
                         ValueInput(title: "progress.value", value: $value)
                         Button(store.t("save")) { store.progress(id, value: value); dismiss() }.disabled(!["planned", "partial", "completed"].contains(row.status))
                     }
+                    Section {
+                        NavigationLink(destination:SourceLinkScreen(occurrenceID:id)) { Text(store.t("source.title")) }.accessibilityIdentifier("source.openLink")
+                    }
                     Section(store.t("reschedule")) {
                         DatePicker(store.t("date"), selection: $destination, displayedComponents: .date)
                         Text(store.t("reschedule.explanation")).font(.footnote)

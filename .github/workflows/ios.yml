@@ -11,6 +11,7 @@ on:
           - screen-time
           - module-gallery
           - accessibility
+          - roadmap
 defaults:
   run:
     shell: bash

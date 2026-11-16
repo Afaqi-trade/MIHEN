@@ -1,6 +1,23 @@
 from pathlib import Path
 import json,re
-rows='''routine.manage|Rutin seçenekleri|Routine options
+rows='''source.kind.activity|Faaliyet kaydı|Activity record
+source.kind.fast|Oruç|Fasting
+source.kind.dhikr|Zikir sayacı|Dhikr counter
+source.kind.review|Ezber tekrarı|Memorization review
+source.kind.reading|Okuma|Reading
+source.disconnectFirst|Bu adım bir modül kaydına bağlı. Miktarı kaynakta değiştirin; tarih, birim, durum veya bağımsız miktar için önce bağlantıyı ayırın.|This task is connected to a module record. Edit its amount at the source; disconnect before changing day, unit, status or independent progress.
+source.incompatible|Kayıt aynı gün, alan ve birimde olmalı; her kayıt yalnızca bir adıma bağlanabilir.|The day, area and unit must match. Each record can connect to only one task.
+source.connect|Kaydı bağla|Connect record
+source.confirmation|Bu kaydın miktarı mevcut manuel miktarın yerine geçsin mi? Kaynak daha sonra değişirse bu adım da güncellenir.|Replace the manual amount with this record? Later source changes will update this task too.
+source.empty|Bu gün, alan ve birimde bağlanabilecek kayıt yok. Önce ilgili modülde kayıt oluşturabilirsin.|No compatible record for this day, area and unit. Create a record in the relevant module first.
+source.available|Uygun kayıtlar|Compatible records
+source.restore|Ayırınca bağlantıdan önceki manuel miktar geri gelir. Kaynak kayıt silinmez. Bağlı kaydı düzenlemek miktarı günceller; silmek bağlantıyı kaldırır.|Disconnecting restores the previous manual amount without deleting the source. Editing the source updates the amount; deleting it disconnects the record.
+source.disconnect|Bağlantıyı ayır|Disconnect
+source.open|Kaynak modülü aç|Open source module
+source.connected|Bağlı kayıt|Connected record
+source.explanation|Aynı gün, yaşam alanı ve birimdeki bir modül kaydını bu adıma bağlayabilirsin. Bağlı miktar mevcut elle girilen miktarın yerine geçer; ikisi toplanmaz. Hedefi aşan kısım bu adıma eklenmez.|Connect a module record with the same day, area and unit. Its amount replaces the manual amount; they are not added together. Amount beyond the task target is not applied.
+source.title|Kayıt bağlantısı|Record connection
+routine.manage|Rutin seçenekleri|Routine options
 backup.details|Yedek içeriği ve gizlilik|Backup contents and privacy
 danger.zone|Verileri silme|Delete data
 report.qada.added|Dönemde eklenen kaza|Qada quantity added in this period
