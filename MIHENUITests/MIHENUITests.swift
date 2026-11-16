@@ -16,7 +16,7 @@ final class MIHENUITests: XCTestCase {
         tap(field, in: app)
         let value = field.value as? String ?? ""
         if !value.isEmpty {
-            let textEnd = field.coordinate(withNormalizedOffset: CGVector(dx: 0.98, dy: 0.5))
+            let textEnd = field.coordinate(withNormalizedOffset: CGVector(dx: 0.999, dy: 0.5))
             textEnd.tap()
             textEnd.press(forDuration: 1.2)
             let predicate = NSPredicate(format: "label IN %@", ["Select All", "Tümünü Seç", "Tümünü seç"])
