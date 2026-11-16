@@ -64,8 +64,11 @@ final class MIHENUITests: XCTestCase {
         tap(app.descendants(matching: .any)["plan.routines"].firstMatch, in: app)
         replace(app.textFields["routine.title"], with: "Sabah rutini")
         app.switches["Sabah yürüyüşü"].tap()
+        XCTAssertEqual(app.switches["Sabah yürüyüşü"].value as? String, "1")
         tap(app.buttons["routine.save"], in: app)
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] %@", "Sabah rutini")).firstMatch.waitForExistence(timeout: 5))
+        let routineGroup = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "routine.group.")).firstMatch
+        for _ in 0..<4 { if routineGroup.exists && routineGroup.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(routineGroup.waitForExistence(timeout: 5))
         capture(app, name: "MIHEN-Routines-TR")
         app.navigationBars.buttons.element(boundBy: 0).tap()
         tap(app.descendants(matching: .any)["plan.qada"].firstMatch, in: app)

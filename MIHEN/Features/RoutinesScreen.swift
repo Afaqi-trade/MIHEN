@@ -25,7 +25,7 @@ struct RoutinesScreen: View {
                 }.accessibilityIdentifier("routine.save").disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selected.isEmpty)
             }
             ForEach(store.data.routines) { routine in
-                Section(routine.title) {
+                Section {
                     ForEach(store.data.routineItems.filter { $0.routineID == routine.id }.sorted { $0.rank < $1.rank }) { item in
                         if let occurrence = store.occurrences(on: Date()).first(where: { $0.taskID == item.taskID }) {
                             OccurrenceRow(occurrence: occurrence)
@@ -39,7 +39,7 @@ struct RoutinesScreen: View {
                             data.routines.removeAll { $0.id == routine.id }
                         }
                     }
-                }
+                } header: { Text(routine.title).accessibilityIdentifier("routine.group." + routine.id) }
             }
         }.keyboardDone().navigationTitle(store.t("routines"))
     }

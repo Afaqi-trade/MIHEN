@@ -92,13 +92,27 @@ struct IntegerInput: View {
     let title: String
     @Binding var value: Int
     var fieldID: String? = nil
+    @State private var text = ""
+    @FocusState private var focused: Bool
+    private func display(_ number: Int) -> String { number.formatted(.number.grouping(.never).locale(store.locale)) }
     var body: some View {
         HStack {
             Text(store.t(title))
             Spacer()
-            TextField(store.t(title), value: $value, format: .number.locale(store.locale))
+            TextField(store.t(title), text: $text)
+                .focused($focused)
                 .keyboardType(.numberPad).multilineTextAlignment(.trailing)
                 .accessibilityIdentifier(fieldID ?? title)
+                .onAppear { text = display(value) }
+                .onChange(of: text) { _, input in
+                    if input.isEmpty { value = 0; return }
+                    if let number = try? Int(input, format: .number.locale(store.locale)) { value = number }
+                }
+                .onChange(of: value) { _, number in if !focused { text = display(number) } }
+                .onChange(of: focused) { _, active in
+                    if active && value == 0 { text = "" }
+                    if !active { text = display(value) }
+                }
         }
     }
 }
