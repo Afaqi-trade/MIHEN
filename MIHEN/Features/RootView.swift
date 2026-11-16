@@ -88,7 +88,7 @@ struct OnboardingView: View {
                             Text(store.t("welcome.steps"))
                         }.padding(.vertical, 8)
                         TextField(store.t("name"), text: $name).textContentType(.givenName)
-                        Text(store.t("welcome.privacy")).font(.footnote).foregroundStyle(.secondary)
+                        Text(store.t("welcome.privacy")).font(.footnote).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                     }
                 } else if step == 1 {
                     Section(store.t("welcome.focus")) {
@@ -112,10 +112,14 @@ struct OnboardingView: View {
                     Text("\(templates.count) " + store.t("starter.selected"))
                     Button(store.t("welcome.begin")) { finish() }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.start")
                 }
-                if step < 2 { Button(store.t("continue")) { step += 1 }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.continue") }
+                if step < 2 {
+                    Button { step += 1 } label: {
+                        Text(store.t("continue")).fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity)
+                    }.buttonStyle(.borderedProminent).accessibilityIdentifier("onboarding.continue")
+                }
                 if step > 0 { Button(store.t("back")) { step -= 1 } }
             }.keyboardDone().navigationTitle(step == 0 ? "MİHEN" : store.t("welcome.title")).navigationBarTitleDisplayMode(.inline)
-                .toolbar { Button(store.t("skip")) { templates = []; selected = Set(LifeArea.allCases.map(\.rawValue)); finish() }.accessibilityIdentifier("onboarding.skip") }
+                .toolbar { Button { templates = []; selected = Set(LifeArea.allCases.map(\.rawValue)); finish() } label: { Label(store.t("skip"), systemImage: "arrow.right.to.line").labelStyle(.iconOnly) }.accessibilityIdentifier("onboarding.skip") }
         }
     }
     private func finish() {

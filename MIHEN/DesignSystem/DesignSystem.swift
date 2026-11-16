@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 extension Color {
     static let mihenNavy = Color(red: 11/255, green: 34/255, blue: 68/255)
@@ -44,6 +45,13 @@ struct ValueInput: View {
                 .focused($focused)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing)
                 .accessibilityIdentifier(title)
+                .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)) { event in
+                    guard let input = event.object as? UITextField else { return }
+                    // Wait until SwiftUI has applied focus/zero-value editing state.
+                    DispatchQueue.main.async {
+                        if focused && input.isFirstResponder { input.selectAll(nil) }
+                    }
+                }
                 .onAppear { text = display(value) }
                 .onChange(of: text) { _, input in
                     if input.isEmpty { value = 0; return }
@@ -103,6 +111,13 @@ struct IntegerInput: View {
                 .focused($focused)
                 .keyboardType(.numberPad).multilineTextAlignment(.trailing)
                 .accessibilityIdentifier(fieldID ?? title)
+                .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)) { event in
+                    guard let input = event.object as? UITextField else { return }
+                    // Wait until SwiftUI has applied focus/zero-value editing state.
+                    DispatchQueue.main.async {
+                        if focused && input.isFirstResponder { input.selectAll(nil) }
+                    }
+                }
                 .onAppear { text = display(value) }
                 .onChange(of: text) { _, input in
                     if input.isEmpty { value = 0; return }

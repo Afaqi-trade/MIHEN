@@ -1,11 +1,11 @@
 # Yayın kapıları
 
 - [x] iOS uygulama/widget/test hedefleri ve paylaşılan scheme oluşturuldu.
-- [x] Yerel Foundation çekirdeği derlendi; 35 senaryo / 94 assertion geçti.
-- [x] Swift sözdizimi, proje referansları, plist/XML/asset ve 275 TR/EN metin anahtarı doğrulandı.
+- [x] Yerel Foundation çekirdeği derlendi; 57 senaryo / 189 assertion geçti.
+- [x] Swift sözdizimi, proje referansları, plist/XML/asset ve 544 TR/EN metin anahtarı doğrulandı.
 - [x] Uzak Xcode 26.6 / iOS 26.5 SDK derlemesi başarılı.
-- [x] Gerçek XCTest, SwiftData kalıcılık/geçersiz save/restore testleri başarılı (38 iOS birim testi).
-- [x] Altı XCUITest ve uygulama yeniden açılınca kalıcılık doğrulandı.
+- [x] Gerçek XCTest, SwiftData kalıcılık/geçersiz save/restore testleri başarılı; güncel kaynak/sayı TEST_REPORT.md içindedir.
+- [x] Gerçek XCUITest akışları ve uygulama yeniden açılınca kalıcılık doğrulandı; güncel kaynak/kapsam TEST_REPORT.md içindedir.
 - [ ] Tüm master prompt akışları UI testleriyle kapsandı.
 - [ ] iPhone cihaz smoke/TestFlight testleri tamamlandı.
 - [ ] Bildirim teslimatı, App Group/widget ve Face ID fiziksel cihazda test edildi.

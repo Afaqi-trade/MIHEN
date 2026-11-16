@@ -20,18 +20,10 @@ final class MIHENUITests: XCTestCase {
         tap(field, in: app)
         let raw = field.value as? String ?? ""
         let value = raw == field.placeholderValue ? "" : raw
-        if !value.isEmpty {
-            let textEnd = field.coordinate(withNormalizedOffset: CGVector(dx: 0.999, dy: 0.5))
-            textEnd.tap()
-            textEnd.press(forDuration: 1.2)
-            let predicate = NSPredicate(format: "label IN %@", ["Select All", "Tümünü Seç", "Tümünü seç"])
-            let selectAllButton = app.buttons.matching(predicate).firstMatch
-            let selectAllMenu = app.menuItems.matching(predicate).firstMatch
-            if selectAllButton.waitForExistence(timeout: 1) { selectAllButton.tap() }
-            else if selectAllMenu.exists { selectAllMenu.tap() }
-            else { textEnd.tap() }
-        }
-        field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count) + text)
+        // Number inputs select their full value on focus, as they do for the user.
+        // Keep focus while the keyboard repositions the form; screen-edge coordinates
+        // can otherwise hit the keyboard or dismiss it after the field has moved.
+        app.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count) + text)
         let done = app.buttons["keyboard.done"].firstMatch
         if done.waitForExistence(timeout: 2) && done.isHittable { done.tap() }
         XCTAssertEqual(field.value as? String, text, "Text entry must replace the existing value exactly")
@@ -136,7 +128,9 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Konum ve hesap ayarları"], in: app)
         tap(app.buttons["İstanbul konumunu kullan"], in: app)
         XCTAssertEqual(app.textFields["latitude"].value as? String, "41,0082")
+        tap(app.textFields["longitude"], in: app)
         XCTAssertEqual(app.textFields["longitude"].value as? String, "28,9784")
+        if app.buttons["keyboard.done"].firstMatch.exists { app.buttons["keyboard.done"].firstMatch.tap() }
         tap(app.buttons["Kaydet"], in: app)
         XCTAssertTrue(app.staticTexts["Widget için kaydedildi"].exists)
         tap(app.buttons["Konum ve hesap ayarları"], in: app)

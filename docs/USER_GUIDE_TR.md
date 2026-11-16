@@ -20,7 +20,7 @@ Haftalık planlama'da hafta aralığı, süresi bilinen dakika toplamı ve süre
 
 Plan → Rutinler → + ile sabah/akşam veya kendi rutinini oluştur. Yeni adım ekleyebilir veya mevcut görevlerini seçebilirsin. Yeni adımlar günlük alışkanlık olarak başlar; ayrıntılarda günlerini değiştirebilirsin. Mevcut görevin tekrar planı değiştirilmez. Düzenle ile sırayı değiştir; rutine saatli hatırlatma ekle. Genel bildirim izni kapalıysa hatırlatma gelmez.
 
-Rutin aynı görev kayıtlarını kullanır; ikinci bir tamamlama üretmez. Duraklatma tüm üye görev şablonlarının gelecek tekrarlarını etkiler; görev başka rutinde de varsa orası da etkilenir. Bugün ve geçmiş değişmez; sürdürme yarından başlar. Tek seferlik adımı yeniden yapmak için tarihini ayrıca düzenle. Grubu kaldırmak görev/geçmişi silmez.
+Rutin aynı görev kayıtlarını kullanır; ikinci bir tamamlama üretmez. Duraklatma tüm üye görev şablonlarının gelecek tekrarlarını etkiler; görev başka rutinde de varsa orası da etkilenir. Bugün ve geçmiş değişmez; sürdürme yarından başlar. Sürdürme yeni başlangıcı yarına alır ve ara verilen günlere görev eklemez. Bitiş tarihi geçmiş adımı sürdürmeden önce rutin düzenleyicide açıp bitişini değiştir. Grubu kaldırmak görev/geçmişi silmez.
 
 ## Rapor ve değerlendirme
 

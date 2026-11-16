@@ -32,7 +32,7 @@ SwiftData: diskteki store'u kapat/aç, 2/6 kısmi kayıt ve Türkçe metin; geç
 
 ## Kanıtlar
 
-Özel depo: [Afaqi-trade/MIHEN](https://github.com/Afaqi-trade/MIHEN). Uzak koşudaki `MIHEN-test-results` artifact'i 7 gün saklanır. İndirilen paket `.build-results/remote-43619860236/` altındadır: workflow/derleme logları, toolchain, device listesi, xcresult, test-summary.json ve gerçek ekran attachment'ları. Üretim verisi kullanılmadı; UI testleri memory store veya DEBUG UUID'li ayrı test store'u kullanır.
+Depo: [Afaqi-trade/MIHEN](https://github.com/Afaqi-trade/MIHEN). Uzak koşudaki `MIHEN-test-results` artifact'i 7 gün saklanır. İndirilen paket `.build-results/remote-43619860236/` altındadır: workflow/derleme logları, toolchain, device listesi, xcresult, test-summary.json ve gerçek ekran attachment'ları. Üretim verisi kullanılmadı; UI testleri memory store veya DEBUG UUID'li ayrı test store'u kullanır.
 
 ## Düzeltme geçmişi
 
@@ -142,3 +142,12 @@ Beş özgün PNG görsel olarak incelendi ve `docs/evidence/43864948660/` içind
 `43874697968` / `b1ae313`: çekirdek testleri ve proje yapısı geçti; gerçek iOS derlemesi iki kaynak hatasıyla durdu (GoalPlanningScreen uzun tip çıkarımı ve PDF başlığında MainActor çağrısı). Başarılı sayılmadı. `5803366` bunları düzeltti; `43875429816` tam koşusu başlatıldı. Sonraki yardım/gizlilik/audit/rapor renderer değişiklikleri bu koşunun kapsamı değildir ve ayrıca test edilmelidir.
 
 Yerel son çekirdek: `swift build` geçti. CLT fallback 56 senaryo / 184 assertion / 0 hata. 10.959 sentetik gerçekleşmede 10 yıllık Core raporu doğruluğu kontrol edildi; yerel zaman çıktısı product-core.log içinde. Bu, iOS arayüz veya fiziksel cihaz performansı değildir. Tam Xcode tip kontrolü ve UI kanıtı uzak son commit sonucu gelmeden başarılı kabul edilmez.
+
+
+## Ürün incelemesi — yeniden başlatılan uzak doğrulama
+
+`43875429816` / `5803366`: gerçek uygulama/uzantı derlemesi geçti; sonuç **77 passed / 2 failed / 0 skipped**. Kaza raporunda birleşik satırın erişilebilirlik sorgusu ve boş miktar alanını placeholder metniyle karıştıran UI giriş helper'ı başarısız oldu. Tam sayı eşitliği kontrolleri korunarak erişilebilirlik değeri ve boş alan kontrolü düzeltildi. Başarısız koşunun görselleri güncel galeriye alınmadı.
+
+`43878131480` / `19c4b6d`: GitHub hesap ödeme/kota engeli yüzünden job başlamadı. Derleme veya test başarısı değildir. Ürün sahibi 16 Kasım'da depoyu public yaptı. Ardından `43915316233` / `0913be7a38f33375c25a2d26b865ce96f8449ec8` tam koşusu gerçekten başladı; önceki engel bu koşuda oluşmadı. Sonuç henüz doğrulanıyor.
+
+Yerel güncel kontrol: `swift build` başarılı; CLT fallback **57 senaryo / 189 assertion / 0 hata**. Bu sonuç iOS derlemesi veya SwiftData/UI testi olarak sayılmaz. Yeni rutin sürdürme testi, duraklama aralığının sonradan doldurulmadığını ve geçmişin korunduğunu kontrol eder. İnceleme önerilerinin uygulama haritası `PRODUCT_REVIEW_IMPLEMENTATION.md` içindedir.
