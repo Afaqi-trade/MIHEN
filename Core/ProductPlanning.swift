@@ -114,6 +114,7 @@ extension BackupDocument {
             let record = DomainActivityRecord(id:id,domainID:"health",date:storedDate,kind:kind,amount:value,unit:unit)
             if let i = candidate.activities.firstIndex(where: { $0.id == id }) { candidate.activities[i] = record } else { candidate.activities.append(record) }
         }
+        try candidate.reconcileSources(engine:engine)
         try BackupCodec.validate(candidate); self = candidate
     }
 }

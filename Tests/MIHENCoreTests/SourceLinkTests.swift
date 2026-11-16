@@ -11,6 +11,20 @@ final class SourceLinkTests: XCTestCase {
         data.readings=[.init(id:"r",khatmID:"k",date:day,pages:6)]
         engine.materialize(&data,from:day,through:day);return data
     }
+    func testHealthRefreshKeepsLinkedDateAndUpdatesOnlyItsExplicitTask() throws {
+        let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Istanbul")!)
+        let day=engine.date("2026-11-17")!
+        var data=BackupDocument.fresh()
+        data.tasks=[.init(id:"steps",title:"Steps",domainID:"health",start:day,target:1000,unit:"count")]
+        engine.materialize(&data,from:day,through:day)
+        try data.recordHealthSummary(on:day,steps:100,energy:nil,engine:engine)
+        try data.connectSource("activity:health.steps:2026-11-17",to:data.occurrences[0].id,engine:engine)
+        try data.recordHealthSummary(on:day.addingTimeInterval(3600),steps:250,energy:nil,engine:engine)
+        XCTAssertEqual(data.activities.count,1)
+        XCTAssertEqual(data.occurrences[0].value,250)
+        XCTAssertEqual(data.sourceLinks[0].sourceDate,engine.calendar.startOfDay(for:day))
+        XCTAssertEqual(data.activities[0].date,engine.calendar.startOfDay(for:day))
+    }
     func testLinkedReadingReplacesManualAmountDoesNotDoubleCountAndRestoresIt() throws {
         var data=fixture();let id=data.occurrences[0].id
         try PlanningEngine.setProgress(2,occurrence:&data.occurrences[0])
