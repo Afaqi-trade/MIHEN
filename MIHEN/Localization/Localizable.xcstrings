@@ -1,6 +1,102 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "planning.unit.locked": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmiş katkıların anlamını korumak için bu hedefin birimi değiştirilemez. Farklı birim için yeni hedef oluştur."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This goal's unit is locked to preserve the meaning of recorded contributions. Create a new goal for a different unit."
+          }
+        }
+      }
+    },
+    "planning.roadmap": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yıldan haftaya yol haritası"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roadmap from year to week"
+          }
+        }
+      }
+    },
+    "planning.months": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aylık dağılım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly breakdown"
+          }
+        }
+      }
+    },
+    "planning.weeks": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftalık dağılım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly breakdown"
+          }
+        }
+      }
+    },
+    "planning.saveMilestones": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aylık ara sonuçları da kaydet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also save monthly milestones"
+          }
+        }
+      }
+    },
+    "planning.milestones.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ara sonuçlar ayrıca ilerleme üretmez. Hedef katkısı yalnızca gerçek görev ve bağımsız katkı kayıtlarından hesaplanır."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Milestones do not generate extra progress. Goal contribution comes only from actual tasks and independent contribution entries."
+          }
+        }
+      }
+    },
     "connections": {
       "localizations": {
         "tr": {
@@ -2070,13 +2166,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "JSON yedeği kayıtlarınızı, tercihlerinizi ve kaydedilmiş namaz ayarlarını içerir. Cihazdaki kayıt tek başına cihaz dışı yedek değildir. Hassas kayıtlar içeren dosyayı güvenli bir yerde saklayın."
+            "value": "JSON yedeği kayıtları, uygulama tercihlerini ve kaydedilmiş namaz ayarlarını içerir. Cihaz dışına güvenli bir konuma aktarın. Ekran Süresi izni ve uygulama seçimi yeni cihazda yeniden kurulur; paylaşım dosyası hassas veriler içerir."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "JSON backups include records, preferences and saved prayer settings. On-device storage alone is not an external backup. Keep the file containing sensitive records in a safe place."
+            "value": "JSON backups include records, app preferences and saved prayer settings. Export to a safe location outside this device. Screen Time authorization and app selection must be set up again on a new device; the shared file contains sensitive data."
           }
         }
       }

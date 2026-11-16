@@ -11,6 +11,15 @@ struct ProgressScreen: View {
     private var series: [DaySummary] {
         store.engine.days(from: interval.start, through: Date()).map { store.engine.summary(store.data, on: $0) }
     }
+    private var chartSeries: [DaySummary] {
+        guard period == "year" else { return series }
+        let groups = Dictionary(grouping: series) { String($0.day.prefix(7)) + "-01" }
+        return groups.keys.sorted().map { key in
+            let values = groups[key] ?? []
+            let planned = values.reduce(0) { $0 + $1.planned }, completed = values.reduce(0) { $0 + $1.completed }
+            return DaySummary(day: key, planned: planned, completed: completed, partial: values.reduce(0) { $0 + $1.partial }, ratio: planned > 0 ? Double(completed) / Double(planned) : nil)
+        }
+    }
     private var totals: (Int, Int) { (series.reduce(0) { $0 + $1.completed }, series.reduce(0) { $0 + $1.planned }) }
     var body: some View {
         ScrollView {
@@ -24,7 +33,7 @@ struct ProgressScreen: View {
                     Text(store.t("statistics.formula")).font(.caption).foregroundStyle(.secondary)
                     Text(comparison).font(.subheadline)
                 }.mihenCard()
-                Chart(series, id: \.day) { day in
+                Chart(chartSeries, id: \.day) { day in
                     if let date = store.engine.date(day.day), let ratio = day.ratio {
                         BarMark(x: .value(store.t("date"), date, unit: .day), y: .value(store.t("progress"), ratio * 100)).foregroundStyle(Color.mihenGreen)
                     }
@@ -37,7 +46,7 @@ struct ProgressScreen: View {
                         else { AxisValueLabel(format: .dateTime.day()) }
                     }
                 }
-                .chartYScale(domain: 0...100).frame(height: 200).accessibilityLabel(store.t("chart.progress"))
+                .chartYScale(domain: 0...100).frame(height: 200).accessibilityLabel(store.t("chart.progress")).accessibilityValue("\(totals.0) / \(totals.1) " + store.t("tasks.completed"))
                 Text(store.t("eight.areas")).font(.title2.bold())
                 ForEach(store.data.domains.filter(\.enabled)) { area in
                     let days = store.engine.days(from: interval.start, through: Date()).map { store.engine.summary(store.data, on: $0, domainID: area.id) }

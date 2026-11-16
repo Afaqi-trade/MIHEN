@@ -116,3 +116,24 @@ extension BackupDocument {
         try BackupCodec.validate(candidate); self = candidate
     }
 }
+
+public struct PlanningStage: Identifiable, Equatable, Sendable {
+    public let id: String
+    public let start: Date
+    public let end: Date
+    public let total: Double
+    public let actions: Int
+}
+extension PlanningEngine {
+    public func planningStages(_ allocations: [PlannedAllocation], component: Calendar.Component) -> [PlanningStage] {
+        var buckets: [String: [PlannedAllocation]] = [:]
+        for item in allocations {
+            guard let day = date(item.day), let interval = calendar.dateInterval(of: component, for: day) else { continue }
+            buckets[key(interval.start),default:[]].append(item)
+        }
+        return buckets.keys.sorted().compactMap { id in
+            guard let entries=buckets[id], let first=entries.first, let day=date(first.day), let interval=calendar.dateInterval(of:component,for:day) else { return nil }
+            return .init(id:id,start:interval.start,end:addingDays(-1,to:interval.end),total:entries.reduce(0) { $0 + $1.amount },actions:entries.count)
+        }
+    }
+}

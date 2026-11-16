@@ -138,7 +138,8 @@ final class MIHENUITests: XCTestCase {
         XCTAssertEqual(app.textFields["longitude"].value as? String, "28,9784")
         tap(app.buttons["Kaydet"], in: app)
         XCTAssertTrue(app.staticTexts["Widget için kaydedildi"].exists)
-        app.swipeUp()
+        tap(app.buttons["Konum ve hesap ayarları"], in: app)
+        for _ in 0..<3 { app.swipeDown() }
         XCTAssertTrue(app.staticTexts["Güneş"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["06:16"].exists, "Istanbul 15 Nov 2026 fajr must display Istanbul time, not UTC")
         capture(app, name: "MIHEN-Prayer-TR")
@@ -274,7 +275,7 @@ final class MIHENUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.buttons["onboarding.continue"].waitForExistence(timeout: 10))
         capture(app, name: "MIHEN-Onboarding-TR")
-        app.buttons["onboarding.continue"].tap()
+        tap(app.buttons["onboarding.continue"],in:app)
         tap(app.switches["onboarding.area.health"], in: app)
         tap(app.buttons["onboarding.continue"], in: app)
         let movement = app.switches["onboarding.template.movement"]
@@ -302,7 +303,7 @@ final class MIHENUITests: XCTestCase {
         let app = start()
         capture(app,name:"MIHEN-Today-Empty-TR")
         app.tabBars.buttons["Profil"].tap()
-        let scope = app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "JSON yedeği kayıtlarınızı")).firstMatch
+        let scope = app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "JSON yedeği kayıtları")).firstMatch
         for _ in 0..<12 { if scope.exists && scope.isHittable { break }; app.swipeUp() }
         XCTAssertTrue(scope.waitForExistence(timeout:5))
         capture(app,name:"MIHEN-Backup-TR")

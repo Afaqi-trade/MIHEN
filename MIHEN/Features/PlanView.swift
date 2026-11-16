@@ -232,6 +232,8 @@ struct GoalEditor: View {
                 }
                 ValueInput(title: "target", value: $draft.target)
                 UnitPicker(unit: $draft.unit)
+                    .disabled(store.data.goalProgress.contains(where: { $0.goalID == draft.id && $0.amount > 0 }) || store.data.occurrences.contains(where: { $0.goalID == draft.id && $0.value > 0 }))
+                if store.data.goalProgress.contains(where: { $0.goalID == draft.id && $0.amount > 0 }) || store.data.occurrences.contains(where: { $0.goalID == draft.id && $0.value > 0 }) { Text(store.t("planning.unit.locked")).font(.footnote) }
                 DatePicker(store.t("start.date"), selection: $draft.start, displayedComponents: .date)
                 DatePicker(store.t("end.date"), selection: $draft.end, displayedComponents: .date)
                 Picker(store.t("priority"), selection: $draft.priority) { ForEach(0..<3) { Text(store.t("priority.\($0)")).tag($0) } }
@@ -241,7 +243,10 @@ struct GoalEditor: View {
                     ToolbarItem(placement: .cancellationAction) { Button(store.t("cancel")) { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) {
                         Button(store.t("save")) {
-                            if store.change({ data in if let i = data.goals.firstIndex(where: { $0.id == draft.id }) { data.goals[i] = draft } else { data.goals.append(draft) } }) { dismiss() }
+                            if store.change({ data in if let i = data.goals.firstIndex(where: { $0.id == draft.id }) {
+                                if data.goals[i].unit != draft.unit && (data.goalProgress.contains(where: { $0.goalID == draft.id && $0.amount > 0 }) || data.occurrences.contains(where: { $0.goalID == draft.id && $0.value > 0 })) { throw PlanError.invalid("planning.unit.locked") }
+                                data.goals[i] = draft
+                            } else { data.goals.append(draft) } }) { dismiss() }
                         }.disabled(draft.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || draft.domainIDs.isEmpty || draft.target <= 0 || draft.end < draft.start).accessibilityIdentifier("goal.save")
                     }
                 }

@@ -54,3 +54,15 @@ final class ProductPlanningTests: XCTestCase {
         try BackupCodec.validate(data)
     }
 }
+
+extension ProductPlanningTests {
+    func testMonthlyAndWeeklyRoadmapTotalsMatchDailyProposal() throws {
+        let start = engine.date("2026-01-01")!, end = engine.date("2026-12-31")!
+        let proposal = try engine.allocations(total:24,unit:"books",from:start,through:end)
+        let months = engine.planningStages(proposal,component:.month)
+        let weeks = engine.planningStages(proposal,component:.weekOfYear)
+        XCTAssertEqual(months.reduce(0) { $0 + $1.total },24)
+        XCTAssertEqual(weeks.reduce(0) { $0 + $1.total },24)
+        XCTAssertEqual(months.reduce(0) { $0 + $1.actions },24)
+    }
+}

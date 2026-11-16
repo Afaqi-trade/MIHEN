@@ -1,6 +1,12 @@
 from pathlib import Path
 import json,re
-rows='''connections|Bağlantılar ve hatırlatmalar|Connections and reminders
+rows='''planning.unit.locked|Kaydedilmiş katkıların anlamını korumak için bu hedefin birimi değiştirilemez. Farklı birim için yeni hedef oluştur.|This goal's unit is locked to preserve the meaning of recorded contributions. Create a new goal for a different unit.
+planning.roadmap|Yıldan haftaya yol haritası|Roadmap from year to week
+planning.months|Aylık dağılım|Monthly breakdown
+planning.weeks|Haftalık dağılım|Weekly breakdown
+planning.saveMilestones|Aylık ara sonuçları da kaydet|Also save monthly milestones
+planning.milestones.help|Ara sonuçlar ayrıca ilerleme üretmez. Hedef katkısı yalnızca gerçek görev ve bağımsız katkı kayıtlarından hesaplanır.|Milestones do not generate extra progress. Goal contribution comes only from actual tasks and independent contribution entries.
+connections|Bağlantılar ve hatırlatmalar|Connections and reminders
 timezone.common|Sık kullanılan bölgeler|Common time zones
 timezone.search|Şehir veya bölge ara|Search city or region
 reading.quantity.help|Bu kayıtta okuduğun sayfa miktarını gir; ulaştığın sayfa numarasını değil.|Enter the number of pages read in this entry, not the page number you reached.
@@ -129,7 +135,7 @@ contribution.confirm|Bu miktar bağlı görevlerde kaydedilmemiş bağımsız bi
 contribution.add|Bağımsız katkıyı ekle|Add independent contribution
 backup.lastExport|Son başarılı JSON yedek dışa aktarımı|Last successful JSON backup export
 backup.none|Henüz cihaz dışına yedek aktarılmadı.|No backup has been exported yet.
-backup.scope|JSON yedeği kayıtlarınızı, tercihlerinizi ve kaydedilmiş namaz ayarlarını içerir. Cihazdaki kayıt tek başına cihaz dışı yedek değildir. Hassas kayıtlar içeren dosyayı güvenli bir yerde saklayın.|JSON backups include records, preferences and saved prayer settings. On-device storage alone is not an external backup. Keep the file containing sensitive records in a safe place.
+backup.scope|JSON yedeği kayıtları, uygulama tercihlerini ve kaydedilmiş namaz ayarlarını içerir. Cihaz dışına güvenli bir konuma aktarın. Ekran Süresi izni ve uygulama seçimi yeni cihazda yeniden kurulur; paylaşım dosyası hassas veriler içerir.|JSON backups include records, app preferences and saved prayer settings. Export to a safe location outside this device. Screen Time authorization and app selection must be set up again on a new device; the shared file contains sensitive data.
 backup.exported|Dosya dışa aktarıldı. Seçtiğiniz konumda saklandığını kontrol edin.|File exported. Check it is kept in your chosen location.
 backup.prayerIncluded|Bu yedek namaz ayarlarını da geri yükler; ayar yoksa varsayılana döner.|This backup also restores prayer settings, or resets to defaults when absent.
 backup.legacy|Bu eski JSON veya CSV dosyası namaz ayarlarını içermez; mevcut namaz ayarları korunur.|This legacy JSON or CSV file does not include prayer settings; current prayer settings are kept.

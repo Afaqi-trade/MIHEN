@@ -56,11 +56,12 @@ struct ReportExportScreen: View {
     private func renderPDF(rows: [[String]]) -> Data {
         let bounds = CGRect(x:0,y:0,width:595,height:842)
         let renderer = UIGraphicsPDFRenderer(bounds:bounds)
+        let heading = "MİHEN · " + store.t("reports")
         return renderer.pdfData { context in
             var y: CGFloat = 50
             func newPage() {
                 context.beginPage(); y = 50
-                ("MİHEN · " + store.t("reports") as NSString).draw(at: CGPoint(x:44,y:y), withAttributes:[.font:UIFont.boldSystemFont(ofSize:20),.foregroundColor:UIColor.black]); y += 36
+                (heading as NSString).draw(at: CGPoint(x:44,y:y), withAttributes:[.font:UIFont.boldSystemFont(ofSize:20),.foregroundColor:UIColor.black]); y += 36
             }
             newPage()
             for line in [store.t("report.coverage"),store.t("report.sources.explanation")] + rows.map({ $0.joined(separator:" · ") }) {

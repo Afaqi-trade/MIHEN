@@ -8,6 +8,7 @@ struct GoalPlanningScreen: View {
     @State private var weekdays = Set(1...7)
     @State private var confirmation = false
     @State private var milestone = ""
+    @State private var createMilestones = false
     private var goal: GoalRecord? { store.data.goals.first { $0.id == goalID } }
     private var proposal: [PlannedAllocation] {
         (try? store.engine.goalAllocations(goalID, in: store.data, from: start, through: end, weekdays: weekdays)) ?? []
@@ -34,11 +35,27 @@ struct GoalPlanningScreen: View {
                         }
                     }
                 }
+                Section(store.t("planning.roadmap")) {
+                    let first90 = proposal.filter { item in
+                        guard let day = store.engine.date(item.day) else { return false }
+                        return day < store.engine.addingDays(90, to: store.engine.calendar.startOfDay(for: start))
+                    }.reduce(0.0) { $0 + $1.amount }
+                    Text(store.t("planning.next90") + ": " + first90.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
+                    DisclosureGroup(store.t("planning.months")) {
+                        ForEach(store.engine.planningStages(proposal, component: .month)) { stage in stageRow(stage, unit: goal.unit) }
+                    }
+                    DisclosureGroup(store.t("planning.weeks")) {
+                        ForEach(store.engine.planningStages(proposal, component: .weekOfYear)) { stage in stageRow(stage, unit: goal.unit) }
+                    }
+                    Toggle(store.t("planning.saveMilestones"), isOn: $createMilestones)
+                    Text(store.t("planning.milestones.help")).font(.footnote)
+                }
                 Section(store.t("planning.preview")) {
                     if let problem { Text(store.t(problem)).foregroundStyle(.secondary) }
                     else {
                         Text("\(proposal.count) " + store.t("planning.actions"))
-                        Text(store.t("planning.total") + ": " + proposal.reduce(0) { $0 + $1.amount }.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit)).accessibilityIdentifier("goal.split.suggestion")
+                        let total = proposal.reduce(0.0) { $0 + $1.amount }
+                        Text(store.t("planning.total") + ": " + total.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit)).accessibilityIdentifier("goal.split.suggestion")
                         if let low = proposal.map(\.amount).min(), let high = proposal.map(\.amount).max() {
                             Text(store.t("planning.range") + ": " + low.formatted(.number.locale(store.locale)) + " - " + high.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
                         }
@@ -64,10 +81,24 @@ struct GoalPlanningScreen: View {
                     let engine = store.engine
                     store.change { document in
                         try engine.applyGoalPlan(goalID, from: start, through: end, weekdays: weekdays, in: &document)
+                        if createMilestones, let goal {
+                            for stage in engine.planningStages(proposal, component: .month) {
+                                let formatter = DateFormatter(); formatter.locale = store.locale; formatter.timeZone = engine.timeZone; formatter.dateFormat = "LLLL yyyy"
+                                let title = formatter.string(from: stage.start) + " · " + stage.total.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit)
+                                document.milestones.append(.init(goalID: goalID, title: title, due: min(stage.end, end)))
+                            }
+                        }
                         let title = milestone.trimmingCharacters(in: .whitespacesAndNewlines)
                         if !title.isEmpty { document.milestones.append(.init(goalID: goalID, title: title, due: min(end, engine.addingDays(89, to: start)))) }
                     }
                 }
             }
     }
+    private func stageRow(_ stage: PlanningStage, unit: String) -> some View {
+        VStack(alignment: .leading) {
+            Text(stage.start, format: .dateTime.day().month()); Text(stage.end, format: .dateTime.day().month())
+            Text(stage.total.formatted(.number.locale(store.locale)) + " " + store.t(unit) + " · \(stage.actions) " + store.t("planning.actions")).font(.subheadline)
+        }
+    }
+
 }
