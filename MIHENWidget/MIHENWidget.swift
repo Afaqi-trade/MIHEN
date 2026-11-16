@@ -29,7 +29,7 @@ struct TodayWidgetView: View {
                     else { Text(text("today", snapshot)).font(.caption) }
                     HStack {
                         Link(destination:URL(string:"mihen://water?day="+snapshot.day)!) { Label(text("water.widget",snapshot),systemImage:"drop").font(.caption) }
-                        if family != .systemSmall { Link(destination:URL(string:"mihen://add-task")!) { Label(text("task.new",snapshot),systemImage:"plus.circle").font(.caption) }
+                        if family != .systemSmall { Link(destination:URL(string:"mihen://add-task")!) { Label(text("task.new",snapshot),systemImage:"plus.circle").font(.caption) } }
                     }
                 } else { Text(text("widget.open", snapshot)) }
             } else { Text(LocalizedStringKey("widget.open")) }
