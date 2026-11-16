@@ -23,6 +23,7 @@ LABELS = {
     'MIHEN-Help-TR': 'Yardım · anlaşılır kullanım rehberi',
     'MIHEN-Today-Accessibility-TR': 'Bugün · erişilebilirlik kontrolü',
     'MIHEN-Today-LargeText-TR': 'Bugün · küçük ekran ve büyük metin',
+    'MIHEN-Today-LargeText-Task-TR': 'Bugün · büyük metinle gerçek görev',
 
     'MIHEN-Qada-TR': 'Kaza namazı takibi',
     'MIHEN-WeeklyPlan-TR': 'Haftalık planlama',

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TodayView: View {
     @Environment(AppStore.self) private var store
+    @Environment(\.dynamicTypeSize) private var textSize
     @State private var taskEditor = false
     @State private var noteEditor = false
     @State private var focusEditor = false
@@ -12,20 +13,26 @@ struct TodayView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text(today, format: .dateTime.weekday(.wide).day().month(.wide)).foregroundStyle(.secondary)
+                Text(today, format: .dateTime.weekday(.wide).day().month(.wide)).font(textSize.isAccessibilitySize ? .caption : .body).foregroundStyle(.secondary)
                 if store.preferences.showHijri { Text(hijriDate).font(.subheadline).foregroundStyle(.secondary) }
-                summaryCard
+                if !textSize.isAccessibilitySize { summaryCard }
                 if store.lastProgressChange != nil { Button(store.t("undo")) { store.undoProgress() }.accessibilityIdentifier("today.undo") }
                 if rows.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
+                        if textSize.isAccessibilitySize {
+                            Button(store.t("today.first.add")) { taskEditor = true }.buttonStyle(.borderedProminent)
+                        }
                         Text(store.t("today.first.title")).font(.title2.bold())
                         Text(store.t("today.first.body"))
-                        Button(store.t("today.first.add")) { taskEditor = true }.buttonStyle(.borderedProminent)
+                        if !textSize.isAccessibilitySize {
+                            Button(store.t("today.first.add")) { taskEditor = true }.buttonStyle(.borderedProminent)
+                        }
                         NavigationLink(destination: StarterTemplatesScreen()) { Text(store.t("templates.choose")) }
                     }.mihenCard()
                 } else {
-                    HStack {
-                        Text(store.t("today.plan")).font(.title2.bold()); Spacer()
+                    (textSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout())) {
+                        Text(store.t("today.plan")).font(.title2.bold())
+                        if !textSize.isAccessibilitySize { Spacer() }
                         Button(store.t("focus.choose")) { focusEditor = true }.accessibilityIdentifier("today.focus")
                     }
                     ForEach(pending) { OccurrenceRow(occurrence: $0) }
@@ -37,9 +44,10 @@ struct TodayView: View {
                         .accessibilityIdentifier("today.completed")
                     }
                 }
-                HStack {
+                if textSize.isAccessibilitySize && !rows.isEmpty { summaryCard }
+                (textSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout())) {
                     NavigationLink(destination: WeeklyPlanScreen()) { Label(store.t("weekly.plan"), systemImage: "calendar") }
-                    Spacer()
+                    if !textSize.isAccessibilitySize { Spacer() }
                     Button { noteEditor = true } label: { Label(store.t("quick.note"), systemImage: "square.and.pencil") }
                 }.font(.subheadline)
                 if store.data.domains.contains(where: { $0.key == "spiritual" && $0.enabled }) {
@@ -56,7 +64,8 @@ struct TodayView: View {
                 NavigationLink(destination: JournalScreen()) { Text(store.t("reviews")) }
                 NavigationLink(destination: TaskListScreen()) { Text(store.t("manage")) }.font(.footnote)
             }.padding()
-        }.background(Color.mihenBackground).navigationTitle(greeting)
+        }.background(Color.mihenBackground).navigationTitle(textSize.isAccessibilitySize ? store.t("today") : greeting)
+            .navigationBarTitleDisplayMode(textSize.isAccessibilitySize ? .inline : .large)
             .toolbar { Button { taskEditor = true } label: { Image(systemName: "plus").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(store.t("task.new")).accessibilityIdentifier("today.add") }
             .onAppear { completedOpen = pending.isEmpty }
             .onChange(of: pending.count) { _, count in if count == 0 { completedOpen = true } }
@@ -123,11 +132,12 @@ struct TodayFocusScreen: View {
 }
 struct OccurrenceRow: View {
     @Environment(AppStore.self) private var store
+    @Environment(\.dynamicTypeSize) private var textSize
     let occurrence: TaskOccurrenceRecord
     @State private var details = false
     private var active: Bool { ["planned", "partial", "completed"].contains(occurrence.status) }
     var body: some View {
-        HStack(spacing: 12) {
+        (textSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 12))) {
             Button {
                 store.progress(occurrence.id, value: occurrence.status == "completed" ? 0 : occurrence.target)
             } label: {

@@ -328,6 +328,16 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(app.buttons["today.add"].waitForExistence(timeout:5))
         try app.performAccessibilityAudit(for:[.dynamicType,.sufficientElementDescription])
         capture(app,name:app.frame.width <= 375 ? "MIHEN-Today-LargeText-TR" : "MIHEN-Today-Accessibility-TR")
+        if app.frame.width <= 375 {
+            app.buttons["today.add"].tap()
+            replace(app.textFields["task.title"], with:"Kısa yürüyüş")
+            app.buttons["task.save"].tap()
+            let title = app.staticTexts["Kısa yürüyüş"].firstMatch
+            XCTAssertTrue(title.waitForExistence(timeout:5))
+            for _ in 0..<4 { if title.isHittable { break }; app.swipeUp() }
+            XCTAssertTrue(title.isHittable)
+            capture(app,name:"MIHEN-Today-LargeText-Task-TR")
+        }
     }
 
 }
