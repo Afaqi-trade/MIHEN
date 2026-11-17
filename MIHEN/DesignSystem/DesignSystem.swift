@@ -164,3 +164,16 @@ struct MihenIntro: View {
         }.mihenCard()
     }
 }
+
+struct SelectAllTextField: View {
+    let title: String
+    @Binding var text: String
+    @FocusState private var focused: Bool
+    var body: some View {
+        TextField(title,text:$text).focused($focused).autocorrectionDisabled()
+            .onReceive(NotificationCenter.default.publisher(for:UITextField.textDidBeginEditingNotification)) { event in
+                guard let input=event.object as? UITextField else { return }
+                DispatchQueue.main.async { if focused && input.isFirstResponder { input.selectAll(nil) } }
+            }
+    }
+}

@@ -126,7 +126,7 @@ struct WaterShortcutScreen: View {
     var body: some View {
         Form {
             Text(store.t("nutrition.shortcuts.help"))
-            TextField("250,500",text:$values).accessibilityIdentifier("nutrition.shortcuts")
+            SelectAllTextField(title:"250,500",text:$values).accessibilityIdentifier("nutrition.shortcuts")
             Button(store.t("save")) { if store.change({ $0.setOption("water.quick",value:values) }) { dismiss() } }.accessibilityIdentifier("nutrition.shortcuts.save")
         }.navigationTitle(store.t("nutrition.shortcuts")).onAppear { values=store.data.option("water.quick",fallback:"250,500") }
     }

@@ -4,6 +4,7 @@ struct SourceLinkScreen: View {
     @Environment(AppStore.self) private var store
     let occurrenceID: String
     @State private var pending: SourceEvent?
+    @State private var confirming=false
     private var row: TaskOccurrenceRecord? { store.data.occurrences.first { $0.id == occurrenceID } }
     private var link: SourceLinkRecord? { store.data.sourceLinks.first { $0.occurrenceID == occurrenceID } }
     private var events: [SourceEvent] {
@@ -37,7 +38,7 @@ struct SourceLinkScreen: View {
                     Section(store.t("source.available")) {
                         if events.isEmpty { Text(store.t("source.empty")) }
                         ForEach(events) { event in
-                            Button { pending=event } label: {
+                            Button { pending=event;confirming=true } label: {
                                 VStack(alignment:.leading) {
                                     Text(store.taskTitle(event.title))
                                     Text(store.t("source.kind."+event.kind)+" · "+event.amount.formatted(.number.locale(store.locale))+" "+store.t(event.unit)).font(.caption)
@@ -48,7 +49,7 @@ struct SourceLinkScreen: View {
                 }
             }
         }.navigationTitle(store.t("source.title"))
-            .confirmationDialog(store.t("source.confirmation"),isPresented:Binding(get:{ pending != nil },set:{ if !$0 { pending=nil } })) {
+            .confirmationDialog(store.t("source.confirmation"),isPresented:$confirming) {
                 Button(store.t("source.connect")) {
                     guard let event=pending else { return };let engine=store.engine
                     if store.change({ try $0.connectSource(event.id,to:occurrenceID,engine:engine) }) { store.lastProgressChange=nil }

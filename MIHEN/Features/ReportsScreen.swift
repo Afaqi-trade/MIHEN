@@ -68,14 +68,14 @@ private struct ReportExecutiveHero: View {
     var body: some View {
         VStack(alignment:.leading,spacing:20) {
             HStack { Label(store.t("report.executive"),systemImage:"sparkle").font(.subheadline.weight(.semibold));Spacer();MihenMotif().stroke(.white.opacity(0.45),lineWidth:1).frame(width:36,height:36).accessibilityHidden(true) }
-            Text(report.recordedDays.isEmpty ? store.t("report.executive.empty") : store.t("report.executive.title")).font(.system(.largeTitle,design:.serif).weight(.semibold)).fixedSize(horizontal:false,vertical:true)
+            Text(report.recordedDays.isEmpty ? store.t("report.executive.empty") : store.t("report.executive.title")).font(.system(size.isAccessibilitySize ? .title2 : .largeTitle,design:.serif).weight(.semibold)).fontDesign(.serif).fixedSize(horizontal:false,vertical:true)
             Text(dateRange).font(.subheadline)
-            Text(store.t("report.executive.help")).font(.subheadline).fixedSize(horizontal:false,vertical:true)
+            if !size.isAccessibilitySize { Text(store.t("report.executive.help")).font(.subheadline).fixedSize(horizontal:false,vertical:true) }
             Divider().overlay(.white.opacity(0.3))
             LazyVGrid(columns:columns,alignment:.leading,spacing:20) {
                 stat(String(report.completed),"today.finished")
                 stat(String(report.partial),"report.partial")
-                stat("\(report.recordedDays.count) / \(data.elapsedDays)","report.recordedDays")
+                stat("\(report.recordedDays.count) / \(data.elapsedDays)","report.recordedDays").accessibilityIdentifier("report.coverage.days")
                 stat(String(data.areas.filter { !$0.report.recordedDays.isEmpty }.count)+" / 8","report.areas.recorded")
             }
             if report.planned > 0 {
@@ -83,7 +83,6 @@ private struct ReportExecutiveHero: View {
                     .accessibilityLabel(store.t("report.steps")).accessibilityValue("\(report.completed) / \(report.planned)")
                 Text("\(report.completed) / \(report.planned) "+store.t("tasks.completed")).font(.caption)
             }
-            Text(store.t("report.recordedDays")+": \(report.recordedDays.count)").font(.caption).accessibilityIdentifier("report.coverage.days")
         }.padding(24).frame(maxWidth:.infinity,alignment:.leading)
             .foregroundStyle(.white)
             .background(LinearGradient(colors:[Color.mihenNavy,Color(red:0.08,green:0.29,blue:0.30)],startPoint:.topLeading,endPoint:.bottomTrailing),in:RoundedRectangle(cornerRadius:28))
@@ -192,9 +191,9 @@ private struct ReportAreaDetail: View {
     let interval: DateInterval
     var body: some View {
         List {
-            Text(store.t("report.sources.explanation")).font(.footnote)
+            NavigationLink(destination:DomainScreen(domainID:area.id)) { Text(store.t("report.openArea")) }.accessibilityIdentifier("report.openArea")
             if let domain=store.data.domains.first(where:{ $0.id == area.id }) { ReportDomainSection(domain:domain,interval:interval,report:area.report) }
-            NavigationLink(destination:DomainScreen(domainID:area.id)) { Text(store.t("report.openArea")) }
+            DisclosureGroup(store.t("report.formula")) { Text(store.t("report.sources.explanation")).font(.footnote) }
         }.navigationTitle(store.title(area.id)).navigationBarTitleDisplayMode(.inline)
     }
 }

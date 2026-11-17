@@ -54,7 +54,12 @@ final class MIHENUITests: XCTestCase {
     }
     @MainActor private func spiritual(_ module: String, in app: XCUIApplication) {
         app.tabBars.buttons["Plan"].tap()
-        XCTAssertTrue(app.navigationBars["Plan"].waitForExistence(timeout: 10))
+        for _ in 0..<4 {
+            if app.navigationBars["Plan"].exists { break }
+            let back=app.navigationBars.buttons.element(boundBy:0)
+            if back.exists { back.tap() }
+        }
+        XCTAssertTrue(app.navigationBars["Plan"].waitForExistence(timeout:10))
         tap(app.buttons["plan.spiritual"], in: app)
         tap(app.buttons["spiritual." + module], in: app)
     }
@@ -76,6 +81,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["source.openLink"],in:app)
         tap(app.buttons["source.choose.review"],in:app)
         app.buttons["source.confirm"].firstMatch.tap() // SwiftUI exposes the enclosing and nested confirmation button.
+        XCTAssertTrue(app.staticTexts["source.current"].waitForExistence(timeout:5))
         XCTAssertEqual(app.staticTexts["source.current"].label,"1 / 6 Adet")
         capture(app,name:"MIHEN-Source-Link-TR")
         tap(app.buttons["source.disconnect"],in:app)
@@ -176,7 +182,8 @@ final class MIHENUITests: XCTestCase {
         for _ in 0..<24 { if area.exists && area.isHittable { break };app.swipeUp() }
         XCTAssertTrue(area.exists && area.isHittable)
         area.tap()
-        XCTAssertTrue(app.buttons["Alanı ve planımı aç"].waitForExistence(timeout:5))
+        reveal(app.buttons["report.openArea"],in:app)
+        XCTAssertTrue(app.buttons["report.openArea"].exists)
     }
     @MainActor func testNewModuleScreensGallery() throws {
         let app = start()
@@ -195,6 +202,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["routine.add"], in: app)
         replace(app.textFields["routine.title"], with: "Sabah rutini")
         let routineTask = app.switches["Sabah yürüyüşü"]
+        reveal(routineTask,in:app)
         routineTask.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
         XCTAssertEqual(routineTask.value as? String, "1")
         tap(app.buttons["routine.save"], in: app)
@@ -245,11 +253,13 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Beslenme ve hareket"], in: app)
         replace(app.textFields["amount"], with: "450")
         tap(app.buttons["Kaydet"], in: app)
+        reveal(app.staticTexts["Alınan enerji: 450 kcal"],in:app)
         XCTAssertTrue(app.staticTexts["Alınan enerji: 450 kcal"].exists)
         capture(app, name: "MIHEN-Nutrition-TR")
         app.terminate(); app.launch()
         app.tabBars.buttons["Plan"].tap()
         tap(app.buttons["Beslenme ve hareket"], in: app)
+        reveal(app.staticTexts["Alınan enerji: 450 kcal"],in:app)
         XCTAssertTrue(app.staticTexts["Alınan enerji: 450 kcal"].exists)
     }
     @MainActor func testOfflinePrayerTimes() throws {
@@ -288,8 +298,8 @@ final class MIHENUITests: XCTestCase {
         app.tabBars.buttons["İlerleme"].tap()
         tap(app.buttons["progress.reports"], in: app)
         XCTAssertTrue(app.staticTexts["Yeni bir başlangıç"].waitForExistence(timeout:10))
-        XCTAssertTrue(app.staticTexts["report.coverage.days"].exists)
         capture(app, name: "MIHEN-Reports-TR")
+        reveal(app.descendants(matching:.any)["report.coverage.days"].firstMatch,in:app)
         app.buttons["report.export.open"].tap()
         capture(app,name:"MIHEN-Report-Export-TR")
         let exportButton=app.buttons["report.export.confirm"]
@@ -457,6 +467,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["+250 ml"],in:app)
         XCTAssertTrue(app.staticTexts["Su tüketimi: 250 ml"].exists)
         tap(app.buttons["Geri al"],in:app)
+        reveal(app.staticTexts["Su tüketimi: 0 ml"],in:app)
         XCTAssertTrue(app.staticTexts["Su tüketimi: 0 ml"].exists)
         capture(app,name:"MIHEN-Nutrition-Quick-TR")
     }

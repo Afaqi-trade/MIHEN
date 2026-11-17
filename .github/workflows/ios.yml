@@ -56,3 +56,16 @@ jobs:
             .build-results/attachments/
           retention-days: 7
           if-no-files-found: ignore
+      - name: Preserve compact review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          include-hidden-files: true
+          name: MIHEN-preview
+          path: |
+            .build-results/test-summary.json
+            .build-results/toolchain.txt
+            .build-results/accessibility-devices.json
+            .build-results/attachments/
+          retention-days: 7
+          if-no-files-found: ignore

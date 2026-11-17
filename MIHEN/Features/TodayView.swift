@@ -174,6 +174,7 @@ struct OccurrenceDetail: View {
     @State private var distributionEnd = Date()
     @State private var proposal: [Allocation] = []
     @State private var confirmDistribution = false
+    @State private var sourceLink=false
     var body: some View {
         NavigationStack {
             Form {
@@ -185,7 +186,7 @@ struct OccurrenceDetail: View {
                         Button(store.t("save")) { store.progress(id, value: value); dismiss() }.disabled(!["planned", "partial", "completed"].contains(row.status))
                     }
                     Section {
-                        NavigationLink(destination:SourceLinkScreen(occurrenceID:id)) { Text(store.t("source.title")) }.accessibilityIdentifier("source.openLink")
+                        Button(store.t("source.title")) { sourceLink=true }.accessibilityIdentifier("source.openLink")
                     }
                     Section(store.t("reschedule")) {
                         DatePicker(store.t("date"), selection: $destination, displayedComponents: .date)
@@ -209,6 +210,7 @@ struct OccurrenceDetail: View {
             }.keyboardDone().navigationTitle(store.t("task.detail"))
                 .toolbar { Button(store.t("close")) { dismiss() } }
                 .onAppear { value = store.data.occurrences.first { $0.id == id }?.value ?? 0 }
+                .sheet(isPresented:$sourceLink) { NavigationStack { SourceLinkScreen(occurrenceID:id).toolbar { Button(store.t("close")) { sourceLink=false } } } }
                 .confirmationDialog(store.t("redistribute.confirm"), isPresented: $confirmDistribution) {
                     Button(store.t("redistribute")) {
                         let planner = store.engine
