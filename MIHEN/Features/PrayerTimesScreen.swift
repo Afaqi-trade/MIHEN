@@ -11,6 +11,7 @@ struct PrayerTimesScreen: View {
     @State private var rule = "middleOfTheNight"
     @State private var date = Date()
     @State private var saved = false
+    @State private var loaded = false
     @State private var persisted: PrayerSettings?
     private var settings: PrayerSettings { .init(latitude: latitude, longitude: longitude, timeZoneID: zone, method: method, hanafi: hanafi, highLatitude: rule) }
     private var cityLabel: String {
@@ -63,6 +64,7 @@ struct PrayerTimesScreen: View {
 
         }.keyboardDone().navigationTitle(store.t("prayer.times"))
             .onAppear {
+                guard !loaded else { return };loaded=true
                 #if DEBUG
                 let arguments = ProcessInfo.processInfo.arguments
                 if arguments.contains("--ui-testing"), let index = arguments.firstIndex(of: "--prayer-test-date"), arguments.indices.contains(index + 1), let fixed = ISO8601DateFormatter().date(from: arguments[index + 1]) { date = fixed }

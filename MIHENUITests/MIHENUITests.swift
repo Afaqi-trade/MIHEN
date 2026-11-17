@@ -179,7 +179,13 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Konum ve hesap ayarları"],in:app)
         tap(app.buttons["prayer.city.choose"],in:app)
         capture(app,name:"MIHEN-Prayer-Cities-TR")
+        tap(app.buttons["city.ankara"],in:app)
+        reveal(app.textFields["latitude"],in:app)
+        XCTAssertEqual(app.textFields["latitude"].value as? String,"39,9334")
+        if app.buttons["keyboard.done"].firstMatch.exists { app.buttons["keyboard.done"].firstMatch.tap() }
+        tap(app.buttons["prayer.city.choose"],in:app)
         tap(app.buttons["city.istanbul"],in:app)
+        reveal(app.staticTexts["İstanbul · Türkiye"],in:app)
         XCTAssertTrue(app.staticTexts["İstanbul · Türkiye"].exists)
     }
     @MainActor func testGuidedAreaExampleRequiresExplicitConfirmation() throws {
