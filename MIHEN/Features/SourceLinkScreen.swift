@@ -52,7 +52,7 @@ struct SourceLinkScreen: View {
                                 VStack(alignment:.leading) {
                                     Text(store.taskTitle(event.title))
                                     Text(store.t("source.kind."+event.kind)+" · "+event.amount.formatted(.number.locale(store.locale))+" "+store.t(event.unit)).font(.caption)
-                                }
+                                }.frame(maxWidth:.infinity,minHeight:44,alignment:.leading).contentShape(Rectangle())
                             }.accessibilityIdentifier("source.choose."+event.kind)
                         }
                     }

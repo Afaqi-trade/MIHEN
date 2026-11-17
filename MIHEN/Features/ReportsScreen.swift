@@ -145,7 +145,7 @@ struct ReportTrendCard: View {
                 }.chartXScale(domain:analysis.buckets.first!.interval.start...analysis.buckets.last!.interval.end)
                     .chartXAxis { AxisMarks(values:.automatic(desiredCount:4)) { value in
                         AxisGridLine()
-                        AxisValueLabel { if let date=value.as(Date.self) { Text(date.formatted(axisDateStyle)) } }
+                        AxisValueLabel { if let date=value.as(Date.self) { Text(date.formatted(axisDateStyle)).fixedSize(horizontal:true,vertical:false) } }
                     } }
                     .frame(height:200).accessibilityIdentifier("report.trend.chart").accessibilityLabel(store.t("report.trend")).accessibilityValue(selected.map(label) ?? store.t("report.steps"))
             }

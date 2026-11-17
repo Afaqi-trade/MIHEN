@@ -52,7 +52,7 @@ struct NutritionScreen: View {
                 }
                 ForEach(store.data.nutritionPlans.filter { store.engine.key($0.date) == store.engine.key(date) }) { row in
                     Button { plan=row } label: {
-                        Text(store.t("meal."+row.meal)+" · "+row.title+" · "+row.amount.formatted(.number.locale(store.locale))+" "+row.unit)
+                        Text([store.t("meal."+row.meal),row.title,row.amount.formatted(.number.locale(store.locale))+" "+row.unit].filter { !$0.isEmpty }.joined(separator:" · "))
                     }.swipeActions { Button(store.t("delete"),role:.destructive) { store.change { $0.nutritionPlans.removeAll { $0.id == row.id } } } }
                 }
                 Text(store.t("nutrition.plan.help")).font(.footnote)
