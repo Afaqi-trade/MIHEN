@@ -13,7 +13,7 @@ struct WidgetWaterEntry: View {
                 Text(store.t("water.widget.help"))
                 Text(displayedDate,format:.dateTime.day().month().year())
                 if requestedDay != store.engine.key(displayedDate) { Text(store.t("water.widget.stale")).font(.footnote) }
-                ValueInput(title:"amount",value:$amount)
+                ValueInput(title:"amount",value:$amount,fieldID:"water.widget.amount")
                 Text("ml")
                 Button(store.t("save")) {
                     let now=Date(),engine=store.engine

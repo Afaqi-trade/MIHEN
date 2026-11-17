@@ -126,7 +126,7 @@ struct WaterShortcutScreen: View {
     var body: some View {
         Form {
             Text(store.t("nutrition.shortcuts.help"))
-            SelectAllTextField(title:"250,500",text:$values).accessibilityIdentifier("nutrition.shortcuts")
+            SelectAllTextField(title:"250,500",text:$values).accessibilityLabel(store.t("nutrition.shortcuts")).accessibilityIdentifier("nutrition.shortcuts")
             Button(store.t("save")) { if store.change({ $0.setOption("water.quick",value:values) }) { dismiss() } }.accessibilityIdentifier("nutrition.shortcuts.save")
         }.navigationTitle(store.t("nutrition.shortcuts")).onAppear { values=store.data.option("water.quick",fallback:"250,500") }
     }
@@ -145,7 +145,7 @@ struct NutritionEntryEditor: View {
                 if linked { Text(store.t("source.disconnectFirst")).font(.footnote) }
                 Text(store.t("activity."+record.kind))
                 if record.kind == "food" { MealPicker(meal:$meal);TextField(store.t("nutrition.name"),text:$name) }
-                ValueInput(title:"amount",value:$record.amount)
+                ValueInput(title:"amount",value:$record.amount,fieldID:"nutrition.edit.amount")
                 TextField(store.t("notes"),text:$record.note)
             }.keyboardDone().navigationTitle(store.t("edit"))
                 .toolbar {
@@ -170,7 +170,7 @@ struct NutritionPlanEditor: View {
                 Picker(store.t("type"),selection:$record.kind) { ForEach(["food","water","energyBurned"],id:\.self) { Text(store.t("activity."+$0)).tag($0) } }
                 MealPicker(meal:$record.meal)
                 TextField(store.t("nutrition.name"),text:$record.title)
-                ValueInput(title:"amount",value:$record.amount)
+                ValueInput(title:"amount",value:$record.amount,fieldID:"nutrition.plan.amount")
                 Text(record.kind == "water" ? "ml" : "kcal")
             }.keyboardDone().navigationTitle(store.t("nutrition.plan"))
                 .toolbar {

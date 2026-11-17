@@ -33,6 +33,7 @@ struct ValueInput: View {
     @Environment(AppStore.self) private var store
     let title: String
     @Binding var value: Double
+    var fieldID: String? = nil
     @State private var text = ""
     @FocusState private var focused: Bool
     private func display(_ number: Double) -> String {
@@ -45,7 +46,7 @@ struct ValueInput: View {
             TextField(store.t(title), text: $text)
                 .focused($focused)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing)
-                .accessibilityIdentifier(title)
+                .accessibilityIdentifier(fieldID ?? title)
                 .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)) { event in
                     guard let input = event.object as? UITextField else { return }
                     // Wait until SwiftUI has applied focus/zero-value editing state.

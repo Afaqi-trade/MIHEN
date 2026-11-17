@@ -59,7 +59,7 @@ struct PrayerTimesScreen: View {
                     do { try PrayerSettingsStore.save(settings); saved = true; persisted=settings; WidgetCenter.shared.reloadAllTimelines() }
                     catch { store.errorMessage = error.localizedDescription }
                 }.disabled(settings.schedule(on: date).isEmpty)
-                if saved { Text(store.t("prayer.saved")) }
+                if saved && settings == persisted { Text(store.t("prayer.saved")) }
             }
 
         }.keyboardDone().navigationTitle(store.t("prayer.times"))

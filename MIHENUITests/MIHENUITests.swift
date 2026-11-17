@@ -35,29 +35,40 @@ final class MIHENUITests: XCTestCase {
         add(attachment)
     }
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
+        // Toolbar buttons are intentionally inside navigation chrome, not scrolling content.
+        func toolbarControl() -> Bool {
+            guard element.exists, element.isHittable, !element.identifier.isEmpty else { return false }
+            return app.navigationBars.buttons.matching(identifier:element.identifier).allElementsBoundByIndex.contains { $0.frame == element.frame }
+        }
         func bounds() -> (CGFloat,CGFloat) {
-            let top=app.navigationBars.firstMatch.exists ? app.navigationBars.firstMatch.frame.maxY+8 : app.frame.minY+24
+            let top=app.navigationBars.firstMatch.exists ? app.navigationBars.firstMatch.frame.maxY : app.frame.minY+24
             var bottom=app.frame.maxY-20
             let bar=app.tabBars.firstMatch
-            if bar.exists && bar.isHittable { bottom=min(bottom,bar.frame.minY-12) }
-            if app.keyboards.firstMatch.exists { bottom=min(bottom,app.keyboards.firstMatch.frame.minY-12) }
+            if bar.exists && bar.isHittable { bottom=min(bottom,bar.frame.minY-8) }
+            if app.keyboards.firstMatch.exists { bottom=min(bottom,app.keyboards.firstMatch.frame.minY-8) }
             return (top,bottom)
         }
         func visible() -> Bool {
+            if toolbarControl() { return true }
             guard element.exists && element.isHittable else { return false }
             let (top,bottom)=bounds(),frame=element.frame
-            if frame.height <= bottom-top { return frame.minY >= top && frame.maxY <= bottom }
-            return frame.midY >= top && frame.midY <= bottom
+            // Tap at the element's centre only when it is clear of both bars.
+            return frame.midY >= top+4 && frame.midY <= bottom-4
         }
-        for index in 0..<16 {
-            if visible() { break }
-            let (top,_)=bounds()
-            if element.exists && element.frame.midY < top { app.swipeDown() }
-            else if !element.exists && index >= 10 { app.swipeDown() }
+        for index in 0..<20 {
+            if visible() { return }
+            let (top,bottom)=bounds()
+            if element.exists && element.frame.height > 0 {
+                let middle=(top+bottom)/2
+                let delta=max(-(bottom-top)*0.55,min((bottom-top)*0.55,element.frame.midY-middle))
+                let start=app.coordinate(withNormalizedOffset:.zero).withOffset(CGVector(dx:app.frame.midX,dy:middle+delta/2))
+                let end=app.coordinate(withNormalizedOffset:.zero).withOffset(CGVector(dx:app.frame.midX,dy:middle-delta/2))
+                start.press(forDuration:0.05,thenDragTo:end)
+            } else if index >= 12 { app.swipeDown() }
             else { app.swipeUp() }
         }
         XCTAssertTrue(element.waitForExistence(timeout:5))
-        XCTAssertTrue(visible(),"The control must be clear of navigation, keyboard and tab bar before tapping")
+        XCTAssertTrue(visible(),"The control centre must be clear of navigation, keyboard and tab bar before tapping: \(element.identifier)")
     }
     @MainActor private func tap(_ element: XCUIElement, in app: XCUIApplication) {
         reveal(element, in: app)
@@ -91,7 +102,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons.containing(.staticText,identifier:"Kaynaklı adım").firstMatch,in:app)
         tap(app.buttons["source.openLink"],in:app)
         tap(app.buttons["source.choose.review"],in:app)
-        app.buttons["source.confirm"].firstMatch.tap() // SwiftUI exposes the enclosing and nested confirmation button.
+        tap(app.buttons["source.confirm"],in:app)
         XCTAssertTrue(app.staticTexts["source.current"].waitForExistence(timeout:5))
         XCTAssertEqual(app.staticTexts["source.current"].label,"1 / 6 Adet")
         capture(app,name:"MIHEN-Source-Link-TR")
@@ -146,7 +157,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["+200 ml"],in:app)
         XCTAssertTrue(app.staticTexts["Su tüketimi: 200 ml"].exists)
         tap(app.buttons["nutrition.plan.add"],in:app)
-        replace(app.textFields["amount"],with:"500")
+        replace(app.textFields["nutrition.plan.amount"],with:"500")
         app.buttons["nutrition.plan.save"].tap()
         XCTAssertTrue(app.staticTexts["Planlanan: 500 · Gerçekleşen: 0 kcal"].waitForExistence(timeout:5))
         capture(app,name:"MIHEN-Nutrition-Planning-TR")
@@ -184,6 +195,8 @@ final class MIHENUITests: XCTestCase {
         XCTAssertEqual(app.textFields["latitude"].value as? String,"39,9334")
         if app.buttons["keyboard.done"].firstMatch.exists { app.buttons["keyboard.done"].firstMatch.tap() }
         tap(app.buttons["prayer.city.choose"],in:app)
+        let citySearch=app.searchFields.firstMatch
+        tap(citySearch,in:app);citySearch.typeText("İstanbul")
         tap(app.buttons["city.istanbul"],in:app)
         reveal(app.staticTexts["İstanbul · Türkiye"],in:app)
         XCTAssertTrue(app.staticTexts["İstanbul · Türkiye"].exists)
