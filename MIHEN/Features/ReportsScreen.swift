@@ -143,7 +143,10 @@ struct ReportTrendCard: View {
                         }
                     }
                 }.chartXScale(domain:analysis.buckets.first!.interval.start...analysis.buckets.last!.interval.end)
-                    .chartXAxis { AxisMarks(values:.automatic(desiredCount:4)) { _ in AxisGridLine();AxisValueLabel(format:period == "report.tenYears" ? .dateTime.year() : period == "year" ? .dateTime.month(.abbreviated) : .dateTime.day().month(.abbreviated)) } }
+                    .chartXAxis { AxisMarks(values:.automatic(desiredCount:4)) { value in
+                        AxisGridLine()
+                        AxisValueLabel { if let date=value.as(Date.self) { Text(date.formatted(axisDateStyle)) } }
+                    } }
                     .frame(height:200).accessibilityIdentifier("report.trend.chart").accessibilityLabel(store.t("report.trend")).accessibilityValue(selected.map(label) ?? store.t("report.steps"))
             }
             Text(store.t("report.trend.help")).font(.caption).foregroundStyle(.secondary)
@@ -156,6 +159,11 @@ struct ReportTrendCard: View {
                 }
             }
         }.mihenCard().onAppear { if metric.isEmpty { metric=analysis.comparisons.first(where:{ $0.current != nil })?.id ?? "steps" } }
+    }
+    private var axisDateStyle: Date.FormatStyle {
+        var style=Date.FormatStyle().locale(store.locale)
+        style.calendar=store.engine.calendar;style.timeZone=store.engine.timeZone
+        return period == "report.tenYears" ? style.year() : period == "year" ? style.month(.abbreviated) : style.day().month(.abbreviated)
     }
     private var unit: String { selected.map { store.reportUnit($0.metric.unit) } ?? store.t("report.completedSteps") }
     private func value(_ bucket: ReportBucket) -> Double? {
