@@ -95,6 +95,10 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["source.current"].waitForExistence(timeout:5))
         XCTAssertEqual(app.staticTexts["source.current"].label,"1 / 6 Adet")
         capture(app,name:"MIHEN-Source-Link-TR")
+        app.buttons["source.close"].tap()
+        XCTAssertEqual(app.textFields["progress.value"].value as? String,"1")
+        XCTAssertFalse(app.textFields["progress.value"].isEnabled)
+        tap(app.buttons["source.openLink"],in:app)
         tap(app.buttons["source.disconnect"],in:app)
         XCTAssertEqual(app.staticTexts["source.current"].label,"2 / 6 Adet")
     }

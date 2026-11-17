@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
-rows='''example.navtitle|Başlangıç örneği|Starting example
+rows='''source.amount.readonly|Bu miktar bağlı kaynaktan güncellenir. Bağımsız giriş için önce kayıt bağlantısını ayır.|This amount follows the linked source. Disconnect the source before entering an independent amount.
+example.navtitle|Başlangıç örneği|Starting example
 report.capacity.setup|Haftanın kapasitesini belirle|Set your weekly capacity
 water.widget.stale|Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek.|The widget belonged to a different day. The entry will use today's date shown here.
 water.widget.help|Widget bu formu açar. İçtiğiniz miktarı kontrol edip Kaydet'e dokununca yalnızca bir kayıt eklenir.|The widget opens this form. Check the amount you drank, then tap Save to add one record.

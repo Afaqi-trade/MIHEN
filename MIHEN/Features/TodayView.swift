@@ -136,7 +136,7 @@ struct OccurrenceRow: View {
     @Environment(\.dynamicTypeSize) private var textSize
     let occurrence: TaskOccurrenceRecord
     @State private var details = false
-    private var active: Bool { ["planned", "partial", "completed"].contains(occurrence.status) }
+    private var active: Bool { ["planned", "partial", "completed"].contains(occurrence.status) && !store.data.sourceLinks.contains { $0.occurrenceID == occurrence.id } }
     var body: some View {
         (textSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 12))) {
             Button {
@@ -182,8 +182,9 @@ struct OccurrenceDetail: View {
                     Section(store.taskTitle(row.title)) {
                         Text(row.day)
                         Text(store.title(row.domainID))
-                        ValueInput(title: "progress.value", value: $value)
-                        Button(store.t("save")) { store.progress(id, value: value); dismiss() }.disabled(!["planned", "partial", "completed"].contains(row.status))
+                        ValueInput(title: "progress.value", value: $value).disabled(store.data.sourceLinks.contains { $0.occurrenceID == id })
+                        if store.data.sourceLinks.contains(where:{ $0.occurrenceID == id }) { Text(store.t("source.amount.readonly")).font(.footnote) }
+                        Button(store.t("save")) { store.progress(id, value: value); dismiss() }.disabled(!["planned", "partial", "completed"].contains(row.status) || store.data.sourceLinks.contains { $0.occurrenceID == id })
                     }
                     Section {
                         Button(store.t("source.title")) { sourceLink=true }.accessibilityIdentifier("source.openLink")
@@ -210,7 +211,8 @@ struct OccurrenceDetail: View {
             }.keyboardDone().navigationTitle(store.t("task.detail"))
                 .toolbar { Button(store.t("close")) { dismiss() } }
                 .onAppear { value = store.data.occurrences.first { $0.id == id }?.value ?? 0 }
-                .sheet(isPresented:$sourceLink) { NavigationStack { SourceLinkScreen(occurrenceID:id).toolbar { Button(store.t("close")) { sourceLink=false } } } }
+                .onChange(of:store.data.occurrences.first { $0.id == id }?.value) { _,amount in value=amount ?? 0 }
+                .sheet(isPresented:$sourceLink) { NavigationStack { SourceLinkScreen(occurrenceID:id).toolbar { Button(store.t("close")) { sourceLink=false }.accessibilityIdentifier("source.close") } } }
                 .confirmationDialog(store.t("redistribute.confirm"), isPresented: $confirmDistribution) {
                     Button(store.t("redistribute")) {
                         let planner = store.engine

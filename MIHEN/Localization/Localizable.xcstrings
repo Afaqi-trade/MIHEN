@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "source.amount.readonly": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu miktar bağlı kaynaktan güncellenir. Bağımsız giriş için önce kayıt bağlantısını ayır."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This amount follows the linked source. Disconnect the source before entering an independent amount."
+          }
+        }
+      }
+    },
     "example.navtitle": {
       "localizations": {
         "tr": {
