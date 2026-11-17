@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
-rows='''report.capacity.setup|Haftanın kapasitesini belirle|Set your weekly capacity
+rows='''example.navtitle|Başlangıç örneği|Starting example
+report.capacity.setup|Haftanın kapasitesini belirle|Set your weekly capacity
 water.widget.stale|Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek.|The widget belonged to a different day. The entry will use today's date shown here.
 water.widget.help|Widget bu formu açar. İçtiğiniz miktarı kontrol edip Kaydet'e dokununca yalnızca bir kayıt eklenir.|The widget opens this form. Check the amount you drank, then tap Save to add one record.
 water.widget|Su kaydet|Record water
@@ -13,10 +14,10 @@ report.thisWeek.capacity|Bu hafta kapasitesi aşılmış gün|Days over capacity
 report.openArea|Alanı ve planımı aç|Open area and plan
 report.completedSteps|tamamlanan adım|completed steps
 report.trend.table|Grafiğin sayısal ayrıntıları|Chart data table
-report.attention.help|Bunlar karar vermen için işaretlerdir; bir performans veya yaşam değeri puanı değildir.|These are prompts for your decisions, not a performance or life-value score.
+report.attention.help|Kalan adımları gözden geçir; gerekirse haftana yeniden yer aç.|Review the remaining steps and make room in your week when needed.
 report.goals.review|Dönemde yer alan, süresi dolmuş açık hedefler|Open goals in this period whose deadline has passed
 report.attention|Gözden geçirilecekler|Worth reviewing
-report.compare.insufficient|Karşılaştırma için iki dönemde de yeterli kayıt yok. Önceki dönemin yokluğu sıfır başarı sayılmaz.|There are not enough records in both periods to compare. Missing history is not zero achievement.
+report.compare.insufficient|İki dönemi karşılaştırmak için henüz yeterli kayıt yok.|There are not enough records yet to compare both periods.
 report.steps.change|tamamlanan adım farkı|change in completed steps
 report.highlights|Öne çıkanlar|Highlights
 report.areas.help|Bir alana dokunarak kaynakları, hedef katkılarını ve notlarını incele. Boş alanlar başarısızlık değildir.|Tap an area to inspect sources, goal contributions and notes. Empty areas are not failures.
@@ -24,7 +25,7 @@ report.areas.overview|Sekiz alana genel bakış|Eight areas at a glance
 report.areas.recorded|Kayıt bulunan alan|Areas with records
 report.anchorDate|İncelenecek tarih|Review date
 report.loading|Rapor hazırlanıyor|Preparing report
-report.executive.help|Ne yaptın, neler değişti, sırada ne var? Kayıtlarından derlenen kişisel yönetici özetin.|What happened, what changed, what comes next? Your personal executive summary, built from your records.
+report.executive.help|Kayıtlarını değerlendir, bir sonraki adımını seç.|Review your records and choose your next step.
 report.executive.empty|Yeni bir başlangıç|A fresh start
 report.executive.title|Emeğinin görünümü|Your effort, in view
 report.executive|DÖNEM ÖZETİ|PERIOD BRIEF
@@ -76,11 +77,11 @@ report.decide.help|Bir planı hafifletmek için miktar veya tarihi düzenleyebil
 report.decide|Sonraki dönem kararım|My next-period decision
 report.metric|Ölçüm|Metric
 report.trend.help|Grafik yalnızca seçili ölçümü ve birimini gösterir. Boş aralıkta kayıt yoktur; başarısızlık veya sıfır faaliyet sonucu çıkarılmaz.|The chart shows only the selected metric and unit. Empty intervals have no records; they do not mean failure or zero activity.
-report.trend|Dönemin alt aralıkları|Subperiods
+report.trend|Zaman içindeki değişim|Change over time
 report.difference|Kayıtlardaki fark|Difference in recorded amounts
 report.current|Bu dönem|This period
 report.compare.help|Önceki aralık aynı sayıda takvim günüdür. Kayıt olmayan ölçüm sıfır sayılmaz. Farklar yalnızca iki dönemde de en az üç kayıtlı gün ve aynı birim varsa gösterilir; bu bir anlamlılık veya yaşam kalitesi değerlendirmesi değildir.|The previous range has the same number of calendar days. Missing metrics are not zero. Differences appear only with at least three recorded days in both periods and matching units; this is not a significance or quality-of-life assessment.
-report.compare|Eşit uzunluktaki önceki dönem|Previous period of equal length
+report.compare|Önceki dönemle karşılaştırma|Compare with the previous period
 report.cutoff.help|İçinde bulunduğumuz dönem bugünün sonuna kadar hesaplanır; gelecek günler geçmiş sonuç gibi gösterilmez.|The current period is calculated through today; future days are not shown as historical results.
 report.lastRecord|Son kayıt günü|Last recorded day
 report.firstRecord|İlk kayıt günü|First recorded day

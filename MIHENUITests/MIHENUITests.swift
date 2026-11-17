@@ -35,18 +35,29 @@ final class MIHENUITests: XCTestCase {
         add(attachment)
     }
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
-        for _ in 0..<6 {
-            if element.exists && element.isHittable { break }
-            app.swipeUp()
+        func bounds() -> (CGFloat,CGFloat) {
+            let top=app.navigationBars.firstMatch.exists ? app.navigationBars.firstMatch.frame.maxY+8 : app.frame.minY+24
+            var bottom=app.frame.maxY-20
+            let bar=app.tabBars.firstMatch
+            if bar.exists && bar.isHittable { bottom=min(bottom,bar.frame.minY-12) }
+            if app.keyboards.firstMatch.exists { bottom=min(bottom,app.keyboards.firstMatch.frame.minY-12) }
+            return (top,bottom)
         }
-        if !element.exists || !element.isHittable {
-            for _ in 0..<6 {
-                app.swipeDown()
-                if element.exists && element.isHittable { break }
-            }
+        func visible() -> Bool {
+            guard element.exists && element.isHittable else { return false }
+            let (top,bottom)=bounds(),frame=element.frame
+            if frame.height <= bottom-top { return frame.minY >= top && frame.maxY <= bottom }
+            return frame.midY >= top && frame.midY <= bottom
         }
-        XCTAssertTrue(element.waitForExistence(timeout: 5))
-        XCTAssertTrue(element.isHittable, "The intended control must be visible before tapping")
+        for index in 0..<16 {
+            if visible() { break }
+            let (top,_)=bounds()
+            if element.exists && element.frame.midY < top { app.swipeDown() }
+            else if !element.exists && index >= 10 { app.swipeDown() }
+            else { app.swipeUp() }
+        }
+        XCTAssertTrue(element.waitForExistence(timeout:5))
+        XCTAssertTrue(visible(),"The control must be clear of navigation, keyboard and tab bar before tapping")
     }
     @MainActor private func tap(_ element: XCUIElement, in app: XCUIApplication) {
         reveal(element, in: app)
@@ -150,7 +161,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["progress.reports"],in:app)
         XCTAssertTrue(app.staticTexts["Emeğinin görünümü"].waitForExistence(timeout:15))
         capture(app,name:"MIHEN-Executive-Report-TR")
-        reveal(app.staticTexts["report.trend.title"],in:app)
+        reveal(app.descendants(matching:.any)["report.trend.chart"].firstMatch,in:app)
         capture(app,name:"MIHEN-Report-Trend-TR")
         tap(app.buttons["report.area.health"],in:app)
         let water=app.descendants(matching:.any).matching(NSPredicate(format:"identifier BEGINSWITH %@","report.metric.activity.")).firstMatch
@@ -166,6 +177,23 @@ final class MIHENUITests: XCTestCase {
         capture(app,name:"MIHEN-Prayer-Cities-TR")
         tap(app.buttons["city.istanbul"],in:app)
         XCTAssertTrue(app.staticTexts["İstanbul · Türkiye"].exists)
+    }
+    @MainActor func testGuidedAreaExampleRequiresExplicitConfirmation() throws {
+        let app=start()
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.buttons["plan.area.career"],in:app)
+        tap(app.buttons["domain.example"],in:app)
+        XCTAssertTrue(app.textFields.matching(NSPredicate(format:"value == %@","Seçtiğim sertifika için hazırlan")).firstMatch.exists)
+        capture(app,name:"MIHEN-Guided-Example-TR")
+        tap(app.buttons["example.apply"],in:app)
+        let confirm=app.buttons["example.confirm"].firstMatch
+        XCTAssertTrue(confirm.waitForExistence(timeout:5));confirm.tap()
+        reveal(app.staticTexts["example.applied"],in:app)
+        XCTAssertFalse(app.buttons["example.apply"].exists)
+        tap(app.buttons["Hedefler"],in:app)
+        let goal=app.staticTexts["Seçtiğim sertifika için hazırlan"]
+        XCTAssertTrue(goal.waitForExistence(timeout:5))
+        XCTAssertTrue(app.staticTexts["0 / 1 Adet"].exists)
     }
     @MainActor func testExecutiveReportLargeTypeNavigation() throws {
         let app=XCUIApplication();app.launchArguments=["--ui-testing","--ui-text-ax5"];app.launch()

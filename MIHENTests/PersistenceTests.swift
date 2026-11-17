@@ -17,6 +17,10 @@ import PDFKit
             context.insert(UserPreferences(.init(name:"V1 korunur")))
             for row in BackupDocument.fresh().domains { context.insert(LifeDomain(row)) }
             context.insert(JournalEntry(.init(id:"old-note",text:"Geçmiş değişmez")))
+            let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Istanbul")!)
+            let day=engine.date("2026-10-01")!
+            context.insert(PlannedTask(.init(id:"old-task",title:"Eski şablon",domainID:"learning",start:day,target:6,unit:"pages")))
+            context.insert(TaskOccurrence(.init(id:"old-occurrence",taskID:"old-task",day:"2026-10-01",title:"Tarihsel başlık",domainID:"learning",target:6,unit:"pages",value:2,status:"partial")))
             try context.save()
         }
         let repository=try Repository(storeURL:url)
@@ -24,6 +28,11 @@ import PDFKit
         XCTAssertEqual(migrated.preferences.first?.name,"V1 korunur")
         XCTAssertEqual(migrated.journals.first?.text,"Geçmiş değişmez")
         XCTAssertTrue(migrated.sourceLinks.isEmpty)
+        XCTAssertEqual(migrated.occurrences.first?.title,"Tarihsel başlık")
+        XCTAssertEqual(migrated.occurrences.first?.value,2)
+        XCTAssertEqual(migrated.occurrences.first?.target,6)
+        XCTAssertEqual(migrated.occurrences.first?.unit,"pages")
+        XCTAssertEqual(migrated.occurrences.first?.status,"partial")
         migrated.setOption("water.quick",value:"200,400")
         try repository.save(migrated)
         XCTAssertEqual(try Repository(storeURL:url).load().option("water.quick"),"200,400")

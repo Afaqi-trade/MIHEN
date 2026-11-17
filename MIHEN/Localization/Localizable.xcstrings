@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "example.navtitle": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç örneği"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting example"
+          }
+        }
+      }
+    },
     "report.capacity.setup": {
       "localizations": {
         "tr": {
@@ -214,13 +230,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bunlar karar vermen için işaretlerdir; bir performans veya yaşam değeri puanı değildir."
+            "value": "Kalan adımları gözden geçir; gerekirse haftana yeniden yer aç."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "These are prompts for your decisions, not a performance or life-value score."
+            "value": "Review the remaining steps and make room in your week when needed."
           }
         }
       }
@@ -262,13 +278,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Karşılaştırma için iki dönemde de yeterli kayıt yok. Önceki dönemin yokluğu sıfır başarı sayılmaz."
+            "value": "İki dönemi karşılaştırmak için henüz yeterli kayıt yok."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "There are not enough records in both periods to compare. Missing history is not zero achievement."
+            "value": "There are not enough records yet to compare both periods."
           }
         }
       }
@@ -390,13 +406,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ne yaptın, neler değişti, sırada ne var? Kayıtlarından derlenen kişisel yönetici özetin."
+            "value": "Kayıtlarını değerlendir, bir sonraki adımını seç."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "What happened, what changed, what comes next? Your personal executive summary, built from your records."
+            "value": "Review your records and choose your next step."
           }
         }
       }
@@ -1222,13 +1238,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dönemin alt aralıkları"
+            "value": "Zaman içindeki değişim"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Subperiods"
+            "value": "Change over time"
           }
         }
       }
@@ -1286,13 +1302,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Eşit uzunluktaki önceki dönem"
+            "value": "Önceki dönemle karşılaştırma"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Previous period of equal length"
+            "value": "Compare with the previous period"
           }
         }
       }

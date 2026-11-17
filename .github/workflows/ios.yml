@@ -66,6 +66,8 @@ jobs:
             .build-results/test-summary.json
             .build-results/toolchain.txt
             .build-results/accessibility-devices.json
-            .build-results/attachments/
+            .build-results/attachments/*.png
+            .build-results/attachments/*.json
+            .build-results/attachments/*.pdf
           retention-days: 7
           if-no-files-found: ignore

@@ -48,7 +48,7 @@ private struct DomainNavigationRow: View {
                 }
                 if !domain.enabled { Image(systemName: "pause.circle").accessibilityLabel(store.t("inactive")) }
             }.padding(.vertical, 5)
-        }
+        }.accessibilityIdentifier("plan.area."+domain.id)
     }
 }
 struct DomainScreen: View {

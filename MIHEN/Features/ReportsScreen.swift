@@ -111,7 +111,7 @@ private struct ReportHighlights: View {
                 Text((difference > 0 ? "+" : "")+String(difference)+" "+store.t("report.steps.change")).font(.title3.bold()).foregroundStyle(Color.mihenGreen)
                 Text(store.t("report.current")+": \(current.completed) / \(current.planned) · "+store.t("comparison.previous")+": \(previous.completed) / \(previous.planned)")
             } else { Text(store.t("report.compare.insufficient")) }
-            Text(store.t("report.compare.help")).font(.caption).foregroundStyle(.secondary)
+            DisclosureGroup(store.t("report.formula")) { Text(store.t("report.compare.help")).font(.caption).foregroundStyle(.secondary) }
             Divider()
             Label(store.t("report.attention"),systemImage:"magnifyingglass").font(.headline)
             Text(store.t("report.partial")+": \(current.partial) · "+store.t("report.skipped")+": \(current.skipped)")
@@ -125,7 +125,7 @@ struct ReportTrendCard: View {
     @Environment(AppStore.self) private var store
     let analysis: ReportAnalysis
     let period: String
-    @State private var metric="steps"
+    @State private var metric=""
     private var selected: MetricComparison? { analysis.comparisons.first { $0.id == metric } }
     var body: some View {
         VStack(alignment:.leading,spacing:16) {
@@ -144,7 +144,7 @@ struct ReportTrendCard: View {
                     }
                 }.chartXScale(domain:analysis.buckets.first!.interval.start...analysis.buckets.last!.interval.end)
                     .chartXAxis { AxisMarks(values:.automatic(desiredCount:4)) { _ in AxisGridLine();AxisValueLabel(format:period == "report.tenYears" ? .dateTime.year() : period == "year" ? .dateTime.month(.abbreviated) : .dateTime.day().month(.abbreviated)) } }
-                    .frame(height:200).accessibilityLabel(store.t("report.trend")).accessibilityValue(selected.map(label) ?? store.t("report.steps"))
+                    .frame(height:200).accessibilityIdentifier("report.trend.chart").accessibilityLabel(store.t("report.trend")).accessibilityValue(selected.map(label) ?? store.t("report.steps"))
             }
             Text(store.t("report.trend.help")).font(.caption).foregroundStyle(.secondary)
             DisclosureGroup(store.t("report.trend.table")) {
@@ -155,7 +155,7 @@ struct ReportTrendCard: View {
                     }.frame(maxWidth:.infinity,alignment:.leading).padding(.vertical,5)
                 }
             }
-        }.mihenCard()
+        }.mihenCard().onAppear { if metric.isEmpty { metric=analysis.comparisons.first(where:{ $0.current != nil })?.id ?? "steps" } }
     }
     private var unit: String { selected.map { store.reportUnit($0.metric.unit) } ?? store.t("report.completedSteps") }
     private func value(_ bucket: ReportBucket) -> Double? {

@@ -31,7 +31,7 @@ struct GuidedTemplateScreen: View {
     @State private var task=""
     @State private var milestone=""
     private var template: GuidedTemplate { GuidedTemplate.choices.first { $0.id == domainID }! }
-    private var applied: Bool { store.data.goals.contains { $0.id == "guided:"+domainID } }
+    private var applied: Bool { store.data.goals.contains { $0.id == "guided:"+domainID } || store.data.tasks.contains { $0.id == "guided:"+domainID+":task" } }
     var body: some View {
         Form {
             Text(store.t("example.help"))
@@ -49,13 +49,13 @@ struct GuidedTemplateScreen: View {
                 NavigationLink(destination:CapacityScreen()) { Text(store.t("capacity.title")) }
             }
             if applied {
-                Text(store.t("example.applied"))
+                Text(store.t("example.applied")).accessibilityIdentifier("example.applied")
                 NavigationLink(destination:GoalListScreen()) { Text(store.t("goals")) }
                 NavigationLink(destination:WeeklyPlanScreen()) { Text(store.t("weekly.plan")) }
             } else {
                 Button(store.t("example.apply")) { confirm=true }.disabled(goal.isEmpty || task.isEmpty || milestone.isEmpty).accessibilityIdentifier("example.apply")
             }
-        }.keyboardDone().navigationTitle(store.t("example.title"))
+        }.keyboardDone().navigationTitle(store.t("example.navtitle"))
             .onAppear { if goal.isEmpty { goal=store.t(template.titleKey);task=store.t(template.taskKey);milestone=store.t("example.milestone") } }
             .confirmationDialog(store.t("example.confirm"),isPresented:$confirm) {
                 Button(store.t("example.apply")) {

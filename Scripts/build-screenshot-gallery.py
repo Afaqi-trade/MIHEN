@@ -12,6 +12,7 @@ import zipfile
 
 REQUIRED_MODULE_CAPTURES = {'MIHEN-Qada-TR', 'MIHEN-WeeklyPlan-TR', 'MIHEN-Routines-TR', 'MIHEN-GoalSplit-TR', 'MIHEN-GoalSplit-Preview-TR'}
 LABELS = {
+    'MIHEN-Guided-Example-TR': 'Düzenlenebilir 90 günlük alan örneği',
     'MIHEN-Executive-Report-TR': 'Yönetici özeti — gerçek kayıtlarla dönem görünümü',
     'MIHEN-Report-Trend-TR': 'Kaynak seçimi ve dönem eğilimi',
     'MIHEN-Report-Health-TR': 'Sağlık alanının ayrıntılı raporu',
@@ -122,8 +123,9 @@ def main():
     page += '''</main><dialog id="viewer"><button id="close">Kapat</button><img alt="Büyütülmüş uygulama ekranı"></dialog><script>const viewer=document.querySelector('#viewer');document.querySelectorAll('.shot').forEach(button=>button.addEventListener('click',()=>{const image=button.querySelector('img');viewer.querySelector('img').src=image.src;viewer.querySelector('img').alt=image.alt;viewer.showModal()}));document.querySelector('#close').addEventListener('click',()=>viewer.close());viewer.addEventListener('click',event=>{if(event.target===viewer)viewer.close()});</script></html>'''
     provenance.write_text(json.dumps({'reviewedOn': args.review_date, 'images': list(entries.values())}, ensure_ascii=False, indent=2) + '\n')
     (args.output / 'index.html').write_text(page)
-    Path('.build-results/MIHEN_Current_Screens_20261116.html').write_text(page)
-    with zipfile.ZipFile('.build-results/MIHEN_Current_Screens_20261116.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+    stamp=args.review_date.replace('-', '')
+    Path(f'.build-results/MIHEN_Current_Screens_{stamp}.html').write_text(page)
+    with zipfile.ZipFile(f'.build-results/MIHEN_Current_Screens_{stamp}.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for item in sorted(args.output.iterdir()):
             if item.is_file():
                 archive.write(item, item.name)
