@@ -49,10 +49,11 @@ final class MIHENUITests: XCTestCase {
             return (top,bottom)
         }
         func visible() -> Bool {
+            guard element.exists else { return false }
             // System search can be hosted in navigation or bottom search chrome.
-            if element.elementType == .searchField && element.exists && element.isHittable { return true }
+            if element.elementType == .searchField && element.isHittable { return true }
             if toolbarControl() { return true }
-            guard element.exists && element.isHittable else { return false }
+            guard element.isHittable else { return false }
             let (top,bottom)=bounds(),frame=element.frame
             // Tap at the element's centre only when it is clear of both bars.
             return frame.midY >= top+4 && frame.midY <= bottom-4
