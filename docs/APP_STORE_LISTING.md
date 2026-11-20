@@ -34,3 +34,11 @@ Keywords EN: goals,habits,planner,calendar,journal,balance,quran,reflection
 ## Yayıncı kapıları
 
 Destek e-postası, HTTPS destek/gizlilik URL'leri, Apple üyelik ve yetkileri, imzalama, Family Controls dağıtım onayı ve gerçek iPhone kabulü yayıncıya aittir. URL yayımlanmadı, hesap işlemi veya mağaza yüklemesi yapılmadı. Mevcut ücretsiz ve hesapsız çekirdek korunur. Fiyat ve ücretli değer, gerçek kullanım araştırmasından sonra ayrıca kararlaştırılır.
+
+## 17 Kasım: ilk üç görselin yeni anlatımı
+
+1. **Bugünün küçük adımı** — gerçek Bugün ekranı; 2/6 gibi kısmi emek, tek sonraki eylem, sıcak selamlama. Alt metin: “Küçük adımını gör, kendi ritminde ilerle.”
+2. **Hayatına sığan bir hafta** — kapasite ve haftalık odak ekranı; süreli/süresiz işler ayrılır, değişiklikler onaylanır. Alt metin: “Hedefine yer aç; haftanı gerçekçi planla.”
+3. **Emeğinin görünümü** — yeni yönetici özeti; kapsam, eğilim, sekiz alan ve ayrıntı bağlantıları. Alt metin: “Kendi kayıtlarınla değerlendir, sonraki adımını seç.”
+
+Bu üçlü son başarılı UI koşusunun değiştirilmemiş ekranlarıyla galeri içinde sunulur. Örnek veriler açıkça test örneğidir; pazarlama başlıkları ekran verisinin üzerine sahte arayüz olarak işlenmez. App Store boyutları, fiziksel cihaz ve yayıncı kabulünden sonra son ihracat ayrıca yapılır; burada mağazaya gönderim yoktur.

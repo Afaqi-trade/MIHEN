@@ -14,17 +14,17 @@ Plan → Hedefler veya bir yaşam alanından hedef oluştur. Hedef sonucunu, mik
 
 “Hedefi günlere böl” uygun günleri, ilk 90 gün toplamını, aylık/haftalık dağılımı ve günlük görevleri önizletir. Adet/kitap/sayfa tam sayılı dağıtılır; dakika ve para kendi birimiyle kalır. Miktar toplamını inceleyip onayla. İstersen aylık ara sonuçları milestone olarak kaydet; bunlar ayrıca başarı veya katkı üretmez. Birim dönüşümü otomatik yapılmaz. Aktif bağlı görev varsa önce görevini düzenle veya onayla gelecek planını arşivle; kaydedilen miktarlar ve geçmiş korunur.
 
-Haftalık planlama'da hafta aralığı, süresi bilinen dakika toplamı ve süresiz adım sayısı ayrıdır. Haftanın 1-3 odağını kendi notun olarak yazabilirsin. “Haftanın kalanlarını düzenle” yalnızca seçilen açık kayıtları onayla taşır veya atlar. Çakışma otomatik birleştirilmez. Gecikenler bölümü seçilen haftadan önceki 30 günü kapsar; kayda dokununca tekil kararları da verebilirsin.
+Haftalık planlama'da hafta aralığı, süresi bilinen dakika toplamı ve süresiz adım sayısı ayrıdır. Haftanın en çok üç odağını hedef ve görevlerinden seçebilir, ayrıca haftalık notunu yazabilirsin. Her gün ayırabileceğin dakikayı kapasite ekranında belirle; görevlerin tahmini sürelerini ayrıntılarında düzenle. “Haftanın kalanlarını düzenle” yalnızca seçilen açık kayıtları onayla taşır veya atlar. Çakışma otomatik birleştirilmez. Gecikenler bölümü seçilen haftadan önceki 30 günü kapsar; kayda dokununca tekil kararları da verebilirsin.
 
 ## Rutinler
 
 Plan → Rutinler → + ile sabah/akşam veya kendi rutinini oluştur. Yeni adım ekleyebilir veya mevcut görevlerini seçebilirsin. Yeni adımlar günlük alışkanlık olarak başlar; ayrıntılarda günlerini değiştirebilirsin. Mevcut görevin tekrar planı değiştirilmez. Düzenle ile sırayı değiştir; rutine saatli hatırlatma ekle. Genel bildirim izni kapalıysa hatırlatma gelmez.
 
-Rutin aynı görev kayıtlarını kullanır; ikinci bir tamamlama üretmez. Duraklatma tüm üye görev şablonlarının gelecek tekrarlarını etkiler; görev başka rutinde de varsa orası da etkilenir. Bugün ve geçmiş değişmez; sürdürme yarından başlar. Sürdürme yeni başlangıcı yarına alır ve ara verilen günlere görev eklemez. Bitiş tarihi geçmiş adımı sürdürmeden önce rutin düzenleyicide açıp bitişini değiştir. Grubu kaldırmak görev/geçmişi silmez.
+Rutin aynı görev kayıtlarını kullanır; ikinci bir tamamlama üretmez. Gün seçimi ve duraklatma yalnızca bu rutin grubunu etkiler; ortak görevlerin takvimi korunur. Başlat ile o günün adımlarını sırayla aç. İleri yalnızca sıradaki adıma geçer; gerçekleşmeni görev kartında kaydet. Aynı gün yeniden açınca kaldığın konumdan devam edersin. Önceki sürümde ayrıca arşivlediğin görevleri görev düzenleyicisinden sürdür. Grubu kaldırmak görev veya geçmişi silmez.
 
 ## Rapor ve değerlendirme
 
-İlerleme → Dönem raporları: hafta/ay/yıl veya seçilen yılın sonuna kadar son 10 takvim yılı. Kayıt bulunan gün sayısı, günlüğün tamamen doldurulduğu anlamına gelmez. Boş geçmiş başarısızlık değildir ve 10 yıl seçmek geçmiş üretmez.
+İlerleme → Dönem raporları: hafta/ay/yıl veya seçilen yıl dahil son 10 takvim yılı. İçinde bulunduğun dönem bugüne kadar olan kayıtları gösterir. Kayıt bulunan gün sayısı, günlüğün tamamen doldurulduğu anlamına gelmez. Boş geçmiş başarısızlık değildir ve 10 yıl seçmek geçmiş üretmez.
 
 Görev durumları; hedefin dönem katkısı ve güncel durumu; sayfa, ezber tekrarı, zikir, oruç, kaza hareketleri ve beslenme/faaliyet kayıtları kendi birimleriyle gösterilir. Farklı modül miktarları görev katkısına yeniden eklenmez. Kaza dönem başı/sonu bakiyesi kayıt tarihlerine bağlıdır. Nitel alanlar kişisel notlarla değerlendirilir.
 
@@ -51,3 +51,19 @@ Profil'de JSON yedek oluştur. Başarılı dışa aktarma zamanı görünür; do
 İçe aktarma önizleme/onay ister ve mevcut geçerli verinin son kurtarma kopyasını cihazda saklar. Bu, cihaz dışı yedeğin yerini tutmaz. Tüm verileri sil, kurtarma kopyasını da kaldırır. Kilit etkinse uygulama pasifleşince kilitlenir; kaydedilmemiş form kapanabilir. Uygulama değiştiricide pencerelerin üstünde yalnızca MİHEN örtüsü gösterilir. Cihaz kabul sınırları KNOWN_LIMITATIONS.md içindedir.
 
 Profil → Kullanım rehberi ve sık sorulanlar bölümünden kısa açıklamalara ulaş. Sürüm bilgilerini paylaş, kişisel kayıt içermeyen bir metin hazırlar; alıcıyı sen seçersin. Uygulama kendiliğinden destek mesajı göndermez.
+
+## Yeni araçlara hızlı erişim
+
+**Kayıt bağlantısı:** Bugün → görev ayrıntısı → Kayıt bağlantısı. Aynı gün, alan ve birimdeki gerçek modül kaydını seç ve onayla. Miktar eski manuel değerin yerine geçer; eklenmez. Kaynak bağlıyken görev miktarı kaynaktan güncellenir. Ayırdığında önceki manuel miktar geri gelir.
+
+**Haftana sığan hedef:** Plan → Haftalık planlama → günlük kapasite. Her gün ayırabileceğin dakikayı belirle. Süresi bilinmeyen görevlerin tahminini görev ayrıntısından ekle. Hedef dağılımında kapasite seçeneği bu süreleri dikkate alır; yetmiyorsa bitişi uzat veya kapsamı kendin düzenle. Üç haftalık odağını gerçek hedef/görevlerden seçebilirsin.
+
+**Rutin:** Gün ve hatırlatma grubun ayarıdır; ortak görevlerin takvimini kendiliğinden değiştirmez. Başlat, o günün adımlarını sırayla açar. İleri, yalnızca sıradaki adıma geçer; yaptığını ayrıca kaydedersin. Aynı gün yeniden açınca kaldığın adım korunur.
+
+**Beslenme:** Öğün ve isteğe bağlı açıklama gir. Son girişler yalnızca formu doldurur; Kaydet'e dokunmadan tüketim oluşmaz. Geçmiş satırını düzenle, hızlı su miktarlarını kendine göre ayarla. Beslenme planı gerçek tüketim değildir; iki toplam ayrı gösterilir.
+
+**Yönetici özeti:** İlerleme → Dönem raporları. Hafta, ay, yıl veya 10 yıl seç; dönem özeti ve kayıt kapsamını gör. Eğilim grafiğinde kaynağı seçebilir, sayısal tabloyu açabilir ve sekiz alanın ayrıntısına geçebilirsin. Karşılaştırma aynı sayıda takvim günüyle yapılır. Kayıt olmayan kaynak sıfır sayılmaz. Paylaşırken alanları ve istersen notları/karşılaştırmayı ayrıca seç.
+
+**Başlangıç örnekleri:** Şablon seçiminden önce örnek haftayı gör. Plan'da bir alana girip başlangıç örneğini aç; hedef, ilk ay aşaması ve haftalık destek adımını düzenleyerek ekle. Süre kaydı sonuç hedefini otomatik tamamlamaz. İstediğin aile etkinliğini Takvim'den, kişisel değerlendirmeyi alanın notlarından ayrıca oluşturabilirsin.
+
+**Günlük araçlar:** Namaz ayarlarındaki çevrimdışı kısa listeden şehir/ülke ara; diğer yerler için koordinat gir. İstanbul başlangıcı ve hesap yöntemi ayrı tutulur. Ezber tekrarını Geri al veya geçmiş listesinden sil. Zikirde hafif titreşim isteğe bağlıdır. Widget'taki Su kaydet, kilidi açık uygulamada miktar onay formunu açar; kendiliğinden tüketim yazmaz.

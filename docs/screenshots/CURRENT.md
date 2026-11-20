@@ -1,9 +1,18 @@
 # Güncel uygulama ekranları
 
-16 Kasım 2026: 35 düzenlenmemiş native PNG. Tam koşu 84/84; SE 3 odaklı koşu 71/71. Kayıtlar ayrı UI-test deposunda oluşturuldu; kişisel geçmiş değildir. Hedef görüntüsü onay öncesi öneridir. Ekran Süresi/Widget gerçek cihaz yetkileri beklenir.
+20 Kasım 2026: 46 düzenlenmemiş native PNG. 24 yeni ekran, `44304066244` yol haritası koşusundan geldi: **100 passed / 0 failed / 0 skipped** (92 birim/kalıcılık + 8 gerçek UI akışı). Tam 19 UI akışının genişletilmiş zaman limitli koşusu ayrıca sürmektedir. Kayıtlar ayrı UI-test deposunda oluşturuldu; kişisel geçmiş değildir. Hedef görüntüsü onay öncesi öneridir. Ekran Süresi/Widget gerçek cihaz yetkileri bekler.
 
 | Ekran | Koşu / kapsam |
 |---|---|
+| [Yönetici özeti · dönem görünümü](../evidence/44304066244/MIHEN-Executive-Report-TR.png) | 44304066244 / roadmap |
+| [Kaynak bağlantısı · 1/6 canlı miktar](../evidence/44304066244/MIHEN-Source-Link-TR.png) | 44304066244 / roadmap |
+| [Haftalık zaman kapasitesi](../evidence/44304066244/MIHEN-Capacity-TR.png) | 44304066244 / roadmap |
+| [Haftalık odaklar](../evidence/44304066244/MIHEN-Weekly-Focus-TR.png) | 44304066244 / roadmap |
+| [Rutin çalışma oturumu](../evidence/44304066244/MIHEN-Routine-Run-TR.png) | 44304066244 / roadmap |
+| [Beslenme · plan ve gerçekleşme](../evidence/44304066244/MIHEN-Nutrition-Planning-TR.png) | 44304066244 / roadmap |
+| [Rapor eğilimi · seçilen kaynak](../evidence/44304066244/MIHEN-Report-Trend-TR.png) | 44304066244 / roadmap |
+| [Çevrimdışı namaz şehir seçimi](../evidence/44304066244/MIHEN-Prayer-Cities-TR.png) | 44304066244 / roadmap |
+| [Kaza namazı · dönem raporu](../evidence/44304066244/MIHEN-Reports-Qada-TR.png) | 44304066244 / roadmap |
 | [İlk kullanım · kısa başlangıç](../evidence/43927332097/MIHEN-Onboarding-TR.png) | 43927332097 / full |
 | [İlk kullanım · küçük yazı ölçümü](../evidence/43930797517/MIHEN-Onboarding-SmallText-TR.png) | 43930797517 / accessibility |
 | [İlk kullanım · en büyük yazı ölçümü](../evidence/43930797517/MIHEN-Onboarding-LargeText-TR.png) | 43930797517 / accessibility |

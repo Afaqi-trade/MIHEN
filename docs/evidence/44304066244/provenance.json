@@ -1,0 +1,220 @@
+{
+  "images": [
+    {
+      "file": "MIHEN-Nutrition-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNutritionPersistsManualCalories()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:07:35.068000+00:00",
+      "sha256": "fc41a3791bc58cfa92e50e7e58ab9259fe48fdb0c5d09033bec93dfe0eb2645d"
+    },
+    {
+      "file": "MIHEN-Reports-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testReportsNavigation()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:08:13.677000+00:00",
+      "sha256": "0f3c2181119bb0bcc8d56849e11830023f6b291b7f5466566f2aad56bec1679f"
+    },
+    {
+      "file": "MIHEN-GoalSplit-Preview-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:05:21.346000+00:00",
+      "sha256": "de7310c88dd540f21370d63d602921117f592bd73de3374132ef54fa1c8b77e8"
+    },
+    {
+      "file": "MIHEN-GoalSplit-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:05:14.971000+00:00",
+      "sha256": "c87ff5eb5c9736927ac1be3171652d60f37ed0a91fa9c02348ed18a1d3c450fa"
+    },
+    {
+      "file": "MIHEN-Qada-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:04:04.679000+00:00",
+      "sha256": "04b58c9522853047c00ec023c910feddde956cbd7876005c79fb2ca790478254"
+    },
+    {
+      "file": "MIHEN-Routines-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:02:32.355000+00:00",
+      "sha256": "460b2c51e2fcfdd7cb1363dede1a91bb8783c201781e653a2d605c212714f6ed"
+    },
+    {
+      "file": "MIHEN-WeeklyPlan-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:01:45.770000+00:00",
+      "sha256": "187d4afffc92cd1f0071cc35aa88495d5707f92b0c0082a9b0584c2aa96751fe"
+    },
+    {
+      "file": "MIHEN-Nutrition-Quick-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:51:14.857000+00:00",
+      "sha256": "fd65a6611a78082846a998204f80dffa4da0c94fc77df3a5fff59da1573855e4"
+    },
+    {
+      "file": "MIHEN-Help-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:49:48.210000+00:00",
+      "sha256": "d8b450508c07dae56840a9da64bc50511e531d07128533c59693f21adb508bcc"
+    },
+    {
+      "file": "MIHEN-Backup-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:49:24.987000+00:00",
+      "sha256": "da7a30718960c8f545a923c73e1f005c999822ccfb076a60aa8099ba1167fff0"
+    },
+    {
+      "file": "MIHEN-Today-Empty-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testBackupInformationAndNutritionQuickWater()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:48:30.041000+00:00",
+      "sha256": "3133b200c4f5af54b6858cd14d06b812d3636f5e2b055c488f2b7d5797226f13"
+    },
+    {
+      "file": "MIHEN-Reports-Qada-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testNewModuleScreensGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:06:10.784000+00:00",
+      "sha256": "087fa968944485b7cd90cdef1ca4c69b160400aba00a14be450ece9e62f90257"
+    },
+    {
+      "file": "MIHEN-Report-Export-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testReportsNavigation()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:08:28.919000+00:00",
+      "sha256": "d13005e0b665c571febc5626393b6b4caffbdb239b09c6214e5307af5cf6e270"
+    },
+    {
+      "file": "MIHEN-Prayer-Cities-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testExecutiveReportAndOfflineCityGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:55:46.091000+00:00",
+      "sha256": "479c6fc1f7c3f1b6e28ebe1a5e672237a2f9ff0da13a1d2c09cedddd5cf70b1c"
+    },
+    {
+      "file": "MIHEN-Report-Comparison-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testExecutiveReportAndOfflineCityGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:55:08.777000+00:00",
+      "sha256": "5feec558fd9c72b61b4aeb210c74379bf77e44815e0865b0a5ff8af8658f4f90"
+    },
+    {
+      "file": "MIHEN-Report-Health-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testExecutiveReportAndOfflineCityGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:54:04.433000+00:00",
+      "sha256": "d79f9afd4b0ff9e0701330b49a3a8645f242ba45637fd8441710696bc316f712"
+    },
+    {
+      "file": "MIHEN-Report-Trend-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testExecutiveReportAndOfflineCityGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:53:38.721000+00:00",
+      "sha256": "7332f85cdfb5573da3fe6c4b67b98b1121701d4829f42af55478439722775009"
+    },
+    {
+      "file": "MIHEN-Executive-Report-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testExecutiveReportAndOfflineCityGallery()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:52:55.238000+00:00",
+      "sha256": "b5b75613445c6e4b46454c1562e1298fab705644f6d656e9db1b209aaa36a6d6"
+    },
+    {
+      "file": "MIHEN-Executive-LargeText-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testExecutiveReportLargeTypeNavigation()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T12:58:20.463000+00:00",
+      "sha256": "9ca2e12a0367311f65640d701e287abe027faa61580dc2288a185226094db15c"
+    },
+    {
+      "file": "MIHEN-Source-Link-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testModuleSourceConnectionRestoresManualProgress()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:00:42.972000+00:00",
+      "sha256": "b4df07e3cf45219c284fab3c2681564616861a0583480f1fdf75a3abcb75315a"
+    },
+    {
+      "file": "MIHEN-Nutrition-Planning-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testRoadmapCapacityRoutineAndNutrition()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:13:44.029000+00:00",
+      "sha256": "b5679eefd0af8759663cb87c6dbe7db187e8c3ff211d299d94bdac45c59ef923"
+    },
+    {
+      "file": "MIHEN-Routine-Run-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testRoadmapCapacityRoutineAndNutrition()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:12:06.999000+00:00",
+      "sha256": "8860e0ccfa3fec9ecb83ff13b9b8703fdeb9ba90f4b516930783f4eae51e1a6d"
+    },
+    {
+      "file": "MIHEN-Weekly-Focus-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testRoadmapCapacityRoutineAndNutrition()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:10:20.914000+00:00",
+      "sha256": "36b8ae3650258095d7fd37b43190f46cfc3454cdb46d4a9f2a0ac35822fc7a68"
+    },
+    {
+      "file": "MIHEN-Capacity-TR.png",
+      "run": "44304066244",
+      "source": "9cad7317ec5ae2ad0f44f6b0b71d74b260a0101f",
+      "test": "MIHENUITests/testRoadmapCapacityRoutineAndNutrition()",
+      "scope": "roadmap",
+      "capturedUTC": "2026-11-18T13:10:04.537000+00:00",
+      "sha256": "624674a27ef4595423512599277197211361f36ca93f245620e462c857fc8c78"
+    }
+  ]
+}

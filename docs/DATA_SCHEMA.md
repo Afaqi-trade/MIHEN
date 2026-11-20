@@ -26,14 +26,24 @@ Görev silme yerine arşivlenir; geçmiş saklanır. Hedef silmek bağlı görev
 
 Durumlar: planned(value=0), partial(0<value<target), completed(value=target), skipped/cancelled/moved. Taşıma kaynak kaydı korur, yeni tarihli kopyaya ilerlemeyi bir kez aktarır. Yeniden dağıtım en çok 90 gün için eşit kalan miktar önerir; ilk güne mevcut ilerlemeyi taşır. Çakışma otomatik birleştirilmez. Onaydan önce işlem uygulanmaz.
 
-JSON sürüm 1; tarihler ISO-8601 (saniye hassasiyeti). En çok 10 MB. Mükerrer kimlik/gün, geçersiz ilişki, hedef döngüsü, negatif/sonsuz miktar, bozuk tarih ve bilinmeyen sürüm reddedilir. Hedef/faaliyet miktar sınırı 1e12. Yedek CSV `entity,id,payload` ile tam kayıttır. Plan CSV eklemelidir; sütunları `type,id,title,domain,target,unit,start,end,recurrence` olup domain alanı sabit anahtar veya TR/EN alan başlığı olabilir. Plan CSV alt hedef/çok alan ilişkisinin tümünü taşımaz; kayıpsız yedek için JSON veya yedek CSV kullanılır.
+Güncel JSON belge sürümü 2; V1 belgeler migration ile okunur. Tarihler ISO-8601 (saniye hassasiyeti). En çok 10 MB. Mükerrer kimlik/gün, geçersiz ilişki, hedef döngüsü, negatif/sonsuz miktar, bozuk tarih ve bilinmeyen sürüm reddedilir. Hedef/faaliyet miktar sınırı 1e12. Yedek CSV `entity,id,payload` ile tam kayıttır. Plan CSV eklemelidir; sütunları `type,id,title,domain,target,unit,start,end,recurrence` olup domain alanı sabit anahtar veya TR/EN alan başlığı olabilir. Plan CSV alt hedef/çok alan ilişkisinin tümünü taşımaz; kayıpsız yedek için JSON veya yedek CSV kullanılır.
 
 Başlangıç şablonları yeniden yüklemede sabit görev ID'leriyle tanınır (`starter:` / `spiritual:`). Kullanıcı notu bu kimlik için kullanılmaz. Şablon adı/notu düzenlendiğinde aynı şablon yeniden eklenmez; mevcut gerçekleşmeler korunur. Çeviri anahtarı olan başlangıç başlıkları düzenleyicide okunabilir metin olarak gösterilir; kullanıcı başlığı literal kalır.
 
-## 16 Kasım: arşiv zarfı ve ürün incelemesi
+## Tarihsel V1 zarfı — 16 Kasım
 
 SwiftData V1 sınıflarına alan eklenmedi; yayımlanmış şema değiştirilmedi. Yeni JSON dışa aktarımı `BackupArchive` zarfıdır: `format=mihen.archive`, `archiveVersion=1`, `document` (mevcut BackupDocument V1), isteğe bağlı `prayer` ayarları. İçe aktarma önce format/sürüm, belge ve ayarları doğrular; bilinmeyen sürüm reddedilir. Düz V1 JSON geriye uyumlu okunur ve olmayan namaz ayarı uydurulmaz; Settings eski JSON/CSV importunda mevcut namaz ayarını korur. Yeni zarf ayarı yoksa varsayılana sıfırlar. Kurtarma kopyası da zarfı saklar. Gelecekte zarf alanları veya SwiftData alanları değişirse kendi sürümlü migration ve store yükseltme testleri ayrıca gerekir.
 
 DomainActivity izin verilen türlerine `steps` eklendi (health alanı, count birimi). Bu, mevcut String tür alanının yeni değeridir; model şekli değişmedi. Sağlık özetleri `health.steps:<gün>` / `health.energy:<gün>` kimliklerinde tek kayıt olarak güncellenir. Kaynak kimliği kayıt ID'sidir; kullanıcı notuna teknik işaret konmaz. Etkin enerji toplamında aynı günün Sağlık snapshot'ı manuel subtotalın önüne geçer; manuel kayıtlar silinmez. ReportMetric kaynakları görev katkısına yeniden eklenmez.
 
 RoutineItem sırası korunur. Rutin hatırlatması NotificationPreference içinde `routine.<routineID>` türüyle mevcut saat alanlarını kullanır; izin verilmeden işletim sistemi bildirimi istenmez. Milestone'lar yalnızca kullanıcı onaylı plan ara sonuçlarıdır; hedef toplamına ikinci kez katkı üretmez. Bugünün odakları o günün snapshot önceliğidir; gelecek tekrar şablonunun önceliğini değiştirmez.
+
+## 17 Kasım: geliştirme şeması V2
+
+Güncel geliştirme şeması `MihenSchema` V2'dir; `MihenSchemaV1` orijinal alanları korur. Hafif migration yalnızca yeni bağımsız tabloları ekler. V2 henüz imzalı kullanıcı dağıtımı değildir; son kaynakta gerçek V1 disk mağazası açma testi şarttır.
+
+Eklenen varlıklar: SourceLink (kaynak, gerçekleşme, önceki manuel değer, sabit kaynak tarihi/günü), PlanningCapacity (hafta günü/dakika), TaskEstimate ve OccurrenceEstimate, GoalSupport, WeeklyFocus (hafta/kimlik/başlık snapshot/sıra), RoutineSchedule ve RoutineSession, ActivityAnnotation, NutritionPlan, ReviewResponse, AppOption. Model ve repository üreticisi bu tabloların tümünü kapsar.
+
+BackupDocument/BackupArchive güncel sürümü 2'dir. V1 JSON ve V1 zarfı okunup yeni tablolar boş olarak normalize edilir. V2 belgesinde yeni tabloların eksik olması hata sayılır; bilinmeyen sürüm reddedilir. Yedek CSV tüm kayıt türlerini taşır. Plan CSV'nin daha dar kapsamı korunur. JournalEntry.kind note/weekly/monthly/yearly/decadal kabul eder; değerlendirme cevapları ReviewResponse içinde ayrı saklanır, eski serbest metin otomatik ayrıştırılmaz veya yeniden yazılmaz.
+
+Rutin grup takvimi ortak PlannedTask'ı değiştirmez. RoutineSession ilerleme konumu ikinci bir başarı kaydı değildir. Kaynak bağlantısında tarih/saat dilimi değişikliği geçmiş eşleşmeyi yeniden tanımlamaz. Süre tahmini görevde değişse de geçmiş OccurrenceEstimate snapshot'ı korunur.

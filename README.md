@@ -4,7 +4,7 @@
 
 SwiftUI / SwiftData / Swift Charts; minimum iOS 18, Swift 6. `MIHEN.xcodeproj` uygulama, WidgetKit ve DeviceActivity monitor uzantıları, XCTest ve XCUITest hedeflerini içerir. Harici paket veya sunucu bağımlılığı yoktur.
 
-**Durum:** Geliştirme sürümü. Xcode 26.6 ile uygulama ve uzantılar derlendi. Son tam uzak iOS koşusu **84/84** (70 birim/kalıcılık + 14 UI), SE 3 / en büyük yazı koşusu ayrıca **71/71** geçti; hata ve atlama yok. İki koşunun uygulama kaynakları aynıdır; son değişiklik küçük ekran testinin kart sorgusudur. [Commit, kapsam ve kanıtlar](docs/TEST_REPORT.md). Fiziksel iPhone, imzalama ve TestFlight kabulü henüz tamamlanmadı.
+**Durum:** Geliştirme sürümü. 20 Kasım yol haritası doğrulamasında Xcode 26.6 ile uygulama ve uzantılar derlendi; `44304066244` koşusunda **100/0** (92 birim/kalıcılık + 8 gerçek UI akışı) geçti. Kaynak bağlantısı, kapasite/rutin/beslenme, yönetici raporu, büyük yazı ve yeni modül akışları bu koşuda kanıtlandı. Tam 19 UI akışını çalıştıran geniş koşu ayrıca sürmektedir; tamamlanmadan tam matris başarılı sayılmaz. [Commit, kapsam ve kanıtlar](docs/TEST_REPORT.md). Fiziksel iPhone, imzalama ve TestFlight kabulü henüz tamamlanmadı.
 
 ## Çalıştırma
 
@@ -45,6 +45,8 @@ Ekran Süresi: Profil → Uygulama süre sınırı. Seçili uygulama/kategori/we
 
 TestFlight başlangıcı: [Hesap sahibinin adımları](docs/TESTFLIGHT_OWNER_STEPS_TR.md). İmzasız iPhone Release archive teknik kontrolü geçti; Apple Developer üyeliği/imzalama ve TestFlight yüklemesi henüz tamamlanmadı. [Family Controls başvuru taslağı](docs/APPLE_FAMILY_CONTROLS_REQUEST.md).
 
-16 Kasım ürün incelemesi: birim tutarlı hedef dağılımı ve aşamalar; geçmişi koruyan rutin duraklatma; kaynakları ayrı hedef/Sağlık katkıları; namaz ayarını kapsayan sürümlü yedek; kısmi emeği gösteren Bugün ve geri alma; üç aşamalı açık şablon seçimi; haftalık kararlar; kapsamı seçilen PDF/CSV raporları; yardım ve büyük yazıya uyarlanan yerleşim. [Önceliklere göre uygulama haritası](docs/PRODUCT_REVIEW_IMPLEMENTATION.md), [ilk iPhone/kullanıcı deneme protokolü](docs/USABILITY_ACCEPTANCE_TR.md). Mevcut sekiz alan, local-first yapı ve SwiftData V1 korunur.
+16 Kasım ürün incelemesi: birim tutarlı hedef dağılımı ve aşamalar; geçmişi koruyan rutin duraklatma; kaynakları ayrı hedef/Sağlık katkıları; namaz ayarını kapsayan sürümlü yedek; kısmi emeği gösteren Bugün ve geri alma; üç aşamalı açık şablon seçimi; haftalık kararlar; kapsamı seçilen PDF/CSV raporları; yardım ve büyük yazıya uyarlanan yerleşim. [Önceliklere göre uygulama haritası](docs/PRODUCT_REVIEW_IMPLEMENTATION.md), [ilk iPhone/kullanıcı deneme protokolü](docs/USABILITY_ACCEPTANCE_TR.md). Mevcut sekiz alan ve local-first yapı korunur; 17 Kasım geliştirmesinde V1 sabit tutularak ek varlıklar için V2 migration eklendi.
 
-[Güncel 35 gerçek uygulama ekranı](docs/screenshots/CURRENT.md). Taşınabilir HTML/ZIP galeri yerel `.build-results/MIHEN_Current_Screens_20261116.*` çıktılarındadır.
+[Güncel 46 gerçek uygulama ekranı](docs/screenshots/CURRENT.md). Taşınabilir HTML/ZIP galeri yerel `.build-results/MIHEN_Current_Screens_20261120.*` çıktılarındadır.
+
+20 Kasım: [yol haritası uygulama/kabul kaydı](docs/ROADMAP_EXECUTION.md). Yönetici özeti raporu, kapasite, bağımsız rutin oturumu, öğün ve plan/gerçekleşen, şablon haftası, yerel şehir listesi ve yeni selamlama/tasarım dili 100/0 yol haritası koşusunda doğrulandı. Tam UI matrisi ve fiziksel cihaz kabulü ayrı kayıttır.

@@ -1,18 +1,31 @@
-# Kalan öneriler: uygulama ve kabul kaydı
+# Yol haritası uygulama ve kabul kaydı
 
-Bu takip dosyası önceki ürün incelemesi uygulama haritasının yerine tamamlanma iddiası koymaz. Her aşamanın kaynak değişikliği, test kapsamı ve açık kapısı ayrı kaydedilir. Sonuçsuz veya başlamayan CI koşusu başarı sayılmaz.
+Güncelleme: 20 Kasım 2026. Kaynak kod ile doğrulanmış iOS sonucu ayrıdır. `44304066244` koşusu, sekiz yol haritası alanına yayılan 92 birim/kalıcılık ve 8 gerçek UI akışında 100/0 sonucu verdi; daha geniş tam UI koşusunun sonucu ayrıca kayda alınır.
 
-| Sıra | Kapsam | Durum |
+| Sıra | Uygulanan yazılım | Kabul kanıtı / durum |
 |---|---|---|
-| 1 | Kaynak bağlantısı, V1 → V2 mağaza/yedek geçişi | Kodlandı; 61 Core senaryosu / 207 assertion geçti; gerçek iOS migration ve bağlantı UI testi sırada |
-| 2 | Kapasite, hedef planı, yapılandırılmış haftalık odak | Sırada |
-| 3 | Bağımsız rutin takvimi, adım adım çalışma | Sırada |
-| 4 | Öğün, son girişler, düzenleme, hızlı su, plan/gerçekleşen | Sırada |
-| 5 | Dönem karşılaştırmaları, eğilim, yıllar, onaylı karar | Sırada |
-| 6 | Şablon haftası ve alan örnekleri | Sırada |
-| 7 | Yerel şehirler, tekrar geri alma, dokunsal tercih, entegrasyon | Sırada |
-| 8 | Ekran/erişilebilirlik, veri ölçeği, mağaza anlatımı | Sırada |
+| 1 · Veri güveni | Açık modül → görev bağlantısı; önceki manuel miktarı koruyan ayırma; kaynak düzenleme/silme uzlaştırması; V1 → V2 ve eski yedek geçişi | Core bağlantı/JSON/CSV/TZ testleri. İlk P0 koşusunda native migration geçti; son V2 şeması ve UI bağlantısı yeniden doğrulanıyor. |
+| 2 · Gerçekçi plan | Yedi gün için dakika kapasitesi, görev süre tahmini, tarihsel süre snapshot'ı; kapasiteye göre tam toplamlı dağıtım; süre uzatma/kapsam düzenleme; hedefe bağlı üç haftalık odak | Ayrık birim, kapasite aşımı, bilinmeyen süre ve geçmiş snapshot testleri. UI kapasite/odak ve tam sayı kontrolleri uzak koşuda. |
+| 3 · Rutin | Gruba özel günler/duraklama; ortak görevleri arşivlemez; o güne ait sıralı oturum ve kaldığı adımdan devam; İleri başarı üretmez | Core ortak görev/oturum/tekrar testleri. Native çalışma ekranı ve adım ilerlemesinin görevi tamamlamadığı UI kontrolü. |
+| 4 · Beslenme | Öğün ve başlık, son kullanılan beş girişten form doldurma, tarihli miktar düzenleme, özelleştirilen hızlı su; planlanan/gerçekleşen ayrı | Düzenleme tek satırı korur, bağlı görevi günceller, plan gerçek tüketim oluşturmaz. Core ve beslenme UI regresyonu. |
+| 5 · Rapor | Yönetici özeti, görev/kısmi emek/kapsam kartları, kaynak seçilebilir eğilim ve tablo; sekiz alanın ayrıntısı; eşit takvim günü karşılaştırmaları; 10 yılda ayrı yıl dökümü; yapılandırılmış değerlendirmeler; açık karar ve kapsamlı PDF/CSV | Eksik değer sıfır yapılmaz. Kaynak farkı için iki dönemde de aynı kaynakta en az üç kayıtlı gün gerekir. Dışa aktarımda alan ve kişisel notlar açık seçimdir. Core dönem/DST/mahremiyet testleri; native ekran ve PDF testleri. |
+| 6 · İlk kullanım | Seçilen şablonların 7 günlük salt önizlemesi ve açık görev sayısı; sekiz alanda düzenlenebilir hedef + ilk ay aşaması + haftalık destek adımı | Şablonlar açık seçimle ve sabit kimlikle eklenir; geçmiş/başarı üretilmez. Dakika hedef sonucuna dönüştürülmez. Core sekiz alan/idempotence ve UI örnek hafta. |
+| 7 · Günlük araçlar | İstanbul varsayılanı; aramalı çevrimdışı şehir/ülke kısa listesi ve elle koordinat; kaydedilmiş/önizleme ayrımı; ezber tekrarını geri alma/geçmişten silme; isteğe bağlı sayaç titreşimi; Sağlık kaydını açık kaynak bağlantısıyla göreve bağlama; widget'tan uygulamada onaylı su formu | Şehir seçimi hesap yöntemini değiştirmez. Widget veriyi doğrudan değiştirmez, kilitliyken form açılmaz. Native derleme/UI ile fiziksel cihaz kabulü ayrı. |
+| 8 · Tasarım ve kabul | Sade geometrik motifler, sıcak zemin, semantik yeşil, serif vurgu/yuvarlatılmış sistem metni; selamlama dili; kısa rapor başlıkları, büyük yazıda tek sütun; native 1/3/10 yıllık SwiftData/rapor ölçümü; ilk üç mağaza görseli hikâyesi | 44304066244'te yönetici özeti ve büyük-yazı UI akışları geçti; tam 19-akış koşusu ayrıca sürüyor. Tüm cihazlarda VoiceOver/Voice Control sertifikası veya fiziksel performans iddiası yok. |
 
-P0 kararı: mevcut V1 model alanları frozen kalır. V2 yeni, ayrı varlıklar ekler. Kullanıcının açık kaynak bağlantısı aynı gün/alan/birimle sınırlıdır ve önceki manuel miktarın yerine geçer; toplanmaz. Kaynak düzenlenince bağlı gerçekleşme güncellenir. Bağlantıyı ayırmak veya kaynağı silmek önceki manuel miktarı geri getirir. Başlık/tarih benzerliğiyle otomatik eşleştirme veya birim dönüşümü yapılmaz. Her kaynak/gerçekleşme için tek bağlantı vardır.
+## Kullanıcının ek tasarım kararları
 
-Dış kabul: fiziksel iPhone, Apple üyeliği/imzalama, App Group/Family Controls, Health/Calendar/bildirim teslimatı, VoiceOver/Voice Control ve gerçek kullanıcı/ödeme isteği araştırması yazılım testleriyle tamamlanmış sayılmaz.
+- Rapor bir uzun sayı listesi olmaktan çıkarıldı: yönetici özeti → öne çıkanlar → eğilim → alan ayrıntıları → sonraki karar.
+- Dekorasyon verinin önüne geçmez. Yerel SwiftUI geometrisi, metinden ayrılmış küçük motifler ve Dynamic Type sistem fontları kullanılır; harici font/SDK eklenmez.
+- Açılışta Selamün aleyküm; saate göre Hayırlı sabahlar/günler/akşamlar/geceler. İngilizce karşılıklar aynı kapsamda tutulur.
+- Kullanıcıya ait veri veya başarı uydurulmaz. Motive edici dil kısmi emeği gösterir, kişinin değerini puanlamaz.
+
+## Şema ve bağlantı sözleşmesi
+
+V1 model alanları dondurulmuş olarak kalır. Geliştirme aşamasındaki V2, ayrı varlıklar ekler; son sürüm native V1 → V2 geçiş testine tabidir. Bu aradaki geliştirme commit'leri yayımlanmış V2 mağazası sayılmaz. İlk imzalı V2 dağıtımından sonra yeni değişiklikler ayrıca V3 geçişi gerektirir.
+
+Kaynak bağlantısı aynı gün/alan/birim için açık seçimle yapılır ve manuel miktarın **yerine geçer**, ona eklenmez. Kaynağın tarihi/birimi değiştirilecekse önce bağlantı ayrılır. Ayırma veya kaynak silme önceki manuel miktarı geri getirir. Başlık benzerliğiyle otomatik eşleşme yoktur.
+
+## Dış kabul kapıları
+
+Fiziksel iPhone, Apple üyeliği/imzalama/TestFlight, App Group/Family Controls, izinli Sağlık/Takvim/bildirim teslimatı, iOS 18 runtime, VoiceOver/Voice Control/Reduce Motion ve kullanıcı/ödeme isteği araştırması açık kalır. Bunlar kaynak veya simülatör testleriyle tamamlanmış sayılmaz.

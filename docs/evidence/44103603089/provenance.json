@@ -1,0 +1,49 @@
+{
+  "images": [
+    {
+      "file": "MIHEN-Today-LargeText-Task-TR.png",
+      "run": "44103603089",
+      "source": "77c427066503e1267ba2694954f54f98009d446d",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-17T14:46:33.275000+00:00",
+      "sha256": "8147f85f8dd67eeb9401c438226dd0b462e10283233baf63976d458cac62ec6e"
+    },
+    {
+      "file": "MIHEN-Today-LargeText-TR.png",
+      "run": "44103603089",
+      "source": "77c427066503e1267ba2694954f54f98009d446d",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-17T14:46:09.752000+00:00",
+      "sha256": "8af2a811c382eedc6a5659a74c09a822ac8074d95e7ebe568dd9257d7de5048c"
+    },
+    {
+      "file": "MIHEN-Onboarding-LargeText-TR.png",
+      "run": "44103603089",
+      "source": "77c427066503e1267ba2694954f54f98009d446d",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-17T14:45:59.695000+00:00",
+      "sha256": "d7296656c5c7732e06256974417e1d78634b473c897962c76c00da39ebd1ab6c"
+    },
+    {
+      "file": "MIHEN-Onboarding-SmallText-TR.png",
+      "run": "44103603089",
+      "source": "77c427066503e1267ba2694954f54f98009d446d",
+      "test": "MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-17T14:45:45.026000+00:00",
+      "sha256": "7e043f2b910a8a838c2e71cb72fda967464fc68ffc38cfed6689adc0f41ffb11"
+    },
+    {
+      "file": "MIHEN-Executive-LargeText-TR.png",
+      "run": "44103603089",
+      "source": "77c427066503e1267ba2694954f54f98009d446d",
+      "test": "MIHENUITests/testExecutiveReportLargeTypeNavigation()",
+      "scope": "accessibility",
+      "capturedUTC": "2026-11-17T14:47:09.144000+00:00",
+      "sha256": "5134446e3fb747a4cd8050e528acf3f0ca30283efe843136b4f182bb65437772"
+    }
+  ]
+}

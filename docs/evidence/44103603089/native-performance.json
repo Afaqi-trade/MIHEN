@@ -1,0 +1,26 @@
+[
+  {
+    "activities" : 366,
+    "executiveReportSeconds" : 0.044560750000073313,
+    "occurrences" : 1098,
+    "storeReopenLoadSeconds" : 0.081757583333342154,
+    "storeSaveSeconds" : 0.24310595833333082,
+    "years" : 1
+  },
+  {
+    "activities" : 1097,
+    "executiveReportSeconds" : 0.10119829166660566,
+    "occurrences" : 3291,
+    "storeReopenLoadSeconds" : 0.14583133333326259,
+    "storeSaveSeconds" : 0.78373483333336935,
+    "years" : 3
+  },
+  {
+    "activities" : 3653,
+    "executiveReportSeconds" : 0.44333554166667,
+    "occurrences" : 10959,
+    "storeReopenLoadSeconds" : 0.46648658333333515,
+    "storeSaveSeconds" : 2.4776641666667274,
+    "years" : 10
+  }
+]
