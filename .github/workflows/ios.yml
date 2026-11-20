@@ -30,7 +30,9 @@ concurrency:
 jobs:
   test:
     runs-on: ${{ inputs.runner == 'macos-26-intel' && 'macos-26-intel' || 'macos-26' }}
-    timeout-minutes: 60
+    # The full matrix runs nineteen end-to-end simulator flows and can exceed
+    # an hour on shared macOS capacity. Focused suites remain much shorter.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: Record toolchain
