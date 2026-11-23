@@ -223,13 +223,14 @@ struct FastingScreen: View {
     @Environment(AppStore.self) private var store
     @State private var title = ""
     @State private var date = Date()
+    @FocusState private var titleFocused: Bool
     var body: some View {
         List {
             Section {
                 Text(store.t("fasting.calendarNote")).font(.footnote)
-                TextField(store.t("title"), text: $title).autocorrectionDisabled().accessibilityIdentifier("tracker.title")
+                TextField(store.t("title"), text: $title).autocorrectionDisabled().focused($titleFocused).accessibilityIdentifier("tracker.title")
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
-                Button(store.t("add")) { if store.change({ $0.fasts.append(.init(date: date, title: title)) }) { title = "" } }.disabled(title.isEmpty)
+                Button(store.t("add")) { addPlan() }.disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty).accessibilityIdentifier("fast.add")
             }
             Section(store.t("summary")) {
                 Text(store.t("fasting.upcoming") + ": \(store.data.fasts.filter { $0.status == "planned" }.count)")
@@ -245,6 +246,14 @@ struct FastingScreen: View {
                 }.swipeActions { Button(store.t("delete"), role: .destructive) { store.change { $0.fasts.removeAll { $0.id == fast.id } } } }
             }
         }.keyboardDone().navigationTitle(store.t("fasting"))
+    }
+    private func addPlan() {
+        let cleaned = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleaned.isEmpty else { return }
+        if store.change({ $0.fasts.append(.init(date: date, title: cleaned)) }) {
+            title = ""
+            titleFocused = false
+        }
     }
 }
 struct SpiritualTemplatesScreen: View {

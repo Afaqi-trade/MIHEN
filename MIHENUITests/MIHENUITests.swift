@@ -433,12 +433,15 @@ final class MIHENUITests: XCTestCase {
         let app = start()
         spiritual("fasting", in: app)
         replace(app.textFields["tracker.title"], with: "Kisisel oruc")
-        app.buttons["Ekle"].tap()
-        XCTAssertTrue(app.staticTexts["Planlı kayıtlar: 1"].exists)
-        XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 0"].exists)
-        app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "fast.status.")).firstMatch.tap()
-        app.buttons["Tamamlandı"].tap()
-        XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 1"].exists)
+        tap(app.buttons["fast.add"], in: app)
+        XCTAssertTrue(app.staticTexts["Planlı kayıtlar: 1"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 0"].waitForExistence(timeout: 10))
+        let status = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "fast.status.")).firstMatch
+        tap(status, in: app)
+        let completed = app.buttons["Tamamlandı"]
+        XCTAssertTrue(completed.waitForExistence(timeout: 10))
+        tap(completed, in: app)
+        XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 1"].waitForExistence(timeout: 10))
         capture(app, name: "MIHEN-Fasting-TR")
     }
     @MainActor func testMemorizationAndNextReview() throws {
@@ -502,8 +505,10 @@ final class MIHENUITests: XCTestCase {
         app.buttons["today.undo"].tap()
         XCTAssertTrue(app.staticTexts["0 / 30 Dakika"].exists)
         capture(app, name:"MIHEN-Today-Guided-TR")
-        app.tabBars.buttons["Profil"].tap()
-        XCTAssertTrue(app.descendants(matching:.any)["settings.language"].firstMatch.exists)
+        tap(app.tabBars.buttons["Profil"], in: app)
+        let language = app.descendants(matching:.any)["settings.language"].firstMatch
+        reveal(language, in: app)
+        XCTAssertTrue(language.exists)
     }
     @MainActor func testBackupInformationAndNutritionQuickWater() throws {
         let app = start()

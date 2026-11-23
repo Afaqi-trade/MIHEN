@@ -20,6 +20,9 @@ on:
           - accessibility
           - roadmap
           - daily-flows
+          - daily-fasting
+          - daily-guided
+          - appearance
 defaults:
   run:
     shell: bash
