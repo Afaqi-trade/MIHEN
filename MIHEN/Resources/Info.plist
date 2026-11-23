@@ -44,6 +44,8 @@
 	<string>MİHEN kişisel kayıtlarınıza erişimi kimlik doğrulamasıyla korur.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Seçtiğiniz günün adım ve aktif enerji toplamlarını MİHEN içinde göstermek için izin istenir.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>MİHEN Sağlık verilerinizi değiştirmez; bu açıklama, seçtiğiniz günün adım ve aktif enerji toplamlarını yalnızca okumak için istenen Sağlık erişimini açıklar.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

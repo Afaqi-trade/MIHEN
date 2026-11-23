@@ -32,6 +32,22 @@
           }
         }
       }
+    },
+    "NSHealthUpdateUsageDescription": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MİHEN Sağlık verilerinizi değiştirmez; bu açıklama, seçtiğiniz günün adım ve aktif enerji toplamlarını yalnızca okumak için istenen Sağlık erişimini açıklar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MIHEN does not modify your Health data; this description explains the Health access requested only to read step and active energy totals for your selected day."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

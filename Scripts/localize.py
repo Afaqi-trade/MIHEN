@@ -714,4 +714,5 @@ print(f'{len(strings)} bilingual keys; all literal UI keys covered')
 info_path = Path('MIHEN/Localization/InfoPlist.xcstrings')
 info = json.loads(info_path.read_text())
 info['strings']['NSHealthShareUsageDescription'] = {'localizations': {lang: {'stringUnit': {'state': 'translated', 'value': value}} for lang, value in [('tr', 'Seçtiğiniz günün adım ve aktif enerji toplamlarını MİHEN içinde göstermek için izin istenir.'), ('en', 'Allow MIHEN to display steps and active energy totals for your selected day.')]}}
+info['strings']['NSHealthUpdateUsageDescription'] = {'localizations': {lang: {'stringUnit': {'state': 'translated', 'value': value}} for lang, value in [('tr', 'MİHEN Sağlık verilerinizi değiştirmez; bu açıklama, seçtiğiniz günün adım ve aktif enerji toplamlarını yalnızca okumak için istenen Sağlık erişimini açıklar.'), ('en', 'MIHEN does not modify your Health data; this description explains the Health access requested only to read step and active energy totals for your selected day.')]}}
 info_path.write_text(json.dumps(info, ensure_ascii=False, indent=2) + '\n')

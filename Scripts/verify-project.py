@@ -20,6 +20,11 @@ for obj in objects.values():
         assert (root/obj['path']).exists(),obj['path']
 for path in list(root.glob('MIHEN/Resources/*.plist'))+list(root.glob('MIHEN/Resources/*.entitlements'))+list(root.glob('MIHENWidget/*.plist'))+list(root.glob('MIHENWidget/*.entitlements'))+list(root.glob('MIHENActivityMonitor/*.plist'))+list(root.glob('MIHENActivityMonitor/*.entitlements'))+list(root.rglob('*.xcprivacy')):
     with path.open('rb') as f:plistlib.load(f)
+app_info=plistlib.loads((root/'MIHEN/Resources/Info.plist').read_bytes())
+assert app_info['NSHealthShareUsageDescription']
+assert app_info['NSHealthUpdateUsageDescription']
+widget_info=plistlib.loads((root/'MIHENWidget/Info.plist').read_bytes())
+assert widget_info['CFBundleDisplayName']=='MİHEN'
 for path in root.glob('MIHEN/Assets.xcassets/*/Contents.json'):
     manifest=json.loads(path.read_text())
     for image in manifest.get('images',[]):
