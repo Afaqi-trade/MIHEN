@@ -1,6 +1,6 @@
 # MİHEN'i kendi iPhone'unuza TestFlight ile kurma
 
-23 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması, üç dağıtım profili ve imzalı IPA uzak archive'da doğrulandı. App Store Connect uygulama kaydı açıldı. Güncel paket **1.0.0 (2)**; App Store Connect yüklemesi ve TestFlight kurulumu henüz yapılmadı.
+24 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması, üç dağıtım profili ve imzalı IPA uzak archive'da doğrulandı. App Store Connect uygulama kaydı açıldı. Güncel paket **1.0.0 (2)**; App Store Connect yüklemesi ve TestFlight kurulumu henüz yapılmadı.
 
 ## Sıradaki işlem: dağıtım sertifikası ve provisioning profilleri
 

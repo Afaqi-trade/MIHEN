@@ -1,8 +1,8 @@
 # Test raporu
 
-Güncelleme: 2026-11-23 (Europe/Istanbul).
+Güncelleme: 2026-11-24 (Europe/Istanbul).
 
-## 23 Kasım — gerçek imzalı IPA doğrulaması
+## 24 Kasım — gerçek imzalı IPA doğrulaması
 
 `45192651735` / `b55b40f`: iPhone 17 Pro / iOS 26.4.1 simülatöründe **93 passed / 0 failed / 0 skipped**. Gerçek xcresult kök kaydı ve 1.506 Data öğesi, sonuç JSON'u ve dört native PNG attachment incelendi. Bu dar `daily-guided` kapsamıdır; tam UI matrisi değildir.
 
