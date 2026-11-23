@@ -12,14 +12,14 @@
 - [ ] Files üzerinden dışa aktar/geri yükle cihazda test edildi.
 - [ ] VoiceOver, büyük Dynamic Type, Reduce Motion, kontrast, TR/EN, açık/koyu tema görsel QA geçti.
 - [ ] Bilinen sınırlar kapandı veya ürün sahibi tarafından sürüm kapsamına açıkça alındı.
-- [ ] Güncel SDK archive/validation/signing başarılı.
-- [ ] Benzersiz bundle ID, Team, App Group ve entitlements doğrulandı.
+- [x] Güncel SDK archive/validation/signing başarılı (`45257992808`; imzalı IPA exportu).
+- [x] Benzersiz bundle ID, Team, App Group ve imzalı entitlement'lar doğrulandı (`45257992808`).
 - [ ] Son binary privacy manifest/App Privacy/export compliance değerlendirmesi doğrulandı.
 - [ ] Gerçek mağaza ekran görüntüleri üretildi ve ölçüleri kontrol edildi.
 - [ ] Destek/gizlilik URL'leri, yayın sahibi iletişimi ve hukuki değerlendirme tamamlandı.
 - [ ] Ürün sahibi yayın izni verdi.
 
 - [x] TestFlight ön hazırlığında üç hedef için gerçek arm64 imzasız iPhone Release archive kontrolü geçti (`43704463900`).
-- [ ] Apple Developer Program üyeliği etkinleşti (ürün sahibi adımı).
-- [ ] Family Controls dağıtım yetkisi hem ana uygulama hem monitor için onaylandı.
+- [x] Apple Developer Program üyeliği etkinleşti (ürün sahibi bildirimi).
+- [x] Family Controls entitlement'ı hem ana uygulama hem monitor imzalı dağıtım profilinde doğrulandı (`45257992808`).
 - [ ] İmzalı TestFlight build yüklendi, Apple işlemesi tamamlandı ve hesap sahibi iç test kullanıcısı olarak kurdu.

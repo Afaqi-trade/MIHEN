@@ -1,6 +1,6 @@
 # MİHEN'i kendi iPhone'unuza TestFlight ile kurma
 
-23 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması üç hedefte de kontrol edildi. İmzalı archive ve TestFlight yüklemesi henüz yapılmadı; provisioning gerekir.
+23 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması, üç dağıtım profili ve imzalı IPA uzak archive'da doğrulandı. App Store Connect yüklemesi ve TestFlight kurulumu henüz yapılmadı.
 
 ## Sıradaki işlem: dağıtım sertifikası ve provisioning profilleri
 
@@ -35,8 +35,8 @@ Ardından Actions → **TestFlight signed archive (no upload)** workflow'unu man
 | Ortak veri alanı | `group.com.afaqitrade.mihen` |
 
 2. Üç hedefin App Group ataması portalda tamamlandı. Ana uygulamada HealthKit ve Data Protection, ana uygulama + monitor'de Family Controls capability yapılandırılır. Widget için Family Controls talep edilmez.
-3. **Family Controls dağıtım yetkisi ana uygulama ve monitor için talep edildi.** Apple onayı gelene kadar Ekran Süresi içeren TestFlight sürümü dağıtılabilir sayılmaz.
-4. Apple Distribution sertifikası ve üç hedef için App Store Connect provisioning profillerini oluşturun. İmzalı IPA workflow'u yalnızca GitHub Secrets içinden geçici olarak kullanır; `.p8`, `.p12`, sertifika parolası veya token sohbete yazılmaz ve Git'e eklenmez.
+3. Ana uygulama ve monitor için imzalı dağıtım profillerinde Family Controls entitlement'ı doğrulandı. Apple'ın portal durumunu ve sonraki yenilemelerde entitlement'ın korunduğunu ayrıca kontrol edin.
+4. Apple Distribution sertifikası ve üç hedef için App Store Connect provisioning profilleri oluşturuldu. İmzalı IPA workflow'u yalnızca GitHub Secrets içinden geçici olarak kullanır; `.p8`, `.p12`, sertifika parolası veya token sohbete yazılmaz ve Git'e eklenmez.
 5. App Store Connect'te yeni iOS uygulama kaydı açın. Ad: MİHEN (Apple'da uygunluğu kontrol edilir); ana dil Türkçe; bundle ID ana uygulamanın gerçek ID'si; önerilen SKU `MIHEN-IOS-001`. Apple uygulama kimliği henüz yok.
 6. Uzak Xcode 26+ üzerinde gerçek kimliklerle **imzalı Release archive**, imza/entitlement kontrolü ve Apple doğrulaması yapın. Ardından App Store Connect'e yükleyin ve Apple'ın build işlemesini bekleyin. Bu adımlar mevcut simülatör başarısından ayrı kontrol kapılarıdır. Eski Mac'inize Xcode kurmanız bu uzak yol için şart değildir.
 7. İlk denemede **Internal Testing / İç Test** grubunu kullanın. Önerilen grup: `Kişisel iPhone Testi`. Kendi App Store Connect hesabınızı test kullanıcısı olarak ekleyip işlenmiş build'i gruba atayın. Dış test kullanıcıları ve herkese açık bağlantı bu ilk kurulumun parçası değildir.
@@ -46,7 +46,7 @@ Ardından Actions → **TestFlight signed archive (no upload)** workflow'unu man
 
 `.github/workflows/testflight-preparation.yml` manuel çalışır. `Scripts/prepare-testflight.sh` uzak Mac'te gerçek `generic/platform=iOS` **Release archive** üretir; `Scripts/testflight-readiness.py` üç gerçek arm64 çalıştırılabilir dosyayı, gömülü widget/monitor'ü, sürüm uyumunu ve gizlilik manifestlerini kontrol eder. Bu arşiv bilinçli olarak imzasızdır. Üyelik/kimlik/profil/sertifika olmadan kurulabilir IPA veya TestFlight daveti gibi sunulmaz. Rapor alanlarında `testFlightReady=false`, `uploadedToAppStoreConnect=false` ve `installableOnIPhone=false` açıkça korunur.
 
-İmzalı arşiv ve yükleme akışı hesap/sertifika bilgileri doğrulanınca tamamlanır. Üyelik satın alınması, Apple sözleşmelerinin kabulü, yetki onayı veya TestFlight yüklemesi şu an gerçekleşmiş değildir.
+`45257992808` / `f6bf37f`: Apple Distribution ile gerçek imzalı archive ve IPA export başarıyla doğrulandı. Üç hedefin imzalı entitlement'ları App Group'u içerir; ana uygulama/monitor ayrıca Family Controls, ana uygulama/widget ayrıca Complete Data Protection içerir. IPA Apple'a yüklenmedi; üyelik sözleşmeleri, App Store Connect uygulama kaydı, TestFlight yüklemesi ve fiziksel iPhone kabulü ayrı kapılardır.
 
 ## Telefonda ilk 15 dakikalık kontrol
 

@@ -1,6 +1,14 @@
 # Test raporu
 
-Güncelleme: 2026-11-16 (Europe/Istanbul).
+Güncelleme: 2026-11-23 (Europe/Istanbul).
+
+## 23 Kasım — gerçek imzalı IPA doğrulaması
+
+`45192651735` / `b55b40f`: iPhone 17 Pro / iOS 26.4.1 simülatöründe **93 passed / 0 failed / 0 skipped**. Gerçek xcresult kök kaydı ve 1.506 Data öğesi, sonuç JSON'u ve dört native PNG attachment incelendi. Bu dar `daily-guided` kapsamıdır; tam UI matrisi değildir.
+
+`45257992808` / `f6bf37f`: GitHub macOS 26 ARM koşusunda gerçek **ARCHIVE SUCCEEDED** ve **EXPORT SUCCEEDED**. Apple Distribution ile imzalı `MIHEN.ipa` üretildi: 2.185.316 byte, SHA-256 `3dcb2381944d2d64e797ecb4379cfd61d63bc401eb91b6396c106b4308f67bfd`. İmzalı ana uygulama `PY75Z73294.com.afaqitrade.mihen`, widget ve monitor uzantıları ortak `group.com.afaqitrade.mihen` alanını içerir. Ana uygulama/monitor Family Controls; ana uygulama/widget `NSFileProtectionComplete` entitlement'ını içerir. Artifact, imzalı entitlement plistleri ve IPA 7 gün saklanır. **App Store Connect'e yükleme, TestFlight daveti veya fiziksel iPhone kurulumu yapılmadı.**
+
+Önceki `45255224909` yeşil iş kabul edilmedi: çalıştırma izni olmayan betik hatası `tee` borusuyla gizlenmiş, IPA oluşmamıştı. `4677679`, `1b27b9d` ve `f6bf37f` workflow'u hata kodunu koruyup Apple Distribution kimliğini açıkça seçerek bu yanlış-pozitifi kapattı.
 
 ## Güncel sonuç — ürün incelemesi sonrası
 
