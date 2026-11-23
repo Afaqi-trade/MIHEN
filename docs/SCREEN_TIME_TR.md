@@ -23,8 +23,8 @@ Bozuk dosya sessizce yeni bütçeye çevrilmez. Mevcut kısıt korunur; kullanı
 ## Cihaz ve dağıtım gereksinimleri
 
 - Ana uygulama ve `MIHENActivityMonitor` için Family Controls capability gerekir. Her iki hedef aynı App Group'u kullanır.
-- Örnek kimlikler `com.example.mihen`, `com.example.mihen.monitor`, `group.com.example.mihen` yayıncı tarafından gerçek kimliklere ve provisioning profillerine bağlanmalıdır.
-- TestFlight/App Store dağıtımı için Apple'ın Family Controls dağıtım yetkisi ana uygulama ve uzantı için ayrıca istenir. Bu başvuru/sözleşme kullanıcı hesabı gerektirir; bu çalışma başvuru yapmaz veya onay varmış gibi göstermez.
+- Ana uygulama `com.afaqitrade.mihen`, monitor `com.afaqitrade.mihen.monitor` ve widget `com.afaqitrade.mihen.widget` aynı Team altında kayıtlıdır. `group.com.afaqitrade.mihen` App Group'u, portalda üç hedefe de atanmalı ve sonrasında profiller yeniden üretilmelidir.
+- TestFlight/App Store dağıtımı için Apple'ın Family Controls dağıtım yetkisi ana uygulama ve uzantı için ayrıca istenir. Başvuru ürün sahibi tarafından gönderildi; Apple onayı alınana kadar dağıtım entitlement'ı onaylanmış sayılmaz.
 - Bireysel yetkilendirme cihaz sahibinin ayarlardan kaldırabileceği bir izindir. Kaldırılamaz ebeveyn kilidi vaadi yoktur. İzin iptalinde tokenlar geçersizleşir; uygulama ön plana geldiğinde kendi monitor/kısıtlarını temizler.
 - Saat dilimi değişiminde iOS devam eden günün kullanımını yeni aralığa göre taşıyabilir. Seyahat ve DST kabul testleri gereklidir.
 

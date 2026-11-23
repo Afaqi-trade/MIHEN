@@ -17,6 +17,6 @@ final class UsageMonitor: DeviceActivityMonitor {
     }
     private func perform(_ operation: () throws -> Void) {
         do { try operation() }
-        catch { Logger(subsystem: "com.example.mihen", category: "UsageMonitor").error("Usage limit state could not be reconciled; existing shield retained.") }
+        catch { Logger(subsystem: "com.afaqitrade.mihen", category: "UsageMonitor").error("Usage limit state could not be reconciled; existing shield retained.") }
     }
 }

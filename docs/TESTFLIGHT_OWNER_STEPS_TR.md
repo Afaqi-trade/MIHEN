@@ -1,19 +1,18 @@
 # MİHEN'i kendi iPhone'unuza TestFlight ile kurma
 
-15 Kasım 2026. Ürün sahibi aktif Apple Developer Program üyeliği olmadığını bildirdi. Bu nedenle şu anda imzalı TestFlight yüklemesi başlatılamaz. Teknik hazırlık çalışması ve hesap sahibinin adımları aşağıdadır.
+23 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. İmzalı archive ve TestFlight yüklemesi henüz yapılmadı; önce portal ataması ve provisioning gerekir.
 
-## Şimdi sizin yapacağınız işlem: Apple üyeliği
+## Şimdi sizin yapacağınız işlem: App Group'u hedeflere atamak
 
-1. iPhone'da Apple'ın **Apple Developer** uygulamasını kurun: https://apps.apple.com/app/apple-developer/id640199958 . Alternatif kayıt sayfası bilgisayarda açıldı: https://developer.apple.com/programs/enroll/ .
-2. Hesap / Account bölümünde kendi Apple hesabınızla giriş yapın. İki faktörlü doğrulama açık olmalı. Şifre, doğrulama kodu, kimlik belgesi ve ödeme bilgilerini yalnızca Apple'ın kendi ekranına girin; sohbete göndermeyin.
-3. Kayıt / Enroll akışını başlatın. Kendi adınıza ürün çıkaracaksanız Individual; tüzel şirket adına çıkaracaksanız Organization yolunu seçin. Bireysel üyelikte satıcı adı yasal kişisel adınızdır. Kurumsal üyelikte tüzel kişilik ve D-U-N-S doğrulaması gibi ek koşullar vardır. Şirket adı veya kimlik bilgisi sizin yerinize varsayılmaz.
-4. Apple'ın kimlik doğrulama, sözleşme ve ödeme adımlarını kendiniz tamamlayın. Apple'ın listelediği ücret yıllık **99 USD**; yerel tutar kayıt sırasında gösterilir. Ödeme veya hukuki kabul sizin adınıza yapılmadı.
-5. Kayıt talebinin gönderilmiş olması üyeliğin etkinleştiği anlamına gelmez. Apple Developer hesabında üyelik **Active** görünmesini ve App Store Connect'e erişimi bekleyin. Onay süresi garanti edilmez.
-6. Üyelik etkinleştiğinde bu sohbete yalnızca **“Üyelik aktif”** yazın. Sonraki hesap kurulumuna o noktadan devam edilebilir; şifrenize veya doğrulama kodunuza ihtiyacımız yok.
+1. https://developer.apple.com/account/resources/identifiers/list adresinde **Certificates, Identifiers & Profiles → Identifiers** sayfasını açın.
+2. Sırayla `com.afaqitrade.mihen`, `com.afaqitrade.mihen.widget` ve `com.afaqitrade.mihen.monitor` kimliklerini arayıp açın.
+3. Her kimlikte **App Groups** capability'sini etkinleştirin. Görünen **Configure** düğmesine basın, `group.com.afaqitrade.mihen` satırını seçin, **Continue → Assign → Done → Save** sırasını tamamlayın.
+4. Ana uygulama ve monitor için Family Controls capability'sinin etkin kaldığını kontrol edin; widget için Family Controls gerekmez. Ana uygulamada HealthKit ve Data Protection da korunmalıdır.
+5. Apple, bir kimliğin capability'si değişince eski provisioning profillerini geçersiz kılar. Atama biter bitmez bu üç hedef için App Store dağıtım profillerini yeniden üreteceğiz; henüz sertifika veya anahtar paylaşmayın.
 
 ## Üyelikten sonra birlikte tamamlanacak Apple adımları
 
-1. Apple Developer Team ID'yi ve yayıncı hesabını doğrulayın. Benzersiz kimlikleri Apple portalında kaydedin. Aşağıdakiler yalnızca öneridir; henüz kaydedilmedi:
+1. Apple Developer Team ID, yayıncı hesabı ve kimlikler doğrulandı:
 
 | Kullanım | Önerilen kimlik |
 |---|---|
@@ -22,8 +21,8 @@
 | Ekran Süresi monitor uzantısı | `com.afaqitrade.mihen.monitor` |
 | Ortak veri alanı | `group.com.afaqitrade.mihen` |
 
-2. Üç hedefi aynı Team ve App Group'a bağlayın. Ana uygulamada HealthKit ve Data Protection, ana uygulama + monitor'de Family Controls capability yapılandırılır. Widget için Family Controls talep edilmez.
-3. **Family Controls dağıtım yetkisini hem ana uygulama hem monitor için talep edin.** Form: https://developer.apple.com/contact/request/family-controls-distribution . Başvuruya hazır ürün açıklaması `APPLE_FAMILY_CONTROLS_REQUEST.md` içindedir. Apple onayı henüz alınmadı; Ekran Süresi içeren TestFlight sürümü için bu yetki gereklidir.
+2. Üç hedefin App Group atamasını portalda tamamlayın. Ana uygulamada HealthKit ve Data Protection, ana uygulama + monitor'de Family Controls capability yapılandırılır. Widget için Family Controls talep edilmez.
+3. **Family Controls dağıtım yetkisi ana uygulama ve monitor için talep edildi.** Apple onayı gelene kadar Ekran Süresi içeren TestFlight sürümü dağıtılabilir sayılmaz.
 4. Apple Distribution sertifikası ve üç hedef için App Store Connect provisioning profillerini oluşturun. Hesap/cert/profil işlemleri hesap sahibinin kontrolündedir. Gerekirse uzak Mac imzalama akışını kurarız; `.p8`, `.p12`, sertifika parolası veya token sohbete yazılmaz ve Git'e eklenmez. Bu çalışma henüz bir API anahtarı veya sertifika oluşturmadı.
 5. App Store Connect'te yeni iOS uygulama kaydı açın. Ad: MİHEN (Apple'da uygunluğu kontrol edilir); ana dil Türkçe; bundle ID ana uygulamanın gerçek ID'si; önerilen SKU `MIHEN-IOS-001`. Apple uygulama kimliği henüz yok.
 6. Uzak Xcode 26+ üzerinde gerçek kimliklerle **imzalı Release archive**, imza/entitlement kontrolü ve Apple doğrulaması yapın. Ardından App Store Connect'e yükleyin ve Apple'ın build işlemesini bekleyin. Bu adımlar mevcut simülatör başarısından ayrı kontrol kapılarıdır. Eski Mac'inize Xcode kurmanız bu uzak yol için şart değildir.

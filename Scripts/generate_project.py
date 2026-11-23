@@ -42,14 +42,14 @@ def configs(name,settings):
   if name=='MIHEN':s['ENABLE_TESTABILITY']='YES' if config=='Debug' else 'NO'
   ids.append(put('config:'+name+config,'XCBuildConfiguration',name=config,buildSettings=s))
  return put('configs:'+name,'XCConfigurationList',buildConfigurations=ids,defaultConfigurationIsVisible=0,defaultConfigurationName='Release')
-common={'SDKROOT':'iphoneos','IPHONEOS_DEPLOYMENT_TARGET':'18.0','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CODE_SIGN_STYLE':'Automatic','DEVELOPMENT_TEAM':'','MIHEN_APP_GROUP':'group.com.example.mihen','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','TARGETED_DEVICE_FAMILY':'1','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','ENABLE_USER_SCRIPT_SANDBOXING':'YES','LOCALIZATION_PREFERS_STRING_CATALOGS':'YES','SWIFT_EMIT_LOC_STRINGS':'YES'}
+common={'SDKROOT':'iphoneos','IPHONEOS_DEPLOYMENT_TARGET':'18.0','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CODE_SIGN_STYLE':'Automatic','DEVELOPMENT_TEAM':'PY75Z73294','MIHEN_APP_GROUP':'group.com.afaqitrade.mihen','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','TARGETED_DEVICE_FAMILY':'1','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','ENABLE_USER_SCRIPT_SANDBOXING':'YES','LOCALIZATION_PREFERS_STRING_CATALOGS':'YES','SWIFT_EMIT_LOC_STRINGS':'YES'}
 targets={n:oid('target:'+n) for n in products}
 def dependency(owner,target):
  proxy=put('proxy:'+owner+target,'PBXContainerItemProxy',containerPortal=oid('project'),proxyType=1,remoteGlobalIDString=targets[target],remoteInfo=target)
  return put('dependency:'+owner+target,'PBXTargetDependency',target=targets[target],targetProxy=proxy)
 for name,sources,resources in [('MIHEN',app_sources,app_resources),('MIHENWidget',widget_sources,widget_resources),('MIHENActivityMonitor',monitor_sources,monitor_resources),('MIHENTests',unit_sources,[]),('MIHENUITests',ui_sources,[])]:
  phases=[phase('sources:'+name,'PBXSourcesBuildPhase',sources),put('frameworks:'+name,'PBXFrameworksBuildPhase',buildActionMask=2147483647,files=[],runOnlyForDeploymentPostprocessing=0),phase('resources:'+name,'PBXResourcesBuildPhase',resources)]
- settings=dict(common,PRODUCT_NAME='$(TARGET_NAME)',PRODUCT_BUNDLE_IDENTIFIER={'MIHEN':'com.example.mihen','MIHENWidget':'com.example.mihen.widget','MIHENActivityMonitor':'com.example.mihen.monitor','MIHENTests':'com.example.mihen.tests','MIHENUITests':'com.example.mihen.uitests'}[name],LD_RUNPATH_SEARCH_PATHS=['$(inherited)','@executable_path/Frameworks'])
+ settings=dict(common,PRODUCT_NAME='$(TARGET_NAME)',PRODUCT_BUNDLE_IDENTIFIER={'MIHEN':'com.afaqitrade.mihen','MIHENWidget':'com.afaqitrade.mihen.widget','MIHENActivityMonitor':'com.afaqitrade.mihen.monitor','MIHENTests':'com.afaqitrade.mihen.tests','MIHENUITests':'com.afaqitrade.mihen.uitests'}[name],LD_RUNPATH_SEARCH_PATHS=['$(inherited)','@executable_path/Frameworks'])
  deps=[]
  if name=='MIHEN':
   settings.update({'INFOPLIST_FILE':'MIHEN/Resources/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHEN/Resources/MIHEN.entitlements','ASSETCATALOG_COMPILER_APPICON_NAME':'AppIcon','GENERATE_INFOPLIST_FILE':'NO'})
