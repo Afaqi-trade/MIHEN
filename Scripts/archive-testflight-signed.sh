@@ -79,6 +79,7 @@ xcodebuild -project MIHEN.xcodeproj -scheme MIHEN -configuration Release \
   -derivedDataPath .build-results/TestFlightSignedDerivedData \
   -archivePath "$MIHEN_ARCHIVE" \
   CODE_SIGN_STYLE=Manual \
+  CODE_SIGN_IDENTITY="Apple Distribution" \
   MIHEN_APP_PROFILE_NAME="$MIHEN_APP_PROFILE_NAME" \
   MIHEN_WIDGET_PROFILE_NAME="$MIHEN_WIDGET_PROFILE_NAME" \
   MIHEN_MONITOR_PROFILE_NAME="$MIHEN_MONITOR_PROFILE_NAME" archive
