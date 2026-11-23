@@ -505,7 +505,9 @@ final class MIHENUITests: XCTestCase {
         app.buttons["today.undo"].tap()
         XCTAssertTrue(app.staticTexts["0 / 30 Dakika"].exists)
         capture(app, name:"MIHEN-Today-Guided-TR")
-        tap(app.tabBars.buttons["Profil"], in: app)
+        // Tab bars are navigation chrome, not scrolling content; reveal() deliberately
+        // excludes that lower chrome from its safe content rectangle.
+        app.tabBars.buttons["Profil"].tap()
         let language = app.descendants(matching:.any)["settings.language"].firstMatch
         reveal(language, in: app)
         XCTAssertTrue(language.exists)
