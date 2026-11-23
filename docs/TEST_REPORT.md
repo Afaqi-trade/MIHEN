@@ -8,6 +8,8 @@ Güncelleme: 2026-11-23 (Europe/Istanbul).
 
 `45257992808` / `f6bf37f`: GitHub macOS 26 ARM koşusunda gerçek **ARCHIVE SUCCEEDED** ve **EXPORT SUCCEEDED**. Apple Distribution ile imzalı `MIHEN.ipa` üretildi: 2.185.316 byte, SHA-256 `3dcb2381944d2d64e797ecb4379cfd61d63bc401eb91b6396c106b4308f67bfd`. İmzalı ana uygulama `PY75Z73294.com.afaqitrade.mihen`, widget ve monitor uzantıları ortak `group.com.afaqitrade.mihen` alanını içerir. Ana uygulama/monitor Family Controls; ana uygulama/widget `NSFileProtectionComplete` entitlement'ını içerir. Artifact, imzalı entitlement plistleri ve IPA 7 gün saklanır. **App Store Connect'e yükleme, TestFlight daveti veya fiziksel iPhone kurulumu yapılmadı.**
 
+`45262542216` / `4d2b4cd`: güncel metadata ile Intel macOS 26 fallback koşusunda gerçek **ARCHIVE SUCCEEDED** ve **EXPORT SUCCEEDED**. İmzalı güncel IPA **1.0.0 (2)** sürümündedir; 2.185.607 byte, SHA-256 `6daa7d5fc55657f61e1ce46b17d2ada6f6a1d1eb3d325c2a6cd3dce697074015`. Paket açılarak ana uygulamada `NSHealthUpdateUsageDescription`, widget uzantısında `CFBundleDisplayName = MİHEN` ve her iki hedefte build `2` okundu. Bu, Transporter'ın önceki `90683` ve `90360` doğrulama eksiklerini kapatır. **Yalnızca bu Build 2 IPA yüklenmelidir; App Store Connect'e yükleme, TestFlight daveti veya fiziksel iPhone kurulumu henüz yapılmadı.**
+
 Önceki `45255224909` yeşil iş kabul edilmedi: çalıştırma izni olmayan betik hatası `tee` borusuyla gizlenmiş, IPA oluşmamıştı. `4677679`, `1b27b9d` ve `f6bf37f` workflow'u hata kodunu koruyup Apple Distribution kimliğini açıkça seçerek bu yanlış-pozitifi kapattı.
 
 ## Güncel sonuç — ürün incelemesi sonrası
