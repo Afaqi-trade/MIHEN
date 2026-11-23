@@ -19,6 +19,7 @@ on:
           - module-gallery
           - accessibility
           - roadmap
+          - daily-flows
 defaults:
   run:
     shell: bash

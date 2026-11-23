@@ -12,7 +12,7 @@ Sıra: toolchain bilgisini kaydet → `swift test` ile gerçek XCTest → proje 
 
 1. GitHub bağlantısını tamamlayın ve ürün sahibinin seçtiği depoyu kullanın. Afaqi-trade/MIHEN, ürün sahibi tarafından 16 Kasım 2026’da Actions engelini aşmak için public yapıldı; özgün master prompt ve referans ZIP Git dışında tutulur.
 2. GitHub hesabında Actions'ın etkinliğini ve dahil olan kullanım kotasını doğrulayın. Ücretsiz kullanım garantisi yoktur; kota aşımında ücretli kullanım devreye girmemelidir. Bütçe ayarını hesap sahibi kontrol eder. Ücretli kapasite satın alınmaz.
-3. Kodu push edin. GitHub → Actions → iOS validation → Run workflow.
+3. Kodu push edin. GitHub → Actions → iOS validation → Run workflow. Paylaşımlı simülatörün uzun tek süreçte kararsızlaşması halinde kapsamı kısa, bağımsız seçeneklere bölün; aynı testi bekleyerek daha uzun süre koşturmak kabul kanıtını güçlendirmez.
 4. Başarısız aşamanın logunu okuyun, hatayı düzeltip yeni commit ile tekrar çalıştırın. Sadece workflow yeşil olunca gerçek iOS testlerinin geçtiğini raporlayın.
 5. MIHEN-test-results artifact'ini indirin. XCTest attachment ekran görüntülerini Xcode Results üzerinden inceleyin. Mağaza görsellerini ancak doğrulanmış çalışan uygulamadan üretin.
 
@@ -42,6 +42,14 @@ Manuel workflow'un `suite` seçeneği varsayılan olarak `full` değerindedir. `
 ```
 
 Ekran Süresi gerçek uygulama kullanımı/shield ve biyometri doğrulaması için SCREEN_TIME_TR.md fiziksel cihaz kabul listesini kullanın. CI yetki verilmiş veya gerçek başka uygulamalar kısıtlanmış gibi davranan bir sahte başarı ekranı kullanmaz.
+
+## Günlük akışlar parçası
+
+`suite=daily-flows`, uygulama/uzantı derlemesi ve tüm uygulama birim/kalıcılık testlerine ek olarak kapsamda ayrı kalan beş UI akışını temiz simülatör sürecinde çalıştırır: açık seçime bağlı alan örneği, hedefe bağlı ilk kullanım ve kalıcılık, dil/açık-koyu tema, planlanan-gerçekleşen oruç ayrımı ve rehberli şablon + hızlı görev geri alma. Bu parça `roadmap`, `module-gallery`, `accessibility` ve `screen-time` başarılarıyla birlikte tüm 19 UI testini kapsamak için kullanılır; kendi başına tam matris olarak sunulmaz.
+
+```sh
+/Users/iz/.local/bin/gh workflow run ios.yml --ref main -f suite=daily-flows
+```
 
 ## Yeni modül ekran galerisi
 

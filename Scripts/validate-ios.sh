@@ -35,6 +35,7 @@ case "${MIHEN_TEST_SCOPE:-full}" in
   accessibility) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testAccessibilityDescriptionsAndDynamicTypeOnFirstUse -only-testing:MIHENUITests/MIHENUITests/testExecutiveReportLargeTypeNavigation) ;;
   screen-time) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testScreenTimeSetupDoesNotRequestPermissionOnEntry) ;;
   module-gallery) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testNewModuleScreensGallery -only-testing:MIHENUITests/MIHENUITests/testMemorizationAndNextReview -only-testing:MIHENUITests/MIHENUITests/testDhikrCounterIncreaseDecrease -only-testing:MIHENUITests/MIHENUITests/testKhatmCalendarProgressAndMainTabs) ;;
+  daily-flows) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testGuidedAreaExampleRequiresExplicitConfirmation -only-testing:MIHENUITests/MIHENUITests/testOnboardingLinkedGoalPartialCompletionAndPersistence -only-testing:MIHENUITests/MIHENUITests/testLanguageAndLightDarkThemes -only-testing:MIHENUITests/MIHENUITests/testFastingPlannedAndCompletedRemainDistinct -only-testing:MIHENUITests/MIHENUITests/testGuidedOnboardingExplicitTemplatesAndQuickTaskUndo) ;;
   *) print -u2 'Unknown MIHEN_TEST_SCOPE'; exit 2 ;;
 esac
 print "Test scope: ${MIHEN_TEST_SCOPE:-full}"
