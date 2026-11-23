@@ -48,8 +48,7 @@ def inspect_archive(archive: Path) -> dict:
         'testFlightReady': False,
         'version': version, 'build': build, 'targets': result,
         'remainingOwnerSteps': [
-            'Activate Apple Developer Program membership and accept agreements personally',
-            'Register unique app, widget, monitor and App Group identifiers',
+            'Confirm App Group assignment and capabilities on app, widget and monitor identifiers',
             'Obtain Family Controls distribution permission for app and monitor',
             'Configure distribution signing and provisioning for all three targets',
             'Create App Store Connect app record and authorize the upload method',
@@ -70,7 +69,7 @@ def main():
     summary = ('## TestFlight technical preparation\n\n'
                'Unsigned iPhone Release archive verified for app, widget and monitor.\n\n'
                '**No signed distribution, upload, invitation or installable build was produced.**\n\n'
-               'Apple membership, capabilities and signing remain owner steps.\n')
+               'Capability approval, signing and upload remain owner steps.\n')
     if os.environ.get('GITHUB_STEP_SUMMARY'):
         with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
             handle.write(summary)

@@ -1,14 +1,27 @@
 # MİHEN'i kendi iPhone'unuza TestFlight ile kurma
 
-23 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. İmzalı archive ve TestFlight yüklemesi henüz yapılmadı; önce portal ataması ve provisioning gerekir.
+23 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması üç hedefte de kontrol edildi. İmzalı archive ve TestFlight yüklemesi henüz yapılmadı; provisioning gerekir.
 
-## Şimdi sizin yapacağınız işlem: App Group'u hedeflere atamak
+## Sıradaki işlem: dağıtım sertifikası ve provisioning profilleri
 
-1. https://developer.apple.com/account/resources/identifiers/list adresinde **Certificates, Identifiers & Profiles → Identifiers** sayfasını açın.
-2. Sırayla `com.afaqitrade.mihen`, `com.afaqitrade.mihen.widget` ve `com.afaqitrade.mihen.monitor` kimliklerini arayıp açın.
-3. Her kimlikte **App Groups** capability'sini etkinleştirin. Görünen **Configure** düğmesine basın, `group.com.afaqitrade.mihen` satırını seçin, **Continue → Assign → Done → Save** sırasını tamamlayın.
-4. Ana uygulama ve monitor için Family Controls capability'sinin etkin kaldığını kontrol edin; widget için Family Controls gerekmez. Ana uygulamada HealthKit ve Data Protection da korunmalıdır.
-5. Apple, bir kimliğin capability'si değişince eski provisioning profillerini geçersiz kılar. Atama biter bitmez bu üç hedef için App Store dağıtım profillerini yeniden üreteceğiz; henüz sertifika veya anahtar paylaşmayın.
+1. [Certificates](https://developer.apple.com/account/resources/certificates/list) sayfasında bir **Apple Distribution** sertifikası oluşturun. macOS'ta Keychain Access → Certificate Assistant → Request a Certificate From a Certificate Authority ile CSR oluşturup Apple'a yükleyin; indirilen sertifikayı Keychain'e ekleyin ve **sertifika + private key** ikilisini parola korumalı `.p12` olarak dışa aktarın.
+2. [Profiles](https://developer.apple.com/account/resources/profiles/list) sayfasında **App Store Connect** türünde üç ayrı profil oluşturun: `com.afaqitrade.mihen`, `com.afaqitrade.mihen.widget` ve `com.afaqitrade.mihen.monitor`. Her birini aynı Apple Distribution sertifikasıyla ilişkilendirin ve `.mobileprovision` olarak indirin.
+3. Profiller oluşturulamazsa veya ana uygulama/monitor profilinde Family Controls görünmüyorsa durun: Apple'ın Family Controls dağıtım onayı henüz profile yansımamıştır. Onay gelmeden bu özelliği çıkararak farklı bir build üretmeyeceğiz.
+4. Hiçbir `.p12`, `.mobileprovision`, sertifika parolası, Apple şifresi veya API anahtarını sohbete ya da Git'e eklemeyin. Bunları yalnızca GitHub repository → Settings → Secrets and variables → Actions alanına, bir sonraki başlıktaki adlarla koyacaksınız.
+
+## GitHub Actions sırları: imzalı IPA üretmek için
+
+Sertifika ve üç profil hazır olduğunda kendi Mac'inizde her dosyayı Base64'e çevirip panoya alın; örneğin `base64 -i DOSYA_YOLU | pbcopy`. GitHub repository → **Settings → Secrets and variables → Actions → New repository secret** ile şu beş sır saklanır:
+
+| Secret adı | Değer |
+|---|---|
+| `MIHEN_DISTRIBUTION_CERTIFICATE_BASE64` | `.p12` dosyasının Base64 içeriği |
+| `MIHEN_DISTRIBUTION_CERTIFICATE_PASSWORD` | `.p12` dışa aktarma parolası |
+| `MIHEN_APP_PROFILE_BASE64` | Ana uygulama `.mobileprovision` Base64 içeriği |
+| `MIHEN_WIDGET_PROFILE_BASE64` | Widget `.mobileprovision` Base64 içeriği |
+| `MIHEN_MONITOR_PROFILE_BASE64` | Monitor `.mobileprovision` Base64 içeriği |
+
+Ardından Actions → **TestFlight signed archive (no upload)** workflow'unu manuel çalıştırın. Bu iş yalnızca imzalı IPA üretir, entitlement/profil eşleşmesini doğrular ve 7 gün süreli artifact olarak saklar; App Store Connect'e hiçbir şey yüklemez.
 
 ## Üyelikten sonra birlikte tamamlanacak Apple adımları
 
@@ -21,9 +34,9 @@
 | Ekran Süresi monitor uzantısı | `com.afaqitrade.mihen.monitor` |
 | Ortak veri alanı | `group.com.afaqitrade.mihen` |
 
-2. Üç hedefin App Group atamasını portalda tamamlayın. Ana uygulamada HealthKit ve Data Protection, ana uygulama + monitor'de Family Controls capability yapılandırılır. Widget için Family Controls talep edilmez.
+2. Üç hedefin App Group ataması portalda tamamlandı. Ana uygulamada HealthKit ve Data Protection, ana uygulama + monitor'de Family Controls capability yapılandırılır. Widget için Family Controls talep edilmez.
 3. **Family Controls dağıtım yetkisi ana uygulama ve monitor için talep edildi.** Apple onayı gelene kadar Ekran Süresi içeren TestFlight sürümü dağıtılabilir sayılmaz.
-4. Apple Distribution sertifikası ve üç hedef için App Store Connect provisioning profillerini oluşturun. Hesap/cert/profil işlemleri hesap sahibinin kontrolündedir. Gerekirse uzak Mac imzalama akışını kurarız; `.p8`, `.p12`, sertifika parolası veya token sohbete yazılmaz ve Git'e eklenmez. Bu çalışma henüz bir API anahtarı veya sertifika oluşturmadı.
+4. Apple Distribution sertifikası ve üç hedef için App Store Connect provisioning profillerini oluşturun. İmzalı IPA workflow'u yalnızca GitHub Secrets içinden geçici olarak kullanır; `.p8`, `.p12`, sertifika parolası veya token sohbete yazılmaz ve Git'e eklenmez.
 5. App Store Connect'te yeni iOS uygulama kaydı açın. Ad: MİHEN (Apple'da uygunluğu kontrol edilir); ana dil Türkçe; bundle ID ana uygulamanın gerçek ID'si; önerilen SKU `MIHEN-IOS-001`. Apple uygulama kimliği henüz yok.
 6. Uzak Xcode 26+ üzerinde gerçek kimliklerle **imzalı Release archive**, imza/entitlement kontrolü ve Apple doğrulaması yapın. Ardından App Store Connect'e yükleyin ve Apple'ın build işlemesini bekleyin. Bu adımlar mevcut simülatör başarısından ayrı kontrol kapılarıdır. Eski Mac'inize Xcode kurmanız bu uzak yol için şart değildir.
 7. İlk denemede **Internal Testing / İç Test** grubunu kullanın. Önerilen grup: `Kişisel iPhone Testi`. Kendi App Store Connect hesabınızı test kullanıcısı olarak ekleyip işlenmiş build'i gruba atayın. Dış test kullanıcıları ve herkese açık bağlantı bu ilk kurulumun parçası değildir.

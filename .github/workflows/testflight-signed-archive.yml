@@ -1,0 +1,36 @@
+name: TestFlight signed archive (no upload)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mihen-testflight-signed-archive-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  signed-archive:
+    name: Sign and export IPA without upload
+    runs-on: macos-26
+    timeout-minutes: 35
+    env:
+      MIHEN_DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.MIHEN_DISTRIBUTION_CERTIFICATE_BASE64 }}
+      MIHEN_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.MIHEN_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+      MIHEN_APP_PROFILE_BASE64: ${{ secrets.MIHEN_APP_PROFILE_BASE64 }}
+      MIHEN_WIDGET_PROFILE_BASE64: ${{ secrets.MIHEN_WIDGET_PROFILE_BASE64 }}
+      MIHEN_MONITOR_PROFILE_BASE64: ${{ secrets.MIHEN_MONITOR_PROFILE_BASE64 }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sign and export an IPA without Apple upload
+        run: Scripts/archive-testflight-signed.sh 2>&1 | tee .build-results-testflight-signed.log
+      - name: Preserve signed IPA review artifact only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MIHEN-Signed-IPA-No-Upload
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            .build-results/TestFlightExport/*.ipa
+            .build-results/signed-testflight-readiness.json
+            .build-results/signed-entitlements/*.plist
+            .build-results-testflight-signed.log

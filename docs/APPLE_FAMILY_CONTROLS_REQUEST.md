@@ -1,11 +1,11 @@
-# Family Controls dağıtım başvurusu taslağı
+# Family Controls dağıtım başvurusu kaydı
 
-Hesap sahibinin Apple formunda kullanması için hazırlandı. Başvuru gönderilmedi; Apple onayı yok. Gerçek Team/Bundle ID'ler üyelik ve kayıt sonrası yazılmalıdır.
+Başvuru ürün sahibi tarafından Apple'a gönderildi; Apple onayı henüz yok. Kimlikler aşağıdaki kayıtlı değerlerle eşleştirildi.
 
 - App: MİHEN
-- Primary bundle ID: `[REGISTERED_APP_BUNDLE_ID]`
-- Device Activity monitor extension: `[REGISTERED_APP_BUNDLE_ID].monitor`
-- Team: `[APPLE_TEAM_ID]`
+- Primary bundle ID: `com.afaqitrade.mihen`
+- Device Activity monitor extension: `com.afaqitrade.mihen.monitor`
+- Team: `PY75Z73294`
 - Use case: Individual authorization for personal digital wellbeing.
 
 ## English description for the application
@@ -20,4 +20,4 @@ We request the Family Controls distribution capability for both the main iOS app
 
 ## Başvuru öncesi kontrol
 
-Gerçek App ID'leri Apple portalına kaydedin. Açıklamanın son kaynakla uyumunu doğrulayın. Apple'ın formundaki diğer hesap/iletişim/sözleşme alanlarını hesap sahibi kendisi tamamlar; bu taslak kişisel veya hukuki bilgileri varsaymaz. TestFlight veya fiziksel cihaz doğrulamasını tamamlanmış gibi belirtmeyin.
+Apple onayının ana uygulama ve monitor uzantısını kapsadığını, provisioning profil üretmeden önce portalda doğrulayın. Apple'ın formundaki diğer hesap/iletişim/sözleşme alanları ürün sahibinin sorumluluğundadır. TestFlight veya fiziksel cihaz doğrulamasını tamamlanmış gibi belirtmeyin.

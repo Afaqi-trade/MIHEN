@@ -5,6 +5,16 @@ root=pathlib.Path(__file__).resolve().parents[1]
 raw=subprocess.check_output(['plutil','-convert','json','-o','-',str(root/'MIHEN.xcodeproj/project.pbxproj')])
 project=json.loads(raw)
 objects=project['objects']
+project_text=(root/'MIHEN.xcodeproj/project.pbxproj').read_text()
+for bundle_id, profile_key in [
+    ('com.afaqitrade.mihen', 'MIHEN_APP_PROFILE_NAME'),
+    ('com.afaqitrade.mihen.widget', 'MIHEN_WIDGET_PROFILE_NAME'),
+    ('com.afaqitrade.mihen.monitor', 'MIHEN_MONITOR_PROFILE_NAME'),
+]:
+    assert f'PRODUCT_BUNDLE_IDENTIFIER = "{bundle_id}";' in project_text
+    assert f'PROVISIONING_PROFILE_SPECIFIER = "$({profile_key})";' in project_text
+assert 'DEVELOPMENT_TEAM = "PY75Z73294";' in project_text
+assert 'MIHEN_APP_GROUP = "group.com.afaqitrade.mihen";' in project_text
 for obj in objects.values():
     if obj['isa']=='PBXFileReference' and obj.get('sourceTree')=='<group>':
         assert (root/obj['path']).exists(),obj['path']

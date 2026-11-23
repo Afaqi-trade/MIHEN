@@ -42,7 +42,7 @@ def configs(name,settings):
   if name=='MIHEN':s['ENABLE_TESTABILITY']='YES' if config=='Debug' else 'NO'
   ids.append(put('config:'+name+config,'XCBuildConfiguration',name=config,buildSettings=s))
  return put('configs:'+name,'XCConfigurationList',buildConfigurations=ids,defaultConfigurationIsVisible=0,defaultConfigurationName='Release')
-common={'SDKROOT':'iphoneos','IPHONEOS_DEPLOYMENT_TARGET':'18.0','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CODE_SIGN_STYLE':'Automatic','DEVELOPMENT_TEAM':'PY75Z73294','MIHEN_APP_GROUP':'group.com.afaqitrade.mihen','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','TARGETED_DEVICE_FAMILY':'1','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','ENABLE_USER_SCRIPT_SANDBOXING':'YES','LOCALIZATION_PREFERS_STRING_CATALOGS':'YES','SWIFT_EMIT_LOC_STRINGS':'YES'}
+common={'SDKROOT':'iphoneos','IPHONEOS_DEPLOYMENT_TARGET':'18.0','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','CODE_SIGN_STYLE':'Automatic','DEVELOPMENT_TEAM':'PY75Z73294','MIHEN_APP_GROUP':'group.com.afaqitrade.mihen','MIHEN_APP_PROFILE_NAME':'','MIHEN_WIDGET_PROFILE_NAME':'','MIHEN_MONITOR_PROFILE_NAME':'','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','TARGETED_DEVICE_FAMILY':'1','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','ENABLE_USER_SCRIPT_SANDBOXING':'YES','LOCALIZATION_PREFERS_STRING_CATALOGS':'YES','SWIFT_EMIT_LOC_STRINGS':'YES'}
 targets={n:oid('target:'+n) for n in products}
 def dependency(owner,target):
  proxy=put('proxy:'+owner+target,'PBXContainerItemProxy',containerPortal=oid('project'),proxyType=1,remoteGlobalIDString=targets[target],remoteInfo=target)
@@ -52,14 +52,14 @@ for name,sources,resources in [('MIHEN',app_sources,app_resources),('MIHENWidget
  settings=dict(common,PRODUCT_NAME='$(TARGET_NAME)',PRODUCT_BUNDLE_IDENTIFIER={'MIHEN':'com.afaqitrade.mihen','MIHENWidget':'com.afaqitrade.mihen.widget','MIHENActivityMonitor':'com.afaqitrade.mihen.monitor','MIHENTests':'com.afaqitrade.mihen.tests','MIHENUITests':'com.afaqitrade.mihen.uitests'}[name],LD_RUNPATH_SEARCH_PATHS=['$(inherited)','@executable_path/Frameworks'])
  deps=[]
  if name=='MIHEN':
-  settings.update({'INFOPLIST_FILE':'MIHEN/Resources/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHEN/Resources/MIHEN.entitlements','ASSETCATALOG_COMPILER_APPICON_NAME':'AppIcon','GENERATE_INFOPLIST_FILE':'NO'})
+  settings.update({'INFOPLIST_FILE':'MIHEN/Resources/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHEN/Resources/MIHEN.entitlements','ASSETCATALOG_COMPILER_APPICON_NAME':'AppIcon','GENERATE_INFOPLIST_FILE':'NO','PROVISIONING_PROFILE_SPECIFIER':'$(MIHEN_APP_PROFILE_NAME)'})
   embed=put('embed:widget','PBXBuildFile',fileRef=products['MIHENWidget'],settings={'ATTRIBUTES':['RemoveHeadersOnCopy']})
   phases.append(put('embed:phase','PBXCopyFilesBuildPhase',buildActionMask=2147483647,dstPath='',dstSubfolderSpec=13,files=[embed,put('embed:monitor','PBXBuildFile',fileRef=products['MIHENActivityMonitor'],settings={'ATTRIBUTES':['RemoveHeadersOnCopy']})],name='Embed App Extensions',runOnlyForDeploymentPostprocessing=0))
   deps=[dependency(name,'MIHENWidget'),dependency(name,'MIHENActivityMonitor')]
  elif name=='MIHENActivityMonitor':
-  settings.update({'INFOPLIST_FILE':'MIHENActivityMonitor/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHENActivityMonitor/MIHENActivityMonitor.entitlements','APPLICATION_EXTENSION_API_ONLY':'YES','SKIP_INSTALL':'YES','GENERATE_INFOPLIST_FILE':'NO','LD_RUNPATH_SEARCH_PATHS':['$(inherited)','@executable_path/Frameworks','@executable_path/../../Frameworks']})
+  settings.update({'INFOPLIST_FILE':'MIHENActivityMonitor/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHENActivityMonitor/MIHENActivityMonitor.entitlements','APPLICATION_EXTENSION_API_ONLY':'YES','SKIP_INSTALL':'YES','GENERATE_INFOPLIST_FILE':'NO','PROVISIONING_PROFILE_SPECIFIER':'$(MIHEN_MONITOR_PROFILE_NAME)','LD_RUNPATH_SEARCH_PATHS':['$(inherited)','@executable_path/Frameworks','@executable_path/../../Frameworks']})
  elif name=='MIHENWidget':
-  settings.update({'INFOPLIST_FILE':'MIHENWidget/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHENWidget/MIHENWidget.entitlements','APPLICATION_EXTENSION_API_ONLY':'YES','SKIP_INSTALL':'YES','GENERATE_INFOPLIST_FILE':'NO','LD_RUNPATH_SEARCH_PATHS':['$(inherited)','@executable_path/Frameworks','@executable_path/../../Frameworks']})
+  settings.update({'INFOPLIST_FILE':'MIHENWidget/Info.plist','CODE_SIGN_ENTITLEMENTS':'MIHENWidget/MIHENWidget.entitlements','APPLICATION_EXTENSION_API_ONLY':'YES','SKIP_INSTALL':'YES','GENERATE_INFOPLIST_FILE':'NO','PROVISIONING_PROFILE_SPECIFIER':'$(MIHEN_WIDGET_PROFILE_NAME)','LD_RUNPATH_SEARCH_PATHS':['$(inherited)','@executable_path/Frameworks','@executable_path/../../Frameworks']})
  else:
   settings.update({'GENERATE_INFOPLIST_FILE':'YES'})
   deps=[dependency(name,'MIHEN')]
