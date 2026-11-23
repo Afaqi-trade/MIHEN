@@ -1,15 +1,23 @@
 name: TestFlight signed archive (no upload)
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        description: Use Intel fallback when ARM macOS capacity is delayed
+        type: choice
+        default: macos-26
+        options:
+          - macos-26
+          - macos-26-intel
 permissions:
   contents: read
 concurrency:
-  group: mihen-testflight-signed-archive-${{ github.ref }}
+  group: mihen-testflight-signed-archive-${{ github.ref }}-${{ inputs.runner || 'macos-26' }}
   cancel-in-progress: false
 jobs:
   signed-archive:
     name: Sign and export IPA without upload
-    runs-on: macos-26
+    runs-on: ${{ inputs.runner == 'macos-26-intel' && 'macos-26-intel' || 'macos-26' }}
     timeout-minutes: 35
     env:
       MIHEN_DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.MIHEN_DISTRIBUTION_CERTIFICATE_BASE64 }}
