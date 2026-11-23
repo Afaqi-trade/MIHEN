@@ -10,6 +10,8 @@ Güncelleme: 2026-11-24 (Europe/Istanbul).
 
 `45262542216` / `4d2b4cd`: güncel metadata ile Intel macOS 26 fallback koşusunda gerçek **ARCHIVE SUCCEEDED** ve **EXPORT SUCCEEDED**. İmzalı güncel IPA **1.0.0 (2)** sürümündedir; 2.185.607 byte, SHA-256 `6daa7d5fc55657f61e1ce46b17d2ada6f6a1d1eb3d325c2a6cd3dce697074015`. Paket açılarak ana uygulamada `NSHealthUpdateUsageDescription`, widget uzantısında `CFBundleDisplayName = MİHEN` ve her iki hedefte build `2` okundu. Bu, Transporter'ın önceki `90683` ve `90360` doğrulama eksiklerini kapatır. **Yalnızca bu Build 2 IPA yüklenmelidir; App Store Connect'e yükleme, TestFlight daveti veya fiziksel iPhone kurulumu henüz yapılmadı.**
 
+`45263372679` / `4d2b4cd`: iPhone 17 Pro / iOS 26.4.1 Intel simülatöründe güncel kaynak için **93 passed / 0 failed / 0 skipped**. Gerçek `.xcresult` kök kaydı (format 3.58) ve **1.400 Data öğesi**, sonuç JSON'u, dört native PNG ve PDF/performans ekleri indirildi ve incelendi. PNG'ler rehberli ilk kullanım seçenekleri, ilk kullanım, şablon haftası ve Türkçe Bugün ekranını içerir; başarısız test ekleri yoktur. Bu `daily-guided` kapsamıdır, tam UI matrisi değildir.
+
 Önceki `45255224909` yeşil iş kabul edilmedi: çalıştırma izni olmayan betik hatası `tee` borusuyla gizlenmiş, IPA oluşmamıştı. `4677679`, `1b27b9d` ve `f6bf37f` workflow'u hata kodunu koruyup Apple Distribution kimliğini açıkça seçerek bu yanlış-pozitifi kapattı.
 
 ## Güncel sonuç — ürün incelemesi sonrası
