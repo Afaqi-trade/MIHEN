@@ -1,6 +1,6 @@
 # MİHEN'i kendi iPhone'unuza TestFlight ile kurma
 
-24 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması, üç dağıtım profili ve imzalı IPA uzak archive'da doğrulandı. App Store Connect uygulama kaydı açıldı. Güncel paket **1.0.0 (2)**; App Store Connect yüklemesi ve TestFlight kurulumu henüz yapılmadı.
+24 Kasım 2026. Apple Developer Program üyeliği, Team ID `PY75Z73294`, üç uygulama kimliği ve `group.com.afaqitrade.mihen` App Group'u ürün sahibi tarafından oluşturuldu. App Group ataması, üç dağıtım profili ve imzalı IPA uzak archive'da doğrulandı. App Store Connect uygulama kaydı açıldı. Önceki Build 2 expire edildi; güncel paket **1.0.0 (3)**. App Store Connect yüklemesi ve TestFlight kurulumu henüz yapılmadı.
 
 ## Sıradaki işlem: dağıtım sertifikası ve provisioning profilleri
 
@@ -38,7 +38,7 @@ Ardından Actions → **TestFlight signed archive (no upload)** workflow'unu man
 3. Ana uygulama ve monitor için imzalı dağıtım profillerinde Family Controls entitlement'ı doğrulandı. Apple'ın portal durumunu ve sonraki yenilemelerde entitlement'ın korunduğunu ayrıca kontrol edin.
 4. Apple Distribution sertifikası ve üç hedef için App Store Connect provisioning profilleri oluşturuldu. İmzalı IPA workflow'u yalnızca GitHub Secrets içinden geçici olarak kullanır; `.p8`, `.p12`, sertifika parolası veya token sohbete yazılmaz ve Git'e eklenmez.
 5. App Store Connect'te iOS uygulama kaydı açıldı: bundle ID ana uygulamanın gerçek ID'si olmalıdır. Ad MİHEN, ana dil Türkçe, SKU örneği `MIHEN-IOS-001`dir.
-6. Uzak Xcode 26+ üzerinde gerçek kimliklerle **imzalı Release archive**, imza/entitlement kontrolü ve Apple doğrulaması tamamlandı. **Yalnızca Build 2 IPA'yı** Transporter'a sürükleyip `Deliver` seçin; önceki Build 1 IPA'yı yeniden yüklemeyin. Apple'ın build işlemesini bekleyin. Bu adımlar mevcut simülatör başarısından ayrı kontrol kapılarıdır. Eski Mac'inize Xcode kurmanız bu uzak yol için şart değildir.
+6. Uzak Xcode 26+ üzerinde gerçek kimliklerle **imzalı Release archive**, imza/entitlement kontrolü ve Apple doğrulaması tamamlandı. **Yalnızca Build 3 IPA'yı** Transporter'a sürükleyip `Deliver` seçin; expire edilmiş Build 2 veya önceki Build 1 IPA'yı yeniden yüklemeyin. Apple'ın build işlemesini bekleyin. Bu adımlar mevcut simülatör başarısından ayrı kontrol kapılarıdır. Eski Mac'inize Xcode kurmanız bu uzak yol için şart değildir.
 7. İlk denemede **Internal Testing / İç Test** grubunu kullanın. Önerilen grup: `Kişisel iPhone Testi`. Kendi App Store Connect hesabınızı test kullanıcısı olarak ekleyip işlenmiş build'i gruba atayın. Dış test kullanıcıları ve herkese açık bağlantı bu ilk kurulumun parçası değildir.
 8. iPhone'da Apple'ın **TestFlight** uygulamasını kurun; kendi test davetinizi kabul edin ve MİHEN için Install/Yükle'ye dokunun. MİHEN minimum iOS 18 hedefler. Telefonda bildirim/Face ID/Sağlık/Ekran Süresi izinlerini ilgili özelliği açarken verin.
 
@@ -49,6 +49,8 @@ Ardından Actions → **TestFlight signed archive (no upload)** workflow'unu man
 `45257992808` / `f6bf37f`: Apple Distribution ile gerçek imzalı archive ve IPA export başarıyla doğrulandı. Üç hedefin imzalı entitlement'ları App Group'u içerir; ana uygulama/monitor ayrıca Family Controls, ana uygulama/widget ayrıca Complete Data Protection içerir. IPA Apple'a yüklenmedi; üyelik sözleşmeleri, App Store Connect uygulama kaydı, TestFlight yüklemesi ve fiziksel iPhone kabulü ayrı kapılardır.
 
 `45262542216` / `4d2b4cd`: güncel Build 2 IPA yine imzalı archive/export ile doğrulandı. Ana uygulamanın Health kullanım açıklaması ve widget'ın `MİHEN` görünen adı paketin içinden okundu. Transporter'da görülen önceki iki metadata eksikliği için bu yeni IPA kullanılmalıdır. Nisan 2027'de başlayacağı belirtilen iOS 27 SDK uyarısı, 23 Kasım 2026 itibarıyla ileri tarihli bir yükleme gereksinimidir; bu Build 2'nin güncel metadata reddi değildir.
+
+`45279974082` / `5d30424`: Build 2 expire edildikten sonra yeni **1.0.0 (3)** IPA imzalı archive/export ile doğrulandı. Bu paket Build 2'nin yerine geçer; Health kullanım açıklaması, widget görünen adı ve üç hedefin build numarası paketin içinden tekrar doğrulandı.
 
 ## Telefonda ilk 15 dakikalık kontrol
 
