@@ -22,7 +22,10 @@ for variable, filename in [
     ('MIHEN_MONITOR_PROFILE_BASE64', 'monitor.mobileprovision'),
 ]:
     try:
-        data = base64.b64decode(os.environ[variable], validate=True)
+        # Clipboard transfers may wrap Base64 across lines. Ignore ASCII
+        # whitespace while still rejecting every non-Base64 character.
+        encoded = os.environ[variable].translate(str.maketrans('', '', ' \t\r\n'))
+        data = base64.b64decode(encoded, validate=True)
     except Exception as error:
         raise SystemExit(f'{variable} is not valid base64: {error}')
     if not data:
