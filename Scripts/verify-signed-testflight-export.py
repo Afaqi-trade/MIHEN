@@ -9,11 +9,11 @@ archive, ipa, entitlements_directory = map(Path, sys.argv[1:4])
 if not ipa.is_file() or ipa.stat().st_size == 0:
     raise SystemExit('signed IPA is missing')
 bundles = {
-    'app': (archive / 'Products/Applications/MIHEN.app', 'com.afaqitrade.mihen'),
-    'widget': (archive / 'Products/Applications/MIHEN.app/PlugIns/MIHENWidget.appex', 'com.afaqitrade.mihen.widget'),
-    'monitor': (archive / 'Products/Applications/MIHEN.app/PlugIns/MIHENActivityMonitor.appex', 'com.afaqitrade.mihen.monitor'),
+    'app': (archive / 'Products/Applications/MIHEN.app', 'com.afaqitrade.mihenapp'),
+    'widget': (archive / 'Products/Applications/MIHEN.app/PlugIns/MIHENWidget.appex', 'com.afaqitrade.mihenapp.widget'),
+    'monitor': (archive / 'Products/Applications/MIHEN.app/PlugIns/MIHENActivityMonitor.appex', 'com.afaqitrade.mihenapp.monitor'),
 }
-group = 'group.com.afaqitrade.mihen'
+group = 'group.com.afaqitrade.mihenapp'
 for role, (bundle, expected_id) in bundles.items():
     info = plistlib.loads((bundle / 'Info.plist').read_bytes())
     if info['CFBundleIdentifier'] != expected_id:

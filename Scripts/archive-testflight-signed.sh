@@ -37,11 +37,11 @@ python3 - "$MIHEN_SIGNING_WORK" <<'PY'
 import pathlib, plistlib, sys
 work = pathlib.Path(sys.argv[1])
 team = 'PY75Z73294'
-group = 'group.com.afaqitrade.mihen'
+group = 'group.com.afaqitrade.mihenapp'
 bundles = {
-    'app': 'com.afaqitrade.mihen',
-    'widget': 'com.afaqitrade.mihen.widget',
-    'monitor': 'com.afaqitrade.mihen.monitor',
+    'app': 'com.afaqitrade.mihenapp',
+    'widget': 'com.afaqitrade.mihenapp.widget',
+    'monitor': 'com.afaqitrade.mihenapp.monitor',
 }
 for role, bundle in bundles.items():
     profile = plistlib.loads((work / f'{role}.plist').read_bytes())
@@ -92,9 +92,9 @@ plistlib.dump({
     'signingStyle': 'manual',
     'teamID': 'PY75Z73294',
     'provisioningProfiles': {
-        'com.afaqitrade.mihen': app,
-        'com.afaqitrade.mihen.widget': widget,
-        'com.afaqitrade.mihen.monitor': monitor,
+        'com.afaqitrade.mihenapp': app,
+        'com.afaqitrade.mihenapp.widget': widget,
+        'com.afaqitrade.mihenapp.monitor': monitor,
     },
     'uploadSymbols': False,
 }, path.open('wb'))
