@@ -48,24 +48,7 @@ struct GoalPlanningScreen: View {
                         }
                     }
                 }
-                Section(store.t("planning.firstWeek")) {
-                    Text(store.t("planning.firstWeek.help")).font(.footnote).foregroundStyle(.secondary)
-                    if let problem { Text(store.t(problem)).foregroundStyle(.secondary) }
-                    else {
-                        let first = store.engine.firstPlanningWeek(proposal, from: start)
-                        if first.isEmpty { Text(store.t("planning.firstWeek.empty")) }
-                        else {
-                            ForEach(first, id: \.day) { item in
-                                HStack {
-                                    Text(store.engine.date(item.day) ?? start, format: .dateTime.weekday(.abbreviated).day().month())
-                                    Spacer()
-                                    Text(item.amount.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit))
-                                }
-                            }
-                            Text(store.t("planning.firstWeek.total") + ": " + first.reduce(0.0) { $0 + $1.amount }.formatted(.number.locale(store.locale)) + " " + store.t(goal.unit)).font(.footnote).accessibilityIdentifier("goal.firstWeek.total")
-                        }
-                    }
-                }.accessibilityIdentifier("goal.firstWeek")
+                FirstPlanningWeekSection(start: start, unit: goal.unit, proposal: proposal, problem: problem)
                 Section(store.t("capacity.title")) {
                     Toggle(store.t("capacity.use"),isOn:$byCapacity)
                     NavigationLink(destination:CapacityScreen()) { Text(store.t("capacity.title")) }
@@ -150,4 +133,34 @@ struct GoalPlanningScreen: View {
         }
     }
 
+}
+
+private struct FirstPlanningWeekSection: View {
+    @Environment(AppStore.self) private var store
+    let start: Date
+    let unit: String
+    let proposal: [PlannedAllocation]
+    let problem: String?
+    private var first: [PlannedAllocation] { store.engine.firstPlanningWeek(proposal, from: start) }
+    private var totalText: String {
+        let total = first.reduce(0.0) { $0 + $1.amount }
+        return store.t("planning.firstWeek.total") + ": " + total.formatted(.number.locale(store.locale)) + " " + store.t(unit)
+    }
+    var body: some View {
+        Section(store.t("planning.firstWeek")) {
+            Text(store.t("planning.firstWeek.help")).font(.footnote).foregroundStyle(.secondary)
+            if let problem { Text(store.t(problem)).foregroundStyle(.secondary) }
+            else if first.isEmpty { Text(store.t("planning.firstWeek.empty")) }
+            else {
+                ForEach(first, id: \.day) { item in
+                    HStack {
+                        Text(store.engine.date(item.day) ?? start, format: .dateTime.weekday(.abbreviated).day().month())
+                        Spacer()
+                        Text(item.amount.formatted(.number.locale(store.locale)) + " " + store.t(unit))
+                    }
+                }
+                Text(totalText).font(.footnote).accessibilityIdentifier("goal.firstWeek.total")
+            }
+        }.accessibilityIdentifier("goal.firstWeek")
+    }
 }
