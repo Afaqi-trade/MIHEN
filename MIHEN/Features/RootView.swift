@@ -51,9 +51,9 @@ struct RootView: View {
         .alert(store.t("error"), isPresented: Binding(get: { store.errorMessage != nil }, set: { if !$0 { store.errorMessage = nil } })) {
             Button(store.t("ok")) { store.errorMessage = nil }
         } message: { Text(store.errorMessage ?? "") }
-        .sheet(isPresented: $prayers) { NavigationStack { PrayerTimesScreen().toolbar { Button(store.t("close")) { prayers = false } } } }
-        .sheet(isPresented: $quickTask) { TaskEditor() }
-        .sheet(isPresented:$waterEntry) { WidgetWaterEntry(requestedDay:widgetDay) }
+        .sheet(isPresented: $prayers) { NavigationStack { PrayerTimesScreen().toolbar { Button(store.t("close")) { prayers = false } } }.environment(store) }
+        .sheet(isPresented: $quickTask) { TaskEditor().environment(store) }
+        .sheet(isPresented:$waterEntry) { WidgetWaterEntry(requestedDay:widgetDay).environment(store) }
         .onOpenURL { url in
             if url.scheme == "mihen" {
                 tab = 0
