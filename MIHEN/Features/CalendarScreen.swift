@@ -123,7 +123,10 @@ private struct CalendarMonthGrid: View {
                             Text(String(store.engine.hijriCalendar.component(.day, from: store.engine.addingDays(store.preferences.hijriOffset, to: day)))).font(.caption2).foregroundStyle(.secondary)
                         }.frame(maxWidth: .infinity, minHeight: 44)
                             .background(store.engine.key(day) == store.engine.key(selected) ? Color.mihenGreen.opacity(0.15) : Color.clear, in: RoundedRectangle(cornerRadius: 10))
-                    }.buttonStyle(.plain).accessibilityIdentifier("calendar.day." + store.engine.key(day))
+                    }.buttonStyle(.plain)
+                        .accessibilityLabel(accessibilityDate(day))
+                        .accessibilityAddTraits(store.engine.key(day) == store.engine.key(selected) ? .isSelected : [])
+                        .accessibilityIdentifier("calendar.day." + store.engine.key(day))
                 }
             }
             Text(store.t("calendar.hijri.legend")).font(.caption).foregroundStyle(.secondary)
@@ -131,6 +134,15 @@ private struct CalendarMonthGrid: View {
     }
     private func changeMonth(_ value: Int) {
         if let date = store.engine.calendar.date(byAdding: .month, value: value, to: month.start) { selected = date }
+    }
+    private func accessibilityDate(_ day: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = store.locale; formatter.timeZone = store.engine.timeZone
+        formatter.calendar = store.engine.calendar; formatter.dateStyle = .long
+        let gregorian = formatter.string(from: day)
+        formatter.calendar = store.engine.hijriCalendar
+        let hijri = formatter.string(from: store.engine.addingDays(store.preferences.hijriOffset, to: day))
+        return gregorian + ", " + store.t("calendar.hijri") + ": " + hijri
     }
 }
 struct EventEditor: View {

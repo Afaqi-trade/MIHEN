@@ -192,7 +192,11 @@ private struct ReportAreaCard: View {
                 ProgressView(value:Double(area.report.completed),total:Double(area.report.planned)).tint(.mihenGreen)
                 Text("\(area.report.completed) / \(area.report.planned) "+store.t("tasks.completed")+" · \(area.report.partial) "+store.t("today.started")).font(.subheadline)
             }
-            if let item=area.report.metrics.first { Text(store.t(item.key)+": "+item.value.formatted(.number.locale(store.locale))+" "+store.reportUnit(item.unit)).font(.subheadline) }
+            if !area.report.metrics.isEmpty {
+                ForEach(Array(area.report.metrics.prefix(6))) { item in
+                    Text(store.t(item.key)+": "+item.value.formatted(.number.locale(store.locale))+" "+store.reportUnit(item.unit)).font(.subheadline)
+                }
+            }
             else if area.report.recordedDays.isEmpty { Text(store.t("report.noData")).font(.subheadline) }
         }.mihenCard().contentShape(Rectangle())
     }
