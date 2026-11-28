@@ -10326,13 +10326,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hicri tarihi göster"
+            "value": "Bugün ekranında Hicri tarihi göster"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Show Hijri date"
+            "value": "Show Hijri date on Today"
           }
         }
       }

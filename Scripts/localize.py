@@ -647,7 +647,7 @@ light|Açık|Light
 dark|Koyu|Dark
 timezone|Saat dilimi|Time zone
 calendar.hijri|Hicri takvim|Hijri calendar
-hijri.show|Hicri tarihi göster|Show Hijri date
+hijri.show|Bugün ekranında Hicri tarihi göster|Show Hijri date on Today
 hijri.offset|Gün düzeltmesi|Day adjustment
 hijri.explanation|Ümmü'l-Kurâ takvim hesabı kullanılır; yerel/resmî dini takvimle farklılık olabilir. ±2 gün düzeltme yalnızca Hicri gösterim ve tekrar hesaplarını etkiler; geçmiş kayıtları taşımaz.|Uses the Umm al-Qura calendar calculation. Local or official dates can differ. The ±2 day adjustment affects Hijri display and recurrence only; it never moves historical entries.
 rest.days|Alışkanlıklarda dinlenme günleri|Habit rest days
