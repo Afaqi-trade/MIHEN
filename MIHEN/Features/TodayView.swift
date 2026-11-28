@@ -36,7 +36,14 @@ struct TodayView: View {
                         if !textSize.isAccessibilitySize { Spacer() }
                         Button(store.t("focus.choose")) { focusEditor = true }.accessibilityIdentifier("today.focus")
                     }
-                    ForEach(pending) { OccurrenceRow(occurrence: $0) }
+                    let focus = pending.filter { $0.priority == 2 }
+                    let remaining = pending.filter { $0.priority != 2 }
+                    if !focus.isEmpty {
+                        Text(store.t("today.focus.heading")).font(.headline).accessibilityAddTraits(.isHeader)
+                        ForEach(focus) { OccurrenceRow(occurrence: $0) }
+                        if !remaining.isEmpty { Text(store.t("today.other.heading")).font(.headline).accessibilityAddTraits(.isHeader) }
+                    }
+                    ForEach(remaining) { OccurrenceRow(occurrence: $0) }
                     let completed = rows.filter { $0.status == "completed" }
                     if !completed.isEmpty {
                         DisclosureGroup(isExpanded: $completedOpen) {

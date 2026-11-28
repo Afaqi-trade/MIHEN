@@ -70,6 +70,30 @@ import PDFKit
         XCTAssertEqual(try Repository(storeURL:url).load().journals.first?.text,"Geri yükleme örneği")
     }
 
+    func testBackupRoundTripKeepsLinkedGoalRoutineHistoryAndPrayerSettings() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let url = folder.appendingPathComponent("full-restore.store")
+        let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+        let day = engine.date("2026-11-15")!
+        var document = BackupDocument.fresh()
+        document.goals = [.init(id: "goal", title: "Okuma", domainIDs: ["learning"], start: day, end: day, target: 6, unit: "pages")]
+        document.tasks = [.init(id: "task", title: "Kitap", domainID: "learning", goalID: "goal", start: day, target: 6, unit: "pages")]
+        document.occurrences = [.init(id: "entry", taskID: "task", day: "2026-11-15", title: "Kitap", domainID: "learning", goalID: "goal", target: 6, unit: "pages", value: 2, status: "partial")]
+        document.routines = [.init(id: "routine", title: "Akşam", domainID: "learning")]
+        document.routineItems = [.init(id: "item", routineID: "routine", taskID: "task", rank: 0)]
+        let prayer = PrayerSettings(latitude: 41.0082, longitude: 28.9784, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false)
+        let archive = try BackupArchive.decode(BackupArchive(document: document, prayer: prayer).encoded())
+        XCTAssertEqual(archive.prayer, prayer)
+        do { try Repository(storeURL: url).save(archive.document) }
+        let restored = try Repository(storeURL: url).load()
+        XCTAssertEqual(restored.goals, document.goals)
+        XCTAssertEqual(restored.tasks, document.tasks)
+        XCTAssertEqual(restored.occurrences, document.occurrences)
+        XCTAssertEqual(restored.routines, document.routines)
+        XCTAssertEqual(restored.routineItems, document.routineItems)
+    }
+
     func testNativePeriodReportPDFHasReadableTurkishTextAndMultiplePages() throws {
         let bytes=PeriodReportPDF.render(title:"MİHEN dönem raporu",paragraphs:["Örnek test kaydı: Sabah kalan 8"] + Array(repeating:"Türkçe kayıt örneği: okunan sayfalar, günlük adımlar ve kişisel değerlendirme.",count:120))
         let pdf=try XCTUnwrap(PDFDocument(data:bytes))

@@ -1,6 +1,11 @@
 from pathlib import Path
 import json,re
-rows='''backup.location.notice|Yedeğin nerede saklandığını uygulama göremez. Dosyalar'da seçtiğiniz konumu kontrol edin; dışa aktarmak otomatik yedekleme değildir.|The app cannot see where your backup is stored. Check the location you chose in Files; exporting is not automatic backup.
+rows='''week.time.details|Haftanın süre ayrıntıları|Weekly time details
+onboarding.quick.start|Tek bir adımla başla|Start with one step
+onboarding.quick.help|Alanları daha sonra seçebilirsin; hiçbir örnek plan eklenmez.|You can choose your areas later; no example plans are added.
+today.focus.heading|Bugünün odakları|Today's focus
+today.other.heading|Diğer adımlar|Other steps
+backup.location.notice|Yedeğin nerede saklandığını uygulama göremez. Dosyalar'da seçtiğiniz konumu kontrol edin; dışa aktarmak otomatik yedekleme değildir.|The app cannot see where your backup is stored. Check the location you chose in Files; exporting is not automatic backup.
 prayer.widget.default|varsayılan|default
 prayer.widget.default.explanation|Varsayılan konum İstanbul'dur. Widget konumunu değiştirmek için şehir seçip ayarları kaydedin.|The default location is Istanbul. To change the widget location, choose a city and save the settings.
 source.replacement|Görev miktarı değişikliği|Task amount change

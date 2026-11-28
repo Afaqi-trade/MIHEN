@@ -19,7 +19,7 @@ struct RootView: View {
                         NavigationStack { ProgressScreen() }.tabItem { Label(store.t("progress"), systemImage: "chart.bar") }.tag(3)
                         NavigationStack { SettingsScreen() }.tabItem { Label(store.t("profile"), systemImage: "person") }.tag(4)
                     }
-                } else { OnboardingView() }
+                } else { OnboardingView(startQuickTask: { quickTask = true }) }
             }
             .id(store.locked)
             .disabled(store.locked)
@@ -79,6 +79,7 @@ struct RootView: View {
 
 struct OnboardingView: View {
     @Environment(AppStore.self) private var store
+    var startQuickTask: () -> Void = {}
     @State private var name = ""
     @State private var selected = Set<String>()
     @State private var templates = Set<String>()
@@ -98,6 +99,13 @@ struct OnboardingView: View {
                         }.padding(.vertical, 8)
                         TextField(store.t("name"), text: $name).textContentType(.givenName)
                         Text(store.t("welcome.privacy")).font(.body).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("onboarding.privacy")
+                        Button(store.t("onboarding.quick.start")) {
+                            templates = []
+                            selected = Set(LifeArea.allCases.map(\.rawValue))
+                            finish()
+                            if store.preferences.onboarded { startQuickTask() }
+                        }.accessibilityIdentifier("onboarding.quick.start")
+                        Text(store.t("onboarding.quick.help")).font(.footnote).foregroundStyle(.secondary)
                     }
                 } else if step == 1 {
                     Section(store.t("welcome.focus")) {

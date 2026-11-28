@@ -65,7 +65,8 @@ struct PrayerProvider: TimelineProvider {
         let initial = entry(at: now)
         let dates = initial.settings.widgetTimelineDates(from: now)
         let entries = dates.map { PrayerEntry(date: $0, settings: initial.settings, isDefault: initial.isDefault) }
-        completion(.init(entries: entries, policy: .after(dates.last ?? now)))
+        let refresh = dates.last.flatMap { $0 > now ? $0 : nil } ?? now.addingTimeInterval(900)
+        completion(.init(entries: entries, policy: .after(refresh)))
     }
 }
 struct PrayerWidget: Widget {

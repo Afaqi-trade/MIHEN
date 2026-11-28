@@ -162,9 +162,6 @@ struct WeeklyPlanScreen: View {
                     Button { selected = store.engine.addingDays(7, to: selected) } label: { Image(systemName: "chevron.right").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(store.t("week.next"))
                 }.buttonStyle(.borderless)
                 DatePicker(store.t("date"), selection: $selected, displayedComponents: .date)
-                let minutes = rows.filter { $0.unit == "minutes" }.reduce(0) { $0 + $1.target }
-                Text(store.t("week.knownTime") + ": " + minutes.formatted(.number.locale(store.locale)) + " " + store.t("minutes"))
-                Text(store.t("week.withoutTime") + ": \(rows.filter { $0.unit != "minutes" }.count)").font(.caption)
             }
             Section(store.t("week.focus.select")) {
                 let key=store.engine.key(days[0])
@@ -173,6 +170,13 @@ struct WeeklyPlanScreen: View {
                 ForEach(focus) { row in Text(store.taskTitle(row.title)) }
                 NavigationLink(destination:WeeklyFocusEditor(week:selected)) { Text(store.t("week.focus.select")) }
                 NavigationLink(destination:CapacityScreen()) { Text(store.t("capacity.title")) }.accessibilityIdentifier("weekly.capacity")
+            }
+            Section {
+                DisclosureGroup(store.t("week.time.details")) {
+                    let minutes = rows.filter { $0.unit == "minutes" }.reduce(0) { $0 + $1.target }
+                    Text(store.t("week.knownTime") + ": " + minutes.formatted(.number.locale(store.locale)) + " " + store.t("minutes"))
+                    Text(store.t("week.withoutTime") + ": \(rows.filter { $0.unit != "minutes" }.count)").font(.caption)
+                }
             }
             Section(store.t("week.intention")) {
                 TextField(store.t("week.intention.help"), text: $weeklyNote, axis: .vertical).accessibilityIdentifier("weekly.note")

@@ -1,6 +1,86 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "week.time.details": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftanın süre ayrıntıları"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly time details"
+          }
+        }
+      }
+    },
+    "onboarding.quick.start": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek bir adımla başla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with one step"
+          }
+        }
+      }
+    },
+    "onboarding.quick.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alanları daha sonra seçebilirsin; hiçbir örnek plan eklenmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can choose your areas later; no example plans are added."
+          }
+        }
+      }
+    },
+    "today.focus.heading": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bugünün odakları"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's focus"
+          }
+        }
+      }
+    },
+    "today.other.heading": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer adımlar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other steps"
+          }
+        }
+      }
+    },
     "backup.location.notice": {
       "localizations": {
         "tr": {

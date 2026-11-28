@@ -24,6 +24,7 @@ on:
           - daily-guided
           - appearance
           - prayer
+          - research
 defaults:
   run:
     shell: bash

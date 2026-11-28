@@ -1,6 +1,19 @@
 import XCTest
 
 final class MIHENUITests: XCTestCase {
+    @MainActor func testOnboardingStartsWithOneStepWithoutExamples() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        tap(app.buttons["onboarding.quick.start"], in: app)
+        let title = app.textFields["task.title"]
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        replace(title, with: "İlk küçük adım")
+        app.buttons["task.save"].tap()
+        XCTAssertTrue(app.staticTexts["İlk küçük adım"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["Hareket / egzersiz"].exists)
+        capture(app, name: "MIHEN-First-Single-Step-TR")
+    }
     @MainActor private func start(persistent: Bool = false) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = persistent ? ["--ui-testing", "--ui-test-store", UUID().uuidString] : ["--ui-testing"]
