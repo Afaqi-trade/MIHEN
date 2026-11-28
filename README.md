@@ -31,7 +31,7 @@ Uzaktan test: [REMOTE_TESTING.md](docs/REMOTE_TESTING.md). CI otomatik yayına v
 - `MIHENWidget/`: gerçek günlük özet ve uygulamada hızlı giriş bağlantısı; ayrı namaz widget’ı.
 - `MIHENTests/`, `MIHENUITests/`, `Tests/MIHENCoreTests/`: cihaz/simülatör ve taşınabilir testler.
 - `Scripts/`: bağımlılıksız proje/model/metin/ikon üretimi ve doğrulama.
-- `Design/MihenLogo.svg`: düzenlenebilir dağ/yol/hedef logosu. PNG'ler gerçek asset catalog içindedir.
+- `Design/MihenIconMaster.png`: uygulama ikonunun tam boy kaynağı; `Design/MihenLogo.svg` önceki düzenlenebilir logo konseptidir. Kullanılan PNG'ler asset catalog içindedir.
 
 Model üretimi: `python3 Scripts/generate_codec.py`; çeviri: `python3 Scripts/localize.py`; ikon: `swift Scripts/render-brand.swift`; proje: `python3 Scripts/generate_project.py`. Yayımlanan bir veri şemasını değiştirmeden önce migration ekleyin.
 
