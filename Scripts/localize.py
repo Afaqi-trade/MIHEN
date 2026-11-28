@@ -1,6 +1,8 @@
 from pathlib import Path
 import json,re
-rows='''nutrition.noRecord|Kayıt yok|No record
+rows='''notifications.systemDenied|iPhone bildirim izni kapalı. Hatırlatıcıların görünmesi için iPhone ayarlarından izni açın.|iPhone notification permission is off. Enable it in iPhone settings to receive reminders.
+notifications.openSettings|iPhone bildirim ayarlarını aç|Open iPhone notification settings
+nutrition.noRecord|Kayıt yok|No record
 report.areas.recorded.help|Kayıt bulunan alan sayısı bir hedef veya başarı puanı değildir.|The number of areas with records is not a target or a measure of success.
 nutrition.summary.limit|Egzersiz enerjisi günlük toplam harcama değildir; kayıt olmayan veri sıfır tüketim anlamına gelmez.|Exercise energy is not total daily expenditure; missing records do not mean zero intake.
 planning.firstWeek|İlk 7 günlük öneri|Your first 7 days

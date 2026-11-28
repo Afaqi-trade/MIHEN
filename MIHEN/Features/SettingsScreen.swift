@@ -2,6 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import UserNotifications
 import WidgetKit
+import UIKit
 
 struct TransferDocument: FileDocument {
     static var readableContentTypes: [UTType] { [.json, .commaSeparatedText] }
@@ -20,8 +21,11 @@ struct ImportPreview: Identifiable {
     var restoresPrayer: Bool = false
 }
 struct SettingsScreen: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openURL) private var openURL
     @Environment(AppStore.self) private var store
     @AppStorage("backup.lastExport") private var lastExport = 0.0
+    @State private var notificationDenied = false
     @State private var exportIsArchive = false
     @State private var exportSucceeded = false
     @State private var exporting = false
@@ -60,6 +64,12 @@ struct SettingsScreen: View {
                     if value { notificationPrompt = true }
                     else { store.updatePreferences { $0.remindersEnabled = false }; UNUserNotificationCenter.current().removeAllPendingNotificationRequests() }
                 }))
+                if notificationDenied {
+                    Text(store.t("notifications.systemDenied")).font(.footnote).foregroundStyle(.secondary)
+                    Button(store.t("notifications.openSettings")) {
+                        if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                    }.accessibilityIdentifier("notifications.openSettings")
+                }
                 Stepper(store.t("notifications.hour") + ": \(store.preferences.reminderHour):00", value: preference(\.reminderHour), in: 0...23)
                 Stepper(store.t("quiet.start") + ": \(store.preferences.quietStart):00", value: preference(\.quietStart), in: 0...23)
                 Stepper(store.t("quiet.end") + ": \(store.preferences.quietEnd):00", value: preference(\.quietEnd), in: 0...23)
@@ -163,12 +173,22 @@ struct SettingsScreen: View {
                 Button(store.t("continue")) {
                     Task {
                         do {
-                            if try await ReminderService.enable() { store.updatePreferences { $0.remindersEnabled = true } }
+                            let enabled = try await ReminderService.enable()
+                            await refreshNotificationStatus()
+                            if enabled { store.updatePreferences { $0.remindersEnabled = true } }
                             else { store.errorMessage = store.t("notifications.denied") }
                         } catch { store.errorMessage = error.localizedDescription }
                     }
                 }
             }
+            .task { await refreshNotificationStatus() }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { Task { await refreshNotificationStatus() } }
+            }
+    }
+    private func refreshNotificationStatus() async {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
+        notificationDenied = settings.authorizationStatus == .denied
     }
     private func preference<T>(_ keyPath: WritableKeyPath<UserPreferencesRecord, T>) -> Binding<T> {
         Binding(get: { store.preferences[keyPath: keyPath] }, set: { value in store.updatePreferences { $0[keyPath: keyPath] = value } })

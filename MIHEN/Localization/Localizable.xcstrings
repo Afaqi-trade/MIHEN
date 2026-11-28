@@ -1,6 +1,38 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "notifications.systemDenied": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone bildirim izni kapalı. Hatırlatıcıların görünmesi için iPhone ayarlarından izni açın."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone notification permission is off. Enable it in iPhone settings to receive reminders."
+          }
+        }
+      }
+    },
+    "notifications.openSettings": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone bildirim ayarlarını aç"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open iPhone notification settings"
+          }
+        }
+      }
+    },
     "nutrition.noRecord": {
       "localizations": {
         "tr": {
