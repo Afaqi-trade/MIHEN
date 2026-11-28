@@ -14,4 +14,4 @@ Bu belge `ARGE_URUN_INCELEMESI_2026-11-28.md` içindeki önceliklerin durumunu i
 | P2 · Raporlar, erişilebilirlik, beslenme, bildirimler | Açık | Ar-Ge raporundaki ölçüm tanımları, karar desteği, kapsamlı erişilebilirlik/cihaz ve giriş kolaylığı iyileştirmeleri henüz tamamlanmadı. |
 | P3 · Entegrasyon ve ticari araştırma | Açık | İzin ve platform sınırları, katılımcılı test ve fiyatlandırma araştırması yapılmadı. |
 
-Gerçek test ve kaynak kapsamı için `TEST_REPORT.md` okunmalı; koşu tamamlanmadan yeşil olduğu varsayılmamalıdır.
+Birleşik uzak doğrulama `46166901804`: 101 başarılı, 0 başarısız, 0 atlanan; kapsam ve fiziksel cihaz sınırları için `TEST_REPORT.md` okunmalıdır.
