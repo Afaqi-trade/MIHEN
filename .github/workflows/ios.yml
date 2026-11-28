@@ -23,6 +23,7 @@ on:
           - daily-fasting
           - daily-guided
           - appearance
+          - prayer
 defaults:
   run:
     shell: bash

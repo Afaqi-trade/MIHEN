@@ -9,6 +9,13 @@ struct CalendarScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                NavigationLink(destination: PrayerTimesScreen()) {
+                    HStack {
+                        Label(store.t("prayer.times"), systemImage: "sun.horizon.fill")
+                        Spacer()
+                        Image(systemName: "chevron.right").font(.caption.weight(.semibold))
+                    }.mihenCard()
+                }.buttonStyle(.plain).accessibilityIdentifier("calendar.prayer")
                 Picker(store.t("calendar.view"), selection: $scope) { ForEach(["day", "week", "month"], id: \.self) { Text(store.t($0)).tag($0) } }.pickerStyle(.segmented)
                 if scope == "month" { DatePicker(store.t("date"), selection: $selected, displayedComponents: .date).datePickerStyle(.graphical) }
                 else {

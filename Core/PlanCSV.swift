@@ -18,7 +18,7 @@ public enum PlanCSV {
                 guard row.count == header.count else { throw PlanError.invalid("validation.csv") }
                 let id = row[1].isEmpty ? UUID().uuidString : CSV.restoredCell(row[1])
                 guard ids.insert(id).inserted else { throw PlanError.invalid("validation.duplicates") }
-                let area = LifeArea.allCases.first { $0.rawValue == row[3] || $0.titleTR == row[3] || $0.titleEN == row[3] }
+                let area = LifeArea.allCases.first { $0.rawValue == row[3] || $0.titleTR == row[3] || $0.titleEN == row[3] || $0.legacyTitles.contains(row[3]) }
                 guard let area, let domain = current.domains.first(where: { $0.key == area.rawValue }), let target = Double(row[4]), target.isFinite, target > 0, let start = engine.date(row[6]), let end = engine.date(row[7]), end >= start, !row[2].isEmpty else { throw PlanError.invalid("validation.data") }
                 let title = CSV.restoredCell(row[2])
                 if row[0] == "goal" {

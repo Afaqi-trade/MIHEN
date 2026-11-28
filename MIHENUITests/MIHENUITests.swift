@@ -318,9 +318,8 @@ final class MIHENUITests: XCTestCase {
     }
     @MainActor func testOfflinePrayerTimes() throws {
         let app = start()
-        app.tabBars.buttons["Plan"].tap()
-        tap(app.descendants(matching: .any)["plan.spiritual"].firstMatch, in: app)
-        tap(app.buttons["Namaz vakitleri"], in: app)
+        app.tabBars.buttons["Takvim"].tap()
+        tap(app.descendants(matching: .any)["calendar.prayer"].firstMatch, in: app)
         tap(app.buttons["Konum ve hesap ayarları"], in: app)
         tap(app.buttons["İstanbul konumunu kullan"], in: app)
         XCTAssertEqual(app.textFields["latitude"].value as? String, "41,0082")

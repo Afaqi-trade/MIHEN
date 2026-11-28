@@ -38,6 +38,7 @@ case "${MIHEN_TEST_SCOPE:-full}" in
   daily-flows) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testGuidedAreaExampleRequiresExplicitConfirmation -only-testing:MIHENUITests/MIHENUITests/testOnboardingLinkedGoalPartialCompletionAndPersistence -only-testing:MIHENUITests/MIHENUITests/testLanguageAndLightDarkThemes -only-testing:MIHENUITests/MIHENUITests/testFastingPlannedAndCompletedRemainDistinct -only-testing:MIHENUITests/MIHENUITests/testGuidedOnboardingExplicitTemplatesAndQuickTaskUndo) ;;
   daily-fasting) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testFastingPlannedAndCompletedRemainDistinct) ;;
   daily-guided) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testGuidedOnboardingExplicitTemplatesAndQuickTaskUndo) ;;
+  prayer) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testOfflinePrayerTimes) ;;
   appearance) MIHEN_TEST_ARGUMENTS=(-only-testing:MIHENTests -only-testing:MIHENUITests/MIHENUITests/testLanguageAndLightDarkThemes) ;;
   *) print -u2 'Unknown MIHEN_TEST_SCOPE'; exit 2 ;;
 esac

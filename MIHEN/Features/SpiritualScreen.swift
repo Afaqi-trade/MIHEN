@@ -5,7 +5,6 @@ struct SpiritualScreen: View {
     @Environment(AppStore.self) private var store
     var body: some View {
         List {
-            NavigationLink(destination: PrayerTimesScreen()) { Label(store.t("prayer.times"), systemImage: "sun.horizon") }.accessibilityIdentifier("spiritual.prayer")
             Section {
                 NavigationLink(destination: KhatmScreen()) { Label(store.t("quran.khatm"), systemImage: "book") }.accessibilityIdentifier("spiritual.khatm")
                 NavigationLink(destination: MemorizationScreen()) { Label(store.t("memorization"), systemImage: "brain.head.profile") }.accessibilityIdentifier("spiritual.memorization")

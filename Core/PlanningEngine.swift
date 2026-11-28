@@ -4,26 +4,39 @@ public enum LifeArea: String, CaseIterable, Codable, Sendable {
     case spiritual, learning, character, family, health, career, finance, service
     public var titleTR: String {
         switch self {
-        case .spiritual: return "Kulluk ve Manevî Hayat"
-        case .learning: return "Kur'an, İlim ve Fikrî Gelişim"
-        case .character: return "Ahlâk, Nefs Terbiyesi ve İç Disiplin"
-        case .family: return "Aile, Akraba, Dostluk ve Sosyal Hayat"
-        case .health: return "Sağlık, Beden ve Yaşam Düzeni"
-        case .career: return "Meslek, Yetkinlik, Üretim ve Kariyer"
-        case .finance: return "Mali Hayat, Helal Kazanç, İnfak ve Hac Hazırlığı"
-        case .service: return "Hizmet, Toplumsal Fayda ve Miras"
+        case .spiritual: return "Maneviyat"
+        case .learning: return "Öğrenme ve Gelişim"
+        case .character: return "Karakter ve İç Denge"
+        case .family: return "Aile ve İlişkiler"
+        case .health: return "Sağlık ve Yaşam"
+        case .career: return "İş ve Üretim"
+        case .finance: return "Maddi Yaşam ve Paylaşım"
+        case .service: return "Toplumsal Katkı"
         }
     }
     public var titleEN: String {
         switch self {
-        case .spiritual: return "Worship and Spiritual Life"
-        case .learning: return "Quran, Learning and Intellectual Growth"
-        case .character: return "Character and Inner Discipline"
-        case .family: return "Family, Friends and Social Life"
-        case .health: return "Health, Body and Daily Rhythm"
-        case .career: return "Profession, Skills and Career"
-        case .finance: return "Finances, Ethical Income, Giving and Hajj"
-        case .service: return "Service, Social Contribution and Legacy"
+        case .spiritual: return "Spirituality"
+        case .learning: return "Learning and Growth"
+        case .character: return "Character and Inner Balance"
+        case .family: return "Family and Relationships"
+        case .health: return "Health and Wellbeing"
+        case .career: return "Work and Creating"
+        case .finance: return "Finances and Giving"
+        case .service: return "Community and Contribution"
+        }
+    }
+    // Former labels remain valid when importing user-edited plan CSV files.
+    public var legacyTitles: [String] {
+        switch self {
+        case .spiritual: return ["Kulluk ve Manevî Hayat", "Worship and Spiritual Life"]
+        case .learning: return ["Kur'an, İlim ve Fikrî Gelişim", "Quran, Learning and Intellectual Growth"]
+        case .character: return ["Ahlâk, Nefs Terbiyesi ve İç Disiplin", "Character and Inner Discipline"]
+        case .family: return ["Aile, Akraba, Dostluk ve Sosyal Hayat", "Family, Friends and Social Life"]
+        case .health: return ["Sağlık, Beden ve Yaşam Düzeni", "Health, Body and Daily Rhythm"]
+        case .career: return ["Meslek, Yetkinlik, Üretim ve Kariyer", "Profession, Skills and Career"]
+        case .finance: return ["Mali Hayat, Helal Kazanç, İnfak ve Hac Hazırlığı", "Finances, Ethical Income, Giving and Hajj"]
+        case .service: return ["Hizmet, Toplumsal Fayda ve Miras", "Service, Social Contribution and Legacy"]
         }
     }
     public var symbol: String {

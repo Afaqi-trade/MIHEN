@@ -62,23 +62,43 @@ struct PrayerProvider: TimelineProvider {
 struct PrayerWidget: Widget {
     let kind = "MIHENPrayer"
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: PrayerProvider()) { entry in
-            VStack(alignment: .leading, spacing: 6) {
-                Text("MİHEN · Namaz / Prayer").font(.headline)
-                if let settings = PrayerSettingsStore.read() {
-                    let tomorrow = PlanningEngine(timeZone: TimeZone(identifier: settings.timeZoneID) ?? .current).addingDays(1, to: entry.date)
-                    let schedule = settings.schedule(on: entry.date) + settings.schedule(on: tomorrow)
-                    if let next = schedule.first(where: { $0.key != "sunrise" && $0.date > entry.date }) {
-                        Text(LocalizedStringKey("prayer." + next.key))
-                        Text(settings.displayTime(next.date)).font(.title.bold())
-                    } else { Text(LocalizedStringKey("prayer.unavailable")) }
-                    Text(LocalizedStringKey("method." + settings.method)).font(.caption)
-                } else { Text(LocalizedStringKey("widget.open")) }
-            }.containerBackground(for: .widget) { Color(red: 11/255, green: 34/255, blue: 68/255) }
-                .foregroundStyle(.white).widgetURL(URL(string: "mihen://prayers"))
-        }.configurationDisplayName("MİHEN Namaz / Prayer")
+        StaticConfiguration(kind: kind, provider: PrayerProvider()) { PrayerWidgetView(entry: $0) }
+        .configurationDisplayName(LocalizedStringKey("prayer.times"))
             .description(LocalizedStringKey("prayer.source"))
             .supportedFamilies([.systemSmall, .systemMedium])
+    }
+}
+struct PrayerWidgetView: View {
+    @Environment(\.widgetFamily) private var family
+    let entry: PrayerEntry
+    private var settings: PrayerSettings {
+        PrayerSettingsStore.read() ?? .init(latitude: 41.0082, longitude: 28.9784, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false)
+    }
+    var body: some View {
+        let schedule = settings.schedule(on: entry.date)
+        let next = schedule.first { $0.key != "sunrise" && $0.date > entry.date }?.key
+        VStack(alignment: .leading, spacing: 6) {
+            Text(LocalizedStringKey("prayer.times")).font(.headline).lineLimit(1).minimumScaleFactor(0.8)
+            if schedule.isEmpty {
+                Text(LocalizedStringKey("prayer.unavailable")).font(.caption)
+            } else if family == .systemSmall {
+                LazyVGrid(columns: [GridItem(.flexible(), alignment: .leading), GridItem(.flexible(), alignment: .leading)], alignment: .leading, spacing: 5) {
+                    ForEach(schedule, id: \.key) { item in prayerItem(item.key, item.date, next == item.key) }
+                }
+            } else {
+                HStack(alignment: .top, spacing: 2) {
+                    ForEach(schedule, id: \.key) { item in prayerItem(item.key, item.date, next == item.key).frame(maxWidth: .infinity, alignment: .leading) }
+                }.frame(maxHeight: .infinity, alignment: .center)
+            }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .containerBackground(for: .widget) { Color(red: 11/255, green: 34/255, blue: 68/255) }
+            .foregroundStyle(.white).widgetURL(URL(string: "mihen://prayers"))
+    }
+    private func prayerItem(_ key: String, _ date: Date, _ upcoming: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(LocalizedStringKey("prayer." + key)).font(.caption2).lineLimit(1).minimumScaleFactor(0.75)
+            Text(settings.displayTime(date)).font(.system(.caption, design: .rounded, weight: upcoming ? .bold : .medium)).monospacedDigit()
+        }.foregroundStyle(upcoming ? Color(red: 0.68, green: 0.92, blue: 0.72) : .white)
     }
 }
 @main struct MIHENWidgets: WidgetBundle {

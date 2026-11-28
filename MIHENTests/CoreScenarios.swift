@@ -93,6 +93,13 @@ final class BackupTests: XCTestCase {
         XCTAssertEqual(duplicate.errors.count, 1)
         let exported = PlanCSV.export(data, engine: engine)
         XCTAssertTrue(exported.contains("test-id"))
+        for area in LifeArea.allCases {
+            for label in area.legacyTitles + [area.titleTR, area.titleEN] {
+                let oldRows = [PlanCSV.header, ["task", "legacy-id", "Test", label, "1", "count", "2024-01-01", "2024-12-31", "none"]]
+                let oldPreview = try PlanCSV.preview(CSV.encode(oldRows), into: .fresh(), engine: engine)
+                XCTAssertEqual(oldPreview.tasks.first?.domainID, area.rawValue)
+            }
+        }
     }
     func testResetContainsOnlyEmptyEightDomainsAndPreferences() throws {
         let reset = BackupDocument.fresh()
