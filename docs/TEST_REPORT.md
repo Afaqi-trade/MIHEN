@@ -2,7 +2,9 @@
 
 ## 28 Kasım — iPhone geri bildirimi ve namaz widget'ı
 
-`366a491`: Yerel `swift test` **77 test / 0 hata**; uygulama ve iki uzantının Debug iPhone derlemesi başarılı. Kullanıcının mevcut iPhone kurulumuna aynı bundle/team kimliğiyle yerinde güncelleme yapıldı; kullanıcı uygulamanın açıldığını, Takvim'deki namaz bağlantısını, yeni ikonu ve önceki görevlerini gördüğünü bildirdi. Kullanıcı namaz widget'ında altı vaktin okunabildiğini de bildirdi. Widget boyutu, konum/yöntem değişimi ve farklı saat dilimleri için ayrı fiziksel cihaz matrisi yapılmadı. Yeni ikonu içeren `46140160439` ve önceki ikonlu `46139747960` uzak namaz testleri bu kayıt yazılırken sürüyordu; sonuç alınmadan başarılı sayılmaz.
+`366a491`: Yerel `swift test` **77 test / 0 hata**; uygulama ve iki uzantının Debug iPhone derlemesi başarılı. Kullanıcının mevcut iPhone kurulumuna aynı bundle/team kimliğiyle yerinde güncelleme yapıldı; kullanıcı uygulamanın açıldığını, Takvim'deki namaz bağlantısını, yeni ikonu ve önceki görevlerini gördüğünü bildirdi. Kullanıcı namaz widget'ında altı vaktin okunabildiğini de bildirdi. Widget boyutu, konum/yöntem değişimi ve farklı saat dilimleri için ayrı fiziksel cihaz matrisi yapılmadı.
+
+Uzak `46140160439` / `366a491`: **93 geçti / 0 hata / 0 atlama**; `prayer` kapsamı tüm uygulama birim/kalıcılık testleri ve Takvim'den namaz ekranı UI testidir, tam UI matrisi değildir. Gerçek `.xcresult` kökü ve 1.572 Data dosyası, JSON özeti ve native namaz ekranı incelendi; kanıtlar `docs/evidence/46140160439` içindedir. Namaz görseli 15 Kasım İstanbul test tarihindeki 06:16 değerini gösterir; güncel resmî takvim karşılaştırması değildir. Yerel simülatör UI koşusu 20 dakikadan fazla sonuç üretmeyince durduruldu ve başarı sayılmadı.
 
 Güncelleme: 2026-11-24 (Europe/Istanbul).
 

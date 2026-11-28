@@ -1,5 +1,7 @@
 # Güncel uygulama ekranları
 
+28 Kasım: [Takvim üzerinden namaz vakitleri](../evidence/46140160439/MIHEN-Prayer-Calendar-TR.png), yeni ikonlu `366a491` uygulamasının `46140160439` gerçek simülatör testinden alınmıştır. 93/0/0 sonucu namaz odaklı koşuya aittir. Widget'ın altı vakti gerçek iPhone'da kullanıcı tarafından ayrıca kontrol edildi; bu görsel widget ekranı değildir.
+
 20 Kasım 2026: 46 düzenlenmemiş native PNG. 24 yeni ekran, `44304066244` yol haritası koşusundan geldi: **100 passed / 0 failed / 0 skipped** (92 birim/kalıcılık + 8 gerçek UI akışı). Tam 19 UI akışının genişletilmiş zaman limitli koşusu ayrıca sürmektedir. Kayıtlar ayrı UI-test deposunda oluşturuldu; kişisel geçmiş değildir. Hedef görüntüsü onay öncesi öneridir. Ekran Süresi/Widget gerçek cihaz yetkileri bekler.
 
 | Ekran | Koşu / kapsam |

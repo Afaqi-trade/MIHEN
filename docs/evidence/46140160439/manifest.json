@@ -1,0 +1,47 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "6F076DFB-80FD-49B9-9B76-5B3E028B2E1E",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "04805708-2352-4DD0-980C-72798BC51083.pdf",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "MIHEN-Report-PDF-Test_0_1C59C648-1054-44CD-ABD4-097628A3BE98.pdf",
+        "timestamp" : 1795865934.22
+      }
+    ],
+    "testIdentifier" : "PersistenceTests/testNativePeriodReportPDFHasReadableTurkishTextAndMultiplePages()",
+    "testIdentifierURL" : "test://com.apple.xcode/MIHEN/MIHENTests/PersistenceTests/testNativePeriodReportPDFHasReadableTurkishTextAndMultiplePages"
+  },
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "6F076DFB-80FD-49B9-9B76-5B3E028B2E1E",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "23B845AB-A313-4D24-AF27-00D19BA4DE3E.json",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "MIHEN-Native-Performance-1-3-10-Years_0_9785A430-9D2B-4E9C-9229-24CF4F42AE2D.json",
+        "timestamp" : 1795865949.041
+      }
+    ],
+    "testIdentifier" : "ReportPerformanceTests/testNativeStoreAndExecutiveReportAtOneThreeAndTenYears()",
+    "testIdentifierURL" : "test://com.apple.xcode/MIHEN/MIHENTests/ReportPerformanceTests/testNativeStoreAndExecutiveReportAtOneThreeAndTenYears"
+  },
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "6F076DFB-80FD-49B9-9B76-5B3E028B2E1E",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "A661B3F0-722F-4DDE-8C86-A1C1B5F3B368.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "MIHEN-Prayer-TR_0_8142790F-1693-400F-8BCE-C31022C1A952.png",
+        "timestamp" : 1795866074.827
+      }
+    ],
+    "testIdentifier" : "MIHENUITests/testOfflinePrayerTimes()",
+    "testIdentifierURL" : "test://com.apple.xcode/MIHEN/MIHENUITests/MIHENUITests/testOfflinePrayerTimes"
+  }
+]
