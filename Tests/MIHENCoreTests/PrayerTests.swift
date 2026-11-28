@@ -2,6 +2,13 @@ import XCTest
 @testable import MIHENCore
 
 final class PrayerTests: XCTestCase {
+    func testPolarDayAndNightAreNotInvented() throws {
+        let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Oslo")!)
+        let settings = PrayerSettings(latitude: 78.2232, longitude: 15.6469, timeZoneID: "Europe/Oslo", method: "muslimWorldLeague", hanafi: false)
+        XCTAssertTrue(settings.schedule(on: engine.date("2026-06-21")!).isEmpty)
+        XCTAssertTrue(settings.schedule(on: engine.date("2026-12-21")!).isEmpty)
+        XCTAssertEqual(settings.schedule(on: engine.date("2026-03-21")!).count, 6)
+    }
     func testWidgetTimelineUsesPrayerTimeZoneAndCalendarMidnight() throws {
         let london = PrayerSettings(latitude: 51.5074, longitude: -0.1278, timeZoneID: "Europe/London", method: "turkey", hanafi: false)
         let now = ISO8601DateFormatter().date(from: "2026-03-29T00:15:00Z")!

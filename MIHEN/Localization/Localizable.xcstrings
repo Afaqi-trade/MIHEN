@@ -1,6 +1,246 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "report.areas.recorded.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt bulunan alan sayısı bir hedef veya başarı puanı değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The number of areas with records is not a target or a measure of success."
+          }
+        }
+      }
+    },
+    "nutrition.summary.limit": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Egzersiz enerjisi günlük toplam harcama değildir; kayıt olmayan veri sıfır tüketim anlamına gelmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exercise energy is not total daily expenditure; missing records do not mean zero intake."
+          }
+        }
+      }
+    },
+    "planning.firstWeek": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlk 7 günlük öneri"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your first 7 days"
+          }
+        }
+      }
+    },
+    "planning.firstWeek.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç tarihinden sonraki ilk yedi gün gösterilir. Bu yalnızca öneridir; onay vermeden görev oluşturulmaz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first seven days from your start date are shown. This is only a proposal; no tasks are created until you confirm."
+          }
+        }
+      }
+    },
+    "planning.firstWeek.empty": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu yedi günde önerilen adım yok."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No steps are proposed in these seven days."
+          }
+        }
+      }
+    },
+    "planning.firstWeek.total": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlk yedi günün toplamı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total for the first seven days"
+          }
+        }
+      }
+    },
+    "routine.run.recorded": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamlanan adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completed steps"
+          }
+        }
+      }
+    },
+    "routine.run.leave": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdilik ara ver"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause for now"
+          }
+        }
+      }
+    },
+    "routine.run.leave.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaldığın yer saklanır. Geri döndüğünde bugünkü rutine devam edebilirsin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your place is saved. You can resume today's routine when you return."
+          }
+        }
+      }
+    },
+    "week.review.title": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftana göz at"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review your week"
+          }
+        }
+      }
+    },
+    "week.review.overloaded": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapasitesi aşılmış gün"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Days over capacity"
+          }
+        }
+      }
+    },
+    "week.review.noCapacity": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz günlere ayrılabilir süre belirlenmedi."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You have not set available time for your days yet."
+          }
+        }
+      }
+    },
+    "week.review.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstersen açık adımları seçip taşıyabilir veya bu kez atlayabilirsin. Planın onay vermeden değişmez."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can select open steps to move or skip. Your plan does not change without confirmation."
+          }
+        }
+      }
+    },
+    "week.review.selected": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected steps"
+          }
+        }
+      }
+    },
+    "week.review.partial": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilmiş ilerlemesi olan adım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steps with recorded progress"
+          }
+        }
+      }
+    },
     "weekday.presets.help": {
       "localizations": {
         "tr": {

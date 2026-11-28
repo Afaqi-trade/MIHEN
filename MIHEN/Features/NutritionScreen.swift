@@ -29,6 +29,7 @@ struct NutritionScreen: View {
                 Text(store.t("activity.energyBurned") + ": " + total("energyBurned").formatted(.number.locale(store.locale)) + " kcal")
                 Text(store.t("activity.water") + ": " + total("water").formatted(.number.locale(store.locale)) + " ml")
                 Text(store.t(usesHealth ? "health.source" : "manual.source")).font(.caption)
+                Text(store.t("nutrition.summary.limit")).font(.footnote).foregroundStyle(.secondary)
                 DisclosureGroup(store.t("report.formula")) { Text(store.t("nutrition.explanation")).font(.footnote) }
             }
             Section(store.t("nutrition.quick")) {

@@ -10,3 +10,5 @@ Bu kayıt tam bir takvim doğrulaması değil, ilk sınırlı karşılaştırmad
 | İzmir, 15 Kasım 2026 | Türkiye yöntemi, standart ikindi, 38.4237 / 27.1428 | [15 Kasım tarihli Türkgün gazetesi](https://www.turkgun.com/uploads/1794696307-pdf-turkgun-gazetesi-15-kasim-2026.pdf): 06:21, 07:46, 13:01, 15:43, 18:06, 19:26 | Uygulama 06:21, 07:46, 13:01, 15:42, 18:06, 19:25; fark en çok 1 dakika. |
 
 `PrayerTests` örnekleri otomatik karşılaştırır. Londra yaz saati geçişinde yerel takvim günü, vakit geçişleri ve gece yarısı timeline testi de eklenmiştir. Daha fazla mevsim ve şehir, yüksek enlemler, farklı ikindi yöntemleri ve doğrudan yetkili kurum kaynaklarıyla daha geniş karşılaştırma hâlâ gereklidir. İlgili widget güncellemelerinin iOS tarafından zamanında gösterilmesi gerçek cihazda ayrıca sınanmalıdır.
+
+Ek sınır testi: Longyearbyen koordinatlarında 21 Haziran ve 21 Aralık 2026 için kutup günü/gecesinde hesaplanamayan vakitlerin boş dönmesi doğrulanır. Bu, yüksek enlemde tüm günlerin veya çeşitli takdir yöntemlerinin doğrulandığı anlamına gelmez.

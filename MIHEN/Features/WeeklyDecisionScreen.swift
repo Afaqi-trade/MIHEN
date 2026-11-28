@@ -25,10 +25,15 @@ struct WeeklyDecisionScreen: View {
             Form {
                 Text(store.t("week.decide.help")).font(.footnote)
                 ForEach(rows) { row in
-                    Toggle(store.taskTitle(row.title) + " · " + row.day, isOn: Binding(get: { selected.contains(row.id) }, set: { if $0 { selected.insert(row.id) } else { selected.remove(row.id) } }))
+                    Toggle(store.taskTitle(row.title) + " · " + row.day, isOn: Binding(get: { selected.contains(row.id) }, set: { if $0 { selected.insert(row.id) } else { selected.remove(row.id) } })).accessibilityIdentifier("weekly.review.row." + row.id)
                 }
                 Picker(store.t("type"), selection:$action) { Text(store.t("move")).tag("move"); Text(store.t("skipped")).tag("skip") }
                 if action == "move" { DatePicker(store.t("date"),selection:$destination,in:store.engine.calendar.startOfDay(for:Date())...,displayedComponents:.date) }
+                if !selected.isEmpty {
+                    Text(store.t("week.review.selected") + ": \(selected.count)").accessibilityIdentifier("weekly.review.selected")
+                    let partial = rows.filter { selected.contains($0.id) && $0.value > 0 }.count
+                    if partial > 0 { Text(store.t("week.review.partial") + ": \(partial)").font(.footnote) }
+                }
                 if let error { Text(store.t(error)).font(.footnote) }
                 Button(store.t("week.decide.apply")) { confirmation = true }.disabled(selected.isEmpty || error != nil)
             }.navigationTitle(store.t("week.decide"))

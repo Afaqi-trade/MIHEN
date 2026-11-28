@@ -3,6 +3,16 @@ import XCTest
 
 final class ProductPlanningTests: XCTestCase {
     let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+    func testFirstPlanningWeekUsesSevenCalendarDaysAndDoesNotReallocate() throws {
+        let london = PlanningEngine(timeZone: TimeZone(identifier: "Europe/London")!)
+        let start = london.date("2026-03-27")!
+        let original = try london.allocations(total: 10, unit: "pages", from: start, through: london.addingDays(9, to: start))
+        let first = london.firstPlanningWeek(original, from: start)
+        XCTAssertEqual(first.map(\.day), ["2026-03-27", "2026-03-28", "2026-03-29", "2026-03-30", "2026-03-31", "2026-04-01", "2026-04-02"])
+        XCTAssertEqual(first.reduce(0.0) { $0 + $1.amount }, 7)
+        XCTAssertEqual(original.reduce(0.0) { $0 + $1.amount }, 10)
+        XCTAssertTrue(london.firstPlanningWeek(original, from: london.addingDays(20, to: start)).isEmpty)
+    }
     func testSparseWholeAllocationsAndExactMoneyTotals() throws {
         let start = engine.date("2026-01-01")!, end = engine.date("2026-12-31")!
         let books = try engine.allocations(total: 24, unit: "books", from: start, through: end)

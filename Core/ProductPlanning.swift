@@ -10,6 +10,12 @@ public struct GoalContributions: Equatable, Sendable {
     public var total: Double { manual + tasks }
 }
 extension PlanningEngine {
+    /// The first seven calendar days of an existing proposal, not a second allocation.
+    public func firstPlanningWeek(_ proposal: [PlannedAllocation], from start: Date) -> [PlannedAllocation] {
+        let lower = key(calendar.startOfDay(for: start))
+        let upper = key(addingDays(7, to: calendar.startOfDay(for: start)))
+        return proposal.filter { $0.day >= lower && $0.day < upper }
+    }
     public func contributions(_ goalID: String, in data: BackupDocument, interval: DateInterval? = nil) -> GoalContributions {
         let unit = data.goals.first { $0.id == goalID }?.unit
         let manual = data.goalProgress.filter { row in

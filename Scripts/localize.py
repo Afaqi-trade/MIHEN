@@ -1,6 +1,21 @@
 from pathlib import Path
 import json,re
-rows='''weekday.presets.help|Günleri hızlı seç; istersen aşağıdan değiştir.|Choose days quickly, then adjust them below if you wish.
+rows='''report.areas.recorded.help|Kayıt bulunan alan sayısı bir hedef veya başarı puanı değildir.|The number of areas with records is not a target or a measure of success.
+nutrition.summary.limit|Egzersiz enerjisi günlük toplam harcama değildir; kayıt olmayan veri sıfır tüketim anlamına gelmez.|Exercise energy is not total daily expenditure; missing records do not mean zero intake.
+planning.firstWeek|İlk 7 günlük öneri|Your first 7 days
+planning.firstWeek.help|Başlangıç tarihinden sonraki ilk yedi gün gösterilir. Bu yalnızca öneridir; onay vermeden görev oluşturulmaz.|The first seven days from your start date are shown. This is only a proposal; no tasks are created until you confirm.
+planning.firstWeek.empty|Bu yedi günde önerilen adım yok.|No steps are proposed in these seven days.
+planning.firstWeek.total|İlk yedi günün toplamı|Total for the first seven days
+routine.run.recorded|Tamamlanan adım|Completed steps
+routine.run.leave|Şimdilik ara ver|Pause for now
+routine.run.leave.help|Kaldığın yer saklanır. Geri döndüğünde bugünkü rutine devam edebilirsin.|Your place is saved. You can resume today's routine when you return.
+week.review.title|Haftana göz at|Review your week
+week.review.overloaded|Kapasitesi aşılmış gün|Days over capacity
+week.review.noCapacity|Henüz günlere ayrılabilir süre belirlenmedi.|You have not set available time for your days yet.
+week.review.help|İstersen açık adımları seçip taşıyabilir veya bu kez atlayabilirsin. Planın onay vermeden değişmez.|You can select open steps to move or skip. Your plan does not change without confirmation.
+week.review.selected|Seçilen adım|Selected steps
+week.review.partial|Kaydedilmiş ilerlemesi olan adım|Steps with recorded progress
+weekday.presets.help|Günleri hızlı seç; istersen aşağıdan değiştir.|Choose days quickly, then adjust them below if you wish.
 weekday.all|Her gün|Every day
 weekday.workdays|Hafta içi|Weekdays
 weekday.weekend|Hafta sonu|Weekend

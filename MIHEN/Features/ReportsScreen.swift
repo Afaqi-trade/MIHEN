@@ -78,10 +78,14 @@ private struct ReportExecutiveHero: View {
                 stat("\(report.recordedDays.count) / \(data.elapsedDays)","report.recordedDays").accessibilityIdentifier("report.coverage.days")
                 stat(String(data.areas.filter { !$0.report.recordedDays.isEmpty }.count)+" / 8","report.areas.recorded")
             }
+            Text(store.t("report.areas.recorded.help")).font(.caption).fixedSize(horizontal:false,vertical:true)
             if report.planned > 0 {
                 ProgressView(value:Double(report.completed),total:Double(report.planned)).tint(Color.white)
                     .accessibilityLabel(store.t("report.steps")).accessibilityValue("\(report.completed) / \(report.planned)")
                 Text("\(report.completed) / \(report.planned) "+store.t("tasks.completed")).font(.caption)
+                DisclosureGroup(store.t("report.formula")) {
+                    Text(store.t("statistics.formula")).font(.caption).fixedSize(horizontal:false,vertical:true)
+                }.tint(.white)
             }
         }.padding(24).frame(maxWidth:.infinity,alignment:.leading)
             .foregroundStyle(.white)

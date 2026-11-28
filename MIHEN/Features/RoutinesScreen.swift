@@ -185,6 +185,17 @@ struct WeeklyPlanScreen: View {
                 NavigationLink(destination:WeeklyFocusEditor(week:selected)) { Text(store.t("week.focus.select")) }
                 NavigationLink(destination:CapacityScreen()) { Text(store.t("capacity.title")) }.accessibilityIdentifier("weekly.capacity")
             }
+            Section(store.t("week.review.title")) {
+                let loads = days.map { store.engine.workload(store.data, on: $0) }
+                let overloaded = loads.filter { $0.excess > 0 }.count
+                let unknown = loads.reduce(0) { $0 + $1.unknown }
+                if loads.contains(where: { $0.capacity != nil }) {
+                    Text(store.t("week.review.overloaded") + ": \(overloaded)")
+                } else { Text(store.t("week.review.noCapacity")) }
+                if unknown > 0 { Text(store.t("week.withoutTime") + ": \(unknown)") }
+                Text(store.t("week.review.help")).font(.footnote).foregroundStyle(.secondary)
+                Button(store.t("week.decide")) { deciding = true }.accessibilityIdentifier("weekly.review")
+            }
             Section {
                 DisclosureGroup(store.t("week.time.details")) {
                     let workloads = days.map { store.engine.workload(store.data, on: $0) }
@@ -217,7 +228,6 @@ struct WeeklyPlanScreen: View {
                 } header: { Text(day, format: .dateTime.weekday(.wide).day().month()) }
             }
             Section {
-                Button(store.t("week.decide")) { deciding = true }
                 DisclosureGroup(store.t("week.backlog")) {
                     let lower = store.engine.key(store.engine.addingDays(-30, to: days[0]))
                     let upper = min(store.engine.key(days[0]), store.engine.key(Date()))
