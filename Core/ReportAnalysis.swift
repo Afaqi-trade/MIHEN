@@ -62,9 +62,15 @@ extension PlanningEngine {
         case "report.reviews": dates=data.memorizationReviews.map(\.date)
         case "report.fasts": dates=data.fasts.filter { $0.status == "completed" }.map(\.date)
         case "dhikr": dates=data.dhikr.filter { $0.value > 0 }.compactMap { date($0.day) }
+        case "report.qada.added":
+            dates=data.activities.filter { $0.domainID == metric.domainID && $0.unit == metric.unit && $0.kind == "qadaDebt" }.map(\.date)
+        case "report.qada.done":
+            dates=data.activities.filter { $0.domainID == metric.domainID && $0.unit == metric.unit && $0.kind == "qadaDone" }.map(\.date)
+        case "report.qada.opening", "report.qada.closing":
+            dates=data.activities.filter { $0.domainID == metric.domainID && $0.unit == metric.unit && ["qadaDebt", "qadaDone"].contains($0.kind) }.map(\.date)
         default:
             dates=data.effectiveActivities(engine:self).filter {
-                $0.domainID == metric.domainID && $0.unit == metric.unit && ("activity."+$0.kind == metric.key || (metric.key.hasPrefix("report.qada.") && ["qadaDebt","qadaDone"].contains($0.kind)))
+                $0.domainID == metric.domainID && $0.unit == metric.unit && "activity."+$0.kind == metric.key
             }.map(\.date)
         }
         return Set(dates.filter { $0 >= interval.start && $0 < interval.end }.map { key($0) }).count

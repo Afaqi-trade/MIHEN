@@ -3,6 +3,26 @@ import XCTest
 
 final class ReportAnalysisTests: XCTestCase {
     let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Berlin")!)
+    func testQadaMetricCoverageDoesNotMixDebtAndCompletedPrayerDays() throws {
+        let start = engine.date("2026-11-08")!
+        let previous = engine.addingDays(-7, to: start)
+        var data = BackupDocument.fresh()
+        for offset in 0..<3 {
+            data.activities.append(.init(domainID: "spiritual", date: engine.addingDays(offset, to: start), kind: "qadaDebt", amount: 2, unit: "fajr"))
+            data.activities.append(.init(domainID: "spiritual", date: engine.addingDays(offset, to: previous), kind: "qadaDebt", amount: 1, unit: "fajr"))
+        }
+        data.activities.append(.init(domainID: "spiritual", date: start, kind: "qadaDone", amount: 1, unit: "fajr"))
+        data.activities.append(.init(domainID: "spiritual", date: previous, kind: "qadaDone", amount: 1, unit: "fajr"))
+        let result = engine.analyzeReport(data, interval: .init(start: start, end: engine.addingDays(7, to: start)), component: .day)
+        let done = result.comparisons.first { $0.metric.key == "report.qada.done" && $0.metric.unit == "fajr" }!
+        let added = result.comparisons.first { $0.metric.key == "report.qada.added" && $0.metric.unit == "fajr" }!
+        XCTAssertEqual(done.currentDays, 1)
+        XCTAssertEqual(done.previousDays, 1)
+        XCTAssertNil(done.difference)
+        XCTAssertEqual(added.currentDays, 3)
+        XCTAssertEqual(added.previousDays, 3)
+        XCTAssertEqual(added.difference, 3)
+    }
     func testEqualDayComparisonCrossesDSTAndMissingIsNotZero() throws {
         let end=engine.date("2026-03-31")!,start=engine.date("2026-03-28")!
         let interval=DateInterval(start:start,end:end),prior=engine.previousEqualInterval(.init(start:start,end:end))
