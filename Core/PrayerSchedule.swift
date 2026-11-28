@@ -19,6 +19,16 @@ public struct PrayerSettings: Codable, Equatable, Sendable {
         formatter.dateFormat = "HH:mm"
         return formatter.string(from: date)
     }
+    /// Times at which today's widget content can change, including local midnight.
+    public func widgetTimelineDates(from now: Date) -> [Date] {
+        guard let zone = TimeZone(identifier: timeZoneID) else { return [now] }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = zone
+        let start = calendar.startOfDay(for: now)
+        guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: start) else { return [now] }
+        let changes = schedule(on: now).map(\.date).filter { $0 > now && $0 < tomorrow }
+        return Array(Set([now, tomorrow] + changes)).sorted()
+    }
     public func schedule(on date: Date) -> [(key: String, date: Date)] {
         guard latitude.isFinite, longitude.isFinite, abs(latitude) <= 90, abs(longitude) <= 180,
               let zone = TimeZone(identifier: timeZoneID), let method = CalculationMethod(rawValue: method), method != .other,

@@ -50,13 +50,22 @@ struct MIHENWidget: Widget {
 
 struct PrayerEntry: TimelineEntry {
     let date: Date
+    let settings: PrayerSettings
+    let isDefault: Bool
 }
 struct PrayerProvider: TimelineProvider {
-    func placeholder(in context: Context) -> PrayerEntry { .init(date: Date()) }
-    func getSnapshot(in context: Context, completion: @escaping (PrayerEntry) -> Void) { completion(.init(date: Date())) }
+    private func entry(at date: Date) -> PrayerEntry {
+        let saved = PrayerSettingsStore.read()
+        return .init(date: date, settings: saved ?? .init(latitude: 41.0082, longitude: 28.9784, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false), isDefault: saved == nil)
+    }
+    func placeholder(in context: Context) -> PrayerEntry { entry(at: Date()) }
+    func getSnapshot(in context: Context, completion: @escaping (PrayerEntry) -> Void) { completion(entry(at: Date())) }
     func getTimeline(in context: Context, completion: @escaping (Timeline<PrayerEntry>) -> Void) {
         let now = Date()
-        completion(.init(entries: [.init(date: now)], policy: .after(now.addingTimeInterval(900))))
+        let initial = entry(at: now)
+        let dates = initial.settings.widgetTimelineDates(from: now)
+        let entries = dates.map { PrayerEntry(date: $0, settings: initial.settings, isDefault: initial.isDefault) }
+        completion(.init(entries: entries, policy: .after(dates.last ?? now)))
     }
 }
 struct PrayerWidget: Widget {
@@ -71,14 +80,27 @@ struct PrayerWidget: Widget {
 struct PrayerWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: PrayerEntry
-    private var settings: PrayerSettings {
-        PrayerSettingsStore.read() ?? .init(latitude: 41.0082, longitude: 28.9784, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false)
+    private var settings: PrayerSettings { entry.settings }
+    private var city: String? { PrayerCity.match(latitude: settings.latitude, longitude: settings.longitude, zone: settings.timeZoneID)?.name }
+    private var day: String {
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = TimeZone(identifier: settings.timeZoneID)
+        formatter.setLocalizedDateFormatFromTemplate("d MMM")
+        return formatter.string(from: entry.date)
     }
     var body: some View {
         let schedule = settings.schedule(on: entry.date)
         let next = schedule.first { $0.key != "sunrise" && $0.date > entry.date }?.key
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(LocalizedStringKey("prayer.times")).font(.headline).lineLimit(1).minimumScaleFactor(0.8)
+            HStack(spacing: 3) {
+                if let city { Text(city).lineLimit(1) } else { Text(LocalizedStringKey("prayer.city.manual")).lineLimit(1) }
+                if entry.isDefault { Text(LocalizedStringKey("prayer.widget.default")) }
+                Spacer(minLength: 2)
+                Text(day).fixedSize()
+            }.font(.caption2).foregroundStyle(.white.opacity(0.85)).accessibilityElement(children: .combine)
             if schedule.isEmpty {
                 Text(LocalizedStringKey("prayer.unavailable")).font(.caption)
             } else if family == .systemSmall {

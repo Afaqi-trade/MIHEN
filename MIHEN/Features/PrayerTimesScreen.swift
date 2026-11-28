@@ -22,6 +22,7 @@ struct PrayerTimesScreen: View {
         Form {
             Section(store.t("prayer.times")) {
                 Text(cityLabel).font(.headline)
+                if persisted == nil { Text(store.t("prayer.widget.default.explanation")).font(.caption).foregroundStyle(.secondary) }
                 Text(store.t(persisted == settings ? "prayer.location.saved" : "prayer.location.preview")).font(.caption).foregroundStyle(.secondary)
                 DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
                 let schedule = settings.schedule(on: date)

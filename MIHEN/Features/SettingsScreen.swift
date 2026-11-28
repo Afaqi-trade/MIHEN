@@ -84,6 +84,7 @@ struct SettingsScreen: View {
             Section(store.t("data")) {
                 if lastExport > 0 { Text(store.t("backup.lastExport")); Text(Date(timeIntervalSince1970: lastExport), format: .dateTime.day().month().year().hour().minute()) }
                 else { Text(store.t("backup.none")) }
+                Text(store.t("backup.location.notice")).font(.footnote).foregroundStyle(.secondary)
                 if exportSucceeded { Text(store.t("backup.exported")).foregroundStyle(Color.mihenGreen) }
                 Button(store.t("export.json")) { export(.json) }.buttonStyle(.borderedProminent)
                 DisclosureGroup(store.t("backup.details")) {
@@ -150,6 +151,7 @@ struct SettingsScreen: View {
                     if store.change({ $0 = .fresh() }) {
                         try? FileManager.default.removeItem(at: RecoveryBackup.url)
                         PrayerSettingsStore.clear()
+                        WidgetCenter.shared.reloadAllTimelines()
                         lastExport = 0
                         exportSucceeded = false
                         store.lastProgressChange = nil

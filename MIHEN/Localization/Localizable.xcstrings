@@ -1,6 +1,54 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "backup.location.notice": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yedeğin nerede saklandığını uygulama göremez. Dosyalar'da seçtiğiniz konumu kontrol edin; dışa aktarmak otomatik yedekleme değildir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app cannot see where your backup is stored. Check the location you chose in Files; exporting is not automatic backup."
+          }
+        }
+      }
+    },
+    "prayer.widget.default": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "varsayılan"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "default"
+          }
+        }
+      }
+    },
+    "prayer.widget.default.explanation": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan konum İstanbul'dur. Widget konumunu değiştirmek için şehir seçip ayarları kaydedin."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The default location is Istanbul. To change the widget location, choose a city and save the settings."
+          }
+        }
+      }
+    },
     "source.replacement": {
       "localizations": {
         "tr": {

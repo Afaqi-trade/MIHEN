@@ -1,6 +1,9 @@
 from pathlib import Path
 import json,re
-rows='''source.replacement|Görev miktarı değişikliği|Task amount change
+rows='''backup.location.notice|Yedeğin nerede saklandığını uygulama göremez. Dosyalar'da seçtiğiniz konumu kontrol edin; dışa aktarmak otomatik yedekleme değildir.|The app cannot see where your backup is stored. Check the location you chose in Files; exporting is not automatic backup.
+prayer.widget.default|varsayılan|default
+prayer.widget.default.explanation|Varsayılan konum İstanbul'dur. Widget konumunu değiştirmek için şehir seçip ayarları kaydedin.|The default location is Istanbul. To change the widget location, choose a city and save the settings.
+source.replacement|Görev miktarı değişikliği|Task amount change
 source.amount.readonly|Bu miktar bağlı kaynaktan güncellenir. Bağımsız giriş için önce kayıt bağlantısını ayır.|This amount follows the linked source. Disconnect the source before entering an independent amount.
 example.navtitle|Başlangıç örneği|Starting example
 report.capacity.setup|Haftanın kapasitesini belirle|Set your weekly capacity
