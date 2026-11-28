@@ -4,11 +4,11 @@
 
 SwiftUI / SwiftData / Swift Charts; minimum iOS 18, Swift 6. `MIHEN.xcodeproj` uygulama, WidgetKit ve DeviceActivity monitor uzantıları, XCTest ve XCUITest hedeflerini içerir. Harici paket veya sunucu bağımlılığı yoktur.
 
-**Durum:** Geliştirme sürümü. 20 Kasım yol haritası doğrulamasında Xcode 26.6 ile uygulama ve uzantılar derlendi; `44304066244` koşusunda **100/0** (92 birim/kalıcılık + 8 gerçek UI akışı) geçti. Kaynak bağlantısı, kapasite/rutin/beslenme, yönetici raporu, büyük yazı ve yeni modül akışları bu koşuda kanıtlandı. Tam 19 UI akışını çalıştıran geniş koşu ayrıca sürmektedir; tamamlanmadan tam matris başarılı sayılmaz. [Commit, kapsam ve kanıtlar](docs/TEST_REPORT.md). Apple Developer üyeliği, ürün kimlikleri, App Group, dağıtım profilleri ve imzalı IPA doğrulandı. Güncel paket **1.0.0 (3)**, Health kullanım açıklaması ve widget görünen adı ile yeniden dışa aktarıldı; fiziksel iPhone/TestFlight kabulü henüz tamamlanmadı.
+**Durum:** Geliştirme sürümü. Kullanıcı uygulamanın kendi iPhone'unda açıldığını, takvimden namaz vakitlerine ulaşabildiğini ve önceki widget'ta altı vaktin okunabildiğini bildirdi. Bu, bütün özelliklerin fiziksel cihaz kabulü değildir. `9e41306` için 28 Kasım namaz odaklı uzak koşuda **95/0** geçti; daha yeni kaynak ve geniş akışlar için sonuçlar [test raporunda](docs/TEST_REPORT.md) ayrı izlenir. Yeni widget'ın şehir/tarih yerleşimi, iOS'un yenileme davranışı ve Screen Time'ın gerçek cihazdaki kısıtlama akışı ayrıca doğrulanmalıdır.
 
 ## Çalıştırma
 
-Ana doğrulama yolu GitHub Actions üzerindeki uzak Mac’tir; yerel macOS 14.6.1 / CLT ortamı çekirdeği çalıştırır. Tam Xcode bulunan bir Mac’te projeyi açıp MIHEN scheme ve iPhone simülatörünü seçebilirsiniz. Uygulama hesapsız ve boş başlangıçla açılır; şablonlar tek tek açık seçimle eklenir.
+Ana doğrulama yolu GitHub Actions üzerindeki uzak Mac’tir; tam Xcode kurulu yerel Mac'te MIHEN scheme ve iPhone simülatörüyle de derlenebilir. Uygulama hesapsız ve boş başlangıçla açılır; şablonlar tek tek açık seçimle eklenir.
 
 ```sh
 swift build
@@ -43,7 +43,7 @@ Model üretimi: `python3 Scripts/generate_codec.py`; çeviri: `python3 Scripts/l
 
 Ekran Süresi: Profil → Uygulama süre sınırı. Seçili uygulama/kategori/web sitelerine ortak günlük bütçe; eşikte sistem kısıtı; Face ID/cihaz parolasıyla 15/30/60 dakika geçici erişim ve bitişte yeniden kısıtlama. Uygulama ve monitor için Family Controls + ortak App Group provisioning gerekir. Gerçek iPhone kabulü ve yayıncı yetkileri henüz tamamlanmadı. [Kullanım ve cihaz kabul adımları](docs/SCREEN_TIME_TR.md).
 
-TestFlight başlangıcı: [Hesap sahibinin adımları](docs/TESTFLIGHT_OWNER_STEPS_TR.md). Gerçek Team/Bundle/App Group kimlikleriyle imzalı IPA teknik olarak doğrulandı; workflow Apple'a yükleme yapmaz. App Store Connect kaydı açıldı. Önceki Build 2 süresi doldu; sıradaki kapı güncel Build 3 IPA'nın yetkili hesap sahibi tarafından yüklenmesi, Apple işleme ve fiziksel iPhone kabulüdür. [Family Controls başvuru kaydı](docs/APPLE_FAMILY_CONTROLS_REQUEST.md).
+TestFlight başlangıcı: [Hesap sahibinin adımları](docs/TESTFLIGHT_OWNER_STEPS_TR.md). İmzalı paket hazırlığı workflow'u Apple'a kendiliğinden yükleme yapmaz. Önceki App Store Connect yükleme ve inceleme denemeleri ile Family Controls uyarıları gerçek dağıtım kabulü yerine geçmez; güncel imzalı paket ve Apple'ın inceleme durumu ayrıca kontrol edilmelidir. [Family Controls başvuru kaydı](docs/APPLE_FAMILY_CONTROLS_REQUEST.md).
 
 16 Kasım ürün incelemesi: birim tutarlı hedef dağılımı ve aşamalar; geçmişi koruyan rutin duraklatma; kaynakları ayrı hedef/Sağlık katkıları; namaz ayarını kapsayan sürümlü yedek; kısmi emeği gösteren Bugün ve geri alma; üç aşamalı açık şablon seçimi; haftalık kararlar; kapsamı seçilen PDF/CSV raporları; yardım ve büyük yazıya uyarlanan yerleşim. [Önceliklere göre uygulama haritası](docs/PRODUCT_REVIEW_IMPLEMENTATION.md), [ilk iPhone/kullanıcı deneme protokolü](docs/USABILITY_ACCEPTANCE_TR.md). Mevcut sekiz alan ve local-first yapı korunur; 17 Kasım geliştirmesinde V1 sabit tutularak ek varlıklar için V2 migration eklendi.
 
