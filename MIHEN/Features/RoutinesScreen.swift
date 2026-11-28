@@ -173,10 +173,11 @@ struct WeeklyPlanScreen: View {
             }
             Section {
                 DisclosureGroup(store.t("week.time.details")) {
-                    let minutes = rows.filter { $0.unit == "minutes" }.reduce(0) { $0 + $1.target }
+                    let workloads = days.map { store.engine.workload(store.data, on: $0) }
+                    let minutes = workloads.reduce(0.0) { $0 + $1.minutes }
                     Text(store.t("week.knownTime") + ": " + minutes.formatted(.number.locale(store.locale)) + " " + store.t("minutes"))
-                    Text(store.t("week.withoutTime") + ": \(rows.filter { $0.unit != "minutes" }.count)").font(.caption)
-                }
+                    Text(store.t("week.withoutTime") + ": \(workloads.reduce(0) { $0 + $1.unknown })").font(.caption)
+                }.accessibilityIdentifier("weekly.time.details")
             }
             Section(store.t("week.intention")) {
                 TextField(store.t("week.intention.help"), text: $weeklyNote, axis: .vertical).accessibilityIdentifier("weekly.note")
