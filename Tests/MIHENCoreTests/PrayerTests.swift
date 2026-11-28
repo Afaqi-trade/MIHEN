@@ -29,6 +29,24 @@ final class PrayerTests: XCTestCase {
             XCTAssertTrue(abs(item.date.timeIntervalSince(expected)) <= 120)
         }
     }
+    func testSummerAndSecondCityAgainstPublishedCalendarSamples() throws {
+        let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+        // Independent published calendar samples; the comparison does not establish official status.
+        let samples: [(Double, Double, String, [(Int, Int)])] = [
+            (41.0082, 28.9784, "2026-06-15", [(3,24),(5,24),(13,10),(17,9),(20,45),(22,36)]),
+            (38.4237, 27.1428, "2026-11-15", [(6,21),(7,46),(13,1),(15,43),(18,6),(19,26)])
+        ]
+        for (latitude, longitude, day, reference) in samples {
+            let date = engine.date(day)!
+            let settings = PrayerSettings(latitude: latitude, longitude: longitude, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false)
+            let actual = settings.schedule(on: date)
+            XCTAssertEqual(actual.count, reference.count)
+            for (index, item) in actual.enumerated() {
+                let expected = engine.calendar.date(bySettingHour: reference[index].0, minute: reference[index].1, second: 0, of: date)!
+                XCTAssertTrue(abs(item.date.timeIntervalSince(expected)) <= 120)
+            }
+        }
+    }
     func testAnkaraReferenceAndMadhabDifference() throws {
         let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
         let day = engine.date("2019-01-01")!
