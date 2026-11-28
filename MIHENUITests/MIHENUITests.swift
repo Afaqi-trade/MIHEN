@@ -175,7 +175,10 @@ final class MIHENUITests: XCTestCase {
         reveal(reviewRow,in:app);reviewRow.coordinate(withNormalizedOffset:CGVector(dx:0.9,dy:0.5)).tap()
         XCTAssertEqual(reviewRow.value as? String,"1")
         XCTAssertTrue(app.staticTexts["weekly.review.selected"].exists)
-        tap(app.buttons["Vazgeç"],in:app)
+        let closeReview = app.buttons["weekly.review.close"]
+        XCTAssertTrue(closeReview.waitForExistence(timeout: 5))
+        closeReview.tap()
+        XCTAssertTrue(app.buttons["weekly.review"].waitForExistence(timeout: 5))
         tap(app.buttons["weekly.capacity"],in:app)
         replace(app.textFields["capacity.day.2"],with:"30")
         capture(app,name:"MIHEN-Capacity-TR")

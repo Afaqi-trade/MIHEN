@@ -37,7 +37,7 @@ struct WeeklyDecisionScreen: View {
                 if let error { Text(store.t(error)).font(.footnote) }
                 Button(store.t("week.decide.apply")) { confirmation = true }.disabled(selected.isEmpty || error != nil)
             }.navigationTitle(store.t("week.decide"))
-                .toolbar { Button(store.t("cancel")) { dismiss() } }
+                .toolbar { Button(store.t("cancel")) { dismiss() }.accessibilityIdentifier("weekly.review.close") }
                 .confirmationDialog(store.t("week.decide.confirm"),isPresented:$confirmation) {
                     Button(store.t("week.decide.apply")) { if store.change({ $0 = try proposed($0) }) { dismiss() } }
                 }

@@ -26,6 +26,7 @@ on:
           - prayer
           - research
           - planning-calendar
+          - weekly-regression
 defaults:
   run:
     shell: bash
