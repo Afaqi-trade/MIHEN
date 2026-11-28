@@ -161,6 +161,6 @@ private struct FirstPlanningWeekSection: View {
                 }
                 Text(totalText).font(.footnote).accessibilityIdentifier("goal.firstWeek.total")
             }
-        }.accessibilityIdentifier("goal.firstWeek")
+        }
     }
 }
