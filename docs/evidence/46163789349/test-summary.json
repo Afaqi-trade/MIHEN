@@ -1,0 +1,53 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "x86_64",
+        "deviceId" : "A6574FEC-AE06-46C2-92CC-F2BBAB2A5601",
+        "deviceName" : "iPhone 17 Pro",
+        "modelName" : "iPhone 17 Pro",
+        "osBuildNumber" : "23E254a",
+        "osVersion" : "26.4.1",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 1,
+      "passedTests" : 99,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "MIHEN · Built with macOS 26.6.1",
+  "expectedFailures" : 0,
+  "failedTests" : 1,
+  "finishTime" : 1795884013.424,
+  "passedTests" : 99,
+  "result" : "Failed",
+  "skippedTests" : 0,
+  "startTime" : 1795882488.33,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "XCTAssertTrue failed",
+      "targetName" : "MIHENUITests",
+      "testIdentifier" : 99,
+      "testIdentifierString" : "MIHENUITests/testOnboardingStartsWithOneStepWithoutExamples()",
+      "testIdentifierURL" : "test://com.apple.xcode/MIHEN/MIHENUITests/MIHENUITests/testOnboardingStartsWithOneStepWithoutExamples",
+      "testName" : "testOnboardingStartsWithOneStepWithoutExamples()"
+    }
+  ],
+  "title" : "Test - MIHEN",
+  "topInsights" : [
+    {
+      "category" : "Longest Test Runs",
+      "impact" : "65% of duration",
+      "text" : "1 longest test run with outlier durations exceeding 6.71s (three standard deviations)"
+    }
+  ],
+  "totalTestCount" : 100
+}
