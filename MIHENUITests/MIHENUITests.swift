@@ -7,7 +7,7 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Küçük sayı Hicri günü gösterir. Tarihler hesaplamaya ve ayarlarınıza göre değişebilir."].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "Hicri takvim:")).firstMatch.exists)
         capture(app, name: "MIHEN-Calendar-Hijri-Month-TR")
-        tap(app.buttons["Hafta"], in: app)
+        tap(app.buttons["Haftalık"], in: app)
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "Hicri takvim:")).firstMatch.waitForExistence(timeout: 5))
         capture(app, name: "MIHEN-Calendar-Hijri-Week-TR")
     }
