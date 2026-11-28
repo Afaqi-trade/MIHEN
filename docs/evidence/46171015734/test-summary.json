@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "x86_64",
+        "deviceId" : "B0A33990-66D4-46C7-BF3D-1C53C803C8B6",
+        "deviceName" : "MIHEN Small Accessibility",
+        "modelName" : "iPhone SE (3rd generation)",
+        "osBuildNumber" : "23E254a",
+        "osVersion" : "26.4.1",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 0,
+      "passedTests" : 101,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "MIHEN · Built with macOS 26.6.1",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1795888329.53,
+  "passedTests" : 101,
+  "result" : "Passed",
+  "skippedTests" : 0,
+  "startTime" : 1795887914.596,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - MIHEN",
+  "topInsights" : [
+    {
+      "category" : "Longest Test Runs",
+      "impact" : "81% of duration",
+      "text" : "1 longest test run with outlier durations exceeding 6.73s (three standard deviations)"
+    }
+  ],
+  "totalTestCount" : 101
+}
