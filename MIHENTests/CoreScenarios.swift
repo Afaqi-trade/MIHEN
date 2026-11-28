@@ -569,6 +569,26 @@ import XCTest
 @testable import MIHEN
 
 final class PrayerTests: XCTestCase {
+    func testIstanbulAgainstDiyanetPublishedWinterDates() throws {
+        let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Istanbul")!)
+        let settings = PrayerSettings(latitude: 41.0082, longitude: 28.9784, timeZoneID: "Europe/Istanbul", method: "turkey", hanafi: false)
+        // Published 2026 schedule, retrieved 29 November 2026. This is a limited
+        // reference comparison, not a claim of official Diyanet data integration.
+        // https://namazvakitleri.diyanet.gov.tr/tr-TR/9541/istanbul-icin-namaz-vakti
+        let samples: [(String, [(Int, Int)])] = [
+            ("2026-11-29", [(6,30),(8,0),(12,57),(15,23),(17,44),(19,9)]),
+            ("2026-12-21", [(6,46),(8,18),(13,7),(15,25),(17,46),(19,12)])
+        ]
+        for (day, reference) in samples {
+            let date = engine.date(day)!
+            let actual = settings.schedule(on: date)
+            XCTAssertEqual(actual.count, reference.count)
+            for (index, item) in actual.enumerated() {
+                let expected = engine.calendar.date(bySettingHour: reference[index].0, minute: reference[index].1, second: 0, of: date)!
+                XCTAssertLessThanOrEqual(abs(item.date.timeIntervalSince(expected)), 120, "\(day) prayer \(index)")
+            }
+        }
+    }
     func testPolarDayAndNightAreNotInvented() throws {
         let engine = PlanningEngine(timeZone: TimeZone(identifier: "Europe/Oslo")!)
         let settings = PrayerSettings(latitude: 78.2232, longitude: 15.6469, timeZoneID: "Europe/Oslo", method: "muslimWorldLeague", hanafi: false)
