@@ -5,6 +5,7 @@ struct RootView: View {
     @State private var tab = 0
     @State private var prayers = false
     @State private var quickTask = false
+    @State private var quickTaskAfterOnboarding = false
     @State private var waterEntry=false
     @State private var widgetDay: String?
     @Environment(\.scenePhase) private var scenePhase
@@ -19,7 +20,14 @@ struct RootView: View {
                         NavigationStack { ProgressScreen() }.tabItem { Label(store.t("progress"), systemImage: "chart.bar") }.tag(3)
                         NavigationStack { SettingsScreen() }.tabItem { Label(store.t("profile"), systemImage: "person") }.tag(4)
                     }
-                } else { OnboardingView(startQuickTask: { quickTask = true }) }
+                } else { OnboardingView(startQuickTask: { name in
+                    quickTaskAfterOnboarding = true
+                    if !store.change({ data in
+                        data.preferences[0].name = name
+                        data.preferences[0].onboarded = true
+                        for i in data.domains.indices { data.domains[i].enabled = true }
+                    }) { quickTaskAfterOnboarding = false }
+                }) }
             }
             .id(store.locked)
             .disabled(store.locked)
@@ -61,6 +69,12 @@ struct RootView: View {
             if phase == .background && store.preferences.lockEnabled { prayers = false; quickTask = false;waterEntry=false; store.locked = true }
             if phase == .active { ScreenTimeController.reconcileOnForeground(); if !store.locked { store.refresh() } }
         }
+        .onChange(of: store.preferences.onboarded) { _, onboarded in
+            if onboarded && quickTaskAfterOnboarding {
+                quickTaskAfterOnboarding = false
+                quickTask = true
+            }
+        }
     }
     private var lockView: some View {
         VStack(spacing: 24) {
@@ -79,7 +93,7 @@ struct RootView: View {
 
 struct OnboardingView: View {
     @Environment(AppStore.self) private var store
-    var startQuickTask: () -> Void = {}
+    var startQuickTask: (String) -> Void = { _ in }
     @State private var name = ""
     @State private var selected = Set<String>()
     @State private var templates = Set<String>()
@@ -100,10 +114,7 @@ struct OnboardingView: View {
                         TextField(store.t("name"), text: $name).textContentType(.givenName)
                         Text(store.t("welcome.privacy")).font(.body).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("onboarding.privacy")
                         Button(store.t("onboarding.quick.start")) {
-                            templates = []
-                            selected = Set(LifeArea.allCases.map(\.rawValue))
-                            finish()
-                            if store.preferences.onboarded { startQuickTask() }
+                            startQuickTask(name)
                         }.accessibilityIdentifier("onboarding.quick.start")
                         Text(store.t("onboarding.quick.help")).font(.footnote).foregroundStyle(.secondary)
                     }
