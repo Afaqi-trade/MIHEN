@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "nutrition.noRecord": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt yok"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No record"
+          }
+        }
+      }
+    },
     "report.areas.recorded.help": {
       "localizations": {
         "tr": {

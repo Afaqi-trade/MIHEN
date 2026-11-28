@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
-rows='''report.areas.recorded.help|Kayıt bulunan alan sayısı bir hedef veya başarı puanı değildir.|The number of areas with records is not a target or a measure of success.
+rows='''nutrition.noRecord|Kayıt yok|No record
+report.areas.recorded.help|Kayıt bulunan alan sayısı bir hedef veya başarı puanı değildir.|The number of areas with records is not a target or a measure of success.
 nutrition.summary.limit|Egzersiz enerjisi günlük toplam harcama değildir; kayıt olmayan veri sıfır tüketim anlamına gelmez.|Exercise energy is not total daily expenditure; missing records do not mean zero intake.
 planning.firstWeek|İlk 7 günlük öneri|Your first 7 days
 planning.firstWeek.help|Başlangıç tarihinden sonraki ilk yedi gün gösterilir. Bu yalnızca öneridir; onay vermeden görev oluşturulmaz.|The first seven days from your start date are shown. This is only a proposal; no tasks are created until you confirm.

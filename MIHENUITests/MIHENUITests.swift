@@ -193,7 +193,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["nutrition.plan.add"],in:app)
         replace(app.textFields["nutrition.plan.amount"],with:"500")
         app.buttons["nutrition.plan.save"].tap()
-        XCTAssertTrue(app.staticTexts["Planlanan: 500 · Gerçekleşen: 0 kcal"].waitForExistence(timeout:5))
+        XCTAssertTrue(app.staticTexts["Planlanan: 500 kcal · Gerçekleşen: Kayıt yok"].waitForExistence(timeout:5))
         capture(app,name:"MIHEN-Nutrition-Planning-TR")
     }
     @MainActor func testExecutiveReportAndOfflineCityGallery() throws {
@@ -338,6 +338,7 @@ final class MIHENUITests: XCTestCase {
         let app = start(persistent: true)
         app.tabBars.buttons["Plan"].tap()
         tap(app.buttons["Beslenme ve hareket"], in: app)
+        XCTAssertTrue(app.staticTexts["Alınan enerji: Kayıt yok"].exists)
         replace(app.textFields["amount"], with: "450")
         tap(app.buttons["Kaydet"], in: app)
         reveal(app.staticTexts["Alınan enerji: 450 kcal"],in:app)

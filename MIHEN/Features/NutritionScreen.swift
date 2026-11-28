@@ -25,10 +25,10 @@ struct NutritionScreen: View {
             NavigationLink(destination: HealthSummaryScreen()) { Text(store.t("health.connection")) }
             DatePicker(store.t("date"), selection: $date, displayedComponents: .date)
             Section(store.t("nutrition.summary")) {
-                Text(store.t("activity.food") + ": " + total("food").formatted(.number.locale(store.locale)) + " kcal")
-                Text(store.t("activity.energyBurned") + ": " + total("energyBurned").formatted(.number.locale(store.locale)) + " kcal")
-                Text(store.t("activity.water") + ": " + total("water").formatted(.number.locale(store.locale)) + " ml")
-                Text(store.t(usesHealth ? "health.source" : "manual.source")).font(.caption)
+                Text(summaryLine("food", unit: "kcal"))
+                Text(summaryLine("energyBurned", unit: "kcal"))
+                if rows.contains(where: { $0.kind == "energyBurned" }) { Text(store.t(usesHealth ? "health.source" : "manual.source")).font(.caption) }
+                Text(summaryLine("water", unit: "ml"))
                 Text(store.t("nutrition.summary.limit")).font(.footnote).foregroundStyle(.secondary)
                 DisclosureGroup(store.t("report.formula")) { Text(store.t("nutrition.explanation")).font(.footnote) }
             }
@@ -95,11 +95,15 @@ struct NutritionScreen: View {
             .sheet(item:$editing) { NutritionEntryEditor(record:$0) }
             .sheet(item:$plan) { NutritionPlanEditor(record:$0) }
     }
+    private func summaryLine(_ kind: String, unit: String) -> String {
+        let value = rows.contains { $0.kind == kind } ? total(kind).formatted(.number.locale(store.locale)) + " " + unit : store.t("nutrition.noRecord")
+        return store.t("activity." + kind) + ": " + value
+    }
     private func plannedLine(_ kind: String, planned: Double) -> String {
         let plannedText=planned.formatted(.number.locale(store.locale))
-        let actualText=total(kind).formatted(.number.locale(store.locale))
         let unit=kind == "water" ? "ml" : "kcal"
-        return store.t("nutrition.planned")+": "+plannedText+" · "+store.t("nutrition.actual")+": "+actualText+" "+unit
+        let actualText=rows.contains { $0.kind == kind } ? total(kind).formatted(.number.locale(store.locale))+" "+unit : store.t("nutrition.noRecord")
+        return store.t("nutrition.planned")+": "+plannedText+" "+unit+" · "+store.t("nutrition.actual")+": "+actualText
     }
     private func recentLabel(_ row: DomainActivityRecord) -> String {
         let name=store.data.activityAnnotations.first { $0.activityID == row.id }?.title ?? ""
