@@ -511,6 +511,9 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(completed.waitForExistence(timeout: 10))
         tap(completed, in: app)
         XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 1"].waitForExistence(timeout: 10))
+        replace(app.textFields["tracker.title"], with: "Baska oruc plani")
+        tap(app.buttons["fast.add"], in: app)
+        XCTAssertTrue(app.staticTexts["Planlı kayıtlar: 1"].waitForExistence(timeout: 10))
         capture(app, name: "MIHEN-Fasting-TR")
         app.tabBars.buttons["Takvim"].tap()
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label CONTAINS %@", "Kisisel oruc · Tutuldu")).firstMatch.waitForExistence(timeout: 10))
@@ -521,6 +524,7 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["Günlük"], in: app)
         tap(app.buttons["report.area.spiritual"], in: app)
         XCTAssertTrue(app.descendants(matching: .any)["report.metric.fasts"].firstMatch.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.descendants(matching: .any)["report.metric.fasts.planned"].firstMatch.waitForExistence(timeout: 10))
         capture(app, name: "MIHEN-Daily-Fasting-Report-TR")
     }
     @MainActor func testMemorizationAndNextReview() throws {
