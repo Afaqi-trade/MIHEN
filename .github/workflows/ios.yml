@@ -25,6 +25,7 @@ on:
           - appearance
           - prayer
           - research
+          - planning-calendar
 defaults:
   run:
     shell: bash

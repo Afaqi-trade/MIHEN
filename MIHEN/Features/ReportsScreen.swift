@@ -40,7 +40,7 @@ struct ReportsScreen: View {
     }
     private var controls: some View {
         VStack(alignment:.leading,spacing:12) {
-            Picker(store.t("period"),selection:$period) { ForEach(["week","month","year","report.tenYears"],id:\.self) { Text(store.t($0)).tag($0) } }.pickerStyle(.menu).accessibilityIdentifier("report.period")
+            Picker(store.t("period"),selection:$period) { ForEach(["day","week","month","year","report.tenYears"],id:\.self) { Text(store.t($0)).tag($0) } }.pickerStyle(.menu).accessibilityIdentifier("report.period")
             DatePicker(store.t("report.anchorDate"),selection:$date,in:...Date(),displayedComponents:.date)
         }.mihenCard()
     }
@@ -68,7 +68,7 @@ private struct ReportExecutiveHero: View {
     var body: some View {
         VStack(alignment:.leading,spacing:20) {
             HStack { Label(store.t("report.executive"),systemImage:"sparkle").font(.subheadline.weight(.semibold));Spacer();MihenMotif().stroke(.white.opacity(0.45),lineWidth:1).frame(width:36,height:36).accessibilityHidden(true) }
-            Text(report.recordedDays.isEmpty ? store.t("report.executive.empty") : store.t("report.executive.title")).font(.system(size.isAccessibilitySize ? .title2 : .largeTitle,design:.serif).weight(.semibold)).fontDesign(.serif).fixedSize(horizontal:false,vertical:true)
+            Text(report.recordedDays.isEmpty && report.metrics.isEmpty ? store.t("report.executive.empty") : store.t("report.executive.title")).font(.system(size.isAccessibilitySize ? .title2 : .largeTitle,design:.serif).weight(.semibold)).fontDesign(.serif).fixedSize(horizontal:false,vertical:true)
             Text(dateRange).font(.subheadline)
             if !size.isAccessibilitySize { Text(store.t("report.executive.help")).font(.subheadline).fixedSize(horizontal:false,vertical:true) }
             Divider().overlay(.white.opacity(0.3))

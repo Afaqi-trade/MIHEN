@@ -61,6 +61,10 @@ extension PlanningEngine {
         case "report.reading": dates=data.readings.map(\.date)
         case "report.reviews": dates=data.memorizationReviews.map(\.date)
         case "report.fasts": dates=data.fasts.filter { $0.status == "completed" }.map(\.date)
+        case "report.fasts.planned": dates=data.fasts.filter { $0.status == "planned" }.map(\.date)
+        case "report.nutrition.planned.food", "report.nutrition.planned.water", "report.nutrition.planned.energyBurned":
+            let kind = String(metric.key.dropFirst("report.nutrition.planned.".count))
+            dates=data.nutritionPlans.filter { $0.kind == kind && $0.unit == metric.unit }.map(\.date)
         case "dhikr": dates=data.dhikr.filter { $0.value > 0 }.compactMap { date($0.day) }
         case "report.qada.added":
             dates=data.activities.filter { $0.domainID == metric.domainID && $0.unit == metric.unit && $0.kind == "qadaDebt" }.map(\.date)
@@ -81,7 +85,7 @@ extension PlanningEngine {
         if period == "report.tenYears" {
             let end=calendar.dateInterval(of:.year,for:selected)!.end
             raw = .init(start:calendar.date(byAdding:.year,value:-10,to:end)!,end:end)
-        } else { raw=calendar.dateInterval(of:period == "week" ? .weekOfYear : period == "year" ? .year : .month,for:selected)! }
+        } else { raw=calendar.dateInterval(of:period == "day" ? .day : period == "week" ? .weekOfYear : period == "year" ? .year : .month,for:selected)! }
         return .init(start:raw.start,end:min(raw.end,addingDays(1,to:calendar.startOfDay(for:now))))
     }
 }
@@ -95,6 +99,7 @@ extension BackupDocument {
         result.goalProgress.removeAll { !goals.contains($0.goalID) }
         if !areas.contains("learning") { result.readings=[];result.memorizationReviews=[] }
         if !areas.contains("spiritual") { result.dhikr=[];result.fasts=[] }
+        if !areas.contains("health") { result.nutritionPlans=[] }
         result.journals=includeNotes ? result.journals.filter { $0.domainID.map(areas.contains) ?? false } : []
         let journals=Set(result.journals.map(\.id))
         result.reviewResponses.removeAll { !journals.contains($0.journalID) }

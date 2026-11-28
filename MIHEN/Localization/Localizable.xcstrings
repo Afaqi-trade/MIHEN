@@ -1,6 +1,230 @@
 {
   "sourceLanguage": "tr",
   "strings": {
+    "report.nutrition.planned.food": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planlanan enerji alımı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned energy intake"
+          }
+        }
+      }
+    },
+    "report.nutrition.planned.water": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planlanan su"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned water"
+          }
+        }
+      }
+    },
+    "report.nutrition.planned.energyBurned": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planlanan egzersiz enerjisi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned exercise energy"
+          }
+        }
+      }
+    },
+    "calendar.otherRecords": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer plan ve kayıtlar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other plans and records"
+          }
+        }
+      }
+    },
+    "calendar.recorded": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedildi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recorded"
+          }
+        }
+      }
+    },
+    "calendar.previousMonth": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki ay"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous month"
+          }
+        }
+      }
+    },
+    "calendar.nextMonth": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonraki ay"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next month"
+          }
+        }
+      }
+    },
+    "calendar.hijri.legend": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçük sayı Hicri günü gösterir. Tarihler hesaplamaya ve ayarlarınıza göre değişebilir."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The smaller number is the Hijri day. Dates may vary by calculation and your settings."
+          }
+        }
+      }
+    },
+    "report.fasts.planned": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planlanan oruç kaydı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned fasting entries"
+          }
+        }
+      }
+    },
+    "calendar.fasting": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oruç kayıtları"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fasting entries"
+          }
+        }
+      }
+    },
+    "fast.observed": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutuldu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observed"
+          }
+        }
+      }
+    },
+    "fast.planned": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planlandı"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned"
+          }
+        }
+      }
+    },
+    "week.edit.help": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir görevin adına dokunarak onu taşıyabilir veya bu kez atlayabilirsin. Görev düzenleme sonraki tekrarları etkiler."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a task to move or skip this occurrence. Editing a task affects later occurrences."
+          }
+        }
+      }
+    },
+    "week.addTask": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu güne görev ekle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a task to this day"
+          }
+        }
+      }
+    },
     "notifications.systemDenied": {
       "localizations": {
         "tr": {
@@ -214,7 +438,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kapasitesi aşılmış gün"
+            "value": "Hedef süresi aşılan gün"
           }
         },
         "en": {
@@ -534,7 +758,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Haftanın kapasitesini belirle"
+            "value": "Haftanın hedef süresini belirle"
           }
         },
         "en": {
@@ -678,7 +902,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu hafta kapasitesi aşılmış gün"
+            "value": "Bu hafta hedef süresi aşılan gün"
           }
         },
         "en": {
@@ -2422,7 +2646,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kapasiteyi aşan süre"
+            "value": "Hedef süreyi aşan süre"
           }
         },
         "en": {
@@ -2438,7 +2662,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kapasite"
+            "value": "Planlanan süre / hedef süre"
           }
         },
         "en": {
@@ -2470,7 +2694,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Zaman kapasiteme göre dağıt"
+            "value": "Hedeflediğim süreye göre dağıt"
           }
         },
         "en": {
@@ -2534,7 +2758,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Önce haftalık zaman kapasiteni ve birim başına süreyi belirle."
+            "value": "Önce haftalık hedef süreni ve birim başına süreyi belirle."
           }
         },
         "en": {
@@ -2598,7 +2822,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Her gün planlı işlerin için ayırabileceğin dakikayı gir. 0, o gün yeni iş için zaman ayırmadığın anlamına gelir. Bu bir plan kapasitesidir; gerçekleşen çalışma süresi değildir."
+            "value": "Her gün planlı işlerin için ayırabileceğin dakikayı gir. 0, o gün yeni iş için zaman ayırmadığın anlamına gelir. Bu hedeflenen süredir; gerçekleşen çalışma süresi değildir."
           }
         },
         "en": {
@@ -4710,13 +4934,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tutulan oruç"
+            "value": "Tutulan oruç kaydı"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Completed fasts"
+            "value": "Observed fasting entries"
           }
         }
       }

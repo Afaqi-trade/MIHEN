@@ -585,7 +585,7 @@ final class PrayerTests: XCTestCase {
             XCTAssertEqual(actual.count, reference.count)
             for (index, item) in actual.enumerated() {
                 let expected = engine.calendar.date(bySettingHour: reference[index].0, minute: reference[index].1, second: 0, of: date)!
-                XCTAssertLessThanOrEqual(abs(item.date.timeIntervalSince(expected)), 120, "\(day) prayer \(index)")
+                XCTAssertTrue(abs(item.date.timeIntervalSince(expected)) <= 120)
             }
         }
     }
@@ -783,6 +783,39 @@ import XCTest
 
 final class ReportAnalysisTests: XCTestCase {
     let engine=PlanningEngine(timeZone:TimeZone(identifier:"Europe/Berlin")!)
+    func testDailyReportDistinguishesPlannedAndObservedFasts() throws {
+        let day = engine.date("2026-03-29")!
+        let interval = engine.reportInterval(period: "day", containing: day, now: engine.addingDays(2, to: day))
+        XCTAssertEqual(engine.key(interval.start), "2026-03-29")
+        XCTAssertEqual(engine.key(interval.end), "2026-03-30")
+        var data = BackupDocument.fresh()
+        data.fasts = [
+            .init(date: day, title: "Tutulan", status: "completed"),
+            .init(date: day, title: "Plan", status: "planned"),
+            .init(date: day, title: "İptal", status: "cancelled"),
+            .init(date: engine.addingDays(1, to: day), title: "Yarın", status: "planned")
+        ]
+        let report = engine.periodReport(data, in: interval)
+        XCTAssertEqual(report.metrics.first { $0.key == "report.fasts" }?.value, 1)
+        XCTAssertEqual(report.metrics.first { $0.key == "report.fasts.planned" }?.value, 1)
+        XCTAssertEqual(report.metrics.first { $0.key == "report.fasts.planned" }?.unit, "count")
+        XCTAssertEqual(report.recordedDays, ["2026-03-29"])
+        let plannedOnly = engine.periodReport(data, in: .init(start: engine.addingDays(1, to: day), end: engine.addingDays(2, to: day)))
+        XCTAssertTrue(plannedOnly.recordedDays.isEmpty)
+        XCTAssertEqual(plannedOnly.metrics.first { $0.key == "report.fasts.planned" }?.value, 1)
+    }
+    func testNutritionPlanDoesNotBecomeAnActualRecord() throws {
+        let day = engine.date("2026-11-10")!
+        var data = BackupDocument.fresh()
+        data.nutritionPlans = [.init(date: day, kind: "water", amount: 500, unit: "ml")]
+        let interval = DateInterval(start: day, end: engine.addingDays(1, to: day))
+        let report = engine.periodReport(data, in: interval)
+        XCTAssertEqual(report.metrics.first { $0.key == "report.nutrition.planned.water" }?.value, 500)
+        XCTAssertNil(report.metrics.first { $0.key == "activity.water" })
+        XCTAssertTrue(report.recordedDays.isEmpty)
+        let scoped = data.scopedReport(areas: ["spiritual"], includeNotes: false)
+        XCTAssertTrue(engine.periodReport(scoped, in: interval).metrics.isEmpty)
+    }
     func testQadaMetricCoverageDoesNotMixDebtAndCompletedPrayerDays() throws {
         let start = engine.date("2026-11-08")!
         let previous = engine.addingDays(-7, to: start)

@@ -1,6 +1,20 @@
 from pathlib import Path
 import json,re
-rows='''notifications.systemDenied|iPhone bildirim izni kapalı. Hatırlatıcıların görünmesi için iPhone ayarlarından izni açın.|iPhone notification permission is off. Enable it in iPhone settings to receive reminders.
+rows='''report.nutrition.planned.food|Planlanan enerji alımı|Planned energy intake
+report.nutrition.planned.water|Planlanan su|Planned water
+report.nutrition.planned.energyBurned|Planlanan egzersiz enerjisi|Planned exercise energy
+calendar.otherRecords|Diğer plan ve kayıtlar|Other plans and records
+calendar.recorded|Kaydedildi|Recorded
+calendar.previousMonth|Önceki ay|Previous month
+calendar.nextMonth|Sonraki ay|Next month
+calendar.hijri.legend|Küçük sayı Hicri günü gösterir. Tarihler hesaplamaya ve ayarlarınıza göre değişebilir.|The smaller number is the Hijri day. Dates may vary by calculation and your settings.
+report.fasts.planned|Planlanan oruç kaydı|Planned fasting entries
+calendar.fasting|Oruç kayıtları|Fasting entries
+fast.observed|Tutuldu|Observed
+fast.planned|Planlandı|Planned
+week.edit.help|Bir görevin adına dokunarak onu taşıyabilir veya bu kez atlayabilirsin. Görev düzenleme sonraki tekrarları etkiler.|Tap a task to move or skip this occurrence. Editing a task affects later occurrences.
+week.addTask|Bu güne görev ekle|Add a task to this day
+notifications.systemDenied|iPhone bildirim izni kapalı. Hatırlatıcıların görünmesi için iPhone ayarlarından izni açın.|iPhone notification permission is off. Enable it in iPhone settings to receive reminders.
 notifications.openSettings|iPhone bildirim ayarlarını aç|Open iPhone notification settings
 nutrition.noRecord|Kayıt yok|No record
 report.areas.recorded.help|Kayıt bulunan alan sayısı bir hedef veya başarı puanı değildir.|The number of areas with records is not a target or a measure of success.
@@ -13,7 +27,7 @@ routine.run.recorded|Tamamlanan adım|Completed steps
 routine.run.leave|Şimdilik ara ver|Pause for now
 routine.run.leave.help|Kaldığın yer saklanır. Geri döndüğünde bugünkü rutine devam edebilirsin.|Your place is saved. You can resume today's routine when you return.
 week.review.title|Haftana göz at|Review your week
-week.review.overloaded|Kapasitesi aşılmış gün|Days over capacity
+week.review.overloaded|Hedef süresi aşılan gün|Days over capacity
 week.review.noCapacity|Henüz günlere ayrılabilir süre belirlenmedi.|You have not set available time for your days yet.
 week.review.help|İstersen açık adımları seçip taşıyabilir veya bu kez atlayabilirsin. Planın onay vermeden değişmez.|You can select open steps to move or skip. Your plan does not change without confirmation.
 week.review.selected|Seçilen adım|Selected steps
@@ -33,7 +47,7 @@ prayer.widget.default.explanation|Varsayılan konum İstanbul'dur. Widget konumu
 source.replacement|Görev miktarı değişikliği|Task amount change
 source.amount.readonly|Bu miktar bağlı kaynaktan güncellenir. Bağımsız giriş için önce kayıt bağlantısını ayır.|This amount follows the linked source. Disconnect the source before entering an independent amount.
 example.navtitle|Başlangıç örneği|Starting example
-report.capacity.setup|Haftanın kapasitesini belirle|Set your weekly capacity
+report.capacity.setup|Haftanın hedef süresini belirle|Set your weekly capacity
 water.widget.stale|Widget farklı bir güne aitti. Kayıt, burada gösterilen bugünün tarihine eklenecek.|The widget belonged to a different day. The entry will use today's date shown here.
 water.widget.help|Widget bu formu açar. İçtiğiniz miktarı kontrol edip Kaydet'e dokununca yalnızca bir kayıt eklenir.|The widget opens this form. Check the amount you drank, then tap Save to add one record.
 water.widget|Su kaydet|Record water
@@ -42,7 +56,7 @@ report.metric.coverage|Bu kaynak için kayıtlı gün · bu / önceki dönem|Rec
 design.progress.body|Dönem özetini, değişimleri ve sekiz alanın ayrıntılarını birlikte gör.|See your executive summary, changes and details across all eight areas.
 design.plan.body|Önce bir alan seç. Hedefini küçük adımlara ayır, haftana yerleştir, kendi ritmini kur.|Choose an area. Break your goal into small steps, fit them into your week and find your rhythm.
 design.plan.title|Niyetinden ilk adıma|From intention to your first step
-report.thisWeek.capacity|Bu hafta kapasitesi aşılmış gün|Days over capacity this week
+report.thisWeek.capacity|Bu hafta hedef süresi aşılan gün|Days over capacity this week
 report.openArea|Alanı ve planımı aç|Open area and plan
 report.completedSteps|tamamlanan adım|completed steps
 report.trend.table|Grafiğin sayısal ayrıntıları|Chart data table
@@ -151,18 +165,18 @@ week.focus.select|Haftanın üç odağını seç|Choose this week's three priori
 capacity.future.confirm|Onay, yeni günlük görevleri ve seçili bitiş tarihini kaydeder. Geçmiş kayıtlar değişmez.|Confirmation saves new daily tasks and the selected end date. Historical records stay unchanged.
 capacity.editGoal|Hedef miktarını düzenle|Edit goal amount
 capacity.extend|Bitişi 30 gün uzat|Extend end by 30 days
-capacity.excess|Kapasiteyi aşan süre|Time above capacity
-capacity.free|Kapasite|Capacity
+capacity.excess|Hedef süreyi aşan süre|Time above capacity
+capacity.free|Planlanan süre / hedef süre|Capacity
 capacity.perUnit|Bir birim için dakika|Minutes per unit
-capacity.use|Zaman kapasiteme göre dağıt|Distribute by my time capacity
+capacity.use|Hedeflediğim süreye göre dağıt|Distribute by my time capacity
 capacity.insufficient|Bu miktar seçili günlerdeki boş zamanına sığmıyor. Tarihi uzatabilir, uygun günleri artırabilir veya hedef miktarını düzenleyebilirsin.|This amount does not fit the free time on selected days. Extend the dates, add available days or edit the goal amount.
 capacity.unknown|Seçili günlerde süresi belirsiz işler var. Önce haftalık planda bu işlerin tahmini süresini belirle veya farklı günler seç.|Some selected days contain tasks without estimated duration. Set their estimates in the weekly plan or choose different days.
 capacity.invalid|Tahmini süre 0'dan büyük ve en çok 1440 dakika olmalı.|Estimated duration must be greater than zero and at most 1440 minutes.
-capacity.required|Önce haftalık zaman kapasiteni ve birim başına süreyi belirle.|Set weekly time capacity and time per unit first.
+capacity.required|Önce haftalık hedef süreni ve birim başına süreyi belirle.|Set weekly time capacity and time per unit first.
 capacity.estimate.help|Süre, miktardan ayrıdır. Tahmini dakika bugünün açık planı ve sonraki tekrarlar içindir; geçmişe çalışma süresi eklemez.|Time is separate from quantity. Estimated minutes apply to today's open plan and future repeats; they do not add working time to history.
 capacity.estimate|Bu adımın tahmini süresi|Estimated time for this task
 capacity.minutes|Süre (dakika)|Duration (minutes)
-capacity.help|Her gün planlı işlerin için ayırabileceğin dakikayı gir. 0, o gün yeni iş için zaman ayırmadığın anlamına gelir. Bu bir plan kapasitesidir; gerçekleşen çalışma süresi değildir.|Enter minutes available for planned tasks each day. Zero means no time for new tasks that day. This is planning capacity, not actual working time.
+capacity.help|Her gün planlı işlerin için ayırabileceğin dakikayı gir. 0, o gün yeni iş için zaman ayırmadığın anlamına gelir. Bu hedeflenen süredir; gerçekleşen çalışma süresi değildir.|Enter minutes available for planned tasks each day. Zero means no time for new tasks that day. This is planning capacity, not actual working time.
 capacity.title|Ayırabileceğim süre|My available time
 source.kind.activity|Faaliyet kaydı|Activity record
 source.kind.fast|Oruç|Fasting
@@ -294,7 +308,7 @@ report.formula|Nasıl hesaplanır?|How is this calculated?
 report.goal.period|Dönemdeki hedef katkısı|Goal contribution in this period
 report.reading|Kaydedilen okuma|Recorded reading
 report.reviews|Yapılan ezber tekrarı|Memorization reviews
-report.fasts|Tutulan oruç|Completed fasts
+report.fasts|Tutulan oruç kaydı|Observed fasting entries
 report.qada.opening|Kaza dönem başı kayıt bakiyesi|Qada opening recorded balance
 report.qada.closing|Kaza dönem sonu kayıt bakiyesi|Qada closing recorded balance
 report.next|Gelecek dönem için karar ver|Decide on the next period

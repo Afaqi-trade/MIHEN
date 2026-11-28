@@ -7,7 +7,7 @@ struct ReportAnalysisScreen: View {
     let period: String
     @State private var analysis: ReportAnalysis?
     @State private var selected=""
-    private var component: Calendar.Component { period == "report.tenYears" ? .year : period == "year" ? .month : period == "week" ? .day : .weekOfYear }
+    private var component: Calendar.Component { period == "report.tenYears" ? .year : period == "year" ? .month : period == "month" ? .weekOfYear : .day }
     var body: some View {
         List {
             if let analysis {
@@ -16,7 +16,7 @@ struct ReportAnalysisScreen: View {
                 timeline(analysis)
                 Section(store.t("report.next")) {
                     NavigationLink(destination:WeeklyPlanScreen()) { Text(store.t("week.focus.select")) }
-                    NavigationLink(destination:JournalEditor(kind:period == "report.tenYears" ? "decadal" : period == "year" ? "yearly" : period == "week" ? "weekly" : "monthly")) { Text(store.t("report.reflect")) }
+                    NavigationLink(destination:JournalEditor(kind:period == "report.tenYears" ? "decadal" : period == "year" ? "yearly" : period == "week" ? "weekly" : period == "day" ? "note" : "monthly")) { Text(store.t("report.reflect")) }
                     NavigationLink(destination:ReportDecisionScreen()) { Text(store.t("report.decide")) }.accessibilityIdentifier("report.decide")
                 }
             } else { ProgressView() }

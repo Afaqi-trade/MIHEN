@@ -1,6 +1,32 @@
 import XCTest
 
 final class MIHENUITests: XCTestCase {
+    @MainActor func testCalendarShowsHijriInMonthAndWeek() throws {
+        let app = start()
+        app.tabBars.buttons["Takvim"].tap()
+        XCTAssertTrue(app.staticTexts["Küçük sayı Hicri günü gösterir. Tarihler hesaplamaya ve ayarlarınıza göre değişebilir."].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "Hicri takvim:")).firstMatch.exists)
+        capture(app, name: "MIHEN-Calendar-Hijri-Month-TR")
+        tap(app.buttons["Hafta"], in: app)
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label BEGINSWITH %@", "Hicri takvim:")).firstMatch.waitForExistence(timeout: 5))
+        capture(app, name: "MIHEN-Calendar-Hijri-Week-TR")
+    }
+    @MainActor func testWeeklyPlanAddsAndPersistsOwnTask() throws {
+        let app = start(persistent: true)
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.buttons["plan.weekly"], in: app)
+        let add = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "weekly.add.")).firstMatch
+        tap(add, in: app)
+        replace(app.textFields["task.title"], with: "Bana özel haftalık adım")
+        app.buttons["task.save"].tap()
+        XCTAssertTrue(app.staticTexts["Bana özel haftalık adım"].waitForExistence(timeout: 10))
+        capture(app, name: "MIHEN-Weekly-Own-Task-TR")
+        app.terminate()
+        app.launch()
+        app.tabBars.buttons["Plan"].tap()
+        tap(app.buttons["plan.weekly"], in: app)
+        XCTAssertTrue(app.staticTexts["Bana özel haftalık adım"].waitForExistence(timeout: 10))
+    }
     @MainActor func testOnboardingStartsWithOneStepWithoutExamples() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing"]
@@ -297,7 +323,8 @@ final class MIHENUITests: XCTestCase {
         XCTAssertTrue(routineGroup.waitForExistence(timeout: 5))
         capture(app, name: "MIHEN-Routines-TR")
         app.navigationBars.buttons.element(boundBy: 0).tap()
-        tap(app.descendants(matching: .any)["plan.qada"].firstMatch, in: app)
+        tap(app.buttons["plan.spiritual"], in: app)
+        tap(app.buttons["spiritual.qada"], in: app)
         tap(app.descendants(matching: .any)["qada.kind"].firstMatch, in: app)
         app.buttons["Takip edilecek miktar ekle"].tap()
         replace(app.textFields["amount"], with: "10")
@@ -309,6 +336,7 @@ final class MIHENUITests: XCTestCase {
         for _ in 0..<3 { app.swipeDown() }
         XCTAssertEqual(app.staticTexts["qada.remaining.fajr"].label, "8")
         capture(app, name: "MIHEN-Qada-TR")
+        app.navigationBars.buttons.element(boundBy: 0).tap()
         app.navigationBars.buttons.element(boundBy: 0).tap()
         app.buttons["plan.add"].tap()
         replace(app.textFields["goal.title"], with: "Yıllık hareket hedefi")
@@ -470,6 +498,10 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["fast.add"], in: app)
         XCTAssertTrue(app.staticTexts["Planlı kayıtlar: 1"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 0"].waitForExistence(timeout: 10))
+        app.tabBars.buttons["Takvim"].tap()
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label CONTAINS %@", "Kisisel oruc · Planlandı")).firstMatch.waitForExistence(timeout: 10))
+        capture(app, name: "MIHEN-Calendar-Planned-Fast-TR")
+        app.tabBars.buttons["Plan"].tap()
         let status = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "fast.status.")).firstMatch
         tap(status, in: app)
         let completed = app.buttons["Tamamlandı"]
@@ -477,6 +509,16 @@ final class MIHENUITests: XCTestCase {
         tap(completed, in: app)
         XCTAssertTrue(app.staticTexts["Tutulan oruç kayıtları: 1"].waitForExistence(timeout: 10))
         capture(app, name: "MIHEN-Fasting-TR")
+        app.tabBars.buttons["Takvim"].tap()
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format:"label CONTAINS %@", "Kisisel oruc · Tutuldu")).firstMatch.waitForExistence(timeout: 10))
+        capture(app, name: "MIHEN-Calendar-Observed-Fast-TR")
+        app.tabBars.buttons["İlerleme"].tap()
+        tap(app.buttons["progress.reports"], in: app)
+        tap(app.buttons["report.period"], in: app)
+        tap(app.buttons["Günlük"], in: app)
+        tap(app.buttons["report.area.spiritual"], in: app)
+        XCTAssertTrue(app.descendants(matching: .any)["report.metric.fasts"].firstMatch.waitForExistence(timeout: 10))
+        capture(app, name: "MIHEN-Daily-Fasting-Report-TR")
     }
     @MainActor func testMemorizationAndNextReview() throws {
         let app = start()

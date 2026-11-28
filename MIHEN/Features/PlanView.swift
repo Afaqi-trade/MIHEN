@@ -23,7 +23,6 @@ struct PlanView: View {
     }
     private var orderedDomains: [LifeDomainRecord] { store.data.domains.sorted { $0.rank < $1.rank } }
     @ViewBuilder private var shortcuts: some View {
-        NavigationLink(destination: QadaScreen()) { Label(store.t("qada"), systemImage: "moon.stars") }.accessibilityIdentifier("plan.qada")
         NavigationLink(destination: NutritionScreen()) { Label(store.t("nutrition"), systemImage: "fork.knife") }
         NavigationLink(destination: WeeklyPlanScreen()) { Label(store.t("weekly.plan"), systemImage: "calendar") }.accessibilityIdentifier("plan.weekly")
         NavigationLink(destination: RoutinesScreen()) { Label(store.t("routines"), systemImage: "list.bullet") }.accessibilityIdentifier("plan.routines")
@@ -294,9 +293,9 @@ struct TaskEditor: View {
     @State private var details = false
     @State private var hasEstimate = false
     @State private var estimatedMinutes = 20.0
-    init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil, routineMode: Bool = false, routineWeekdays: [Int]? = nil) {
+    init(task: PlannedTaskRecord? = nil, goalID: String? = nil, domainID: String? = nil, routineMode: Bool = false, routineWeekdays: [Int]? = nil, startDate: Date = Date()) {
         inferArea = task == nil && domainID == nil && goalID == nil
-        _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID, recurrence: routineMode ? (routineWeekdays == nil ? "daily" : "weekly") : "none", isHabit: routineMode, weekdays:routineWeekdays ?? []))
+        _draft = State(initialValue: task ?? .init(domainID: domainID ?? "learning", goalID: goalID, start: startDate, recurrence: routineMode ? (routineWeekdays == nil ? "daily" : "weekly") : "none", isHabit: routineMode, weekdays:routineWeekdays ?? []))
         _hasEnd = State(initialValue: task?.end != nil)
         _details = State(initialValue: task != nil)
     }

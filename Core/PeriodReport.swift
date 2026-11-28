@@ -45,7 +45,16 @@ extension PlanningEngine {
         let dhikr = data.dhikr.filter { $0.day >= lower && $0.day < upper && $0.value > 0 }
         if !dhikr.isEmpty { metric("dhikr","spiritual","dhikr","count",Double(dhikr.reduce(0) { $0 + $1.value })); dhikr.forEach { report.recordedDays.insert($0.day) } }
         let fasts = data.fasts.filter { includeDay($0.date) && $0.status == "completed" }
-        if !fasts.isEmpty { metric("fasts","spiritual","report.fasts","days",Double(fasts.count)); fasts.forEach { report.recordedDays.insert(key($0.date)) } }
+        if !fasts.isEmpty { metric("fasts","spiritual","report.fasts","count",Double(fasts.count)); fasts.forEach { report.recordedDays.insert(key($0.date)) } }
+        let plannedFasts = data.fasts.filter { includeDay($0.date) && $0.status == "planned" }
+        if !plannedFasts.isEmpty { metric("fasts.planned","spiritual","report.fasts.planned","count",Double(plannedFasts.count)) }
+        let nutritionPlans = data.nutritionPlans.filter { includeDay($0.date) }
+        for kind in ["food", "water", "energyBurned"] {
+            let plans = nutritionPlans.filter { $0.kind == kind }
+            if let first = plans.first {
+                metric("nutrition.planned." + kind, "health", "report.nutrition.planned." + kind, first.unit, plans.reduce(0) { $0 + $1.amount })
+            }
+        }
         let activities = data.effectiveActivities(engine: self).filter { includes($0.date) }
         activities.forEach { report.recordedDays.insert(key($0.date)) }
         // Each source retains its own unit. Never merge module quantities with task contributions.

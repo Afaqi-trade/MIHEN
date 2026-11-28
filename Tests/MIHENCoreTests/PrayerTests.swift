@@ -18,7 +18,7 @@ final class PrayerTests: XCTestCase {
             XCTAssertEqual(actual.count, reference.count)
             for (index, item) in actual.enumerated() {
                 let expected = engine.calendar.date(bySettingHour: reference[index].0, minute: reference[index].1, second: 0, of: date)!
-                XCTAssertLessThanOrEqual(abs(item.date.timeIntervalSince(expected)), 120, "\(day) prayer \(index)")
+                XCTAssertTrue(abs(item.date.timeIntervalSince(expected)) <= 120)
             }
         }
     }

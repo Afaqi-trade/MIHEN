@@ -162,6 +162,9 @@ struct WeeklyPlanScreen: View {
     @State private var selected = Date()
     @State private var weeklyNote = ""
     @State private var deciding = false
+    @State private var addingTask = false
+    @State private var taskDay = Date()
+    @State private var editingTask: PlannedTaskRecord?
     private var days: [Date] {
         let start = store.engine.calendar.dateInterval(of: .weekOfYear, for: selected)!.start
         return (0..<7).map { store.engine.addingDays($0, to: start) }
@@ -176,6 +179,30 @@ struct WeeklyPlanScreen: View {
                     Button { selected = store.engine.addingDays(7, to: selected) } label: { Image(systemName: "chevron.right").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(store.t("week.next"))
                 }.buttonStyle(.borderless)
                 DatePicker(store.t("date"), selection: $selected, displayedComponents: .date)
+                NavigationLink(destination: TaskListScreen()) { Label(store.t("tasks.habits"), systemImage: "checklist") }
+                Text(store.t("week.edit.help")).font(.footnote).foregroundStyle(.secondary)
+            }
+            ForEach(days, id: \.self) { day in
+                Section {
+                    let items = store.occurrences(on: day).filter { !["cancelled","moved","skipped"].contains($0.status) }
+                    let load=store.engine.workload(store.data,on:day)
+                    if let capacity=load.capacity {
+                        Text(store.t("capacity.free")+": "+load.minutes.formatted(.number.locale(store.locale))+" / "+String(capacity)+" "+store.t("minutes"))
+                        if load.excess > 0 { Text(store.t("capacity.excess")+": "+load.excess.formatted(.number.locale(store.locale))).foregroundStyle(Color.mihenRed) }
+                    }
+                    if load.unknown > 0 { NavigationLink(destination:DayCapacityScreen(day:day)) { Text(store.t("week.withoutTime")+": "+String(load.unknown)) } }
+                    if items.isEmpty { Text(store.t("week.room")).font(.caption).foregroundStyle(.secondary) }
+                    ForEach(items) { row in
+                        OccurrenceRow(occurrence: row)
+                        if let task = store.data.tasks.first(where: { $0.id == row.taskID && !$0.archived }) {
+                            Button(store.t("task.edit")) { editingTask = task }
+                                .accessibilityIdentifier("weekly.edit." + task.id)
+                        }
+                    }
+                    Button { taskDay = day; addingTask = true } label: {
+                        Label(store.t("week.addTask"), systemImage: "plus.circle")
+                    }.accessibilityIdentifier("weekly.add." + store.engine.key(day))
+                } header: { Text(day, format: .dateTime.weekday(.wide).day().month()) }
             }
             Section(store.t("week.focus.select")) {
                 let key=store.engine.key(days[0])
@@ -214,19 +241,6 @@ struct WeeklyPlanScreen: View {
                     }
                 }.disabled(weeklyNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
-            ForEach(days, id: \.self) { day in
-                Section {
-                    let items = store.occurrences(on: day).filter { !["cancelled","moved","skipped"].contains($0.status) }
-                    let load=store.engine.workload(store.data,on:day)
-                    if let capacity=load.capacity {
-                        Text(store.t("capacity.free")+": "+load.minutes.formatted(.number.locale(store.locale))+" / "+String(capacity)+" "+store.t("minutes"))
-                        if load.excess > 0 { Text(store.t("capacity.excess")+": "+load.excess.formatted(.number.locale(store.locale))).foregroundStyle(Color.mihenRed) }
-                    }
-                    if load.unknown > 0 { NavigationLink(destination:DayCapacityScreen(day:day)) { Text(store.t("week.withoutTime")+": "+String(load.unknown)) } }
-                    if items.isEmpty { Text(store.t("week.room")).font(.caption).foregroundStyle(.secondary) }
-                    ForEach(items) { OccurrenceRow(occurrence: $0) }
-                } header: { Text(day, format: .dateTime.weekday(.wide).day().month()) }
-            }
             Section {
                 DisclosureGroup(store.t("week.backlog")) {
                     let lower = store.engine.key(store.engine.addingDays(-30, to: days[0]))
@@ -241,10 +255,16 @@ struct WeeklyPlanScreen: View {
             }
         }.navigationTitle(store.t("weekly.plan"))
             .sheet(isPresented: $deciding) { WeeklyDecisionScreen(rows: rows.filter { ["planned","partial"].contains($0.status) }) }
+            .sheet(isPresented: $addingTask, onDismiss: refreshWeek) { TaskEditor(startDate: taskDay) }
+            .sheet(item: $editingTask, onDismiss: refreshWeek) { TaskEditor(task: $0) }
             .task(id: store.engine.key(days[0])) {
                 let engine = store.engine, start = days[0], end = days[6]
                 store.change { engine.materialize(&$0, from: start, through: end) }
                 weeklyNote = store.data.journals.first { $0.kind == "weekly" && $0.domainID == nil && $0.date >= start && $0.date < engine.addingDays(7, to: start) }?.text ?? ""
             }
+    }
+    private func refreshWeek() {
+        let engine = store.engine, start = days[0], end = days[6]
+        store.change { engine.materialize(&$0, from: start, through: end) }
     }
 }
