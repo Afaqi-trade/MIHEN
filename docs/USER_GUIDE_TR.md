@@ -14,7 +14,11 @@ Plan → Hedefler veya bir yaşam alanından hedef oluştur. Hedef sonucunu, mik
 
 “Hedefi günlere böl” uygun günleri, ilk 90 gün toplamını, aylık/haftalık dağılımı ve günlük görevleri önizletir. Adet/kitap/sayfa tam sayılı dağıtılır; dakika ve para kendi birimiyle kalır. Miktar toplamını inceleyip onayla. İstersen aylık ara sonuçları milestone olarak kaydet; bunlar ayrıca başarı veya katkı üretmez. Birim dönüşümü otomatik yapılmaz. Aktif bağlı görev varsa önce görevini düzenle veya onayla gelecek planını arşivle; kaydedilen miktarlar ve geçmiş korunur.
 
-Haftalık planlama'da hafta aralığı, süresi bilinen dakika toplamı ve süresiz adım sayısı ayrıdır. Haftanın en çok üç odağını hedef ve görevlerinden seçebilir, ayrıca haftalık notunu yazabilirsin. Her gün ayırabileceğin dakikayı kapasite ekranında belirle; görevlerin tahmini sürelerini ayrıntılarında düzenle. “Haftanın kalanlarını düzenle” yalnızca seçilen açık kayıtları onayla taşır veya atlar. Çakışma otomatik birleştirilmez. Gecikenler bölümü seçilen haftadan önceki 30 günü kapsar; kayda dokununca tekil kararları da verebilirsin.
+Haftalık planlama'da günler ve o günlere ait kendi görevlerin önce görünür. Bir günün “Bu güne görev ekle” düğmesiyle o tarihe görev ekle; görev kartına dokunarak o gerçekleşmeyi taşı veya atla, “Görev düzenle” ile sonraki tekrarları değiştir. Görevler ve alışkanlıklar bağlantısından arşivleme dahil tüm görevlerini yönetebilirsin. Süresi bilinen toplam ve süresiz adım sayısı ayrıdır. Haftanın en çok üç odağını hedef ve görevlerinden seçebilir, ayrıca haftalık notunu yazabilirsin. Her gün ayırabileceğin dakikayı “Ayırabileceğim süre” ekranında belirle; görevlerin tahmini sürelerini ayrıntılarında düzenle. “Haftanın kalanlarını düzenle” yalnızca seçilen açık kayıtları onayla taşır veya atlar. Çakışma otomatik birleştirilmez. Gecikenler bölümü seçilen haftadan önceki 30 günü kapsar; kayda dokununca tekil kararları da verebilirsin.
+
+## Takvim ve Hicri tarih
+
+Takvim gününde oruç planlarının “Planlandı” veya “Tutuldu” durumunu, diğer plan ve kayıtlarını görebilirsin. Aylık tabloda küçük rakam Hicri günü, seçilen günün altında ise Hicri tarih görünür; haftalık görünümde Hicri tarihler günlerin altında yer alır. Hesap Umm al-Qura takvimi ve uygulamadaki Hicri düzeltme ayarını kullanır; resmî yerel takvimden farklı olabilir.
 
 ## Rutinler
 
@@ -24,9 +28,9 @@ Rutin aynı görev kayıtlarını kullanır; ikinci bir tamamlama üretmez. Gün
 
 ## Rapor ve değerlendirme
 
-İlerleme → Dönem raporları: hafta/ay/yıl veya seçilen yıl dahil son 10 takvim yılı. İçinde bulunduğun dönem bugüne kadar olan kayıtları gösterir. Kayıt bulunan gün sayısı, günlüğün tamamen doldurulduğu anlamına gelmez. Boş geçmiş başarısızlık değildir ve 10 yıl seçmek geçmiş üretmez.
+İlerleme → Dönem raporları: gün/hafta/ay/yıl veya seçilen yıl dahil son 10 takvim yılı. İçinde bulunduğun dönem bugüne kadar olan kayıtları gösterir. Kayıt bulunan gün sayısı, günlüğün tamamen doldurulduğu anlamına gelmez. Boş geçmiş başarısızlık değildir ve 10 yıl seçmek geçmiş üretmez.
 
-Görev durumları; hedefin dönem katkısı ve güncel durumu; sayfa, ezber tekrarı, zikir, oruç, kaza hareketleri ve beslenme/faaliyet kayıtları kendi birimleriyle gösterilir. Farklı modül miktarları görev katkısına yeniden eklenmez. Kaza dönem başı/sonu bakiyesi kayıt tarihlerine bağlıdır. Nitel alanlar kişisel notlarla değerlendirilir.
+Planlanan ve tutulan oruçlar ile beslenme planı ve gerçekleşmeleri ayrı kayıtlar olarak gösterilir; plan gerçekleşme sayılmaz. Oruç ölçüsü gün değil kayıt sayısıdır. Görev durumları; hedefin dönem katkısı ve güncel durumu; sayfa, ezber tekrarı, zikir, oruç, kaza hareketleri ve beslenme/faaliyet kayıtları kendi birimleriyle gösterilir. Farklı modül miktarları görev katkısına yeniden eklenmez. Kaza dönem başı/sonu bakiyesi kayıt tarihlerine bağlıdır. Nitel alanlar kişisel notlarla değerlendirilir.
 
 Paylaş düğmesinde dışa aktarılacak alanları seç. Kişisel alan notları ayrıca seçilir; PDF/CSV dönem özeti tam yedek değildir. Değerlendirmede neyin işe yaradığını, neyi azaltabileceğini ve sonraki dönemin odağını yaz; bunlar yalnızca kendi cevaplarındır, yapay başarı veya AI yorumu değildir.
 
@@ -34,7 +38,7 @@ Paylaş düğmesinde dışa aktarılacak alanları seç. Kişisel alan notları 
 
 Namaz ekranı önce vakitleri gösterir. Başlangıç konumu İstanbul merkezidir: 41.0082 / 28.9784, Europe/Istanbul, Türkiye yaklaşık hesap. Konum ve hesap ayarlarını açarak koordinat, saat dilimi, yöntem ve ayrı ikindi tercihini değiştir. Konum elle seçilir; GPS kullanılmaz. Kaydet, ayarı cihaz ve widget için saklar; yeni JSON yedeği ayarı da içerir. Türkiye hesabı resmî canlı Diyanet verisi değildir; yerel takvimle fark olabilir. Hesaplanamayan kutup koşullarında vakit uydurulmaz.
 
-Kaza ekranında başlangıç miktarını vakit bazında ekle, sonra kılınan miktarı kaydet. Yaşa göre otomatik borç hesaplanmaz. + düğmesi seçili kayıt tarihinde bir kılınan miktar ekler; son eklenen kaydı Geri al ile düzeltebilirsin. Borçtan fazla gerçekleşme veya geçersiz borç silme reddedilir. Vitir görünümü isteğe bağlıdır; gizlemek kayıt silmez.
+Plan → Manevi takip → Kaza namazı ekranında başlangıç miktarını vakit bazında ekle, sonra kılınan miktarı kaydet. Yaşa göre otomatik borç hesaplanmaz. + düğmesi seçili kayıt tarihinde bir kılınan miktar ekler; son eklenen kaydı Geri al ile düzeltebilirsin. Borçtan fazla gerçekleşme veya geçersiz borç silme reddedilir. Vitir görünümü isteğe bağlıdır; gizlemek kayıt silmez.
 
 ## Beslenme, Sağlık ve dijital denge
 
@@ -56,13 +60,13 @@ Profil → Kullanım rehberi ve sık sorulanlar bölümünden kısa açıklamala
 
 **Kayıt bağlantısı:** Bugün → görev ayrıntısı → Kayıt bağlantısı. Aynı gün, alan ve birimdeki gerçek modül kaydını seç ve onayla. Miktar eski manuel değerin yerine geçer; eklenmez. Kaynak bağlıyken görev miktarı kaynaktan güncellenir. Ayırdığında önceki manuel miktar geri gelir.
 
-**Haftana sığan hedef:** Plan → Haftalık planlama → günlük kapasite. Her gün ayırabileceğin dakikayı belirle. Süresi bilinmeyen görevlerin tahminini görev ayrıntısından ekle. Hedef dağılımında kapasite seçeneği bu süreleri dikkate alır; yetmiyorsa bitişi uzat veya kapsamı kendin düzenle. Üç haftalık odağını gerçek hedef/görevlerden seçebilirsin.
+**Haftana sığan hedef:** Plan → Haftalık planlama → Ayırabileceğim süre. Her gün ayırabileceğin dakikayı belirle. Süresi bilinmeyen görevlerin tahminini görev ayrıntısından ekle. Hedef dağılımında süre seçeneği bu süreleri dikkate alır; yetmiyorsa bitişi uzat veya kapsamı kendin düzenle. Üç haftalık odağını gerçek hedef/görevlerden seçebilirsin.
 
 **Rutin:** Gün ve hatırlatma grubun ayarıdır; ortak görevlerin takvimini kendiliğinden değiştirmez. Başlat, o günün adımlarını sırayla açar. İleri, yalnızca sıradaki adıma geçer; yaptığını ayrıca kaydedersin. Aynı gün yeniden açınca kaldığın adım korunur.
 
 **Beslenme:** Öğün ve isteğe bağlı açıklama gir. Son girişler yalnızca formu doldurur; Kaydet'e dokunmadan tüketim oluşmaz. Geçmiş satırını düzenle, hızlı su miktarlarını kendine göre ayarla. Beslenme planı gerçek tüketim değildir; iki toplam ayrı gösterilir.
 
-**Yönetici özeti:** İlerleme → Dönem raporları. Hafta, ay, yıl veya 10 yıl seç; dönem özeti ve kayıt kapsamını gör. Eğilim grafiğinde kaynağı seçebilir, sayısal tabloyu açabilir ve sekiz alanın ayrıntısına geçebilirsin. Karşılaştırma aynı sayıda takvim günüyle yapılır. Kayıt olmayan kaynak sıfır sayılmaz. Paylaşırken alanları ve istersen notları/karşılaştırmayı ayrıca seç.
+**Yönetici özeti:** İlerleme → Dönem raporları. Gün, hafta, ay, yıl veya 10 yıl seç; dönem özeti ve kayıt kapsamını gör. Eğilim grafiğinde kaynağı seçebilir, sayısal tabloyu açabilir ve sekiz alanın ayrıntısına geçebilirsin. Karşılaştırma aynı sayıda takvim günüyle yapılır. Kayıt olmayan kaynak sıfır sayılmaz. Paylaşırken alanları ve istersen notları/karşılaştırmayı ayrıca seç.
 
 **Başlangıç örnekleri:** Şablon seçiminden önce örnek haftayı gör. Plan'da bir alana girip başlangıç örneğini aç; hedef, ilk ay aşaması ve haftalık destek adımını düzenleyerek ekle. Süre kaydı sonuç hedefini otomatik tamamlamaz. İstediğin aile etkinliğini Takvim'den, kişisel değerlendirmeyi alanın notlarından ayrıca oluşturabilirsin.
 
