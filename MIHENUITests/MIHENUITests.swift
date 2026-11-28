@@ -158,6 +158,10 @@ final class MIHENUITests: XCTestCase {
         tap(app.buttons["plan.routines"],in:app)
         app.buttons["routine.add"].tap()
         replace(app.textFields["routine.title"],with:"Planlı sabah")
+        tap(app.buttons["weekday.workdays"],in:app)
+        XCTAssertEqual(app.switches["routine.weekday.1"].value as? String,"0")
+        XCTAssertEqual(app.switches["routine.weekday.2"].value as? String,"1")
+        tap(app.buttons["weekday.all"],in:app)
         let task=app.switches["Planlı yürüyüş"]
         reveal(task,in:app);task.coordinate(withNormalizedOffset:CGVector(dx:0.9,dy:0.5)).tap()
         XCTAssertEqual(task.value as? String,"1")

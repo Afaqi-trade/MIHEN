@@ -85,7 +85,8 @@ struct RoutineEditor: View {
                     }
                 }
                 Section(store.t("routine.days")) {
-                    ForEach(1...7,id:\.self) { day in Toggle(store.engine.calendar.weekdaySymbols[day-1],isOn:Binding(get:{ weekdays.contains(day) },set:{ if $0 { weekdays.insert(day) } else { weekdays.remove(day) } })) }
+                    WeekdayPresets(weekdays: $weekdays)
+                    ForEach(1...7,id:\.self) { day in Toggle(store.engine.calendar.weekdaySymbols[day-1],isOn:Binding(get:{ weekdays.contains(day) },set:{ if $0 { weekdays.insert(day) } else { weekdays.remove(day) } })).accessibilityIdentifier("routine.weekday.\(day)") }
                     Text(store.t("routine.group.help")).font(.footnote)
                 }
                 Section(store.t("routine.steps")) {
@@ -140,6 +141,19 @@ struct RoutineEditor: View {
                     for task in store.data.tasks where !previousTasks.contains(task.id) && !selected.contains(task.id) { selected.append(task.id) }
                 }) { TaskEditor(domainID: draft.domainID, routineMode: true, routineWeekdays:weekdays.sorted()) }
         }
+    }
+}
+
+struct WeekdayPresets: View {
+    @Environment(AppStore.self) private var store
+    @Binding var weekdays: Set<Int>
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(store.t("weekday.presets.help")).font(.footnote).foregroundStyle(.secondary)
+            Button(store.t("weekday.all")) { weekdays = Set(1...7) }.accessibilityIdentifier("weekday.all")
+            Button(store.t("weekday.workdays")) { weekdays = Set(2...6) }.accessibilityIdentifier("weekday.workdays")
+            Button(store.t("weekday.weekend")) { weekdays = [1, 7] }.accessibilityIdentifier("weekday.weekend")
+        }.buttonStyle(.borderless)
     }
 }
 

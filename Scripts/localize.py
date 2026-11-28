@@ -1,6 +1,10 @@
 from pathlib import Path
 import json,re
-rows='''week.time.details|Haftanın süre ayrıntıları|Weekly time details
+rows='''weekday.presets.help|Günleri hızlı seç; istersen aşağıdan değiştir.|Choose days quickly, then adjust them below if you wish.
+weekday.all|Her gün|Every day
+weekday.workdays|Hafta içi|Weekdays
+weekday.weekend|Hafta sonu|Weekend
+week.time.details|Haftanın süre ayrıntıları|Weekly time details
 onboarding.quick.start|Tek bir adımla başla|Start with one step
 onboarding.quick.help|Alanları daha sonra seçebilirsin; hiçbir örnek plan eklenmez.|You can choose your areas later; no example plans are added.
 today.focus.heading|Bugünün odakları|Today's focus

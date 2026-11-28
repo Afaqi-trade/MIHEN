@@ -42,6 +42,7 @@ struct GoalPlanningScreen: View {
                     DatePicker(store.t("start.date"), selection: $start, in: store.engine.calendar.startOfDay(for: Date())..., displayedComponents: .date)
                     DatePicker(store.t("end.date"), selection: $end, displayedComponents: .date)
                     DisclosureGroup(store.t("planning.availableDays")) {
+                        WeekdayPresets(weekdays: $weekdays)
                         ForEach(1...7, id: \.self) { day in
                             Toggle(store.engine.calendar.weekdaySymbols[day - 1], isOn: Binding(get: { weekdays.contains(day) }, set: { if $0 { weekdays.insert(day) } else { weekdays.remove(day) } }))
                         }
